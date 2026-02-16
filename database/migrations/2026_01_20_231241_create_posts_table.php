@@ -11,12 +11,34 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('dev_profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->text('content');
-            $table->foreignUuid('author_id')->constrained('users')->onDelete('cascade');
-            $table->boolean('is_moderated');
-            $table->boolean('deleted_by_moderator');
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('cpf');
+            $table->date('birthdate');
+            $table->string('seniority_level');
+            $table->integer('score')->default(0);
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('company_profiles', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('cnpj');
+            $table->date('founding_date');
+            $table->integer('score')->default(0);
+            $table->string('operational_segment');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('client_profiles', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('cpf');
+            $table->date('birtdate');
+            $table->integer('score')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -27,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('dev_profile');
     }
 };

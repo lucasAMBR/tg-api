@@ -38,12 +38,6 @@ class StoreUserRequest extends FormRequest
                 'unique:users,email',
                 'max:255'
             ],
-            'cpf' => [
-                'required',
-                'string',
-                'unique:users,cpf',
-                new Cpf
-            ],
             'phone' => [
                 'required',
                 'string',

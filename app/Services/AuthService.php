@@ -18,7 +18,7 @@ class AuthService
         DB::transaction(function () use ($data) {
             $user = User::create($data);
 
-            $user->roles()->attach(Role::whereIn('name', ['user'])->pluck('id'));
+            $user->assignRole($data['role']);
         });
 
         $loginResponse = $this->login([
@@ -37,8 +37,12 @@ class AuthService
             $refreshTtlInSeconds = Config::get('jwt.refresh_ttl') * 60;
             $token = JWTAuth::fromUser($user);
 
+            $user->load('roles', 'permissions');
+
             return [
                 'user' => new UserResource($user),
+                'roles' => $user->getRoleNames(),
+                'permissions' => $user->getAllPermissions()->pluck('name'),
                 'token' => $token,
                 'refresh_expires_in' => $refreshTtlInSeconds
             ];
