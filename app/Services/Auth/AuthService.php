@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Auth;
 
 use App\Exceptions\ApiException;
 use App\Http\Resources\User\UserResource;
@@ -37,11 +37,20 @@ class AuthService
             $refreshTtlInSeconds = Config::get('jwt.refresh_ttl') * 60;
             $token = JWTAuth::fromUser($user);
 
-            $user->load('roles', 'permissions');
+            if($user->hasRole('dev')){
+                $user->load('dev_profile');
+            }
+
+            if($user->hasRole('company')){
+                $user->load('company_profile');
+            }
+
+            if($user->hasRole('client')){
+                $user->load('client_profile');
+            }
 
             return [
                 'user' => new UserResource($user),
-                'roles' => $user->getRoleNames(),
                 'permissions' => $user->getAllPermissions()->pluck('name'),
                 'token' => $token,
                 'refresh_expires_in' => $refreshTtlInSeconds
@@ -51,11 +60,27 @@ class AuthService
         throw new ApiException('Invalid email or password!');
     }
 
-    public function profile(): UserResource
+    public function profile(): Array
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        return new UserResource($user);
+        if($user->hasRole('dev')){
+            $user->load('dev_profile');
+        }
+
+        if($user->hasRole('company')){
+            $user->load('company_profile');
+        }
+
+        if($user->hasRole('client')){
+            $user->load('client_profile');
+        }
+
+        return [
+            'user' => new UserResource($user),
+            'permissions' => $user->getAllPermissions()->pluck('name')
+        ];
     }
 
     public function logout(): Void

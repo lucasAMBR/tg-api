@@ -25,9 +25,7 @@ class RoleSeeder extends Seeder
             'client_profile.update',
             'client_profile.delete',
             'dev_profile.view'
-        ]));
-
-        $devRole = Role::create(['name' => 'dev']);
+        ])->get());
 
         $companyRole = Role::create(['name' => 'company']);
 
@@ -37,7 +35,9 @@ class RoleSeeder extends Seeder
             'company_profile.update',
             'company_profile.delete',
             'dev_profile.view'
-        ]));
+        ])->get());
+
+        $devRole = Role::create(['name' => 'dev']);
 
         $devRole->givePermissionTo(Permission::whereIn('name', [
             'dev_profile.view',
@@ -54,6 +54,6 @@ class RoleSeeder extends Seeder
             'project_history.delete',
             'client_profile.view',
             'company_profile.view',
-        ]));
+        ])->get());
     }
 }

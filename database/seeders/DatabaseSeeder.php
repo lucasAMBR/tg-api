@@ -23,12 +23,39 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user = User::create([
-            'name'     => 'Test User',
-            'email'    => 'test@example.com',
+            'name'     => 'Admin User',
+            'email'    => 'admin@example.com',
             'phone'    => '+5535962644988',
             'password' => 'user1234!'
         ]);
 
         $user->assignRole('admin');
+
+        $devUser = User::create([
+            'name'     => 'Dev User',
+            'email'    => 'dev@example.com',
+            'phone'    => '+5535962644987',
+            'password' => 'user1234!'
+        ]);
+
+        $devUser->assignRole('dev');
+
+        $companyUser = User::create([
+            'name'     => 'Company User',
+            'email'    => 'company@example.com',
+            'phone'    => '+5535962644989',
+            'password' => 'user1234!'
+        ]);
+
+        $companyUser->assignRole('company');
+
+        $clientUser = User::create([
+            'name'     => 'Client User',
+            'email'    => 'client@example.com',
+            'phone'    => '+5535962644985',
+            'password' => 'user1234!'
+        ]);
+
+        $clientUser->assignRole('client');
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('dev_profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->text('bio');
             $table->string('cpf');
             $table->date('birthdate');
             $table->string('seniority_level');
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::create('company_profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->text('bio');
             $table->string('cnpj');
             $table->date('founding_date');
             $table->integer('score')->default(0);
@@ -36,8 +38,9 @@ return new class extends Migration
         Schema::create('client_profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->text('bio');
             $table->string('cpf');
-            $table->date('birtdate');
+            $table->date('birthdate');
             $table->integer('score')->default(0);
             $table->softDeletes();
             $table->timestamps();

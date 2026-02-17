@@ -9,6 +9,7 @@ use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -55,6 +56,21 @@ class User extends Authenticatable implements JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function dev_profile(): HasOne
+    {
+        return $this->hasOne(DevProfile::class);
+    }
+
+    public function company_profile(): HasOne
+    {
+        return $this->hasOne(CompanyProfile::class);
+    }
+
+    public function client_profile(): HasOne
+    {
+        return $this->hasOne(ClientProfile::class);
     }
 
     public function getJWTIdentifier()
