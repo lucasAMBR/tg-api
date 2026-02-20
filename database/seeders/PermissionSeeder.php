@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         $permissions = ([
 
             ['name' => 'dev_profile.view', 'guard_name' => 'api'],
@@ -38,10 +41,18 @@ class PermissionSeeder extends Seeder
             ['name' => 'client_profile.create', 'guard_name' => 'api'],
             ['name' => 'client_profile.update', 'guard_name' => 'api'],
             ['name' => 'client_profile.delete', 'guard_name' => 'api'],
+
+            ['name' => 'address.view', 'guard_name' => 'api'],
+            ['name' => 'address.create', 'guard_name' => 'api'],
+            ['name' => 'address.update', 'guard_name' => 'api'],
+            ['name' => 'address.delete', 'guard_name' => 'api'],
         ]);
 
         foreach($permissions as $permission){
-            Permission::create($permission);
+            Permission::firstOrCreate([
+                'name' => $permission['name'],
+                'guard_name' => $permission['guard_name']
+            ]);
         }
     }
 }

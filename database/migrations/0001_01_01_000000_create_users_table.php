@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('profile_pic')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255);
+            $table->enum('admin_active_profile', ['dev', 'company', 'client'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

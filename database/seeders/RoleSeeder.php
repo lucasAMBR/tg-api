@@ -13,33 +13,50 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminRole = Role::create(['name' => 'admin']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
 
-        $adminRole->givePermissionTo(Permission::all());
+        $adminRole->syncPermissions(Permission::all());
 
-        $clientRole = Role::create(['name' => 'client']);
+        $clientRole = Role::firstOrCreate([
+            'name' => 'client',
+            'guard_name' => 'api'
+        ]);
 
-        $clientRole->givePermissionTo(Permission::whereIn('name', [
+        $clientRole->syncPermissions([
             'client_profile.view',
             'client_profile.create',
             'client_profile.update',
             'client_profile.delete',
-            'dev_profile.view'
-        ])->get());
+            'dev_profile.view',
+            'address.view',
+            'address.create',
+            'address.update',
+            'address.delete'
+        ]);
 
-        $companyRole = Role::create(['name' => 'company']);
+        $companyRole = Role::firstOrCreate([
+            'name' => 'company',
+            'guard_name' => 'api'
+        ]);
 
-        $companyRole->givePermissionTo(Permission::whereIn('name', [
+        $companyRole->syncPermissions([
             'company_profile.view',
             'company_profile.create',
             'company_profile.update',
             'company_profile.delete',
-            'dev_profile.view'
-        ])->get());
+            'dev_profile.view',
+            'address.view',
+            'address.create',
+            'address.update',
+            'address.delete'
+        ]);
 
-        $devRole = Role::create(['name' => 'dev']);
+        $devRole = Role::firstOrCreate([
+            'name' => 'dev',
+            'guard_name' => 'api'
+        ]);
 
-        $devRole->givePermissionTo(Permission::whereIn('name', [
+        $devRole->syncPermissions([
             'dev_profile.view',
             'dev_profile.create',
             'dev_profile.update',
@@ -54,6 +71,10 @@ class RoleSeeder extends Seeder
             'project_history.delete',
             'client_profile.view',
             'company_profile.view',
-        ])->get());
+            'address.view',
+            'address.create',
+            'address.update',
+            'address.delete'
+        ]);
     }
 }

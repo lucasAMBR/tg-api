@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -22,40 +23,75 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class
         ]);
 
-        $user = User::create([
-            'name'     => 'Admin User',
-            'email'    => 'admin@example.com',
-            'phone'    => '+5535962644988',
-            'password' => 'user1234!'
-        ]);
+        $this->createAdminIfNotExists(
+            'Admin User',
+            'admin@example.com',
+            '+5535962644988',
+            'admin'
+        );
 
-        $user->assignRole('admin');
+        $this->createUserIfNotExists(
+            'Dev User',
+            'dev@example.com',
+            '+5535962644987',
+            'dev'
+        );
 
-        $devUser = User::create([
-            'name'     => 'Dev User',
-            'email'    => 'dev@example.com',
-            'phone'    => '+5535962644987',
-            'password' => 'user1234!'
-        ]);
+        $this->createUserIfNotExists(
+            'Company User',
+            'company@example.com',
+            '+5535962644989',
+            'company'
+        );
 
-        $devUser->assignRole('dev');
+        $this->createUserIfNotExists(
+            'Client User',
+            'client@example.com',
+            '+5535962644985',
+            'client'
+        );
+    }
 
-        $companyUser = User::create([
-            'name'     => 'Company User',
-            'email'    => 'company@example.com',
-            'phone'    => '+5535962644989',
-            'password' => 'user1234!'
-        ]);
+    private function createUserIfNotExists(
+        string $name,
+        string $email,
+        string $phone,
+        string $role
+    ): void {
 
-        $companyUser->assignRole('company');
+        $user = User::firstOrCreate(
+            ['email' => $email],
+            [
+                'name'     => $name,
+                'phone'    => $phone,
+                'password' => Hash::make('user1234!')
+            ]
+        );
 
-        $clientUser = User::create([
-            'name'     => 'Client User',
-            'email'    => 'client@example.com',
-            'phone'    => '+5535962644985',
-            'password' => 'user1234!'
-        ]);
+        if (!$user->hasRole($role)) {
+            $user->assignRole($role);
+        }
+    }
 
-        $clientUser->assignRole('client');
+    private function createAdminIfNotExists(
+        string $name,
+        string $email,
+        string $phone,
+        string $role
+    ): void {
+
+        $user = User::firstOrCreate(
+            ['email' => $email],
+            [
+                'name'     => $name,
+                'phone'    => $phone,
+                'admin_active_profile' => 'dev',
+                'password' => Hash::make('user1234!')
+            ]
+        );
+
+        if (!$user->hasRole($role)) {
+            $user->assignRole($role);
+        }
     }
 }

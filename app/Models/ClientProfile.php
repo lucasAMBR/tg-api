@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Traits\HasUuidV7;
+
+use App\Models\Address;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,4 +26,8 @@ class ClientProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function address()
+    {
+        return $this->morphOne(Address::class, 'addressable');
+    }
 }
