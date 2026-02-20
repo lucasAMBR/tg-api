@@ -14,8 +14,6 @@ class AddressService
 {
     public function store(array $data): AddressResource
     {
-
-
         /** @var \App\Models\User $authUser */
         $authUser = Auth::user();
 

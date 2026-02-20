@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DevProfile extends Model
@@ -16,6 +17,8 @@ class DevProfile extends Model
         'bio',
         'cpf',
         'birthdate',
+        'open_to_relocation',
+        'open_to_work',
         'seniority_level',
         'score'
     ];
@@ -28,5 +31,10 @@ class DevProfile extends Model
     public function address()
     {
         return $this->morphOne(Address::class, 'addressable');
+    }
+
+    public function employment_histories(): HasMany
+    {
+        return $this->hasMany(EmploymentHistory::class);
     }
 }

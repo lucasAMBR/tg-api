@@ -27,6 +27,8 @@ class StoreDevProfileRequest extends FormRequest
         return [
             'cpf' => ['required', 'unique:dev_profiles,cpf', new Cpf],
             'bio' => ['required', 'string'],
+            'open_to_relocation' => ['nullable', 'boolean'],
+            'open_to_work' => ['nullable', 'boolean'],
             'birthdate' => ['required', 'date', 'date_format:Y-m-d'],
             'seniority_level' => ['required', Rule::enum(SeniorityLevelEnum::class)],
         ];

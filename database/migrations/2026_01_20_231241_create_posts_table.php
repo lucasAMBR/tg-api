@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('cpf');
             $table->date('birthdate');
             $table->string('seniority_level');
+            $table->boolean('open_to_relocation')->default(false);
+            $table->boolean('open_to_work')->default(true);
             $table->integer('score')->default(0);
             $table->softDeletes();
             $table->timestamps();

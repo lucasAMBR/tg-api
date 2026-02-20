@@ -23,6 +23,8 @@ class ProfileService
                 'bio' => $data['bio'],
                 'cpf' => $data['cpf'],
                 'birthdate' => $data['birthdate'],
+                'open_to_relocation' => $data['open_to_relocation'] ?? false,
+                'open_to_work' => $data['open_to_work'] ?? true,
                 'score' => $data['score'] ?? 0,
                 'seniority_level' => $data['seniority_level'],
             ]);
@@ -89,7 +91,7 @@ class ProfileService
             $company->update($data);
 
             return new CompanyProfileResource($company);
-    
+
         });
 
     }
@@ -103,7 +105,7 @@ class ProfileService
             $client->update($data);
 
             return new CompanyProfileResource($client);
-    
+
         });
 
     }

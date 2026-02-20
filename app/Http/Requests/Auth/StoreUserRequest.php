@@ -44,6 +44,11 @@ class StoreUserRequest extends FormRequest
                 'unique:users,phone',
                 new Cellphone
             ],
+            'role' => [
+                'required',
+                'string',
+                'exists:roles,name'
+            ],
             'password' => [
                 'required',
                 'string',
@@ -52,10 +57,6 @@ class StoreUserRequest extends FormRequest
                     ->mixedCase()
                     ->numbers()
                     ->symbols()
-            ],
-            'role' => [
-                'required',
-                'string'
             ]
         ];
     }
