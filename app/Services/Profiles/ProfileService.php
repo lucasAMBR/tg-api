@@ -65,4 +65,47 @@ class ProfileService
             return new ClientProfileResource($clientProfile);
         });
     }
+
+    public function updateDevProfile(Array $data, DevProfile $dev) {
+
+        $authUser = Auth::user();
+
+        DB::transaction(function() use ($data, $dev) {
+
+            $dev->update($data);
+
+            return new DevProfileResource($dev);
+
+        });
+
+    }
+
+    public function updateCompanyProfile(Array $data, CompanyProfile $company) {
+
+        $authUser = Auth::user();
+
+        DB::transaction(function() use ($data, $company) {
+
+            $company->update($data);
+
+            return new CompanyProfileResource($company);
+    
+        });
+
+    }
+
+    public function updateClientProfile(Array $data, ClientProfile $client) {
+
+        $authUser = Auth::user();
+
+        DB::transaction(function() use ($data, $client) {
+
+            $client->update($data);
+
+            return new CompanyProfileResource($client);
+    
+        });
+
+    }
+
 }

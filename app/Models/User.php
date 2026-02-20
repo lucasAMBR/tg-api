@@ -33,7 +33,7 @@ class User extends Authenticatable implements JWTSubject
         'phone',
         'admin_active_profile',
         'cpf',
-        'password',
+        'password'
     ];
 
     /**

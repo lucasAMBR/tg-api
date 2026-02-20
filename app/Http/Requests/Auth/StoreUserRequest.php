@@ -52,6 +52,10 @@ class StoreUserRequest extends FormRequest
                     ->mixedCase()
                     ->numbers()
                     ->symbols()
+            ],
+            'role' => [
+                'required',
+                'string'
             ]
         ];
     }
