@@ -25,7 +25,7 @@ class UpdateCompanyProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cnpj' => ['sometimes', 'unique:company_profiles,cnpj', new Cnpj],
+            'cnpj' => ['sometimes', new Cnpj],
             'bio' => ['sometimes', 'string'],
             'founding_date' => ['sometimes', 'date', 'date_format:Y-m-d'],
             'operational_segment' => ['sometimes', Rule::enum(OperationalSegmentEnum::class)]

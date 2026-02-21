@@ -25,7 +25,7 @@ class UpdateDevProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cpf' => ['sometimes', 'unique:dev_profiles,cpf', new Cpf],
+            'cpf' => ['sometimes', new Cpf],
             'bio' => ['sometimes', 'string'],
             'birthdate' => ['sometimes', 'date', 'date_format:Y-m-d'],
             'seniority_level' => ['sometimes', Rule::enum(SeniorityLevelEnum::class)],

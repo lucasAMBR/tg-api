@@ -45,8 +45,7 @@ class ClientProfilePolicy
             return false;
         }
 
-        // Retorna que o dev só pode se o id for o mesmo do user logado
-        return $clientProfile->user_id === $user->$user->id;
+        return $clientProfile->user_id === $user->id;
     }
 
     /**
@@ -54,7 +53,16 @@ class ClientProfilePolicy
      */
     public function delete(User $user, ClientProfile $clientProfile): bool
     {
-        return false;
+        if($user->hasRole('admin')) {
+            return true;
+        }
+
+        if(!$user->can('client_profile.delete')) {
+            return false;
+        }
+
+        return $clientProfile->user_id === $user->id;
+
     }
 
     /**

@@ -73,4 +73,35 @@ class ProfileController extends Controller
         return ApiResponse::success($profile, "Profile updated with Success", 200);
 
     }
+
+    public function destroyDevProfile(DevProfile $dev) {
+
+        $this->authorize('delete', $dev);
+
+        $profile = $this->profileService->destroyDevProfile($dev);
+
+        return ApiResponse::success($profile, "Profile excluded with Success!", 200);
+
+    }
+
+    public function destroyCompanyProfile(CompanyProfile $company) {
+
+        $this->authorize('delete', $company);
+
+        $profile = $this->profileService->destroyCompanyProfile($company);
+
+        return ApiResponse::success($profile, "Profile excluded with Success!", 200);
+
+    }
+
+    public function destroyClientProfile(ClientProfile $client) {
+
+        $this->authorize('delete', $client);
+
+        $profile = $this->profileService->destroyClientProfile($client);
+
+        return ApiResponse::success($profile, "Profile excluded with Success!", 200);
+
+    }
+
 }

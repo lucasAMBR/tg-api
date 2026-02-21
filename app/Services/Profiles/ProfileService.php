@@ -8,6 +8,7 @@ use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
 use App\Models\ClientProfile;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
+use Faker\Provider\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -105,6 +106,37 @@ class ProfileService
             $client->update($data);
 
             return new CompanyProfileResource($client);
+
+        });
+
+    }
+
+    public function destroyDevProfile(DevProfile $dev) {
+
+        DB::transaction(function() use ($dev) {
+
+            return $dev->delete();
+
+        });
+
+    }
+
+    public function destroyCompanyProfile(CompanyProfile $company) {
+        
+        DB::transaction(function() use ($company) {
+
+            return $company->delete();
+
+        });
+
+    }
+
+    public function destroyClientProfile(ClientProfile $client) {
+    
+
+        DB::transaction(function() use ($client) {
+
+            return $client->delete();
 
         });
 

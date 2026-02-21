@@ -45,8 +45,7 @@ class CompanyProfilePolicy
             return false;
         }
 
-        // Retorna que o dev só pode se o id for o mesmo do user logado
-        return $companyProfile->user_id === $user->$user->id;
+        return $companyProfile->user_id === $user->id;
     }
 
     /**
@@ -54,7 +53,15 @@ class CompanyProfilePolicy
      */
     public function delete(User $user, CompanyProfile $companyProfile): bool
     {
-        return false;
+        if($user->hasRole('admin')) {
+            return true;
+        }
+
+        if(!$user->can('company_profile.delete')) {
+            return false;
+        }
+
+        return $companyProfile->user_id === $user->id;
     }
 
     /**

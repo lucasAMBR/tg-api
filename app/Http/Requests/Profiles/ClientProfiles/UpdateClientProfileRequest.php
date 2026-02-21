@@ -23,7 +23,7 @@ class UpdateClientProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cpf' => ['sometimes', new Cpf, 'unique:client_profiles,cpf'],
+            'cpf' => ['sometimes', new Cpf],
             'bio' => ['sometimes', 'string'],
             'birthdate' => ['sometimes', 'date', 'date_format:Y-m-d'],
         ];

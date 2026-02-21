@@ -49,7 +49,7 @@ class DevProfilePolicy
         }
 
         // Retorna que o dev só pode se o id for o mesmo do user logado
-        return $devProfile->user_id === $user->$user->id;
+        return $devProfile->user_id === $user->id;
     }
 
     /**
@@ -57,7 +57,15 @@ class DevProfilePolicy
      */
     public function delete(User $user, DevProfile $devProfile): bool
     {
-        return false;
+        if($user->hasRole('admin')) {
+            return true;
+        }
+
+        if(!$user->can('dev_profile.delete')) {
+            return false;
+        }
+
+        return $devProfile->user_id === $user->id;
     }
 
     /**
