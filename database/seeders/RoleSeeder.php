@@ -48,7 +48,8 @@ class RoleSeeder extends Seeder
             'address.view',
             'address.create',
             'address.update',
-            'address.delete'
+            'address.delete',
+            'language.create',
         ]);
 
         $devRole = Role::firstOrCreate([
@@ -74,7 +75,8 @@ class RoleSeeder extends Seeder
             'address.view',
             'address.create',
             'address.update',
-            'address.delete'
+            'address.delete',
+            'language.create',
         ]);
     }
 }

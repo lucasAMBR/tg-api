@@ -34,14 +34,14 @@ class ProfileController extends Controller
     {
         $profile = $this->profileService->storeCompanyProfile($request->validated());
 
-        return ApiResponse::success($profile, "Profile created with Success", 201);
+        return ApiResponse::success($profile, "Profile created with success", 201);
     }
 
     public function storeClientProfile(StoreClientProfileRequest $request)
     {
         $profile = $this->profileService->storeClientProfile($request->validated());
 
-        return ApiResponse::success($profile, "Profile created with Success", 201);
+        return ApiResponse::success($profile, "Profile created with success", 201);
     }
 
     public function updateDevProfile(UpdateDevProfileRequest $request, DevProfile $dev) {
@@ -50,7 +50,7 @@ class ProfileController extends Controller
 
         $profile = $this->profileService->updateDevProfile($request->validated(), $dev);
 
-        return ApiResponse::success($profile, "Profile updated with Success", 200);
+        return ApiResponse::success($profile, "Profile updated with success", 200);
 
     }
 
@@ -60,7 +60,7 @@ class ProfileController extends Controller
 
         $profile = $this->profileService->updateCompanyProfile($request->validated(), $company);
 
-        return ApiResponse::success($profile, "Profile updated with Success", 200);
+        return ApiResponse::success($profile, "Profile updated with success", 200);
 
     }
 
@@ -70,7 +70,7 @@ class ProfileController extends Controller
 
         $profile = $this->profileService->updateClientProfile($request->validated(), $client);
 
-        return ApiResponse::success($profile, "Profile updated with Success", 200);
+        return ApiResponse::success($profile, "Profile updated with success", 200);
 
     }
 
@@ -80,7 +80,7 @@ class ProfileController extends Controller
 
         $profile = $this->profileService->destroyDevProfile($dev);
 
-        return ApiResponse::success($profile, "Profile excluded with Success!", 200);
+        return ApiResponse::success($profile, "Profile excluded with success!", 200);
 
     }
 
@@ -90,7 +90,7 @@ class ProfileController extends Controller
 
         $profile = $this->profileService->destroyCompanyProfile($company);
 
-        return ApiResponse::success($profile, "Profile excluded with Success!", 200);
+        return ApiResponse::success($profile, "Profile excluded with success!", 200);
 
     }
 
@@ -100,7 +100,7 @@ class ProfileController extends Controller
 
         $profile = $this->profileService->destroyClientProfile($client);
 
-        return ApiResponse::success($profile, "Profile excluded with Success!", 200);
+        return ApiResponse::success($profile, "Profile excluded with success!", 200);
 
     }
 
