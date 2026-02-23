@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->timestamps();
 
             $table->string('name')->unique();
             $table->string('slug');
-            $table->foreignUuid('user_id')->nullable();
-            $table->boolean('is_oficial')->default(true);
-            $table->boolean('is_approved')->default(true);
+            $table->boolean('is_official')->default(false);
+            $table->boolean('is_approved')->default(false);
 
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

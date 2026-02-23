@@ -14,19 +14,25 @@ class LanguageSeeder extends Seeder
      */
     public function run(): void
     {
-        
+
         $languages = ([
             [
                 'name' => 'Java',
                 'slug' => 'java',
+                'is_approved' => true,
+                'is_official' => true
             ],
             [
                 'name' => 'JavaScript',
                 'slug' => 'java-script',
+                'is_approved' => true,
+                'is_official' => true
             ],
             [
                 'name' => 'PHP',
                 'slug' => 'php',
+                'is_approved' => true,
+                'is_official' => true
             ],
         ]);
 

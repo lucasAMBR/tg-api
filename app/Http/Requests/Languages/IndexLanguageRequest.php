@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Languages;
 
+use App\Traits\IndexRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateLanguageRequest extends FormRequest
+class IndexLanguageRequest extends FormRequest
 {
+    use IndexRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,8 +24,8 @@ class UpdateLanguageRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required', 'string', 'min:1', 'max:255']
-        ];
+        return array_merge($this->paginationRules(), [
+
+        ]);
     }
 }

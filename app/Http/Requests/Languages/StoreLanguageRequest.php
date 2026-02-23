@@ -24,29 +24,32 @@ class StoreLanguageRequest extends FormRequest
     {
 
         return [
-            
-            'name' => ['required', 'string', 'max:255', 'min:3'],
-            'slug' => ['required', 'string'],
-            'user_id' => ['nullable', 'exists:users, id'],
-            'is_oficial' => ['nullable', 'boolean'],
-            'is_approved' => ['nullable', 'boolean']
-
+            'name' => ['required', 'string', 'max:255', 'min:1'],
+            'slug'        => ['required', 'string'],
+            'is_official' => ['required', 'boolean'],
+            'is_approved' => ['required', 'boolean'],
         ];
 
     }
 
-    /**
-     * Crio uma função para preparar o dado para ser armazenado no banco,
-     * é executado antes das rules e ja padroniza o dado
-     */
     protected function prepareForValidation()
         {
-            // Merge serve para alterar os dados antes de irem para as rules
+            $user = request()->user();
+
             $this->merge([
-                'slug' => Str::slug($this->slug), // Passo o dado para o padrão slug e para minusculo 
-                'slug' => strtolower($this->slug),
-                'name' => strtolower(trim($this->name)) // trim() remove espaços em branco da string
+                'slug' => Str::slug($this->input('name'))
             ]);
-           
+
+            if($user->hasRole('admin')){
+                $this->merge([
+                    'is_official' => true,
+                    'is_approved' => true
+                ]);
+            }else{
+                $this->merge([
+                    'is_official' => false,
+                    'is_approved' => false
+                ]);
+            }
         }
 }
