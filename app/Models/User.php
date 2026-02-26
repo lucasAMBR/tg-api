@@ -12,15 +12,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasUuidV7, HasFactory, Notifiable, HasRoles;
+    use HasUuidV7, HasFactory, Notifiable, HasRoles, InteractsWithMedia;
 
     protected $guard_name = 'api';
+    protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +39,10 @@ class User extends Authenticatable implements JWTSubject
         'cpf',
         'password'
     ];
+
+    protected $appends = ['profile_pic'];
+
+    protected $with = ['media'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -56,6 +64,35 @@ class User extends Authenticatable implements JWTSubject
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+        ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('profile_pic')
+            ->singleFile();
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(300)
+            ->height(300)
+            ->format('webp')
+            ->quality(80);
+    }
+
+    public function getProfilePicAttribute()
+    {
+        $media = $this->getFirstMedia('profile_pic');
+
+        if (!$media) {
+            return null;
+        }
+
+        return [
+            'id' => $media->id,
+            'url' => $media->getUrl(),
         ];
     }
 

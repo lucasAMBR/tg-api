@@ -57,7 +57,8 @@ class StoreUserRequest extends FormRequest
                     ->mixedCase()
                     ->numbers()
                     ->symbols()
-            ]
+            ],
+            'profile_pic' => ['image', 'mimes:jpeg,jpg,png,webp', 'max:10000'],
         ];
     }
 }

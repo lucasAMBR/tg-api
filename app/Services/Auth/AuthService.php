@@ -19,6 +19,15 @@ class AuthService
             $user = User::create($data);
 
             $user->assignRole($data['role']);
+
+            if(isset($data['profile_pic'])){
+                if ($data['profile_pic'] instanceof \Illuminate\Http\UploadedFile) {
+                    $user->addMedia($data['profile_pic'])
+                        ->toMediaCollection('profile_pic');
+                } else {
+                    throw new \Exception('profile_pic precisa ser um UploadedFile.');
+                }
+            }
         });
 
         $loginResponse = $this->login([
