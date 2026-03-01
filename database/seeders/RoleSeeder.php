@@ -50,6 +50,10 @@ class RoleSeeder extends Seeder
             'address.update',
             'address.delete',
             'language.create',
+            'company_project.view',
+            'company_project.create',
+            'company_project.update',
+            'company_project.delete',
         ]);
 
         $devRole = Role::firstOrCreate([

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CompanyProfile extends Model
@@ -29,4 +30,9 @@ class CompanyProfile extends Model
     {
         return $this->morphOne(Address::class, 'addressable');
     }
+
+    public function company_projects(): HasMany {
+        return $this->hasMany(CompanyProject::class);
+    }
+
 }

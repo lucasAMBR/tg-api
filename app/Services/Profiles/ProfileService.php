@@ -71,8 +71,6 @@ class ProfileService
 
     public function updateDevProfile(Array $data, DevProfile $dev) {
 
-        $authUser = Auth::user();
-
         DB::transaction(function() use ($data, $dev) {
 
             $dev->update($data);
@@ -85,8 +83,6 @@ class ProfileService
 
     public function updateCompanyProfile(Array $data, CompanyProfile $company) {
 
-        $authUser = Auth::user();
-
         DB::transaction(function() use ($data, $company) {
 
             $company->update($data);
@@ -98,8 +94,6 @@ class ProfileService
     }
 
     public function updateClientProfile(Array $data, ClientProfile $client) {
-
-        $authUser = Auth::user();
 
         DB::transaction(function() use ($data, $client) {
 

@@ -13,3 +13,5 @@ Route::prefix('language')->group(base_path('routes/api/Languages.php'));
 Route::prefix('employment-history')->group(base_path('routes/api/EmploymentHistory.php'));
 
 Route::prefix('project-history')->group(base_path('routes/api/ProjectHistory.php'));
+
+Route::prefix('company-project')->group(base_path('routes/api/CompanyProjects.php'));
