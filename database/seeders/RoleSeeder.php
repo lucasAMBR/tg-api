@@ -81,6 +81,9 @@ class RoleSeeder extends Seeder
             'address.update',
             'address.delete',
             'language.create',
+            'academic_background.create',
+            'academic_background.update',
+            'academic_background.delete',
         ]);
     }
 }

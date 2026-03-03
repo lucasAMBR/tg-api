@@ -15,3 +15,7 @@ Route::prefix('employment-history')->group(base_path('routes/api/EmploymentHisto
 Route::prefix('project-history')->group(base_path('routes/api/ProjectHistory.php'));
 
 Route::prefix('company-project')->group(base_path('routes/api/CompanyProjects.php'));
+
+Route::prefix('academic-background')->group(base_path('routes/api/AcademicBackground.php'));
+
+Route::prefix('embedding')->group(base_path('routes/api/Embeddings.php'));

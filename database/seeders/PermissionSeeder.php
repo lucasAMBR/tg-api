@@ -32,6 +32,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'project_history.update', 'guard_name' => 'api'],
             ['name' => 'project_history.delete', 'guard_name' => 'api'],
 
+            ['name' => 'academic_background.create', 'guard_name' => 'api'],
+            ['name' => 'academic_background.update', 'guard_name' => 'api'],
+            ['name' => 'academic_background.delete', 'guard_name' => 'api'],
+
             ['name' => 'company_profile.view', 'guard_name' => 'api'],
             ['name' => 'company_profile.create', 'guard_name' => 'api'],
             ['name' => 'company_profile.update', 'guard_name' => 'api'],
