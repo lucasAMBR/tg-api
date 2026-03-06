@@ -36,6 +36,14 @@ class PermissionSeeder extends Seeder
             ['name' => 'academic_background.update', 'guard_name' => 'api'],
             ['name' => 'academic_background.delete', 'guard_name' => 'api'],
 
+            ['name' => 'additional_course.create', 'guard_name' => 'api'],
+            ['name' => 'additional_course.update', 'guard_name' => 'api'],
+            ['name' => 'additional_course.delete', 'guard_name' => 'api'],
+
+            ['name' => 'hard_skill.create', 'guard_name' => 'api'],
+            ['name' => 'hard_skill.update', 'guard_name' => 'api'],
+            ['name' => 'hard_skill.delete', 'guard_name' => 'api'],
+
             ['name' => 'company_profile.view', 'guard_name' => 'api'],
             ['name' => 'company_profile.create', 'guard_name' => 'api'],
             ['name' => 'company_profile.update', 'guard_name' => 'api'],

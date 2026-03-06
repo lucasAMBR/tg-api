@@ -19,3 +19,7 @@ Route::prefix('company-project')->group(base_path('routes/api/CompanyProjects.ph
 Route::prefix('academic-background')->group(base_path('routes/api/AcademicBackground.php'));
 
 Route::prefix('embedding')->group(base_path('routes/api/Embeddings.php'));
+
+Route::prefix('additional-course')->group(base_path('routes/api/AdditionalCourse.php'));
+
+Route::prefix('hard-skill')->group(base_path('routes/api/HardSkill.php'));

@@ -84,6 +84,12 @@ class RoleSeeder extends Seeder
             'academic_background.create',
             'academic_background.update',
             'academic_background.delete',
+            'additional_course.create',
+            'additional_course.update',
+            'additional_course.delete',
+            'hard_skill.create',
+            'hard_skill.update',
+            'hard_skill.delete',
         ]);
     }
 }

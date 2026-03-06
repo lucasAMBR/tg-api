@@ -9,10 +9,13 @@ use App\Http\Requests\AcademicBackground\StoreAcademicBackgroundRequest;
 use App\Http\Requests\AcademicBackground\UpdateAcademicBackgroundRequest;
 use App\Models\AcademicBackground;
 use App\Services\AcademicBackground\AcademicBackgroundService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class AcademicBackgroundController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(
         protected AcademicBackgroundService $academicBackgroundService
     ){}
@@ -33,6 +36,8 @@ class AcademicBackgroundController extends Controller
 
     public function update(AcademicBackground $academicBackground, UpdateAcademicBackgroundRequest $request)
     {
+        $this->authorize('update', $academicBackground);
+
         $academicBackground = $this->academicBackgroundService->update($academicBackground, $request->validated());
 
         return ApiResponse::success($academicBackground, "Academic background updated with success!");
@@ -40,6 +45,8 @@ class AcademicBackgroundController extends Controller
 
     public function delete(AcademicBackground $academicBackground)
     {
+        $this->authorize('delete', $academicBackground);
+
         $this->academicBackgroundService->delete($academicBackground);
 
         return ApiResponse::success(message: "Academic background removed with success!");

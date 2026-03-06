@@ -37,4 +37,20 @@ class DevProfile extends Model
     {
         return $this->hasMany(EmploymentHistory::class);
     }
+
+    public function project_histories(): HasMany
+    {
+        return $this->hasMany(ProjectHistory::class);
+    }
+
+    public function academic_backgrounds(): HasMany
+    {
+        return $this->hasMany(AcademicBackground::class);
+    }
+
+    public function additional_courses(): HasMany
+    {
+        return $this->hasMany(AdditionalCourse::class);
+    }
+
 }
