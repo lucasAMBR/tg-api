@@ -17,6 +17,13 @@ class CompanyProject extends Model
         'title',
         'description', 
         'company_profile_id',
+    ];
+
+    /**
+     * Sempre carrega os relacionamentos passados aqui
+     * sem necessidade de usar o método load() ou with()
+     */
+    public $with = [
         'languages'
     ];
 

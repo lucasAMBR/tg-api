@@ -9,7 +9,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class CompanyProjectCollection extends ResourceCollection
 {
 
-    public $collects = CompanyProject::class;
+    public $collects = CompanyProjectResource::class;
 
     /**
      * Transform the resource collection into an array.

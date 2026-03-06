@@ -2,10 +2,14 @@
 
 namespace App\Http\Requests\CompanyProjects;
 
+use App\Traits\IndexRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCompanyProjectsRequest extends FormRequest
+class IndexCompanyProjectsRequest extends FormRequest
 {
+
+    use IndexRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,11 +25,8 @@ class UpdateCompanyProjectsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title' => ['sometimes', 'string', 'max:255'],
-            'description' => ['sometimes', 'string'],
-            'languages' => ['sometimes', 'array'],
-            'languages.*' => ['sometimes', 'exists:languages,id'],
-        ];
+        return array_merge($this->paginationRules(), [
+            'company_profile_id' => ['nullable', 'string', 'exists:company_profiles,id']
+        ]);
     }
 }
