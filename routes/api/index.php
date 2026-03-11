@@ -23,3 +23,5 @@ Route::prefix('embedding')->group(base_path('routes/api/Embeddings.php'));
 Route::prefix('additional-course')->group(base_path('routes/api/AdditionalCourse.php'));
 
 Route::prefix('hard-skill')->group(base_path('routes/api/HardSkill.php'));
+
+Route::prefix('soft-skill')->group(base_path('routes/api/SoftSkill.php'));

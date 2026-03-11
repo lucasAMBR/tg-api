@@ -53,4 +53,9 @@ class DevProfile extends Model
         return $this->hasMany(AdditionalCourse::class);
     }
 
+    public function dev_soft_skills(): HasMany
+    {
+        return $this->hasMany(DevSoftSkill::class);
+    }
+
 }

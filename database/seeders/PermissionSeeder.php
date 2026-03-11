@@ -44,6 +44,9 @@ class PermissionSeeder extends Seeder
             ['name' => 'hard_skill.update', 'guard_name' => 'api'],
             ['name' => 'hard_skill.delete', 'guard_name' => 'api'],
 
+            ['name' => 'dev_soft_skill.create', 'guard_name' => 'api'],
+            ['name' => 'dev_soft_skill.update', 'guard_name' => 'api'],
+
             ['name' => 'company_profile.view', 'guard_name' => 'api'],
             ['name' => 'company_profile.create', 'guard_name' => 'api'],
             ['name' => 'company_profile.update', 'guard_name' => 'api'],

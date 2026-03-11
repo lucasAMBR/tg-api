@@ -24,4 +24,15 @@ enum SeniorityLevelEnum: string
             self::STAFF => "Staff"
         };
     }
+
+    public static function softSkillsPointLimit(): array
+    {
+        return [
+            SeniorityLevelEnum::INTERN->value => 15,
+            SeniorityLevelEnum::JUNIOR->value => 25,
+            SeniorityLevelEnum::MID_LEVEL->value => 35,
+            SeniorityLevelEnum::SENIOR->value => 45,
+            SeniorityLevelEnum::STAFF->value => 50,
+        ];
+    }
 }

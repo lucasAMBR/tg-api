@@ -58,11 +58,11 @@ class HardSkillService
     public function update(HardSkill $hardSkill, array $data): HardSkillResource
     {
         return DB::transaction(function () use ($data, $hardSkill): HardSkillResource {
-           $hardSkill->update($data);
+            $hardSkill->update($data);
 
             $hardSkill->refresh();
 
-           return new HardSkillResource($hardSkill);
+            return new HardSkillResource($hardSkill);
         });
     }
 

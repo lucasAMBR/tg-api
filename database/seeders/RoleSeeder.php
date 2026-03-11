@@ -90,6 +90,8 @@ class RoleSeeder extends Seeder
             'hard_skill.create',
             'hard_skill.update',
             'hard_skill.delete',
+            'dev_soft_skill.create',
+            'dev_soft_skill.update',
         ]);
     }
 }
