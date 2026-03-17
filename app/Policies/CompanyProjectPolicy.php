@@ -41,7 +41,7 @@ class CompanyProjectPolicy
             return true;
         }
 
-        return $companyProject->company_profile_id === $user->company_profile_id;
+        return $companyProject->company_profile_id === $user->company_profile->id;
 
     }
 
@@ -54,7 +54,7 @@ class CompanyProjectPolicy
             return true;
         }
 
-        return $companyProject->company_profile_id === $user->company_profile_id;
+        return $companyProject->company_profile_id === $user->company_profile->id;
 
     }
 

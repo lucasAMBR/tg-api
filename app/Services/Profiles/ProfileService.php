@@ -71,7 +71,7 @@ class ProfileService
 
     public function updateDevProfile(Array $data, DevProfile $dev) {
 
-        DB::transaction(function() use ($data, $dev) {
+        return DB::transaction(function() use ($data, $dev) {
 
             $dev->update($data);
 
@@ -83,7 +83,7 @@ class ProfileService
 
     public function updateCompanyProfile(Array $data, CompanyProfile $company) {
 
-        DB::transaction(function() use ($data, $company) {
+        return DB::transaction(function() use ($data, $company) {
 
             $company->update($data);
 
@@ -95,7 +95,7 @@ class ProfileService
 
     public function updateClientProfile(Array $data, ClientProfile $client) {
 
-        DB::transaction(function() use ($data, $client) {
+        return DB::transaction(function() use ($data, $client) {
 
             $client->update($data);
 
@@ -107,7 +107,7 @@ class ProfileService
 
     public function destroyDevProfile(DevProfile $dev) {
 
-        DB::transaction(function() use ($dev) {
+        return DB::transaction(function() use ($dev) {
 
             return $dev->delete();
 
@@ -117,7 +117,7 @@ class ProfileService
 
     public function destroyCompanyProfile(CompanyProfile $company) {
         
-        DB::transaction(function() use ($company) {
+        return DB::transaction(function() use ($company) {
 
             return $company->delete();
 
@@ -128,7 +128,7 @@ class ProfileService
     public function destroyClientProfile(ClientProfile $client) {
     
 
-        DB::transaction(function() use ($client) {
+        return DB::transaction(function() use ($client) {
 
             return $client->delete();
 
