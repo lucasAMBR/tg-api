@@ -42,13 +42,13 @@ class UpdateEmploymentHistoryRequest extends FormRequest
     protected function passedValidation(): void
     {
 
-        if ($this->has('is_current') && $this->boolean('is_current')) {
+        if ($this->boolean('is_current')) {
             $this->merge([
                 'end_date' => null,
             ]);
         }
 
-        if ($this->has('end_date') && !is_null($this->date['end_date'])) {
+        if ($this->filled('end_date')) {
             $this->merge([
                 'is_current' => false,
             ]);

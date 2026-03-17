@@ -27,46 +27,34 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->createAdminIfNotExists(
-            'Admin User',
             'admin@example.com',
-            '+5535962644988',
             'admin'
         );
 
         $this->createUserIfNotExists(
-            'Dev User',
             'dev@example.com',
-            '+5535962644987',
             'dev'
         );
 
         $this->createUserIfNotExists(
-            'Company User',
             'company@example.com',
-            '+5535962644989',
             'company'
         );
 
         $this->createUserIfNotExists(
-            'Client User',
             'client@example.com',
-            '+5535962644985',
             'client'
         );
     }
 
     private function createUserIfNotExists(
-        string $name,
         string $email,
-        string $phone,
         string $role
     ): void {
 
         $user = User::firstOrCreate(
             ['email' => $email],
             [
-                'name'     => $name,
-                'phone'    => $phone,
                 'password' => Hash::make('user1234!')
             ]
         );
@@ -77,17 +65,13 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createAdminIfNotExists(
-        string $name,
         string $email,
-        string $phone,
         string $role
     ): void {
 
         $user = User::firstOrCreate(
             ['email' => $email],
             [
-                'name'     => $name,
-                'phone'    => $phone,
                 'admin_active_profile' => 'dev',
                 'password' => Hash::make('user1234!')
             ]

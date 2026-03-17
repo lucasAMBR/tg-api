@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Profiles\ClientProfiles;
+namespace App\Http\Requests\SoftSkill;
 
-use App\Rules\Cellphone;
-use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreClientProfileRequest extends FormRequest
+class UpdateDevSoftSkillRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +22,9 @@ class StoreClientProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cpf' => ['required', new Cpf, 'unique:client_profiles,cpf'],
-            'name' => ['required', 'string', 'min:3', 'max:255'],
-            'bio' => ['required', 'string'],
-            'phone' => ['required', new Cellphone],
-            'birthdate' => ['required', 'date', 'date_format:Y-m-d'],
+            'soft_skills' => ['required', 'array', 'min:10', 'max:10'],
+            'soft_skills.*.soft_skill_id' => ['required', 'string', 'exists:soft_skills,id'],
+            'soft_skills.*.soft_skill_level_response_id' => ['required', 'string', 'exists:soft_skill_level_responses,id']
         ];
     }
 }

@@ -26,7 +26,9 @@ class EmploymentHistoryResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'is_current' => $this->is_current,
-            'dev_profile_id' => $this->dev_profile_id
+            'dev_profile_id' => $this->dev_profile_id,
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

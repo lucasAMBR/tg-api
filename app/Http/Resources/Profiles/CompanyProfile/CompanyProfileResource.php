@@ -17,7 +17,9 @@ class CompanyProfileResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'name' => $this->name,
             'bio' => $this->bio,
+            'phone' => $this->phone,
             'fouding_date' => $this->founding_date,
             'operational_segment' => $this->operational_segment,
             'score' => $this->score,

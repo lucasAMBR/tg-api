@@ -26,7 +26,9 @@ class AcademicBackgroundResource extends JsonResource
             'certificate' => $certificate ? [
                 'id'              => $certificate->id,
                 'certificate_url' => str_replace(config('app.url') . '/storage', '', $certificate->getUrl()),
-            ] : null
+            ] : null,
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

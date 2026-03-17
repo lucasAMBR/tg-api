@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('dev_profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('name');
             $table->text('bio');
             $table->string('cpf');
+            $table->string('phone')->unique();
             $table->date('birthdate');
             $table->string('seniority_level');
             $table->boolean('open_to_relocation')->default(false);
@@ -28,7 +30,9 @@ return new class extends Migration
         Schema::create('company_profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->string("name");
             $table->text('bio');
+            $table->string('phone')->unique();
             $table->string('cnpj');
             $table->date('founding_date');
             $table->integer('score')->default(0);
@@ -40,7 +44,9 @@ return new class extends Migration
         Schema::create('client_profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('name');
             $table->text('bio');
+            $table->string('phone')->unique();
             $table->string('cpf');
             $table->date('birthdate');
             $table->integer('score')->default(0);

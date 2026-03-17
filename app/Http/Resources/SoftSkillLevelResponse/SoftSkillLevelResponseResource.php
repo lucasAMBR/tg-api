@@ -19,7 +19,9 @@ class SoftSkillLevelResponseResource extends JsonResource
             'soft_skill_id' => $this->soft_skill_id,
             'title' => $this->title,
             'description' => $this->description,
-            'evaluation_weight' => $this->evaluation_weight
+            'evaluation_weight' => $this->evaluation_weight,
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

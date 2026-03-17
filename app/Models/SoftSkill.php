@@ -25,4 +25,9 @@ class SoftSkill extends Model
     {
         return $this->hasMany(DevSoftSkill::class);
     }
+
+    public function hasLevelResponse(string $responseId): bool
+    {
+        return $this->responses()->where('id', $responseId)->exists();
+    }
 }

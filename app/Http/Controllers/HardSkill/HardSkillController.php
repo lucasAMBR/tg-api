@@ -29,7 +29,7 @@ class HardSkillController extends Controller
         return ApiResponse::success($hardSkill, "Hard skill registered with success!", 201);
     }
 
-    public function update(HardSkill $hardSkill, UpdateHardSkillRequest $request)
+    public function update(UpdateHardSkillRequest $request, HardSkill $hardSkill)
     {
         $hardSkill = $this->hardSkillService->update($hardSkill, $request->validated());
 

@@ -27,9 +27,7 @@ class UserResource extends JsonResource
                 'original_url' => str_replace(config('app.url') . '/storage', '', $media->getUrl()),
                 'thumb_url'    => str_replace(config('app.url') . '/storage', '', $media->getUrl('thumb')),
             ] : null,
-            'name' => $this->name,
             'email' => $this->email,
-            'phone' => $this->phone,
             'dev_profile' => $this->whenLoaded('dev_profile', function () {
                 return new DevProfileResource($this->dev_profile);
             }),

@@ -14,8 +14,10 @@ class DevProfile extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
         'bio',
         'cpf',
+        'phone',
         'birthdate',
         'open_to_relocation',
         'open_to_work',

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Profiles\CompanyProfiles;
 
 use App\Enums\OperationalSegmentEnum;
+use App\Rules\Cellphone;
 use App\Rules\Cnpj;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,9 @@ class UpdateCompanyProfileRequest extends FormRequest
     {
         return [
             'cnpj' => ['sometimes', new Cnpj],
+            'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'bio' => ['sometimes', 'string'],
+            'phone' => ['sometimes', new Cellphone],
             'founding_date' => ['sometimes', 'date', 'date_format:Y-m-d'],
             'operational_segment' => ['sometimes', Rule::enum(OperationalSegmentEnum::class)]
         ];

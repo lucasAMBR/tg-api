@@ -21,7 +21,9 @@ class ProfileService
         return DB::transaction(function () use ($authUser, $data) {
             $devProfile = DevProfile::create([
                 'user_id' => $authUser->id,
+                'name' => $data['name'],
                 'bio' => $data['bio'],
+                'phone' => $data['phone'],
                 'cpf' => $data['cpf'],
                 'birthdate' => $data['birthdate'],
                 'open_to_relocation' => $data['open_to_relocation'] ?? false,
@@ -41,7 +43,9 @@ class ProfileService
         return DB::transaction(function () use ($authUser, $data) {
             $companyProfile = CompanyProfile::create([
                 'user_id' => $authUser->id,
+                'name' => $data['name'],
                 'bio' => $data['bio'],
+                'phone' => $data['phone'],
                 'cnpj' => $data['cnpj'],
                 'score' => $data['score'] ?? 0,
                 'founding_date' => $data['founding_date'],
@@ -59,7 +63,9 @@ class ProfileService
         return DB::transaction(function () use ($authUser, $data) {
             $clientProfile = ClientProfile::create([
                 'user_id' => $authUser->id,
+                'name' => $data['name'],
                 'bio' => $data['bio'],
+                'phone' => $data['phone'],
                 'cpf' => $data['cpf'],
                 'score' => $data['score'] ?? 0,
                 'birthdate' => $data['birthdate'],
@@ -99,7 +105,7 @@ class ProfileService
 
             $client->update($data);
 
-            return new CompanyProfileResource($client);
+            return new ClientProfileResource($client);
 
         });
 
@@ -116,7 +122,7 @@ class ProfileService
     }
 
     public function destroyCompanyProfile(CompanyProfile $company) {
-        
+
         return DB::transaction(function() use ($company) {
 
             return $company->delete();
@@ -126,7 +132,7 @@ class ProfileService
     }
 
     public function destroyClientProfile(ClientProfile $client) {
-    
+
 
         return DB::transaction(function() use ($client) {
 

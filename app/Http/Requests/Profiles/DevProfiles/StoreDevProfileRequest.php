@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Profiles\DevProfiles;
 
 use App\Enums\SeniorityLevelEnum;
+use App\Rules\Cellphone;
 use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,9 @@ class StoreDevProfileRequest extends FormRequest
     {
         return [
             'cpf' => ['required', 'unique:dev_profiles,cpf', new Cpf],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
             'bio' => ['required', 'string'],
+            'phone' => ['required', new Cellphone],
             'open_to_relocation' => ['nullable', 'boolean'],
             'open_to_work' => ['nullable', 'boolean'],
             'birthdate' => ['required', 'date', 'date_format:Y-m-d'],

@@ -21,7 +21,9 @@ class SoftSkillResource extends JsonResource
             'description' => $this->description,
             'responses' => $this->whenLoaded('responses', function () {
                 return SoftSkillLevelResponseResource::collection($this->responses);
-            })
+            }),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

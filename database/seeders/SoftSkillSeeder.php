@@ -57,7 +57,7 @@ class SoftSkillSeeder extends Seeder
         ];
 
         foreach($softSkills as $softSkill){
-            SoftSkill::cfirstOrCreate([
+            SoftSkill::firstOrCreate([
                 'name' => $softSkill['name'],
                 'description' => $softSkill['description']
             ]);

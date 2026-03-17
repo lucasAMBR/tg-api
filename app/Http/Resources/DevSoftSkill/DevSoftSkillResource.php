@@ -26,6 +26,8 @@ class DevSoftSkillResource extends JsonResource
             'soft_skill_level_response' => $this->whenLoaded('soft_skill_level_response', function () {
                 return new SoftSkillLevelResponseResource($this->soft_skill_level_response);
             }),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

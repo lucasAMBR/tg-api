@@ -17,7 +17,9 @@ class ClientProfileResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'name' => $this->name,
             'bio' => $this->bio,
+            'phone' => $this->phone,
             'birthdate' => $this->birthdate,
             'score' => $this->score,
             'created_at' => $this->created_at?->toIso8601String(),

@@ -25,7 +25,9 @@ class CompanyProjectResource extends JsonResource
             }),
             'languages' => $this->whenLoaded('languages', function() {
                 return LanguageResource::collection($this->languages);
-            })
+            }),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

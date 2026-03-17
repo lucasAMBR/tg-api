@@ -17,6 +17,7 @@ class ProjectHistoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
             'dev_profile_id' => $this->dev_profile_id,
@@ -36,6 +37,8 @@ class ProjectHistoryResource extends JsonResource
                     'thumb_url' => $thumbRelative,
                 ];
             }),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

@@ -14,8 +14,10 @@ class CompanyProfile extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
         'bio',
         'cnpj',
+        'phone',
         'founding_date',
         'operational_segment',
         'score'

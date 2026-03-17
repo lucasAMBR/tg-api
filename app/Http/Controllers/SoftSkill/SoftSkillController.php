@@ -6,6 +6,7 @@ use App\Builder\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SoftSkill\IndexSoftSkillRequest;
 use App\Http\Requests\SoftSkill\StoreDevSoftSkillRequest;
+use App\Http\Requests\SoftSkill\UpdateDevSoftSkillRequest;
 use App\Services\SoftSkill\SoftSkillService;
 use Illuminate\Http\Request;
 
@@ -25,5 +26,12 @@ class SoftSkillController extends Controller
         $softSkills = $this->softSkillService->storeDevSoftSkills($request->validated());
 
         return ApiResponse::success($softSkills, 'Soft skill registered with success!');
+    }
+
+    public function updateDevSoftSkills(UpdateDevSoftSkillRequest $request)
+    {
+        $softSkill = $this->softSkillService->updateDevSoftSkills($request->validated());
+
+        return ApiResponse::success($softSkill, 'Soft skills updated with success!');
     }
 }

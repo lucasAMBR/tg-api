@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Profiles\DevProfiles;
 
 use App\Enums\SeniorityLevelEnum;
+use App\Rules\Cellphone;
 use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,9 @@ class UpdateDevProfileRequest extends FormRequest
     {
         return [
             'cpf' => ['sometimes', new Cpf],
+            'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'bio' => ['sometimes', 'string'],
+            'phone' => ['sometimes', new Cellphone],
             'birthdate' => ['sometimes', 'date', 'date_format:Y-m-d'],
             'seniority_level' => ['sometimes', Rule::enum(SeniorityLevelEnum::class)],
         ];

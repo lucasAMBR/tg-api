@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Profiles\ClientProfiles;
 
+use App\Rules\Cellphone;
 use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +25,9 @@ class UpdateClientProfileRequest extends FormRequest
     {
         return [
             'cpf' => ['sometimes', new Cpf],
+            'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'bio' => ['sometimes', 'string'],
+            'phone' => ['sometimes', new Cellphone],
             'birthdate' => ['sometimes', 'date', 'date_format:Y-m-d'],
         ];
     }
