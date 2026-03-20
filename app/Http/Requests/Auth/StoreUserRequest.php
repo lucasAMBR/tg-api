@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
         return [
             'email' => [
                 'required',
-                'string',
+                'email',
                 'unique:users,email',
                 'max:255'
             ],
