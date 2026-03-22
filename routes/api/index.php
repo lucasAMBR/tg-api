@@ -25,3 +25,5 @@ Route::prefix('additional-course')->group(base_path('routes/api/AdditionalCourse
 Route::prefix('hard-skill')->group(base_path('routes/api/HardSkill.php'));
 
 Route::prefix('soft-skill')->group(base_path('routes/api/SoftSkill.php'));
+
+Route::prefix('enum')->group(base_path('routes/api/Enums.php'));
