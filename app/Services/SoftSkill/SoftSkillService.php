@@ -5,8 +5,10 @@ namespace App\Services\SoftSkill;
 use App\Enums\SeniorityLevelEnum;
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
+use App\Http\Resources\CompanySoftSkill\CompanySoftSkillResource;
 use App\Http\Resources\DevSoftSkill\DevSoftSkillResource;
 use App\Http\Resources\SoftSkill\SoftSkillResource;
+use App\Models\CompanySoftSkill;
 use App\Models\DevProfile;
 use App\Models\DevSoftSkill;
 use App\Models\SoftSkill;
@@ -101,5 +103,31 @@ class SoftSkillService
         $limits = SeniorityLevelEnum::softSkillsPointLimit();
 
         return $limits[$profile->seniority_level] ?? 25;
+    }
+
+    public function storeCompanySoftSkills(array $data) {
+
+        // Usuário autenticado
+        $authUser = Auth::user();
+
+        // Perfil baseado no usuário autenticado
+        $profile = ProfileHelper::getUserProfileByRole($authUser);
+ 
+        foreach($data['soft_skills'] as $softSkill) {
+            // Armazeno a definição de cada soft skill
+            SoftSkill::findOrFail($softSkill['soft_skill_id']);
+
+            CompanySoftSkill::create([
+                'soft_skill_id' => $softSkill['soft_skill_id'],
+                'company_profile_id' => $profile->id
+            ]); 
+            
+            
+        }
+
+        $profile->refresh();
+
+        return CompanySoftSkillResource::collection($profile->company_soft_skills);
+
     }
 }

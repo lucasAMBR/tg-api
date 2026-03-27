@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SoftSkill;
 use App\Builder\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SoftSkill\IndexSoftSkillRequest;
+use App\Http\Requests\SoftSkill\StoreCompanySoftSkillRequest;
 use App\Http\Requests\SoftSkill\StoreDevSoftSkillRequest;
 use App\Http\Requests\SoftSkill\UpdateDevSoftSkillRequest;
 use App\Services\SoftSkill\SoftSkillService;
@@ -34,4 +35,12 @@ class SoftSkillController extends Controller
 
         return ApiResponse::success($softSkill, 'Soft skills updated with success!');
     }
+
+    public function storeCompanySoftSkills(StoreCompanySoftSkillRequest $request) {
+
+        $softSkill = $this->softSkillService->storeCompanySoftSkills($request->validated());
+
+        return ApiResponse::success($softSkill, 'Soft skills registered with success!', 200);
+    }
 }
+

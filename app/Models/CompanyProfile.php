@@ -37,4 +37,8 @@ class CompanyProfile extends Model
         return $this->hasMany(CompanyProject::class);
     }
 
+    public function company_soft_skills(): HasMany {
+        return $this->hasMany(CompanySoftSkill::class, 'company_profile_id');
+    }
+
 }
