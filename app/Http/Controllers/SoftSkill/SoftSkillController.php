@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SoftSkill\IndexSoftSkillRequest;
 use App\Http\Requests\SoftSkill\StoreCompanySoftSkillRequest;
 use App\Http\Requests\SoftSkill\StoreDevSoftSkillRequest;
+use App\Http\Requests\SoftSkill\UpdateCompanySoftSKillRequest;
 use App\Http\Requests\SoftSkill\UpdateDevSoftSkillRequest;
+use App\Models\CompanySoftSkill;
+use App\Models\SoftSkill;
 use App\Services\SoftSkill\SoftSkillService;
-use Illuminate\Http\Request;
-
 class SoftSkillController extends Controller
 {
     public function __construct(protected SoftSkillService $softSkillService){}
@@ -41,6 +42,27 @@ class SoftSkillController extends Controller
         $softSkill = $this->softSkillService->storeCompanySoftSkills($request->validated());
 
         return ApiResponse::success($softSkill, 'Soft skills registered with success!', 200);
+    }
+
+    public function updateCompanySoftSkills(UpdateCompanySoftSKillRequest $request, CompanySoftSkill $companySoft) {
+
+        $softSkill = $this->softSkillService->updateCompanySoftSkills($request->validated(), $companySoft);
+
+        return ApiResponse::success($softSkill, 'Soft skills updated with success!', 200);
+    }
+
+    public function destroyCompanySoftSkills(CompanySoftSkill $companySoft) {
+
+        $softSkill = $this->softSkillService->destroyCompanySoftSkills($companySoft);
+
+        return ApiResponse::success($softSkill, 'Soft skill deleted with success!', 200);
+    }
+
+    public function indexCompanySoftSkills() {
+
+        $softSkill = $this->softSkillService->indexCompanySoftSkills();
+
+        return ApiResponse::success($softSkill, 'Soft skills indexed with success!', 200);
     }
 }
 

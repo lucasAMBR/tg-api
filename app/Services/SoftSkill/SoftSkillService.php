@@ -112,7 +112,7 @@ class SoftSkillService
 
         // Perfil baseado no usuário autenticado
         $profile = ProfileHelper::getUserProfileByRole($authUser);
- 
+
         foreach($data['soft_skills'] as $softSkill) {
             // Armazeno a definição de cada soft skill
             SoftSkill::findOrFail($softSkill['soft_skill_id']);
@@ -120,9 +120,29 @@ class SoftSkillService
             CompanySoftSkill::create([
                 'soft_skill_id' => $softSkill['soft_skill_id'],
                 'company_profile_id' => $profile->id
-            ]); 
-            
-            
+            ]);
+
+        }
+
+        $profile->refresh();
+
+        return CompanySoftSkillResource::collection($profile->company_soft_skills);
+    }
+
+    public function updateCompanySoftSkills(array $data) {
+
+        $authUser = Auth::user();
+
+        $profile = ProfileHelper::getUserProfileByRole($authUser);
+
+        foreach($data['soft_skills'] as $softSkill) {
+
+            $item = CompanySoftSkill::where('id', $data['id']);
+
+            $item->update([
+                'soft_skill_id' => $softSkill['soft_skill_id']
+            ]);
+
         }
 
         $profile->refresh();
@@ -130,4 +150,18 @@ class SoftSkillService
         return CompanySoftSkillResource::collection($profile->company_soft_skills);
 
     }
+
+    public function destroyCompanySoftSkills(CompanySoftSkill $companySoft) {
+        //
+    }
+
+    public function indexCompanySoftSkills() {
+
+        $authUser = Auth::user();
+        $profile = ProfileHelper::getUserProfileByRole($authUser);
+
+        return CompanySoftSkill::query()->where('company_profile_id', $profile->id)->get();
+
+    }
+
 }
