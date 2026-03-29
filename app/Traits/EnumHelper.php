@@ -34,4 +34,22 @@ trait EnumHelper
             array_map(fn($case) => method_exists($case, 'label') ? $case->label() : $case->name, self::cases())
         );
     }
+
+    public static function labelFromValue(string|int|null $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        $case = self::tryFrom($value);
+
+        if (!$case) {
+            return null;
+        }
+
+        return method_exists($case, 'label')
+            ? $case->label()
+            : $case->name;
+    }
+
 }

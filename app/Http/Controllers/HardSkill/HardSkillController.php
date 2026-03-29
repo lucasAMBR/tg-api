@@ -22,6 +22,13 @@ class HardSkillController extends Controller
         return ApiResponse::success($hardSkills, "Hard skills listed with success!");
     }
 
+    public function show(HardSkill $hardSkill)
+    {
+        $skill = $this->hardSkillService->show($hardSkill);
+
+        return ApiResponse::success($skill, "Hard skill found with success!");
+    }
+
     public function store(StoreHardSkillRequest $request)
     {
         $hardSkill = $this->hardSkillService->store($request->validated());
