@@ -24,14 +24,14 @@ class UpdateCompanySoftSKillRequest extends FormRequest
         // dd('erro aq');
         return [
             'soft_skills' => ['sometimes', 'array'],
-            'soft_skills.*.id' => ['required', 'string', 'exists:company_soft_skills,id'],
+            // 'soft_skills.*.id' => ['required', 'string', 'exists:company_soft_skills,id'],
             'soft_skills.*.soft_skill_id' => ['sometimes', 'string', 'exists:soft_skills,id']
         ];
     }
 
-    public function prepareForValidation() {
-        return $this->merge([
-            'id' => $this->route('id')
-        ]);
-    }
+    // public function prepareForValidation() {
+    //     return $this->merge([
+    //         'id' => $this->route('id')
+    //     ]);
+    // }
 }

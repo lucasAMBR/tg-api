@@ -130,17 +130,14 @@ class SoftSkillService
         return CompanySoftSkillResource::collection($profile->company_soft_skills);
     }
 
-    public function updateCompanySoftSkills(array $data) {
+    public function updateCompanySoftSkills(array $data, CompanySoftSkill $companySoft) {
 
         $authUser = Auth::user();
-
         $profile = ProfileHelper::getUserProfileByRole($authUser);
 
         foreach($data['soft_skills'] as $softSkill) {
 
-            $item = CompanySoftSkill::where('id', $data['id']);
-
-            $item->update([
+            $companySoft->where('id', $companySoft->id)->update([
                 'soft_skill_id' => $softSkill['soft_skill_id']
             ]);
 
