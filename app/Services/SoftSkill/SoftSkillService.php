@@ -13,6 +13,7 @@ use App\Models\DevProfile;
 use App\Models\DevSoftSkill;
 use App\Models\SoftSkill;
 use App\Models\SoftSkillLevelResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 
 class SoftSkillService
@@ -152,7 +153,16 @@ class SoftSkillService
     }
 
     public function destroyCompanySoftSkills(CompanySoftSkill $companySoft) {
-        //
+
+        $authUser = Auth::user();
+        $profile = ProfileHelper::getUserProfileByRole($authUser);
+
+        if($companySoft->company_profile_id !== $profile->id) {
+            throw new AuthorizationException();
+        }
+
+        return $companySoft->where('id', $companySoft->id)->delete();
+
     }
 
     public function indexCompanySoftSkills() {
