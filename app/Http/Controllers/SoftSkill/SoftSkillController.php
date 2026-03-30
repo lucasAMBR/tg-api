@@ -9,8 +9,7 @@ use App\Http\Requests\SoftSkill\StoreCompanySoftSkillRequest;
 use App\Http\Requests\SoftSkill\StoreDevSoftSkillRequest;
 use App\Http\Requests\SoftSkill\UpdateCompanySoftSKillRequest;
 use App\Http\Requests\SoftSkill\UpdateDevSoftSkillRequest;
-use App\Models\CompanySoftSkill;
-use App\Models\SoftSkill;
+use App\Models\DevProfile;
 use App\Services\SoftSkill\SoftSkillService;
 class SoftSkillController extends Controller
 {
@@ -21,6 +20,12 @@ class SoftSkillController extends Controller
         $softSkill = $this->softSkillService->index($request->validated());
 
         return ApiResponse::success($softSkill, "Soft skills listed with success!");
+    }
+
+    public function listDevSoftSkill(DevProfile $profile){
+        $softSkill = $this->softSkillService->getDevSoftSkillsByProfileId($profile);
+
+        return ApiResponse::success($softSkill, "Dev soft skills found!");
     }
 
     public function storeDevSoftSkills(StoreDevSoftSkillRequest $request)

@@ -33,9 +33,15 @@ class HardSkillService
                         });
                 });
             })
+            ->orderBy('created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
 
         return new HardSkillCollection($hardSkills);
+    }
+
+    public function show(HardSkill $hardSkill)
+    {
+        return new HardSkillResource($hardSkill);
     }
 
     public function store(array $data): HardSkillResource

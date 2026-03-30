@@ -99,6 +99,17 @@ class SoftSkillService
         return DevSoftSkillResource::collection($profile->dev_soft_skills);
     }
 
+    public function getDevSoftSkillsByProfileId(DevProfile $devProfile){
+        $softSkills = DevSoftSkill::query()
+            ->select('dev_soft_skill.*')
+            ->join('soft_skill_level_responses', 'dev_soft_skill.soft_skill_level_response_id', '=', 'soft_skill_level_responses.id')
+            ->where('dev_soft_skill.dev_profile_id', $devProfile->id)
+            ->orderBy('soft_skill_level_responses.evaluation_weight', 'desc')
+            ->get();
+
+        return DevSoftSkillResource::collection($softSkills);
+    }
+
     public function getPointLimitBasedOnSeniorityLevel(DevProfile $profile): int
     {
         $limits = SeniorityLevelEnum::softSkillsPointLimit();
