@@ -57,7 +57,8 @@ class RoleSeeder extends Seeder
             'company_soft_skill.create',
             'company_soft_skill.update',
             'company_soft_skill.view',
-            'company_soft_skill.delete'
+            'company_soft_skill.delete',
+            'company_job_vacancy.create'
         ]);
 
         $devRole = Role::firstOrCreate([

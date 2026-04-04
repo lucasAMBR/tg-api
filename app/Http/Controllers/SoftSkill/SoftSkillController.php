@@ -9,6 +9,7 @@ use App\Http\Requests\SoftSkill\StoreCompanySoftSkillRequest;
 use App\Http\Requests\SoftSkill\StoreDevSoftSkillRequest;
 use App\Http\Requests\SoftSkill\UpdateCompanySoftSKillRequest;
 use App\Http\Requests\SoftSkill\UpdateDevSoftSkillRequest;
+use App\Models\CompanySoftSkill;
 use App\Models\DevProfile;
 use App\Services\SoftSkill\SoftSkillService;
 class SoftSkillController extends Controller

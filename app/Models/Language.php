@@ -12,6 +12,9 @@ class Language extends Model
 
     use HasUuidV7, SoftDeletes;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'name',
         'slug',
@@ -28,4 +31,14 @@ class Language extends Model
         return $this->belongsToMany(CompanyProject::class, 'language_company_project');
     }
 
-}   
+    public function jobVacancies(): BelongsToMany {
+        return $this->belongsToMany(JobVacancy::class,
+            'job_vacancy_languages',
+            'languages_id',
+            'job_vacancy_id'
+        )
+        ->using(JobVacancyLanguage::class)
+        ->withPivot('language_level');
+    }
+
+}
