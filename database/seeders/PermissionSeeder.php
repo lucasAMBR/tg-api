@@ -53,6 +53,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'company_soft_skill.delete', 'guard_name' => 'api'],
 
             ['name' => 'company_job_vacancy.create', 'guard_name' => 'api'],
+            ['name' => 'company_job_vacancy.view', 'guard_name' => 'api'],
 
             ['name' => 'company_profile.view', 'guard_name' => 'api'],
             ['name' => 'company_profile.create', 'guard_name' => 'api'],

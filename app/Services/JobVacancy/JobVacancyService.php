@@ -3,12 +3,40 @@
 namespace App\Services\JobVacancy;
 
 use App\Models\JobVacancy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class JobVacancyService {
 
-    public function index() {
-        //
+    public function index(array $data) {
+
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 15;
+        $search = $data['search'] ?? null;
+
+        $jobVacancy = JobVacancy::query()->with('softSkill', 'languages')
+        ->when($search, function(Builder $query, $search) {
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'ILIKE', "%{$search}%")
+                ->orWhere('contract_type', 'ILIKE', "%{$search}%")
+                ->orWhere('seniority_level', 'ILIKE', "%{$search}%")
+                // Colocar busca pelo nivei da linguagem
+                ->orWhereHas('languages', function($q) use ($search) {
+                    $q->where('name', 'ILIKE', "%{$search}%");
+                })
+                ->orWhereHas('softSkill', function($q) use ($search) {
+                    $q->where('name', 'ILIKE', "%{$search}%");
+                });
+            });
+        })->paginate(
+            $perPage,
+            ['*'],
+            'page',
+            $page
+        );
+
+        return $jobVacancy;
+
     }
 
     public function store(Array $data){

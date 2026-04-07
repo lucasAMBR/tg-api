@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobVacancy extends Model
 {
-    use SoftDeletes, HasUuidV7;
+    use HasUuidV7;
 
     protected $fillable = [
         'title',
