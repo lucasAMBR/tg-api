@@ -72,15 +72,28 @@ class JobVacancyService {
 
     }
 
-    public function show() {
-        //
+    public function show(JobVacancy $jobVacancy) {
+
+        // load() porque ja carrega a relação sem precisar consultar novamente o banco
+        return $jobVacancy->load(['softSkill', 'languages']);
+
     }
 
     public function update() {
         //
     }
 
-    public function delete() {
-        //
+    public function destroy(JobVacancy $jobVacancy) {
+
+        return DB::transaction(function() use($jobVacancy) {
+
+            $jobVacancy->delete();
+            $jobVacancy->languages()->detach();
+            $jobVacancy->softSkill()->detach();
+
+            return $jobVacancy;
+
+        });
+
     }
 }

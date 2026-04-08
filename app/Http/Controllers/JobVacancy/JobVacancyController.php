@@ -8,6 +8,7 @@ use App\Http\Requests\JobVacancy\IndexJobVacancyRequest;
 use App\Http\Requests\JobVacancy\StoreJobVacancyRequest;
 use App\Http\Resources\JobVacancy\JobVacancyCollection;
 use App\Http\Resources\JobVacancy\JobVacancyResource;
+use App\Models\JobVacancy;
 use App\Services\JobVacancy\JobVacancyService;
 
 class JobVacancyController extends Controller
@@ -35,16 +36,28 @@ class JobVacancyController extends Controller
         );
     }
 
-    public function show() {
+    public function show(JobVacancy $jobVacancy) {
 
+        $data = $this->jobVacancy->show($jobVacancy);
+        return ApiResponse::success(
+            new JobVacancyResource($data),
+            'Job vacancy indexed with success!',
+            200
+        );
     }
 
     public function update() {
 
     }
 
-    public function destroy() {
+    public function destroy(JobVacancy $jobVacancy) {
 
+        $this->jobVacancy->destroy($jobVacancy);
+        return ApiResponse::success(
+            null,
+            'Job vacancy deleted with success!',
+            200
+        );
     }
 
 }
