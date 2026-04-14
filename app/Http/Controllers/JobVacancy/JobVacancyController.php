@@ -6,6 +6,7 @@ use App\Builder\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobVacancy\IndexJobVacancyRequest;
 use App\Http\Requests\JobVacancy\StoreJobVacancyRequest;
+use App\Http\Requests\JobVacancy\UpdateJobVacancyRequest;
 use App\Http\Resources\JobVacancy\JobVacancyCollection;
 use App\Http\Resources\JobVacancy\JobVacancyResource;
 use App\Models\JobVacancy;
@@ -30,7 +31,7 @@ class JobVacancyController extends Controller
 
         $data = $this->jobVacancy->store($request->validated());
         return ApiResponse::success(
-            JobVacancyResource::collection($data),
+            new JobVacancyResource($data),
             'Job vacancy created with success!',
             201
         );
@@ -46,7 +47,14 @@ class JobVacancyController extends Controller
         );
     }
 
-    public function update() {
+    public function update(UpdateJobVacancyRequest $request, JobVacancy $jobVacancy) {
+
+        $data = $this->jobVacancy->update($request->validated(), $jobVacancy);
+        return ApiResponse::success(
+            new JobVacancyResource($data),
+            'Job vacancy updated with success!',
+            200
+        );
 
     }
 

@@ -29,56 +29,66 @@ class UpdateJobVacancyRequest extends FormRequest
     {
         return [
             'title' => [
-                'required',
+                'sometimes',
                 'string'
             ],
             'description' => [
-                'required',
+                'sometimes',
                 'string',
             ],
             'employment_type' => [
-                'required',
+                'sometimes',
                 new Enum(EmploymentType::class)
             ],
             'benefits' => [
-                'required',
+                'sometimes',
                 'array'
             ],
             'benefits.*' => [
-                'required',
+                'sometimes',
                 'string'
             ],
             'estimated_salary' => [
-                'required',
+                'sometimes',
                 'numeric'
             ],
             'contract_type' => [
-                'required',
+                'sometimes',
                 new Enum(ContractType::class)
             ],
             'seniority_level' => [
-                'required',
+                'sometimes',
                 new Enum(SeniorityLevelEnum::class)
             ],
             'languages' => [
-                'required',
+                'sometimes',
                 'array'
             ],
-            'languages.*.languages_id' => [
-                'required',
+            'languages.*.current_languages_id' => [
+                'sometimes',
+                'uuid',
+                'exists:languages,id'
+            ],
+            'languages.*.new_languages_id' => [
+                'sometimes',
                 'uuid',
                 'exists:languages,id'
             ],
             'languages.*.language_level' => [
-                'required',
+                'sometimes',
                 new Enum(HardSkillLevelsEnum::class)
             ],
             'soft_skills' => [
-                'required',
+                'sometimes',
                 'array'
             ],
-            'soft_skills.*.soft_skills_id' => [
-                'required',
+            'soft_skills.*.current_soft_skills_id' => [
+                'sometimes',
+                'string',
+                'exists:soft_skills,id'
+            ],
+            'soft_skills.*.new_soft_skills_id' => [
+                'sometimes',
                 'string',
                 'exists:soft_skills,id'
             ]

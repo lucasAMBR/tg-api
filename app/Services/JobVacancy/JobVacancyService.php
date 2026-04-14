@@ -79,8 +79,61 @@ class JobVacancyService {
 
     }
 
-    public function update() {
-        //
+    public function update(array $data, JobVacancy $jobVacancy) {
+
+        return DB::transaction(function() use ($data, $jobVacancy) {
+
+            // VAGA
+            $jobVacancy->update([
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'employment_type' => $data['employment_type'],
+                'benefits' => $data['benefits'],
+                'estimated_salary' => $data['estimated_salary'],
+                'contract_type' => $data['contract_type'],
+                'seniority_level' => $data['seniority_level'],
+            ]);
+
+            // LINGUAGEM E NIVEL
+            foreach($data['languages'] ?? [] as $language) {
+
+                // Atualiza a linguagem e caso tenha o nível atualiza também
+                if(
+                    isset($language['new_languages_id']) &&
+                    isset($language['current_languages_id'])
+                ) {
+                    $jobVacancy->languages()->detach($language['current_languages_id']);
+                    $jobVacancy->languages()->attach($language['new_languages_id'],
+                    [
+                        'language_level' => $language['language_level'] ?? null
+                    ]);
+                }
+
+                // Atualiza somente o nivel caso não tenha o id da nova
+                elseif(
+                    isset($language['language_level']) &&
+                    isset($language['current_languages_id'])
+                ) {
+                    $jobVacancy->languages()->updateExistingPivot($language['current_languages_id'], // Pede o id de comparação e depois um array associativo com os campos
+                    ['language_level' => $language['language_level']]);
+                }
+
+            }
+
+            // SOFT SKILL
+            foreach($data['soft_skills'] ?? [] as $softSkill) {
+                if(
+                    isset($softSkill['new_soft_skills_id']) &&
+                    isset($softSkill['current_soft_skills_id'])
+                ) {
+                    $jobVacancy->softSkill()->detach($softSkill['current_soft_skills_id']);
+                    $jobVacancy->softSkill()->attach($softSkill['new_soft_skills_id']);
+                }
+            }
+
+            return $jobVacancy->fresh(['softSkill', 'languages']);
+
+        });
     }
 
     public function destroy(JobVacancy $jobVacancy) {

@@ -14,6 +14,9 @@ class JobVacancy extends Model
 {
     use HasUuidV7;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'title',
         'description',
