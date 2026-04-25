@@ -71,6 +71,15 @@ class AddressService
         });
     }
 
+    public function showUserAddress(): AddressResource
+    {
+        $user = Auth::user();
+
+        $profile = ProfileHelper::getUserProfileByRole($user);
+
+        return new AddressResource($profile->address);
+    }
+
     private function searchAddressInApi(string $cep): array
     {
         $address = Http::get(env('AWESOME_API_URL') . $cep . "?token=" . env('AWESOME_API_KEY'));

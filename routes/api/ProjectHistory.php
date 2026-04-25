@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->group(function () {
     Route::get('/', [ProjectHistoryController::class, 'index']);
     Route::post('/', [ProjectHistoryController::class, 'store'])->middleware('can:project_history.create');
+    Route::get("/{projectHistory}", [ProjectHistoryController::class, 'show']);
     Route::patch('/{projectHistory}', [ProjectHistoryController::class, 'update'])->middleware('can:project_history.update');
     Route::delete('/{projectHistory}', [ProjectHistoryController::class, 'delete'])->middleware('can:project_history.delete');
 

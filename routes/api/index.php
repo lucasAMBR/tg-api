@@ -29,3 +29,5 @@ Route::prefix('soft-skill')->group(base_path('routes/api/SoftSkill.php'));
 Route::prefix('enum')->group(base_path('routes/api/Enums.php'));
 
 Route::prefix('job-vacancy')->group(base_path('routes/api/JobVacancy.php'));
+
+Route::prefix('user')->group(base_path('routes/api/User.php'));

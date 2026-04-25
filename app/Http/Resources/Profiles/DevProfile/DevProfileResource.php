@@ -26,10 +26,14 @@ class DevProfileResource extends JsonResource
             'user_id' => $this->user_id,
             'name' => $this->name,
             'bio' => $this->bio,
+            'cpf' => $this->cpf,
             'phone' => $this->phone,
-            'seniority_level' => SeniorityLevelEnum::from($this->seniority_level)->label(),
+            'seniority_level' => $this->seniority_level,
+            'seniority_level_label' => SeniorityLevelEnum::from($this->seniority_level)->label(),
             'birthdate' => $this->birthdate,
             'score' => $this->score,
+            'open_to_work' => $this->open_to_work,
+            'open_to_relocation' => $this->open_to_relocation,
             'employment_histories' => $this->whenLoaded('employment_histories', function () {
                 return EmploymentHistoryResource::collection($this->employment_histories);
             }),

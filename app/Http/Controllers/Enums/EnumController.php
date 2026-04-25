@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Enums;
 
 use App\Builder\ApiResponse;
+use App\Enums\ContractType;
+use App\Enums\DegreeLevelEnum;
+use App\Enums\EmploymentType;
 use App\Enums\HardSkillLevelsEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class EnumController extends Controller
 {
@@ -18,5 +20,20 @@ class EnumController extends Controller
     public function listHardSkillLevelEnumCases()
     {
         return ApiResponse::success(HardSkillLevelsEnum::options(), "hard skill level listed with success!");
+    }
+
+    public function listEmploymentType()
+    {
+        return ApiResponse::success(EmploymentType::options(), "employment type listed with success!");
+    }
+
+    public function listContractType()
+    {
+        return ApiResponse::success(ContractType::options(), "contract type listed with success!");
+    }
+
+    public function listDegreeLevels()
+    {
+        return ApiResponse::success(DegreeLevelEnum::options(), "Degree level listed with success");
     }
 }

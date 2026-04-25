@@ -65,6 +65,10 @@ class ProjectHistoryService
         });
     }
 
+    public function show(ProjectHistory $projectHistory){
+        return new ProjectHistoryResource($projectHistory);
+    }
+
     public function update(ProjectHistory $projectHistory, array $data): ProjectHistoryResource
     {
         return DB::transaction(function () use ($projectHistory, $data) {

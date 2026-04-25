@@ -24,6 +24,13 @@ class AddressController extends Controller
         return ApiResponse::success($new_address, "Address registered with success!", 201);
     }
 
+    public function showAuthUserAddress()
+    {
+        $address = $this->addressService->showUserAddress();
+
+        return ApiResponse::success($address, "Address founded");
+    }
+
     public function update(Address $address, UpdateAddressRequest $request)
     {
         $this->authorize('update', $address);

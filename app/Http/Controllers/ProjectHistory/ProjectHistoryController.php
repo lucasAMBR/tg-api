@@ -26,6 +26,12 @@ class ProjectHistoryController extends Controller
         return ApiResponse::success($projectHistories, "Project History indexed with success!");
     }
 
+    public function show(ProjectHistory $projectHistory){
+        $projectHistoryItem = $this->projectHistoryService->show($projectHistory);
+
+        return ApiResponse::success($projectHistoryItem, "Project History Founded!");
+    }
+
     public function store(StoreProjectHistoryRequest $request)
     {
         $projectHistory = $this->projectHistoryService->store($request->validated());
