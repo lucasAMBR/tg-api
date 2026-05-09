@@ -20,12 +20,12 @@ class CompanyProjectCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-            'paginate' => [
+            'pagination' => [
                 'total' => $this->total(),
                 'count' => $this->count(),
                 'per_page' => $this->perPage(),
                 'current_page' => $this->currentPage(),
-                'last_page' => $this->lastPage(),
+                'total_pages' => $this->lastPage(),
             ]
         ];
     }

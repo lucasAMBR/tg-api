@@ -7,6 +7,7 @@ use App\Enums\ContractType;
 use App\Enums\DegreeLevelEnum;
 use App\Enums\EmploymentType;
 use App\Enums\HardSkillLevelsEnum;
+use App\Enums\OperationalSegmentEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Http\Controllers\Controller;
 
@@ -35,5 +36,10 @@ class EnumController extends Controller
     public function listDegreeLevels()
     {
         return ApiResponse::success(DegreeLevelEnum::options(), "Degree level listed with success");
+    }
+
+    public function listOperationalSegments()
+    {
+        return ApiResponse::success(OperationalSegmentEnum::options(), "Operational Segments listed with success");
     }
 }

@@ -6,6 +6,7 @@ use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DevProfile extends Model
@@ -58,6 +59,11 @@ class DevProfile extends Model
     public function dev_soft_skills(): HasMany
     {
         return $this->hasMany(DevSoftSkill::class);
+    }
+
+    public function recommendation_preference(): HasOne
+    {
+        return $this->hasOne(RecommendationPreference::class);
     }
 
 }

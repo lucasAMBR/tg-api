@@ -58,6 +58,12 @@ class UpdateUserRequest extends FormRequest
                     ->numbers()
                     ->symbols()
             ],
+            'profile_pic' => [
+                'sometimes',
+                'image',
+                'mimes:jpeg,jpg,png,webp',
+                'max:10000'
+            ],
         ];
     }
 }

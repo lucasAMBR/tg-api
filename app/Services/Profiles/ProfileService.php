@@ -2,12 +2,15 @@
 
 namespace App\Services\Profiles;
 
+use App\Events\DevProfileCreated;
 use App\Http\Resources\Profiles\ClientProfile\ClientProfileResource;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
+use App\Listeners\CreateRecommendationPreference;
 use App\Models\ClientProfile;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
+use App\Models\RecommendationPreference;
 use Faker\Provider\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +34,8 @@ class ProfileService
                 'score' => $data['score'] ?? 0,
                 'seniority_level' => $data['seniority_level'],
             ]);
+
+            event(new DevProfileCreated($devProfile));
 
             return new DevProfileResource($devProfile);
         });

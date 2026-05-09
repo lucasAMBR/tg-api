@@ -8,3 +8,4 @@ Route::get('/hard-skill-level', [EnumController::class, 'listHardSkillLevelEnumC
 Route::get('/contract-type', [EnumController::class, 'listContractType']);
 Route::get('/employment-type', [EnumController::class, 'listEmploymentType']);
 Route::get("/degree-level", [EnumController::class, 'listDegreeLevels']);
+Route::get("/operational-segment", [EnumController::class, 'listOperationalSegments']);

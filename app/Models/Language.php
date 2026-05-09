@@ -41,4 +41,13 @@ class Language extends Model
         ->withPivot('language_level');
     }
 
+    public function blacklistedInPreferences(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            RecommendationPreference::class,
+            'recommendation_preferences_black_list',
+            'language_id',
+            'recommendation_preference_id'
+        );
+    }
 }
