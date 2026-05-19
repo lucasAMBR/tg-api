@@ -14,6 +14,16 @@ enum SeniorityLevelEnum: string
     case SENIOR = "senior";
     case STAFF = "staff";
 
+    public function i18nKey() {
+        return match($this){
+            self::INTERN => "enum.seniority_level.intern",
+            self::JUNIOR => "enum.seniority_level.junior",
+            self::MID_LEVEL => "enum.seniority_level.mid_level",
+            self::SENIOR => "enum.seniority_level.senior",
+            self::STAFF => "enum.seniority_level.staff",
+        };
+    }
+
     public function label(): string
     {
         return match($this){

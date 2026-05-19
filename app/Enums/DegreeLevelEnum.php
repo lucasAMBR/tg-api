@@ -17,6 +17,19 @@ enum DegreeLevelEnum: string
     case DOCTORATE = "doctorate";
     case POST_DOCTORATE = "post_doctorate";
 
+    public function i18nKey() {
+        return match($this){
+            self::HIGH_SCHOOL => "enum.degree_level.high_school",
+            self::TECHNICAL => "enum.degree_level.technical",
+            self::ASSOCIATE => "enum.degree_level.associate",
+            self::BACHELORS => "enum.degree_level.bachelors",
+            self::POST_GRADUATE => "enum.degree_level.post_graduate",
+            self::MASTERS => "enum.degree_level.masters",
+            self::DOCTORATE => "enum.degree_level.doctorate",
+            self::POST_DOCTORATE => "enum.degree_level.post_doctorate",
+        };
+    }
+
     public function label(): string
     {
         return match($this){

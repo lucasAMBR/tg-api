@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Profiles;
 
 use App\Builder\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanyProfile\SyncCompanyStackRequest;
 use App\Http\Requests\Profiles\ClientProfiles\StoreClientProfileRequest;
 use App\Http\Requests\Profiles\ClientProfiles\UpdateClientProfileRequest;
 use App\Http\Requests\Profiles\CompanyProfiles\StoreCompanyProfileRequest;
@@ -62,6 +63,20 @@ class ProfileController extends Controller
 
         return ApiResponse::success($profile, "Profile updated with success", 200);
 
+    }
+
+    public function syncCompanyStack(CompanyProfile $company, SyncCompanyStackRequest $request)
+    {
+        $profile = $this->profileService->syncCompanyProfileStacks($company, $request->validated());
+
+        return ApiResponse::success($profile, "Stack sync with success!");
+    }
+
+    public function getCompanyStack(CompanyProfile $company)
+    {
+        $stack = $this->profileService->getCompanyStack($company);
+
+        return ApiResponse::success($stack, "Stack found!");
     }
 
     public function updateClientProfile(UpdateClientProfileRequest $request, ClientProfile $client) {

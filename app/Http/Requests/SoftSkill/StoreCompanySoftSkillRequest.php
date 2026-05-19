@@ -24,11 +24,11 @@ class StoreCompanySoftSkillRequest extends FormRequest
     {
         // dd('para aq');
         return [
-            
+
             // Passa um array de soft skill com os IDs das soft skills
             'soft_skills' => ['required', 'array'],
-            // Dentro do array de soft skill eu passo o ID das soft skills 
-            'soft_skills.*.soft_skill_id' => ['required', 'string', 'exists:soft_skills,id']
+            // Dentro do array de soft skill eu passo o ID das soft skills
+            'soft_skills.*' => ['string', 'exists:soft_skills,id']
 
         ];
     }

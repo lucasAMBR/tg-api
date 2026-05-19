@@ -3,6 +3,9 @@
 namespace App\Services\Profiles;
 
 use App\Events\DevProfileCreated;
+use App\Exceptions\ApiException;
+use App\Http\Resources\Language\LanguageCollection;
+use App\Http\Resources\Language\LanguageResource;
 use App\Http\Resources\Profiles\ClientProfile\ClientProfileResource;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
@@ -59,6 +62,26 @@ class ProfileService
 
             return new CompanyProfileResource($companyProfile);
         });
+    }
+
+    public function syncCompanyProfileStacks(CompanyProfile $company, Array $data)
+    {
+        $authUser = Auth::user();
+
+        if($authUser->id !== $company->user_id){
+            throw new ApiException("You cannot sync someone company stack!");
+        }
+
+        $languageList = $data['languages'];
+
+        $company->languages()->sync($languageList);
+
+        return new CompanyProfileResource($company);
+    }
+
+    public function getCompanyStack(CompanyProfile $company)
+    {
+        return LanguageResource::collection($company->languages);
     }
 
     public function storeClientProfile(Array $data)

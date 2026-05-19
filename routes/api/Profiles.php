@@ -14,6 +14,8 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', [ProfileController::class, 'storeCompanyProfile'])->middleware('can:company_profile.create');
         Route::patch('/{company}', [ProfileController::class, 'updateCompanyProfile'])->middleware('can:company_profile.update');
         Route::delete('/{company}', [ProfileController::class, 'destroyCompanyProfile'])->middleware('can:company_profile.delete');
+        Route::get('/stack/{company}', [ProfileController::class, 'getCompanyStack']);
+        Route::post('/stack/sync/{company}', [ProfileController::class, 'syncCompanyStack'])->middleware('can:company_stack.sync');
     });
 
     Route::prefix('/client')->group(function () {

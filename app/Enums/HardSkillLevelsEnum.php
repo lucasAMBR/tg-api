@@ -15,6 +15,17 @@ enum HardSkillLevelsEnum: string
     case EXPERT = "expert";
     case AUTHORITY = "authority";
 
+    public function i18nKey() {
+        return match($this){
+            self::FUNDAMENTALS => "enum.hard_skill_levels.fundamentals",
+            self::BASIC => "enum.hard_skill_levels.basic",
+            self::INTERMEDIATE => "enum.hard_skill_levels.intermediate",
+            self::ADVANCED => "enum.hard_skill_levels.advanced",
+            self::EXPERT => "enum.hard_skill_levels.expert",
+            self::AUTHORITY => "enum.hard_skill_levels.authority",
+        };
+    }
+
     public function label(): string
     {
         return match($this){

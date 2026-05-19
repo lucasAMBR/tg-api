@@ -41,6 +41,11 @@ class Language extends Model
         ->withPivot('language_level');
     }
 
+    public function company_profiles(): BelongsToMany
+    {
+        return $this->belongsToMany(CompanyProfile::class);
+    }
+
     public function blacklistedInPreferences(): BelongsToMany
     {
         return $this->belongsToMany(

@@ -13,6 +13,7 @@ trait EnumHelper
         return array_map(fn($case) => [
             'value' => $case->value,
             'label' => method_exists($case, 'label') ? $case->label() : $case->name,
+            'i18nKey' => method_exists($case, 'i18nKey') ? $case->i18nKey() : null,
         ], self::cases());
     }
 

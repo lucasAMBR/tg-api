@@ -38,4 +38,21 @@ enum OperationalSegmentEnum: string
             self::BANKING => "Banking & Financial Services",
         };
     }
+
+    public function i18nKey() {
+        return match($this){
+            self::E_COMMERCE => "enum.operational_segment.e_commerce",
+            self::FINTECH => "enum.operational_segment.fintech",
+            self::HEALTHCARE => "enum.operational_segment.healthcare",
+            self::EDTECH => "enum.operational_segment.edtech",
+            self::LOGISTICS => "enum.operational_segment.logistics",
+            self::CYBERSECURITY => "enum.operational_segment.cybersecurity",
+            self::GAME_DEV => "enum.operational_segment.game_dev",
+            self::CLOUD_COMPUTING => "enum.operational_segment.cloud_computing",
+            self::ARTIFICIAL_INTELLIGENCE => "enum.operational_segment.artificial_intelligence",
+            self::SOFTWARE_HOUSE => "enum.operational_segment.software_house",
+            self::RETAIL => "enum.operational_segment.retail",
+            self::BANKING => "enum.operational_segment.banking",
+        };
+    }
 }

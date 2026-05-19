@@ -13,6 +13,14 @@ enum EmploymentType: string
     case HYBRID = "hybrid";
     case REMOTE = "remote";
 
+    public function i18nKey() {
+        return match($this){
+            self::ON_SITE => "enum.employment_type.on_site",
+            self::HYBRID => "enum.employment_type.hybrid",
+            self::REMOTE => "enum.employment_type.remote",
+        };
+    }
+
     public function label(): string
     {
         return match($this){

@@ -9,12 +9,14 @@ use App\Http\Resources\CompanySoftSkill\CompanySoftSkillResource;
 use App\Http\Resources\DevSoftSkill\DevSoftSkillResource;
 use App\Http\Resources\SoftSkill\SoftSkillResource;
 use App\Models\CompanySoftSkill;
+use App\Models\CompanyProfile;
 use App\Models\DevProfile;
 use App\Models\DevSoftSkill;
 use App\Models\SoftSkill;
 use App\Models\SoftSkillLevelResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SoftSkillService
 {
@@ -117,69 +119,40 @@ class SoftSkillService
         return $limits[$profile->seniority_level] ?? 25;
     }
 
-    public function storeCompanySoftSkills(array $data) {
-
-        // Usuário autenticado
+    public function syncCompanySoftSkills(CompanyProfile $company, array $data)
+    {
         $authUser = Auth::user();
 
-        // Perfil baseado no usuário autenticado
-        $profile = ProfileHelper::getUserProfileByRole($authUser);
-
-        foreach($data['soft_skills'] as $softSkill) {
-            // Armazeno a definição de cada soft skill
-            SoftSkill::findOrFail($softSkill['soft_skill_id']);
-
-            CompanySoftSkill::create([
-                'soft_skill_id' => $softSkill['soft_skill_id'],
-                'company_profile_id' => $profile->id
-            ]);
-
-        }
-
-        $profile->refresh();
-
-        return CompanySoftSkillResource::collection($profile->company_soft_skills);
-    }
-
-    public function updateCompanySoftSkills(array $data, CompanySoftSkill $companySoft) {
-
-        $authUser = Auth::user();
-        $profile = ProfileHelper::getUserProfileByRole($authUser);
-
-        foreach($data['soft_skills'] as $softSkill) {
-
-            $companySoft->where('id', $companySoft->id)->update([
-                'soft_skill_id' => $softSkill['soft_skill_id']
-            ]);
-
-        }
-
-        $profile->refresh();
-
-        return CompanySoftSkillResource::collection($profile->company_soft_skills);
-
-    }
-
-    public function destroyCompanySoftSkills(CompanySoftSkill $companySoft) {
-
-        $authUser = Auth::user();
-        $profile = ProfileHelper::getUserProfileByRole($authUser);
-
-        if($companySoft->company_profile_id !== $profile->id) {
+        if($authUser->id !== $company->user_id){
             throw new AuthorizationException();
         }
 
-        return $companySoft->where('id', $companySoft->id)->delete();
+        return DB::transaction(function () use ($company, $data) {
+            $softSkillIds = collect($data['soft_skills'])
+                ->unique()
+                ->values()
+                ->all();
 
+            CompanySoftSkill::where('company_profile_id', $company->id)->delete();
+
+            foreach($softSkillIds as $softSkillId) {
+                CompanySoftSkill::create([
+                    'soft_skill_id' => $softSkillId,
+                    'company_profile_id' => $company->id,
+                ]);
+            }
+
+            return CompanySoftSkillResource::collection(
+                CompanySoftSkill::with('soft_skills')->where('company_profile_id', $company->id)->get()
+            );
+        });
     }
 
-    public function indexCompanySoftSkills() {
-
-        $authUser = Auth::user();
-        $profile = ProfileHelper::getUserProfileByRole($authUser);
-
-        return CompanySoftSkill::query()->where('company_profile_id', $profile->id)->get();
-
+    public function indexCompanySoftSkills(CompanyProfile $company)
+    {
+        return CompanySoftSkillResource::collection(
+            CompanySoftSkill::with('soft_skills')->where('company_profile_id', $company->id)->get()
+        );
     }
 
 }
