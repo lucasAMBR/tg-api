@@ -45,6 +45,10 @@ class DatabaseSeeder extends Seeder
             'client@example.com',
             'client'
         );
+        
+        $this->call([
+            DevPreferencesSeeder::class
+        ]);
     }
 
     private function createUserIfNotExists(

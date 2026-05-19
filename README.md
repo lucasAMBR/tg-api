@@ -1,66 +1,137 @@
-# Laravel API Starter Pack
+# 🚀 Instalação do Projeto
 
-> O Laravel API Starter Pack é uma fundação robusta e opinativa projetada para acelerar o desenvolvimento de APIs modernas. Ele elimina o trabalho repetitivo de configuração inicial, entregando uma arquitetura pronta para produção com foco em segurança e escalabilidade.
+Este guia descreve todos os passos necessários para configurar e executar o projeto localmente.
 
-![License](https://img.shields.io/badge/license-Unlicense-green) 
-![Version](https://img.shields.io/badge/version-1.0.0-blue) 
-![Language](https://img.shields.io/badge/language-PHP-yellow) 
-![Framework](https://img.shields.io/badge/framework-Laravel-orange)
+---
 
-## 📋 Table of Contents
+# 📋 Requisitos
 
-- [Features](#features)
-- [Installation](#installation)
-- [Tech Stack](#tech-stack)
+Antes de iniciar, certifique-se de possuir os seguintes requisitos instalados em sua máquina:
 
-## ℹ️ Project Information
+- PHP `8.2^`
+- Composer `2.2^`
+- PostgreSQL `17`
+- Extensão `pgvector`
 
-- **👤 Author:** @lucasAMBR
-- **📦 Version:** 1.0.0
-- **📄 License:** Unlicense
-- **📂 Repository:** [https://github.com/lucasAMBR/laravel-api-starter-pack](https://github.com/lucasAMBR/laravel-api-starter-pack)
+---
 
-## Tech Stack
+# ⚙️ Configuração do Ambiente
 
-- Linguagem: PHP 8.3^
-  
-- Framework: Laravel 12.x
+## 1️⃣ Instalar dependências do PostgreSQL
 
-- Autenticação: Tymon (JWT)
+```bash
+sudo apt install postgresql-server-dev-17 build-essential git
+```
 
-- Banco de Dados: MySQL, PostgreSQL e SQLite.
+---
 
-- Qualidade de Código: PHPUnit para testes unitarios e de feature.
+## 2️⃣ Instalar extensão pgvector
 
-## Features
+Clone o repositório oficial:
 
-Autenticação Completa: Fluxo de autenticação pronto para uso (Login, Register, Logout).
+```bash
+git clone https://github.com/pgvector/pgvector.git
+```
 
-Refresh Tokens: Sistema implementado para renovação de sessões de forma segura.
+Acesse o diretório:
 
-RBAC (Role-Based Access Control): Controle de acesso baseado em funções e permissões pré-configurado.
+```bash
+cd pgvector
+```
 
-Padronização de Respostas: Traits para retorno de JSON seguindo padrões RESTful.
+Compile a extensão:
 
-Segurança: Proteção contra ataques comuns e sanitização de inputs via Form Requests.
+```bash
+make
+```
 
-## Installation
+Instale:
 
-### Clone o repositório:
-git clone https://github.com/seu-usuario/laravel-api-starter-pack.git
+```bash
+sudo make install
+```
 
-### Instale as dependências:
+Reinicie o PostgreSQL:
+
+```bash
+sudo systemctl restart postgresql
+```
+
+---
+
+## 3️⃣ Habilitar extensão no banco
+
+Conecte ao PostgreSQL:
+
+```bash
+psql -h localhost -U <nome-usuario> -d <nome-banco> -W
+```
+
+Execute o comando:
+
+```sql
+CREATE EXTENSION vector;
+```
+
+---
+
+# 📦 Instalação do Projeto Laravel
+
+## 4️⃣ Instalar dependências PHP
+
+```bash
 composer install
+```
 
-### Configure o ambiente:
-cp .env.example .env
-php artisan key:generate
+---
 
-### Adapte o model de usuario conforme a sua aplicação
+## 5️⃣ Configurar arquivo `.env`
 
-### Adapte as migrations e os seeders de roles e permissões
+O projeto já acompanha um arquivo `.env` configurado com as chaves necessárias para execução da aplicação.
 
-### Adapte os testes se for utiliza-los
+Será necessário alterar apenas os campos relacionados ao banco de dados:
 
-### E a base da sua API laravel está pronta
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=nome_do_banco
+DB_USERNAME=usuario_postgres
+DB_PASSWORD=sua_senha
+```
 
+> ⚠️ Certifique-se de que o banco esteja utilizando PostgreSQL 17.
+
+---
+
+## 6️⃣ Criar link simbólico do storage
+
+```bash
+php artisan storage:link
+```
+
+---
+
+## 7️⃣ Executar migrations e seeders
+
+```bash
+php artisan migrate --seed
+```
+
+---
+
+# ✅ Projeto pronto
+
+Após concluir todos os passos acima, o ambiente estará configurado e pronto para utilização.
+
+---
+
+# 🛠️ Comandos Úteis
+
+## Iniciar servidor local
+
+```bash
+php artisan serve
+```
+
+---
