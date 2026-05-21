@@ -18,7 +18,9 @@ class SoftSkillResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'i18n_name_key' => $this->i18n_name_key,
             'description' => $this->description,
+            'i18n_description_key' => $this->i18n_description_key,
             'responses' => $this->whenLoaded('responses', function () {
                 return SoftSkillLevelResponseResource::collection($this->responses);
             }),

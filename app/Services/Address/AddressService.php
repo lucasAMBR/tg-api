@@ -71,13 +71,23 @@ class AddressService
         });
     }
 
-    public function showUserAddress(): AddressResource
+    public function showUserAddress(): array
     {
         $user = Auth::user();
 
         $profile = ProfileHelper::getUserProfileByRole($user);
 
-        return new AddressResource($profile->address);
+        if ($profile->address) {
+            return [
+                'has_address' => true,
+                'address' => new AddressResource($profile->address),
+            ];
+        }
+
+        return [
+            'has_address' => false,
+            'address' => null,
+        ];
     }
 
     private function searchAddressInApi(string $cep): array

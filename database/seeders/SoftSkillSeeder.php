@@ -16,50 +16,72 @@ class SoftSkillSeeder extends Seeder
         $softSkills = [
             [
                 'name' => 'Communication',
-                'description' => 'Ability to clearly express ideas and understand others in verbal and written communication.'
+                'i18n_name_key' => 'soft_skills.communication',
+                'description' => 'Ability to clearly express ideas and understand others in verbal and written communication.',
+                'i18n_description_key' => 'soft_skills.communication_description',
             ],
             [
                 'name' => 'Teamwork',
-                'description' => 'Ability to collaborate effectively with others to achieve common goals.'
+                'i18n_name_key' => 'soft_skills.teamwork',
+                'description' => 'Ability to collaborate effectively with others to achieve shared goals.',
+                'i18n_description_key' => 'soft_skills.teamwork_description',
             ],
             [
                 'name' => 'Problem Solving',
-                'description' => 'Ability to analyze situations and find effective solutions to challenges.'
+                'i18n_name_key' => 'soft_skills.problem_solving',
+                'description' => 'Ability to analyze situations and develop effective solutions.',
+                'i18n_description_key' => 'soft_skills.problem_solving_description',
             ],
             [
                 'name' => 'Adaptability',
-                'description' => 'Ability to adjust to new conditions, technologies, and environments.'
+                'i18n_name_key' => 'soft_skills.adaptability',
+                'description' => 'Ability to adjust to new situations, challenges, and changing environments.',
+                'i18n_description_key' => 'soft_skills.adaptability_description',
             ],
             [
                 'name' => 'Time Management',
-                'description' => 'Ability to prioritize tasks and manage time efficiently to meet deadlines.'
+                'i18n_name_key' => 'soft_skills.time_management',
+                'description' => 'Ability to prioritize tasks and manage time efficiently to meet deadlines.',
+                'i18n_description_key' => 'soft_skills.time_management_description',
             ],
             [
                 'name' => 'Critical Thinking',
-                'description' => 'Ability to evaluate information objectively and make reasoned decisions.'
+                'i18n_name_key' => 'soft_skills.critical_thinking',
+                'description' => 'Ability to evaluate information objectively and make reasoned decisions.',
+                'i18n_description_key' => 'soft_skills.critical_thinking_description',
             ],
             [
                 'name' => 'Leadership',
-                'description' => 'Ability to guide, motivate, and support a team towards achieving goals.'
+                'i18n_name_key' => 'soft_skills.leadership',
+                'description' => 'Ability to guide, motivate, and support a team towards achieving goals.',
+                'i18n_description_key' => 'soft_skills.leadership_description',
             ],
             [
                 'name' => 'Conflict Resolution',
-                'description' => 'Ability to manage and resolve disagreements in a constructive way.'
+                'i18n_name_key' => 'soft_skills.conflict_resolution',
+                'description' => 'Ability to manage and resolve disagreements in a constructive way.',
+                'i18n_description_key' => 'soft_skills.conflict_resolution_description',
             ],
             [
                 'name' => 'Emotional Intelligence',
-                'description' => 'Ability to recognize, understand, and manage your own emotions and those of others.'
+                'i18n_name_key' => 'soft_skills.emotional_intelligence',
+                'description' => 'Ability to recognize, understand, and manage your own emotions and those of others.',
+                'i18n_description_key' => 'soft_skills.emotional_intelligence_description',
             ],
             [
                 'name' => 'Accountability',
-                'description' => 'Ability to take responsibility for actions, decisions, and their outcomes.'
+                'i18n_name_key' => 'soft_skills.accountability',
+                'description' => 'Ability to take responsibility for actions, decisions, and their outcomes.',
+                'i18n_description_key' => 'soft_skills.accountability_description',
             ]
         ];
 
         foreach($softSkills as $softSkill){
             SoftSkill::firstOrCreate([
                 'name' => $softSkill['name'],
-                'description' => $softSkill['description']
+                'i18n_name_key' => $softSkill['i18n_name_key'],
+                'description' => $softSkill['description'],
+                'i18n_description_key' => $softSkill['i18n_description_key']
             ]);
         }
     }

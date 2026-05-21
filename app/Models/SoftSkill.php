@@ -14,7 +14,9 @@ class SoftSkill extends Model
 
     protected $fillable = [
         'name',
-        'description'
+        'i18n_name_key',
+        'description',
+        'i18n_description_key',
     ];
 
     public function responses(): HasMany
