@@ -23,6 +23,18 @@ class StoreDevProfileRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            if ($this->user()?->dev_profile()->exists()) {
+                $validator->errors()->add(
+                    'dev_profile',
+                    'You already have a developer profile.'
+                );
+            }
+        });
+    }
+
     public function rules(): array
     {
         return [
