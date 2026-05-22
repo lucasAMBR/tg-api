@@ -67,4 +67,9 @@ class DevProfile extends Model
         return $this->hasOne(RecommendationPreference::class);
     }
 
+    public function hard_skills(): HasMany
+    {
+        return $this->hasMany(HardSkill::class);
+    }
+
 }

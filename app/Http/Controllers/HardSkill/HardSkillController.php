@@ -9,10 +9,12 @@ use App\Http\Requests\HardSkill\StoreHardSkillRequest;
 use App\Http\Requests\HardSkill\UpdateHardSkillRequest;
 use App\Models\HardSkill;
 use App\Services\HardSkill\HardSkillService;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class HardSkillController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(protected HardSkillService $hardSkillService){}
 
     public function index(IndexHardSkillRequest $request)
@@ -38,6 +40,8 @@ class HardSkillController extends Controller
 
     public function update(UpdateHardSkillRequest $request, HardSkill $hardSkill)
     {
+        $this->authorize('update', $hardSkill);
+
         $hardSkill = $this->hardSkillService->update($hardSkill, $request->validated());
 
         return ApiResponse::success($hardSkill, "Hard Skill updated with success!");
@@ -45,6 +49,8 @@ class HardSkillController extends Controller
 
     public function delete(HardSkill $hardSkill)
     {
+        $this->authorize('delete', $hardSkill);
+
         $this->hardSkillService->delete($hardSkill);
 
         return ApiResponse::success(message: "Hard Skill deleted with success!");

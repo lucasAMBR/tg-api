@@ -2,6 +2,7 @@
 
 namespace App\Services\HardSkill;
 
+use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\HardSkill\HardSkillCollection;
 use App\Http\Resources\HardSkill\HardSkillResource;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class HardSkillService
 {
+    public const MAX_HARD_SKILLS_PER_PROFILE = 10;
+
     public function index(array $data)
     {
         $page = $data['page'] ?? 1;
@@ -49,6 +52,10 @@ class HardSkillService
         $authUser = Auth::user();
 
         $devProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        if ($devProfile->hard_skills()->count() >= self::MAX_HARD_SKILLS_PER_PROFILE) {
+            throw new ApiException('You cannot register more than 10 hard skills.');
+        }
 
         return DB::transaction(function () use ($devProfile, $data): HardSkillResource {
             $hardSkill = HardSkill::create([
