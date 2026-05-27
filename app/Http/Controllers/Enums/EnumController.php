@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Enums;
 use App\Builder\ApiResponse;
 use App\Enums\ContractType;
 use App\Enums\DegreeLevelEnum;
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\EmploymentType;
 use App\Enums\HardSkillLevelsEnum;
 use App\Enums\OperationalSegmentEnum;
@@ -41,5 +42,10 @@ class EnumController extends Controller
     public function listOperationalSegments()
     {
         return ApiResponse::success(OperationalSegmentEnum::options(), "Operational Segments listed with success");
+    }
+
+    public function listDevSpecialties()
+    {
+        return ApiResponse::success(DevSpecialtyEnum::options(), "Dev Specialties listed with success");
     }
 }

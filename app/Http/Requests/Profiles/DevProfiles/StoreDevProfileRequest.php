@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Profiles\DevProfiles;
 
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Rules\Cellphone;
 use App\Rules\Cpf;
@@ -46,6 +47,7 @@ class StoreDevProfileRequest extends FormRequest
             'open_to_work' => ['nullable', 'boolean'],
             'birthdate' => ['required', 'date', 'date_format:Y-m-d'],
             'seniority_level' => ['required', Rule::enum(SeniorityLevelEnum::class)],
+            'specialty' => ['required', Rule::enum(DevSpecialtyEnum::class)],
         ];
     }
 }

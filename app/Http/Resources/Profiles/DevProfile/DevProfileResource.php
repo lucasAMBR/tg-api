@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Profiles\DevProfile;
 
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Http\Resources\AcademicBackground\AcademicBackgroundResource;
 use App\Http\Resources\AdditionalCourse\AdditionalCourseResource;
@@ -30,6 +31,8 @@ class DevProfileResource extends JsonResource
             'phone' => $this->phone,
             'seniority_level' => $this->seniority_level,
             'seniority_level_label' => SeniorityLevelEnum::from($this->seniority_level)->label(),
+            'specialty' => $this->specialty,
+            'specialty_label' => DevSpecialtyEnum::from($this->specialty)->label(),
             'birthdate' => $this->birthdate,
             'score' => $this->score,
             'open_to_work' => $this->open_to_work,

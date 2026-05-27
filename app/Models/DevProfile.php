@@ -24,6 +24,7 @@ class DevProfile extends Model
         'open_to_relocation',
         'open_to_work',
         'seniority_level',
+        'specialty',
         'score'
     ];
 

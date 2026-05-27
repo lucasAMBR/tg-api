@@ -25,7 +25,9 @@ describe('POST /api/profile/dev', function () {
             ])
             ->assertJsonPath('data.name', $payload['name'])
             ->assertJsonPath('data.cpf', $payload['cpf'])
-            ->assertJsonPath('data.seniority_level', $payload['seniority_level']);
+            ->assertJsonPath('data.seniority_level', $payload['seniority_level'])
+            ->assertJsonPath('data.specialty', $payload['specialty'])
+            ->assertJsonPath('data.specialty_label', 'Backend');
 
         assertDatabaseHas('dev_profiles', [
             'user_id' => $user->id,
@@ -116,6 +118,25 @@ describe('POST /api/profile/dev', function () {
                 'error' => true,
             ])
             ->assertJsonStructure(['data' => ['seniority_level']]);
+
+        expect(DevProfile::where('user_id', $user->id)->exists())->toBeFalse();
+    });
+
+    it('rejects creation when specialty is invalid', function () {
+        $user = createUserWithRole('dev');
+
+        $response = postJson(
+            '/api/profile/dev',
+            validDevProfilePayload(['specialty' => 'data_science']),
+            actingAsApi($user)
+        );
+
+        $response
+            ->assertUnprocessable()
+            ->assertJson([
+                'error' => true,
+            ])
+            ->assertJsonStructure(['data' => ['specialty']]);
 
         expect(DevProfile::where('user_id', $user->id)->exists())->toBeFalse();
     });

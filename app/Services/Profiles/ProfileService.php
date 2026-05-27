@@ -36,6 +36,7 @@ class ProfileService
                 'open_to_work' => $data['open_to_work'] ?? true,
                 'score' => $data['score'] ?? 0,
                 'seniority_level' => $data['seniority_level'],
+                'specialty' => $data['specialty'],
             ]);
 
             event(new DevProfileCreated($devProfile));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Profiles\DevProfiles;
 
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Rules\Cellphone;
 use App\Rules\Cpf;
@@ -32,6 +33,7 @@ class UpdateDevProfileRequest extends FormRequest
             'phone' => ['sometimes', new Cellphone],
             'birthdate' => ['sometimes', 'date', 'date_format:Y-m-d'],
             'seniority_level' => ['sometimes', Rule::enum(SeniorityLevelEnum::class)],
+            'specialty' => ['sometimes', Rule::enum(DevSpecialtyEnum::class)],
         ];
     }
 }

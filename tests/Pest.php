@@ -40,20 +40,21 @@ function validDevProfilePayload(array $overrides = []): array
         'phone' => '+5531987654321',
         'birthdate' => '1990-05-20',
         'seniority_level' => 'junior',
+        'specialty' => 'backend',
         'open_to_relocation' => false,
         'open_to_work' => true,
     ], $overrides);
 }
 
-function createDevUserWithProfile(): array
+function createDevUserWithProfile(array $profileOverrides = []): array
 {
     $user = createUserWithRole('dev');
 
-    $devProfile = \App\Models\DevProfile::factory()->create([
+    $devProfile = \App\Models\DevProfile::factory()->create(array_merge([
         'user_id' => $user->id,
         'cpf' => '52998224725',
         'phone' => '+5531999887766',
-    ]);
+    ], $profileOverrides));
 
     return [$user, $devProfile];
 }
@@ -72,4 +73,26 @@ function validEmploymentHistoryPayload(array $overrides = []): array
         'start_date' => '2020-01-01',
         'end_date' => '2022-12-31',
     ], $overrides);
+}
+
+function seedSoftSkills(): void
+{
+    (new \Database\Seeders\SoftSkillSeeder)->run();
+    (new \Database\Seeders\SoftSkillLevelResponseSeeder)->run();
+}
+
+function validDevSoftSkillPayload(int $evaluationWeight = 1): array
+{
+    $softSkills = \App\Models\SoftSkill::with('responses')->get();
+
+    return [
+        'soft_skills' => $softSkills->map(function ($skill) use ($evaluationWeight) {
+            $response = $skill->responses->firstWhere('evaluation_weight', $evaluationWeight);
+
+            return [
+                'soft_skill_id' => $skill->id,
+                'soft_skill_level_response_id' => $response->id,
+            ];
+        })->values()->all(),
+    ];
 }

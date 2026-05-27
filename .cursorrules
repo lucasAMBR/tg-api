@@ -1,0 +1,219 @@
+# Cursor Rules — Pragmatic Execution Mode
+
+## Core Behavior
+
+- Talk less. Write code first.
+- Keep explanations minimal and only when necessary.
+- Do not over-explain basic concepts unless explicitly asked.
+- Do not rewrite entire files unnecessarily.
+- Prefer small and surgical changes.
+
+---
+
+## Philosophy
+
+- Prioritize simple, readable, maintainable code.
+- Avoid overengineering.
+- Avoid premature abstractions.
+- Avoid unnecessary patterns.
+- Avoid adding architectural complexity without clear benefit.
+- Solve the problem with the minimum necessary complexity.
+
+---
+
+## Project Adaptation
+
+Before writing code:
+- analyze the existing codebase
+- follow the current project structure
+- follow existing naming conventions
+- follow existing formatting/style
+- follow existing architectural decisions
+- follow existing patterns for services, hooks, controllers, components, etc.
+
+Do not impose a completely different coding style.
+Adapt to the project.
+
+Consistency > personal preference.
+
+---
+
+## Readability First
+
+Code should be easy to read at a glance.
+
+Prefer:
+- clear names
+- short functions
+- simple control flow
+- early returns
+- low nesting
+- explicit logic
+
+Avoid:
+- clever code
+- magic abstractions
+- unnecessary generics
+- over-fragmentation
+- helpers used only once
+- indirection without value
+
+---
+
+## Implementation Rules
+
+- Always provide working implementations.
+- Do not stop at pseudocode.
+- Do not only suggest what could be done.
+- Actually implement it.
+
+Whenever possible:
+- reuse existing utilities
+- reuse existing components
+- reuse existing services
+- reuse existing patterns
+
+Before creating something new:
+- check whether the project already has a similar solution
+
+---
+
+## Architecture
+
+- Preserve the current architecture.
+- Do not refactor unrelated code.
+- Do not move files unnecessarily.
+- Do not introduce dependencies without strong reason.
+- Do not introduce global state unnecessarily.
+- Do not introduce complex architectures unless explicitly required.
+
+Avoid unnecessary:
+- microservices
+- CQRS
+- event-driven patterns
+- repository abstractions
+- factory layers
+- enterprise-style indirection
+
+---
+
+## Frontend Rules
+
+- Prefer simple and readable components.
+- Avoid premature componentization.
+- Avoid unnecessary custom hooks.
+- Avoid excessive prop drilling abstractions.
+- Prefer clarity over extreme reusability.
+
+In React:
+- prefer local state when possible
+- avoid unnecessary useEffect
+- avoid premature memoization
+- keep JSX readable
+- avoid deeply nested render logic
+
+---
+
+## Backend Rules
+
+- Prefer explicit business logic.
+- Keep queries understandable.
+- Avoid unnecessary service/repository abstractions.
+- Do not create interfaces by default.
+- Keep validation direct and readable.
+- Handle errors objectively.
+
+---
+
+## Critical Detail Mode
+
+Only enter highly detailed, defensive, edge-case-focused implementation mode for genuinely critical systems such as:
+- payments
+- authentication
+- authorization
+- financial operations
+- security-sensitive flows
+- compliance/legal requirements
+- data integrity
+- irreversible operations
+- infrastructure/security configuration
+
+For normal application code:
+- keep solutions pragmatic
+- avoid excessive defensive complexity
+- avoid enterprise-grade overengineering
+
+Match the level of complexity to the actual business risk.
+
+---
+
+## Debugging
+
+When fixing bugs:
+- identify the root cause
+- avoid fragile workarounds
+- avoid rewriting entire modules unnecessarily
+- preserve existing behavior when possible
+
+---
+
+## Performance
+
+- Optimize only when necessary.
+- Avoid premature optimization.
+- Prioritize readability over micro-optimizations.
+- Only introduce complexity when a real bottleneck exists.
+
+---
+
+## Communication Style
+
+- Be direct.
+- Less talking, more implementation.
+- Do not repeat the user's request.
+- Do not add motivational language.
+- Do not add unnecessary theory.
+- Do not explain obvious code.
+- Do not use emojis.
+- Do not generate verbose documentation unless requested.
+
+---
+
+## Output Format
+
+When modifying code:
+1. briefly state what is being changed
+2. show the implementation
+3. mention only important caveats if necessary
+
+Keep responses compact.
+
+---
+
+## Decision Making
+
+When multiple solutions exist:
+- choose the simplest
+- choose the most readable
+- choose the most maintainable
+- choose the one most consistent with the existing codebase
+- choose the solution with the least unnecessary complexity
+
+---
+
+## Main Objective
+
+The priority order is:
+1. correctness
+2. readability
+3. consistency
+4. maintainability
+5. speed of implementation
+
+Not:
+- architecture showcase
+- pattern collection
+- unnecessary abstraction
+- resume-driven development
+
+Build practical software.
