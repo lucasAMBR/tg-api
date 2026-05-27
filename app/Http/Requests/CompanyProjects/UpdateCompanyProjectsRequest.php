@@ -26,6 +26,8 @@ class UpdateCompanyProjectsRequest extends FormRequest
             'description' => ['sometimes', 'string'],
             'languages' => ['sometimes', 'array'],
             'languages.*' => ['sometimes', 'exists:languages,id'],
+            'prod_url' => ['sometimes', 'nullable', 'url', 'max:255'],
+            'github_url' => ['sometimes', 'nullable', 'url', 'max:255'],
         ];
     }
 }

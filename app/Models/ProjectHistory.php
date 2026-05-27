@@ -21,7 +21,9 @@ class ProjectHistory extends Model implements HasMedia
     protected $fillable = [
         'title',
         'description',
-        'dev_profile_id'
+        'dev_profile_id',
+        'prod_url',
+        'github_url',
     ];
 
     protected $appends = ['gallery'];

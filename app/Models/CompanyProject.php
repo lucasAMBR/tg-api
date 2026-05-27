@@ -15,8 +15,10 @@ class CompanyProject extends Model
 
     protected $fillable = [
         'title',
-        'description', 
+        'description',
         'company_profile_id',
+        'prod_url',
+        'github_url',
     ];
 
     /**

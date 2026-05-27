@@ -20,6 +20,8 @@ class CompanyProjectResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'prod_url' => $this->prod_url,
+            'github_url' => $this->github_url,
             'company_profile_id' => $this->company_profile_id,
             'company_profile' => $this->whenLoaded('company_profile', function() {
                 return new CompanyProfileResource($this->company_profile);

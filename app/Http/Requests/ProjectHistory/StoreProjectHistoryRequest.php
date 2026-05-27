@@ -25,7 +25,9 @@ class StoreProjectHistoryRequest extends FormRequest
             'title' => ['required', 'string', 'min:2', 'max:255'],
             'description' => ['required', 'string', 'min:10', 'max:1000'],
             'languages' => ['required', 'array'],
-            'languages.*' => ['string', 'exists:languages,id']
+            'languages.*' => ['string', 'exists:languages,id'],
+            'prod_url' => ['nullable', 'url', 'max:255'],
+            'github_url' => ['nullable', 'url', 'max:255'],
         ];
     }
 }

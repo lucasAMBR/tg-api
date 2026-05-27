@@ -25,7 +25,9 @@ class UpdateProjectHistoryRequest extends FormRequest
             'title' => ['sometimes', 'string', 'min:2', 'max:255'],
             'description' => ['sometimes', 'string', 'min:10', 'max:1000'],
             'languages' => ['sometimes', 'array'],
-            'languages.*' => ['sometimes', 'exists:languages,id']
+            'languages.*' => ['sometimes', 'exists:languages,id'],
+            'prod_url' => ['sometimes', 'nullable', 'url', 'max:255'],
+            'github_url' => ['sometimes', 'nullable', 'url', 'max:255'],
         ];
     }
 }

@@ -20,6 +20,8 @@ class ProjectHistoryResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'prod_url' => $this->prod_url,
+            'github_url' => $this->github_url,
             'dev_profile_id' => $this->dev_profile_id,
             'dev_profile' => $this->whenLoaded('dev_profile', function () {
                 return new DevProfileResource($this->dev_profile);

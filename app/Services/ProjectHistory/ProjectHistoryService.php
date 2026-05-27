@@ -54,7 +54,9 @@ class ProjectHistoryService
             $projectHistory = ProjectHistory::create([
                 'title' => $data['title'],
                 'description' => $data['description'],
-                'dev_profile_id' => $profile->id
+                'dev_profile_id' => $profile->id,
+                'prod_url' => $data['prod_url'] ?? null,
+                'github_url' => $data['github_url'] ?? null,
             ]);
 
             $projectHistory->languages()->sync($data['languages']);

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid("id")->primary();
             $table->string("question");
             $table->integer("difficulty_level");
-            $table->foreingUuid("language_id")->nullable()->constrained('languages')->cascadeOnDelete();
+            $table->foreignUuid("language_id")->nullable()->constrained('languages')->cascadeOnDelete();
             $table->string("category");
             $table->integer("ideal_time_to_solve")->default(0); // in seconds
             $table->jsonb("code_snippet")->nullable();

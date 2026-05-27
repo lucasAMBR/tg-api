@@ -27,6 +27,8 @@ class CompanyProjectService {
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'company_profile_id' => $company->id,
+                'prod_url' => $data['prod_url'] ?? null,
+                'github_url' => $data['github_url'] ?? null,
             ]);
 
             /**
