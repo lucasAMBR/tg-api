@@ -24,14 +24,16 @@ class JobVacancy extends Model
         'benefits',
         'estimated_salary',
         'contract_type',
-        'seniority_level'
+        'seniority_level',
+        'specialties',
     ];
 
     protected $casts = [
         'employment_type' => EmploymentType::class,
         'contract_type' => ContractType::class,
         'seniority_level' => SeniorityLevelEnum::class,
-        'benefits' => 'array'
+        'benefits' => 'array',
+        'specialties' => 'array'
     ];
 
     public function languages(): BelongsToMany {
@@ -42,6 +44,14 @@ class JobVacancy extends Model
         )
         ->using(JobVacancyLanguage::class)
         ->withPivot('language_level');
+    }
+
+    public function desirableLanguage(): BelongsToMany {
+        return $this->belongsToMany(Language::class,
+            'job_vacancy_languages_desirables',
+            'job_vacancy_id',
+            'language_id'
+        );
     }
 
     public function softSkill(): BelongsToMany {

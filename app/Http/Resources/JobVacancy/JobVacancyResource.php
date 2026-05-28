@@ -24,9 +24,11 @@ class JobVacancyResource extends JsonResource
             'estimated_salary' => $this->estimated_salary,
             'contract_type' => $this->contract_type,
             'seniority_level' => $this->seniority_level,
+            'specialties' => $this->specialties,
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
             // 'language_level' => $this->pivot->language_level,
-            'soft_skills' => SoftSkillResource::collection($this->whenLoaded('softSkill'))
+            'soft_skills' => SoftSkillResource::collection($this->whenLoaded('softSkill')),
+            'language_desirable' => LanguageResource::collection($this->whenLoaded('desirableLanguage')),
         ];
     }
 }

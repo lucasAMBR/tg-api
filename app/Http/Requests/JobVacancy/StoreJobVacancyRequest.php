@@ -72,6 +72,15 @@ class StoreJobVacancyRequest extends FormRequest
                 'required',
                 new Enum(HardSkillLevelsEnum::class)
             ],
+            'languages_desirable' => [
+                'required',
+                'array'
+            ],
+            'languages_desirable.*' => [
+                'required',
+                'uuid',
+                'exists:languages,id'
+            ],  
             'soft_skills' => [
                 'required',
                 'array'
@@ -80,6 +89,14 @@ class StoreJobVacancyRequest extends FormRequest
                 'required',
                 'string',
                 'exists:soft_skills,id'
+            ],
+            'specialties' => [
+                'required',
+                'array'
+            ],
+            'specialties.*' => [
+                'required',
+                'string'
             ]
         ];
     }

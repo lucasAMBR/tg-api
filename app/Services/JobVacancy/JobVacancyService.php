@@ -51,8 +51,10 @@ class JobVacancyService {
                 'estimated_salary' => $data['estimated_salary'],
                 'contract_type' => $data['contract_type'],
                 'seniority_level' => $data['seniority_level'],
+                'specialties' => $data['specialties']
             ]);
 
+        
             // Percorre pelo array de linguages e salva no banco
             foreach($data['languages'] as $language) {
                 $jobVacancy->languages()->attach($language['languages_id'], [
@@ -64,9 +66,11 @@ class JobVacancyService {
             $jobVacancy->softSkill()->sync(
                 collect($data['soft_skills'])->pluck('soft_skills_id')
             );
-
+            
+            $jobVacancy->desirableLanguage()->sync($data['languages_desirable']);
+                
             // Retorna ja com as relações carregadas
-            return $jobVacancy->load('languages', 'softSkill');
+            return $jobVacancy->load('languages', 'softSkill', 'desirableLanguage');
 
         });
 
