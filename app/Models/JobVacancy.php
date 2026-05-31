@@ -7,6 +7,7 @@ use App\Enums\EmploymentType;
 use App\Enums\SeniorityLevelEnum;
 use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -71,6 +72,10 @@ class JobVacancy extends Model
         ->using(DevJobVacancy::class)
         ->withPivot('status', 'feedback')
         ->withTimestamps();
+    }
+
+    public function companyProfile(): BelongsTo {
+        return $this->belongsTo(CompanyProfile::class);
     }
 
 }

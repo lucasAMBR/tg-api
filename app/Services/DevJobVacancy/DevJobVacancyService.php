@@ -53,4 +53,27 @@ class DevJobVacancyService {
 
     }
 
+    public function indexApplies(array $data) {
+
+        $authUser = Auth::user();
+
+        if(!$authUser->hasRole('company')) {
+            throw new ApiException("You can't index applies for this vacancy!");
+        }
+
+        $companyProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
+        $search = $data['search'] ?? '';
+
+
+    }
+
+    public function reviewAplly(array $data) {
+
+        $authUser = Auth::user();
+
+    }
+
 }

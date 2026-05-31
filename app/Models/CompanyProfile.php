@@ -47,4 +47,8 @@ class CompanyProfile extends Model
         return $this->belongsToMany(Language::class);
     }
 
+    public function jobVacancies(): HasMany {
+        return $this->hasMany(JobVacancy::class);
+    }
+
 }

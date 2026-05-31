@@ -2,8 +2,11 @@
 
 namespace App\Services\JobVacancy;
 
+use App\Exceptions\ApiException;
+use App\Helpers\ProfileHelper;
 use App\Models\JobVacancy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class JobVacancyService {
@@ -20,7 +23,7 @@ class JobVacancyService {
                 $q->where('title', 'ILIKE', "%{$search}%")
                 ->orWhere('contract_type', 'ILIKE', "%{$search}%")
                 ->orWhere('seniority_level', 'ILIKE', "%{$search}%")
-                // Colocar busca pelo nivei da linguagem
+                // Colocar busca pelo nivel da linguagem
                 ->orWhereHas('languages', function($q) use ($search) {
                     $q->where('name', 'ILIKE', "%{$search}%");
                 })
@@ -41,7 +44,19 @@ class JobVacancyService {
 
     public function store(Array $data){
 
-        return DB::transaction(function() use ($data) {
+        $authUser = Auth::user();
+
+        if(!$authUser->hasRole('company')) {
+            throw new ApiException("You must be a company for create a job vacancy");
+        }
+
+        $companyProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        if(!$companyProfile) {
+            throw new ApiException("You don't have an active profile!");
+        }
+
+        return DB::transaction(function() use ($data, $companyProfile) {
 
             $jobVacancy = JobVacancy::create([
                 'title' => $data['title'],
@@ -51,7 +66,8 @@ class JobVacancyService {
                 'estimated_salary' => $data['estimated_salary'],
                 'contract_type' => $data['contract_type'],
                 'seniority_level' => $data['seniority_level'],
-                'specialties' => $data['specialties']
+                'specialties' => $data['specialties'],
+                'company_profile_id' => $companyProfile->id
             ]);
 
         
