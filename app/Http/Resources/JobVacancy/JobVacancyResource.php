@@ -3,7 +3,9 @@
 namespace App\Http\Resources\JobVacancy;
 
 use App\Http\Resources\Language\LanguageResource;
+use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\SoftSkill\SoftSkillResource;
+use App\Models\JobVacancyLanguage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,9 +28,10 @@ class JobVacancyResource extends JsonResource
             'seniority_level' => $this->seniority_level,
             'specialties' => $this->specialties,
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
-            // 'language_level' => $this->pivot->language_level,
             'soft_skills' => SoftSkillResource::collection($this->whenLoaded('softSkill')),
             'language_desirable' => LanguageResource::collection($this->whenLoaded('desirableLanguage')),
+            'company_profile_id' => $this->company_profile_id,
+            'profile' => new CompanyProfileResource($this->whenLoaded('companyProfile'))
         ];
     }
 }

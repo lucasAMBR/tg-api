@@ -86,7 +86,7 @@ class JobVacancyService {
             $jobVacancy->desirableLanguage()->sync($data['languages_desirable']);
                 
             // Retorna ja com as relações carregadas
-            return $jobVacancy->load('languages', 'softSkill', 'desirableLanguage');
+            return $jobVacancy->load('languages', 'softSkill', 'desirableLanguage', 'companyProfile');
 
         });
 

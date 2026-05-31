@@ -27,6 +27,7 @@ class JobVacancy extends Model
         'contract_type',
         'seniority_level',
         'specialties',
+        'company_profile_id'
     ];
 
     protected $casts = [
