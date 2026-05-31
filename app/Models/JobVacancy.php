@@ -62,4 +62,15 @@ class JobVacancy extends Model
         );
     }
 
+    public function devProfiles(): BelongsToMany {
+        return $this->belongsToMany(DevProfile::class, 
+            'dev_job_vacancy',
+            'job_vacancy_id',
+            'dev_profile_id'
+        )
+        ->using(DevJobVacancy::class)
+        ->withPivot('status', 'feedback')
+        ->withTimestamps();
+    }
+
 }

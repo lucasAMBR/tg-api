@@ -6,6 +6,7 @@ use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -66,6 +67,17 @@ class DevProfile extends Model
     public function recommendation_preference(): HasOne
     {
         return $this->hasOne(RecommendationPreference::class);
+    }
+
+    public function jobVacancies(): BelongsToMany {
+        return $this->belongsToMany(JobVacancy::class, 
+            'dev_job_vacancy',
+            'dev_profile_id',
+            'job_vacancy_id'
+        )
+        ->using(DevJobVacancy::class)
+        ->withPivot('status', 'feedback')
+        ->withTimestamps();
     }
 
 }
