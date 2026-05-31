@@ -64,9 +64,28 @@ class DevJobVacancyService {
         $companyProfile = ProfileHelper::getUserProfileByRole($authUser);
 
         $page = $data['page'] ?? 1;
-        $perPage = $data['per_page'] ?? 10;
+        $per_page = $data['per_page'] ?? 10;
         $search = $data['search'] ?? '';
 
+        return DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
+        ->whereHas('jobVacancy', function($query) use ($companyProfile) {
+            $query->where('company_profile_id', $companyProfile->id);
+        })
+        ->when($search, function($query) use ($search) {
+            $query->where(function($q) use ($search) {
+                $q->whereHas('devProfile', function($devQuery) use ($search) {
+                    $devQuery->where('name', 'ILIKE', "%{$search}%");
+                })
+                ->orWhereHas('jobVacancy', function($companyQuery) use ($search) {
+                    $companyQuery->where('title', 'ILIKE', "%{$search}%");
+                });
+            });
+        })->paginate(
+            $per_page,
+            ['*'],
+            'page',
+            $page
+        );
 
     }
 

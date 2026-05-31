@@ -6,6 +6,7 @@ use App\Builder\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DevJobVacancy\IndexDevJobVacancyRequest;
 use App\Http\Requests\DevJobVacancy\StoreDevJobVacancyRequest;
+use App\Http\Resources\DevJobVacancy\DevJobVacancyCollection;
 use App\Http\Resources\DevJobVacancy\DevJobVacancyResource;
 use App\Services\DevJobVacancy\DevJobVacancyService;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class DevJobVacancyController extends Controller
         $data = $this->devJobVacancyService->indexApplies($request->validated());
         
         return ApiResponse::success(
-            $data,
+            new DevJobVacancyCollection($data),
             'Applies indexed with success!',
             200
         );

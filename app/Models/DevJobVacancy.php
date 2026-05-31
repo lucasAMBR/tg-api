@@ -20,10 +20,10 @@ class DevJobVacancy extends Pivot
     ];
 
     public function jobVacancy(): BelongsTo {
-        return $this->belongsTo(JobVacancy::class);
+        return $this->belongsTo(JobVacancy::class, 'job_vacancy_id');
     }
 
     public function devProfile(): BelongsTo {
-        return $this->belongsTo(DevProfile::class);
+        return $this->belongsTo(DevProfile::class, 'dev_profile_id');
     }
 }
