@@ -89,9 +89,21 @@ class DevJobVacancyService {
 
     }
 
-    public function reviewAplly(array $data) {
+    public function reviewApply(array $data) {
 
         $authUser = Auth::user();
+        $companyProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        return DB::transaction(function() use ($companyProfile, $data) {
+        
+            return DevJobVacancy::query()->with(['jobVacancy'])
+            ->whereHas('jobVacancy', function($query) use ($companyProfile) {
+                $query->where('company_profile_id', $companyProfile->id);
+            })->update([
+                'status' => $data['status']
+            ]);
+
+        });
 
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DevJobVacancy;
 use App\Builder\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DevJobVacancy\IndexDevJobVacancyRequest;
+use App\Http\Requests\DevJobVacancy\ReviewDevJobVacancyRequest;
 use App\Http\Requests\DevJobVacancy\StoreDevJobVacancyRequest;
 use App\Http\Resources\DevJobVacancy\DevJobVacancyCollection;
 use App\Http\Resources\DevJobVacancy\DevJobVacancyResource;
@@ -34,6 +35,18 @@ class DevJobVacancyController extends Controller
         return ApiResponse::success(
             new DevJobVacancyCollection($data),
             'Applies indexed with success!',
+            200
+        );
+
+    }
+
+    public function reviewApply(ReviewDevJobVacancyRequest $request) {
+    
+        $data = $this->devJobVacancyService->reviewApply($request->validated());
+        
+        return ApiResponse::success(
+            $data,
+            'Apply rate with success!',
             200
         );
 
