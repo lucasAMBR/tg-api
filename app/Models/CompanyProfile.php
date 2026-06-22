@@ -17,6 +17,8 @@ class CompanyProfile extends Model
         'user_id',
         'name',
         'bio',
+        'bio_pt',
+        'bio_en',
         'cnpj',
         'phone',
         'founding_date',

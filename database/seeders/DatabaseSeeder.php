@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             LanguageSeeder::class,
             SoftSkillSeeder::class,
-            SoftSkillLevelResponseSeeder::class
+            SoftSkillLevelResponseSeeder::class,
+            QuestionSeeder::class
         ]);
 
         $this->createAdminIfNotExists(

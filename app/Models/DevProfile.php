@@ -19,6 +19,8 @@ class DevProfile extends Model
         'user_id',
         'name',
         'bio',
+        'bio_pt',
+        'bio_en',
         'cpf',
         'phone',
         'birthdate',
@@ -70,7 +72,7 @@ class DevProfile extends Model
     }
 
     public function jobVacancies(): BelongsToMany {
-        return $this->belongsToMany(JobVacancy::class, 
+        return $this->belongsToMany(JobVacancy::class,
             'dev_job_vacancy',
             'dev_profile_id',
             'job_vacancy_id'

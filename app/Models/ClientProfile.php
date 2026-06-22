@@ -17,6 +17,8 @@ class ClientProfile extends Model
         'user_id',
         'name',
         'bio',
+        'bio_pt',
+        'bio_en',
         'phone',
         'cpf',
         'birthdate',

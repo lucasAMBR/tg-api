@@ -19,7 +19,11 @@ class ProjectHistoryResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'title_pt' => $this->title_pt,
+            'title_en' => $this->title_en,
             'description' => $this->description,
+            'description_pt' => $this->description_pt,
+            'description_en' => $this->description_en,
             'prod_url' => $this->prod_url,
             'github_url' => $this->github_url,
             'dev_profile_id' => $this->dev_profile_id,

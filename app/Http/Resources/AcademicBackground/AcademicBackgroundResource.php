@@ -21,6 +21,8 @@ class AcademicBackgroundResource extends JsonResource
             'id' => $this->id,
             'dev_profile_id' => $this->dev_profile_id,
             'degree' => $this->degree,
+            'degree_pt' => $this->degree_pt,
+            'degree_en' => $this->degree_en,
             'degree_level' => $this->degree_level,
             'degree_level_label' => DegreeLevelEnum::labelFromValue($this->degree_level),
             'institution' => $this->institution,

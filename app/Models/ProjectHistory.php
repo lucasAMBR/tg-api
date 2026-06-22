@@ -20,7 +20,11 @@ class ProjectHistory extends Model implements HasMedia
 
     protected $fillable = [
         'title',
+        'title_pt',
+        'title_en',
         'description',
+        'description_pt',
+        'description_en',
         'dev_profile_id',
         'prod_url',
         'github_url',

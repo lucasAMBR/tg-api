@@ -15,6 +15,8 @@ class AcademicBackground extends Model implements HasMedia
 
     protected $fillable = [
         'degree',
+        'degree_pt',
+        'degree_en',
         'degree_level',
         'institution',
         'dev_profile_id',

@@ -1,0 +1,19 @@
+services:
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    container_name: local_translator
+    ports:
+      - "5000:5000"
+    environment:
+      # Essencial para não explodir a memória do seu PC:
+      # Baixa apenas os idiomas que você realmente vai usar.
+      - LT_LOAD_ONLY=en,pt,es
+      # Desativa a necessidade de API Key para uso local
+      - LT_REQ_LIMIT=0
+      - LT_WORKERS=1
+    volumes:
+      - libretranslate_data:/home/libretranslate/.local/share/argos-translate
+    restart: unless-stopped
+
+volumes:
+  libretranslate_data:

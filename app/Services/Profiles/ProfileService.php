@@ -14,21 +14,29 @@ use App\Models\ClientProfile;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
 use App\Models\RecommendationPreference;
+use App\Services\Translation\TranslationService;
 use Faker\Provider\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProfileService
 {
+    public function __construct(private TranslationService $translationService){}
+
     public function storeDevProfile(Array $data)
     {
         $authUser = Auth::user();
 
         return DB::transaction(function () use ($authUser, $data) {
+
+            $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['bio']);
+
             $devProfile = DevProfile::create([
                 'user_id' => $authUser->id,
                 'name' => $data['name'],
                 'bio' => $data['bio'],
+                'bio_pt' => $translations['pt-br'],
+                'bio_en' => $translations['en'],
                 'phone' => $data['phone'],
                 'cpf' => $data['cpf'],
                 'birthdate' => $data['birthdate'],
@@ -50,10 +58,15 @@ class ProfileService
         $authUser = Auth::user();
 
         return DB::transaction(function () use ($authUser, $data) {
+
+            $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['bio']);
+
             $companyProfile = CompanyProfile::create([
                 'user_id' => $authUser->id,
                 'name' => $data['name'],
                 'bio' => $data['bio'],
+                'bio_pt' => $translations['pt-br'],
+                'bio_en' => $translations['en'],
                 'phone' => $data['phone'],
                 'cnpj' => $data['cnpj'],
                 'score' => $data['score'] ?? 0,
@@ -90,10 +103,15 @@ class ProfileService
         $authUser = Auth::user();
 
         return DB::transaction(function () use ($authUser, $data) {
+
+            $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['bio']);
+
             $clientProfile = ClientProfile::create([
                 'user_id' => $authUser->id,
                 'name' => $data['name'],
                 'bio' => $data['bio'],
+                'bio_pt' => $translations['pt-br'],
+                'bio_en' => $translations['en'],
                 'phone' => $data['phone'],
                 'cpf' => $data['cpf'],
                 'score' => $data['score'] ?? 0,
@@ -110,6 +128,14 @@ class ProfileService
 
             $dev->update($data);
 
+            if(isset($data['bio'])){
+                $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['bio']);
+                $dev->update([
+                    'bio_pt' => $translations['pt-br'],
+                    'bio_en' => $translations['en'],
+                ]);
+            }
+
             return new DevProfileResource($dev);
 
         });
@@ -122,6 +148,14 @@ class ProfileService
 
             $company->update($data);
 
+            if(isset($data['bio'])){
+                $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['bio']);
+                $company->update([
+                    'bio_pt' => $translations['pt-br'],
+                    'bio_en' => $translations['en'],
+                ]);
+            }
+
             return new CompanyProfileResource($company);
 
         });
@@ -133,6 +167,14 @@ class ProfileService
         return DB::transaction(function() use ($data, $client) {
 
             $client->update($data);
+
+            if(isset($data['bio'])){
+                $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['bio']);
+                $client->update([
+                    'bio_pt' => $translations['pt-br'],
+                    'bio_en' => $translations['en'],
+                ]);
+            }
 
             return new ClientProfileResource($client);
 

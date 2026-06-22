@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasUuidV7;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +15,8 @@ class Question extends Model
 
     protected $fillable = [
         "question",
+        "question_en",
+        "question_pt",
         "difficulty_level",
         "language_id",
         "category",
@@ -21,6 +24,10 @@ class Question extends Model
         "code_snippet",
         "is_multiple_choice",
         "seniority_level"
+    ];
+
+    protected $casts = [
+        'code_snippet' => AsCollection::class
     ];
 
     public function language(): BelongsTo

@@ -123,4 +123,15 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'services' => [
+        'translation' => [
+            'url' => env('TRANSLATION_URL'),
+            'detection_url' => env('TRANSLATION_DETECTION_URL'),
+        ],
+        'embedding' => [
+            'url' => env('OPEN_IA_URL'),
+            'key' => env('OPEN_IA_KEY'),
+            'model' => 'text-embedding-3-small'
+        ],
+    ]
 ];
