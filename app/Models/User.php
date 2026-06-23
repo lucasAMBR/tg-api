@@ -108,6 +108,11 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->hasOne(ClientProfile::class);
     }
 
+    public function admin_profile(): HasOne
+    {
+        return $this->hasOne(AdminProfile::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

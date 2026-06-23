@@ -58,6 +58,10 @@ class AuthService
                 $user->load('client_profile');
             }
 
+            if($user->hasRole('admin')){
+                $user->load('admin_profile');
+            }
+
             return [
                 'user' => new UserResource($user),
                 'permissions' => $user->getAllPermissions()->pluck('name'),
@@ -84,6 +88,10 @@ class AuthService
 
         if($user->hasRole('client')){
             $user->load('client_profile');
+        }
+
+        if($user->hasRole('admin')){
+            $user->load('admin_profile');
         }
 
         return [

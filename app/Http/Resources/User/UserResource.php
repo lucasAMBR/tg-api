@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\Profiles\AdminProfile\AdminProfileResource;
 use App\Http\Resources\Profiles\ClientProfile\ClientProfileResource;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
@@ -37,7 +38,11 @@ class UserResource extends JsonResource
             'client_profile' => $this->whenLoaded('client_profile', function () {
                 return new ClientProfileResource($this->client_profile);
             }),
+            'admin_profile' => $this->whenLoaded('admin_profile', function () {
+                return new AdminProfileResource($this->admin_profile);
+            }),
             'role' => $this->getRoleNames(),
+            'admin_active_profile' => $this->admin_active_profile,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

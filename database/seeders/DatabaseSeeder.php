@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AdminProfile;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -46,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'client@example.com',
             'client'
         );
-        
+
         $this->call([
             DevPreferencesSeeder::class
         ]);
@@ -85,5 +86,10 @@ class DatabaseSeeder extends Seeder
         if (!$user->hasRole($role)) {
             $user->assignRole($role);
         }
+
+        AdminProfile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['name' => 'Admin User']
+        );
     }
 }
