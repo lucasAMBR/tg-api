@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Profiles;
 use App\Builder\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyProfile\SyncCompanyStackRequest;
+use App\Http\Requests\Profiles\ClientProfiles\IndexClientProfileRequest;
 use App\Http\Requests\Profiles\ClientProfiles\StoreClientProfileRequest;
 use App\Http\Requests\Profiles\ClientProfiles\UpdateClientProfileRequest;
+use App\Http\Requests\Profiles\CompanyProfiles\IndexCompanyProfileRequest;
 use App\Http\Requests\Profiles\CompanyProfiles\StoreCompanyProfileRequest;
 use App\Http\Requests\Profiles\CompanyProfiles\UpdateCompanyProfileRequest;
+use App\Http\Requests\Profiles\DevProfiles\IndexDevProfileRequest;
 use App\Http\Requests\Profiles\DevProfiles\StoreDevProfileRequest;
 use App\Http\Requests\Profiles\DevProfiles\UpdateDevProfileRequest;
 use App\Models\ClientProfile;
@@ -23,6 +26,48 @@ class ProfileController extends Controller
     use AuthorizesRequests;
 
     public function __construct(protected ProfileService $profileService){}
+
+    public function indexDevProfiles(IndexDevProfileRequest $request)
+    {
+        $profiles = $this->profileService->indexDevProfiles($request->validated());
+
+        return ApiResponse::success($profiles, "Dev profiles indexed with success", 200);
+    }
+
+    public function indexCompanyProfiles(IndexCompanyProfileRequest $request)
+    {
+        $profiles = $this->profileService->indexCompanyProfiles($request->validated());
+
+        return ApiResponse::success($profiles, "Company profiles indexed with success", 200);
+    }
+
+    public function indexClientProfiles(IndexClientProfileRequest $request)
+    {
+        $profiles = $this->profileService->indexClientProfiles($request->validated());
+
+        return ApiResponse::success($profiles, "Client profiles indexed with success", 200);
+    }
+
+    public function showDevProfile(DevProfile $dev)
+    {
+        $profile = $this->profileService->showDevProfile($dev);
+
+        return ApiResponse::success($profile, "Dev profile found with success", 200);
+    }
+
+    public function showCompanyProfile(CompanyProfile $company)
+    {
+        $profile = $this->profileService->showCompanyProfile($company);
+
+        return ApiResponse::success($profile, "Company profile found with success", 200);
+    }
+
+    public function showClientProfile(ClientProfile $client)
+    {
+        $profile = $this->profileService->showClientProfile($client);
+
+        return ApiResponse::success($profile, "Client profile found with success", 200);
+    }
 
     public function storeDevProfile(StoreDevProfileRequest $request)
     {

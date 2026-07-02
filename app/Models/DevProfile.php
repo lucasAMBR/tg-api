@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Contracts\Translatable;
+use App\Enums\TranslationStatusEnum;
 use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DevProfile extends Model
+class DevProfile extends Model implements Translatable
 {
     use HasFactory, HasUuidV7, SoftDeletes;
 
@@ -21,6 +23,7 @@ class DevProfile extends Model
         'bio',
         'bio_pt',
         'bio_en',
+        'translation_status',
         'cpf',
         'phone',
         'birthdate',
@@ -30,6 +33,29 @@ class DevProfile extends Model
         'specialty',
         'score'
     ];
+
+    public function getTranslatableContent(): array
+    {
+        return [
+            'bio' => $this->bio
+        ];
+    }
+
+    public function applyTranslation(array $translatedData):void
+    {
+        $this->update([
+            'bio_pt' => $translatedData['bio']['pt'],
+            'bio_en' => $translatedData['bio']['en'],
+            'translation_status' => TranslationStatusEnum::TRANSLATED->value,
+        ]);
+    }
+
+    public function updateTranslationStatus(string $status):void
+    {
+        $this->update([
+            'translation_status' => $status,
+        ]);
+    }
 
     public function user(): BelongsTo
     {

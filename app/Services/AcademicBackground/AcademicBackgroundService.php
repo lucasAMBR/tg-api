@@ -5,15 +5,14 @@ namespace App\Services\AcademicBackground;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\AcademicBackground\AcademicBackgroundCollection;
 use App\Http\Resources\AcademicBackground\AcademicBackgroundResource;
+use App\Jobs\TranslateContentJob;
 use App\Models\AcademicBackground;
-use App\Services\Translation\TranslationService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AcademicBackgroundService
 {
-    public function __construct(private TranslationService $translationService){}
 
     public function index(array $data)
     {
@@ -49,12 +48,8 @@ class AcademicBackgroundService
         $dev_profile = ProfileHelper::getUserProfileByRole($authUser);
 
         return DB::transaction(function () use ($data, $dev_profile) {
-            $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['degree']);
-
             $academicBackground = AcademicBackground::create([
                 'degree' => $data['degree'],
-                'degree_pt' => $translations['pt-br'],
-                'degree_en' => $translations['en'],
                 'degree_level'=> $data['degree_level'],
                 'institution' => $data['institution'],
                 'dev_profile_id' => $dev_profile->id
@@ -65,6 +60,8 @@ class AcademicBackgroundService
                     ->toMediaCollection('certificate');
             }
 
+            TranslateContentJob::dispatch($academicBackground);
+
             return new AcademicBackgroundResource($academicBackground);
         });
     }
@@ -74,12 +71,8 @@ class AcademicBackgroundService
         return DB::transaction(function () use ($academicBackground, $data) {
             $academicBackground->update($data);
 
-            if(isset($data['degree'])){
-                $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['degree']);
-                $academicBackground->update([
-                    'degree_pt' => $translations['pt-br'],
-                    'degree_en' => $translations['en'],
-                ]);
+            if (isset($data['degree'])) {
+                TranslateContentJob::dispatch($academicBackground);
             }
 
             if(isset($data['certificate'])){

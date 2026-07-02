@@ -3,6 +3,8 @@
 namespace App\Http\Resources\Profiles\CompanyProfile;
 
 use App\Enums\OperationalSegmentEnum;
+use App\Http\Resources\Addresses\AddressResource;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,6 +20,7 @@ class CompanyProfileResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'user' => new UserResource($this->whenLoaded('user')),
             'name' => $this->name,
             'bio' => $this->bio,
             'bio_pt' => $this->bio_pt,
@@ -28,6 +31,8 @@ class CompanyProfileResource extends JsonResource
             'operational_segment' => $this->operational_segment,
             'operational_segment_label' => OperationalSegmentEnum::labelFromValue($this->operational_segment),
             'score' => $this->score,
+            'address' => new AddressResource($this->whenLoaded('address')),
+            'is_blocked' => $this->user->is_blocked,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

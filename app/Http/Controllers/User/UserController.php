@@ -25,6 +25,20 @@ class UserController extends Controller
         return ApiResponse::success($updated, "User updated with success!");
     }
 
+    public function blockUserAccess(User $user)
+    {
+        $blocked = $this->user_service->blockUserAccess($user);
+
+        return ApiResponse::success($blocked, "User blocked with success!");
+    }
+
+    public function unblockUserAccess(User $user)
+    {
+        $unblocked = $this->user_service->unblockUserAccess($user);
+
+        return ApiResponse::success($unblocked, "User unblocked with success!");
+    }
+
     public function delete(User $user){
         $this->authorize('delete', $user);
 

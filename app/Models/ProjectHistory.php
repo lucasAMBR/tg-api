@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Contracts\Translatable;
+use App\Enums\TranslationStatusEnum;
 use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +14,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ProjectHistory extends Model implements HasMedia
+class ProjectHistory extends Model implements HasMedia, Translatable
 {
     use HasUuidV7, SoftDeletes, InteractsWithMedia;
 
@@ -25,6 +27,7 @@ class ProjectHistory extends Model implements HasMedia
         'description',
         'description_pt',
         'description_en',
+        'translation_status',
         'dev_profile_id',
         'prod_url',
         'github_url',
@@ -56,6 +59,32 @@ class ProjectHistory extends Model implements HasMedia
     }
 
     // ============================= RELATIONSHIPS ==================================
+
+    public function getTranslatableContent(): array
+    {
+        return [
+            'title' => $this->title,
+            'description' => $this->description
+        ];
+    }
+
+    public function applyTranslation(array $translatedData):void
+    {
+        $this->update([
+            'title_pt' => $translatedData['title']['pt'],
+            'title_en' => $translatedData['title']['en'],
+            'description_pt' => $translatedData['description']['pt'],
+            'description_en' => $translatedData['description']['en'],
+            'translation_status' => TranslationStatusEnum::TRANSLATED->value,
+        ]);
+    }
+
+    public function updateTranslationStatus(string $status):void
+    {
+        $this->update([
+            'translation_status' => $status,
+        ]);
+    }
 
     public function dev_profile(): BelongsTo
     {

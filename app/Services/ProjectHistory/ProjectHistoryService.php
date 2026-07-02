@@ -6,9 +6,9 @@ use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\ProjectHistory\ProjectHistoryCollection;
 use App\Http\Resources\ProjectHistory\ProjectHistoryResource;
+use App\Jobs\TranslateContentJob;
 use App\Models\ProjectHistory;
 use App\Models\ProjectHistoryImage;
-use App\Services\Translation\TranslationService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -19,7 +19,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProjectHistoryService
 {
-    public function __construct(private TranslationService $translationService){}
 
     public function index(array $data){
         $page = $data['page'] ?? 1;
@@ -55,16 +54,9 @@ class ProjectHistoryService
 
         return DB::transaction(function () use ($data, $profile) {
 
-            $titleTranslations = $this->translationService->getPortugueseAndEnglishTranslation($data['title']);
-            $descriptionTranslations = $this->translationService->getPortugueseAndEnglishTranslation($data['description']);
-
             $projectHistory = ProjectHistory::create([
                 'title' => $data['title'],
-                'title_pt' => $titleTranslations['pt-br'],
-                'title_en' => $titleTranslations['en'],
                 'description' => $data['description'],
-                'description_pt' => $descriptionTranslations['pt-br'],
-                'description_en' => $descriptionTranslations['en'],
                 'dev_profile_id' => $profile->id,
                 'prod_url' => $data['prod_url'] ?? null,
                 'github_url' => $data['github_url'] ?? null,
@@ -73,6 +65,8 @@ class ProjectHistoryService
             $projectHistory->languages()->sync($data['languages']);
 
             $projectHistory->load(['languages']);
+
+            TranslateContentJob::dispatch($projectHistory);
 
             return new ProjectHistoryResource($projectHistory);
         });
@@ -87,20 +81,8 @@ class ProjectHistoryService
         return DB::transaction(function () use ($projectHistory, $data) {
             $projectHistory->update($data);
 
-            if(isset($data['title'])){
-                $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['title']);
-                $projectHistory->update([
-                    'title_pt' => $translations['pt-br'],
-                    'title_en' => $translations['en'],
-                ]);
-            }
-
-            if(isset($data['description'])){
-                $translations = $this->translationService->getPortugueseAndEnglishTranslation($data['description']);
-                $projectHistory->update([
-                    'description_pt' => $translations['pt-br'],
-                    'description_en' => $translations['en'],
-                ]);
+            if (isset($data['title']) || isset($data['description'])) {
+                TranslateContentJob::dispatch($projectHistory);
             }
 
             if(isset($data['languages'])){

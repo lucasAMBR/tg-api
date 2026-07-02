@@ -5,6 +5,7 @@ namespace App\Services\CompanyProjects;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\CompanyProject\CompanyProjectCollection;
 use App\Http\Resources\CompanyProject\CompanyProjectResource;
+use App\Jobs\TranslateContentJob;
 use App\Models\CompanyProject;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class CompanyProjectService {
         $company = ProfileHelper::getUserProfileByRole($authUser);
 
         return DB::transaction(function() use ($data, $company) {
-        
+    
             $companyProject = CompanyProject::create([
                 'title' => $data['title'],
                 'description' => $data['description'],
@@ -31,12 +32,10 @@ class CompanyProjectService {
                 'github_url' => $data['github_url'] ?? null,
             ]);
 
-            /**
-             * Faz a sincronização com a tabela intermediária 
-             * a partir do campo passado na request
-             */
             $companyProject->languages()->sync($data['languages']);
             $companyProject->load(['languages']);
+
+            TranslateContentJob::dispatch($companyProject);
             
             return new CompanyProjectResource($companyProject);
 
@@ -49,6 +48,10 @@ class CompanyProjectService {
         return DB::transaction(function() use ($data, $companyProject) {
 
             $companyProject->update($data);
+
+            if (isset($data['title']) || isset($data['description'])) {
+                TranslateContentJob::dispatch($companyProject);
+            }
 
             if(isset($data['languages'])) {
                 $companyProject->languages()->sync($data['languages']);

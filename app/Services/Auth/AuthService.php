@@ -43,6 +43,10 @@ class AuthService
         $user = User::where('email', $data['email'])->first();
 
         if($user && Auth::attempt(['email' => $data['email'], 'password' => $data['password']])){
+            if($user->is_blocked){
+                throw new ApiException('Your account has been blocked by the adminstrations team. Please contact support.');
+            }
+            
             $refreshTtlInSeconds = Config::get('jwt.refresh_ttl') * 60;
             $token = JWTAuth::fromUser($user);
 

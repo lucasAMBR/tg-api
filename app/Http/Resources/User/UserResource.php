@@ -43,6 +43,7 @@ class UserResource extends JsonResource
             }),
             'role' => $this->getRoleNames(),
             'admin_active_profile' => $this->admin_active_profile,
+            'is_blocked' => $this->is_blocked,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

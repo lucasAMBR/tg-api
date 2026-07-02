@@ -10,6 +10,7 @@ use App\Http\Resources\Addresses\AddressResource;
 use App\Http\Resources\DevSoftSkill\DevSoftSkillResource;
 use App\Http\Resources\EmploymentHistory\EmploymentHistoryResource;
 use App\Http\Resources\ProjectHistory\ProjectHistoryResource;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,6 +26,7 @@ class DevProfileResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'user' => new UserResource($this->whenLoaded('user')),
             'name' => $this->name,
             'bio' => $this->bio,
             'bio_pt' => $this->bio_pt,
@@ -39,6 +41,7 @@ class DevProfileResource extends JsonResource
             'score' => $this->score,
             'open_to_work' => $this->open_to_work,
             'open_to_relocation' => $this->open_to_relocation,
+            'is_blocked' => $this->user->is_blocked,
             'employment_histories' => $this->whenLoaded('employment_histories', function () {
                 return EmploymentHistoryResource::collection($this->employment_histories);
             }),

@@ -12,6 +12,7 @@
         "php": "^8.2",
         "doctrine/dbal": "^4.4",
         "laravel/framework": "^12.0",
+        "laravel/horizon": "^5.47",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "pgvector/pgvector": "^0.2.2",

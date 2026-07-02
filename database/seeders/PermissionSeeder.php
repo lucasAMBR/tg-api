@@ -83,6 +83,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'language.approve', 'guard_name' => 'api'],
 
             ['name' => 'administration.dashboard', 'guard_name' => 'api'],
+
+            ['name' => 'user.block', 'guard_name' => 'api'],
         ]);
 
         foreach($permissions as $permission){

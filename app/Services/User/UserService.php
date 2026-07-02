@@ -35,6 +35,24 @@ class UserService
         });
     }
 
+    public function blockUserAccess(User $user)
+    {
+        $user->update([
+            'is_blocked' => true
+        ]);
+
+        return new UserResource($user);
+    }
+
+    public function unblockUserAccess(User $user)
+    {
+        $user->update([
+            'is_blocked' => false
+        ]);
+
+        return new UserResource($user);
+    }
+
     public function delete(User $user)
     {
         $user->delete();

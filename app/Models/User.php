@@ -34,7 +34,8 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     protected $fillable = [
         'email',
         'admin_active_profile',
-        'password'
+        'password',
+        'is_blocked'
     ];
 
     protected $appends = ['profile_pic'];
