@@ -5,6 +5,7 @@ namespace App\Http\Resources\EmploymentHistory;
 use App\Enums\ContractType;
 use App\Enums\EmploymentType;
 use App\Enums\SeniorityLevelEnum;
+use App\Enums\TranslationStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -33,6 +34,8 @@ class EmploymentHistoryResource extends JsonResource
             'actuation_details' => $this->actuation_details,
             'actuation_details_pt' => $this->actuation_details_pt,
             'actuation_details_en' => $this->actuation_details_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'is_current' => $this->is_current,

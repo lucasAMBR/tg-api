@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\CompanyProject;
 
+use App\Enums\TranslationStatusEnum;
 use App\Http\Resources\Language\LanguageResource;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use Illuminate\Http\Request;
@@ -24,6 +25,8 @@ class CompanyProjectResource extends JsonResource
             'description' => $this->description,
             'description_pt' => $this->description_pt,
             'description_en' => $this->description_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'prod_url' => $this->prod_url,
             'github_url' => $this->github_url,
             'company_profile_id' => $this->company_profile_id,

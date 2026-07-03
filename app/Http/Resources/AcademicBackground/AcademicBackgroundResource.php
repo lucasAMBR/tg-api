@@ -3,6 +3,7 @@
 namespace App\Http\Resources\AcademicBackground;
 
 use App\Enums\DegreeLevelEnum;
+use App\Enums\TranslationStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,6 +24,8 @@ class AcademicBackgroundResource extends JsonResource
             'degree' => $this->degree,
             'degree_pt' => $this->degree_pt,
             'degree_en' => $this->degree_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'degree_level' => $this->degree_level,
             'degree_level_label' => DegreeLevelEnum::labelFromValue($this->degree_level),
             'institution' => $this->institution,

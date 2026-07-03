@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Profiles\CompanyProfile;
 
 use App\Enums\OperationalSegmentEnum;
+use App\Enums\TranslationStatusEnum;
 use App\Http\Resources\Addresses\AddressResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
@@ -25,6 +26,8 @@ class CompanyProfileResource extends JsonResource
             'bio' => $this->bio,
             'bio_pt' => $this->bio_pt,
             'bio_en' => $this->bio_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'cnpj' => $this->cnpj,
             'phone' => $this->phone,
             'fouding_date' => $this->founding_date,

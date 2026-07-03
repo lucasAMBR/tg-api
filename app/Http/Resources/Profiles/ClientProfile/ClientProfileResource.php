@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Profiles\ClientProfile;
 
+use App\Enums\TranslationStatusEnum;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,6 +24,8 @@ class ClientProfileResource extends JsonResource
             'bio' => $this->bio,
             'bio_pt' => $this->bio_pt,
             'bio_en' => $this->bio_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'cpf' => $this->cpf,
             'phone' => $this->phone,
             'birthdate' => $this->birthdate,
