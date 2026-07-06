@@ -92,6 +92,11 @@ class DevProfile extends Model implements Translatable
         return $this->hasMany(DevSoftSkill::class);
     }
 
+    public function hard_skills(): HasMany
+    {
+        return $this->hasMany(HardSkill::class);
+    }
+
     public function recommendation_preference(): HasOne
     {
         return $this->hasOne(RecommendationPreference::class);

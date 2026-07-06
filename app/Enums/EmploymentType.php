@@ -29,4 +29,13 @@ enum EmploymentType: string
             self::REMOTE => "Remote",
         };
     }
+
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::ON_SITE => 'Presencial',
+            self::HYBRID => 'Híbrido',
+            self::REMOTE => 'Remoto',
+        };
+    }
 }

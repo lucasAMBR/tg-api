@@ -28,4 +28,13 @@ enum JobVacancyStatusEnum: string
             self::REFUSAL => "Refusal"
         };
     }
+
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::PENDING => 'Pendente',
+            self::APPROVED => 'Aprovado',
+            self::REFUSAL => 'Recusado',
+        };
+    }
 }

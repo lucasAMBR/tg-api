@@ -23,6 +23,11 @@ enum TranslationStatusEnum: string
         };
     }
 
+    public function labelPt(): string
+    {
+        return $this->label();
+    }
+
     public function i18nKey(): string
     {
         return match ($this) {

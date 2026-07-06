@@ -17,397 +17,497 @@ class SoftSkillLevelResponseSeeder extends Seeder
             'Communication' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.communication_very_poor',
                     'description' => 'Struggles to express ideas clearly and often causes misunderstandings within the team.',
+                    'description_pt' => 'Tem dificuldade para expressar ideias com clareza e frequentemente causa mal-entendidos na equipe.',
                     'i18n_description_key' => 'soft_skill_level_responses.communication_very_poor_description',
-                    'evaluation_weight' => 1
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.communication_basic',
                     'description' => 'Communicates simple ideas but lacks clarity in more complex discussions.',
+                    'description_pt' => 'Comunica ideias simples, mas falta clareza em discussões mais complexas.',
                     'i18n_description_key' => 'soft_skill_level_responses.communication_basic_description',
-                    'evaluation_weight' => 2
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.communication_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.communication_intermediate_description',
                     'description' => 'Communicates clearly in most situations and participates in team discussions.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Comunica-se com clareza na maioria das situações e participa das discussões da equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.communication_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.communication_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.communication_advanced_description',
                     'description' => 'Expresses ideas clearly and ensures team alignment during discussions.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Expressa ideias com clareza e garante alinhamento da equipe durante as discussões.',
+                    'i18n_description_key' => 'soft_skill_level_responses.communication_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.communication_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.communication_expert_description',
                     'description' => 'Communicates complex ideas effectively and facilitates productive discussions.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Comunica ideias complexas de forma eficaz e facilita discussões produtivas.',
+                    'i18n_description_key' => 'soft_skill_level_responses.communication_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
             'Teamwork' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.teamwork_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_very_poor_description',
                     'description' => 'Rarely collaborates and often works in isolation from the team.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Raramente colabora e frequentemente trabalha isolado da equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.teamwork_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_basic_description',
                     'description' => 'Occasionally collaborates but has difficulty aligning with the team.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Colabora ocasionalmente, mas tem dificuldade em se alinhar com a equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.teamwork_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_intermediate_description',
                     'description' => 'Works well with teammates and contributes to shared goals.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Trabalha bem com colegas e contribui para objetivos compartilhados.',
+                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.teamwork_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_advanced_description',
                     'description' => 'Actively collaborates and helps improve team productivity.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Colabora ativamente e ajuda a melhorar a produtividade da equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.teamwork_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_expert_description',
                     'description' => 'Promotes strong collaboration and strengthens team dynamics.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Promove forte colaboração e fortalece a dinâmica da equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.teamwork_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
             'Problem Solving' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.problem_solving_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_very_poor_description',
                     'description' => 'Has difficulty identifying problems or proposing solutions.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Tem dificuldade em identificar problemas ou propor soluções.',
+                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.problem_solving_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_basic_description',
                     'description' => 'Can solve simple problems but struggles with complex situations.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Resolve problemas simples, mas tem dificuldade em situações complexas.',
+                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.problem_solving_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_intermediate_description',
                     'description' => 'Analyzes problems and proposes reasonable solutions.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Analisa problemas e propõe soluções razoáveis.',
+                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.problem_solving_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_advanced_description',
                     'description' => 'Breaks down complex problems and consistently finds effective solutions.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Decompõe problemas complexos e encontra soluções eficazes de forma consistente.',
+                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.problem_solving_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_expert_description',
                     'description' => 'Anticipates problems and designs strategic solutions for complex challenges.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Antecipa problemas e elabora soluções estratégicas para desafios complexos.',
+                    'i18n_description_key' => 'soft_skill_level_responses.problem_solving_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
             'Adaptability' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.adaptability_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_very_poor_description',
                     'description' => 'Has significant difficulty adapting to changes in processes, technologies, or team dynamics.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Tem grande dificuldade em se adaptar a mudanças em processos, tecnologias ou dinâmicas de equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.adaptability_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_basic_description',
                     'description' => 'Shows some resistance to change but can adapt with guidance and additional time.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Demonstra certa resistência à mudança, mas consegue se adaptar com orientação e tempo adicional.',
+                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.adaptability_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_intermediate_description',
                     'description' => 'Adapts to new tools, environments, and processes with moderate support.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Adapta-se a novas ferramentas, ambientes e processos com suporte moderado.',
+                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.adaptability_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_advanced_description',
                     'description' => 'Quickly adapts to new situations, technologies, and project requirements.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Adapta-se rapidamente a novas situações, tecnologias e requisitos de projeto.',
+                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.adaptability_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_expert_description',
                     'description' => 'Proactively embraces change and helps the team adapt effectively to new challenges.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Abraça mudanças de forma proativa e ajuda a equipe a se adaptar eficazmente a novos desafios.',
+                    'i18n_description_key' => 'soft_skill_level_responses.adaptability_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
-
             'Time Management' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.time_management_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.time_management_very_poor_description',
                     'description' => 'Struggles to organize tasks and frequently misses deadlines.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Tem dificuldade em organizar tarefas e frequentemente perde prazos.',
+                    'i18n_description_key' => 'soft_skill_level_responses.time_management_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.time_management_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.time_management_basic_description',
                     'description' => 'Completes tasks but has difficulty prioritizing work and managing deadlines.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Conclui tarefas, mas tem dificuldade em priorizar o trabalho e gerenciar prazos.',
+                    'i18n_description_key' => 'soft_skill_level_responses.time_management_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.time_management_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.time_management_intermediate_description',
                     'description' => 'Manages time reasonably well and usually delivers tasks within expected deadlines.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Gerencia o tempo de forma razoável e geralmente entrega tarefas dentro dos prazos esperados.',
+                    'i18n_description_key' => 'soft_skill_level_responses.time_management_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.time_management_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.time_management_advanced_description',
                     'description' => 'Effectively prioritizes work and consistently meets deadlines even under pressure.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Prioriza o trabalho de forma eficaz e cumpre prazos de forma consistente, mesmo sob pressão.',
+                    'i18n_description_key' => 'soft_skill_level_responses.time_management_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.time_management_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.time_management_expert_description',
                     'description' => 'Demonstrates exceptional organization and helps the team optimize time and productivity.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Demonstra organização excepcional e ajuda a equipe a otimizar tempo e produtividade.',
+                    'i18n_description_key' => 'soft_skill_level_responses.time_management_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
-
             'Critical Thinking' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.critical_thinking_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_very_poor_description',
                     'description' => 'Has difficulty analyzing information and often relies on assumptions.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Tem dificuldade em analisar informações e frequentemente se baseia em suposições.',
+                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.critical_thinking_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_basic_description',
                     'description' => 'Can analyze simple situations but struggles with complex reasoning.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Analisa situações simples, mas tem dificuldade com raciocínios complexos.',
+                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.critical_thinking_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_intermediate_description',
                     'description' => 'Evaluates information logically and contributes to problem discussions.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Avalia informações de forma lógica e contribui para discussões de problemas.',
+                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.critical_thinking_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_advanced_description',
                     'description' => 'Consistently analyzes situations critically and proposes well-reasoned solutions.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Analisa situações criticamente de forma consistente e propõe soluções bem fundamentadas.',
+                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.critical_thinking_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_expert_description',
                     'description' => 'Demonstrates exceptional analytical thinking and guides others in making sound decisions.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Demonstra pensamento analítico excepcional e orienta outras pessoas na tomada de decisões sólidas.',
+                    'i18n_description_key' => 'soft_skill_level_responses.critical_thinking_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
             'Leadership' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.leadership_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.leadership_very_poor_description',
                     'description' => 'Avoids responsibility for guiding others and struggles to provide direction or support to the team.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Evita responsabilidade por orientar outras pessoas e tem dificuldade em dar direção ou apoio à equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.leadership_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.leadership_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.leadership_basic_description',
                     'description' => 'Occasionally provides guidance but lacks consistency in motivating or supporting the team.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Orienta ocasionalmente, mas falta consistência em motivar ou apoiar a equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.leadership_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.leadership_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.leadership_intermediate_description',
                     'description' => 'Supports teammates and helps coordinate efforts to achieve team objectives.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Apoia colegas e ajuda a coordenar esforços para atingir objetivos da equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.leadership_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.leadership_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.leadership_advanced_description',
                     'description' => 'Actively motivates and guides the team while helping resolve challenges and maintain alignment.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Motiva e orienta a equipe ativamente, ajudando a resolver desafios e manter o alinhamento.',
+                    'i18n_description_key' => 'soft_skill_level_responses.leadership_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.leadership_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.leadership_expert_description',
                     'description' => 'Demonstrates strong leadership by inspiring others, guiding decisions, and fostering team growth.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Demonstra liderança forte ao inspirar outras pessoas, orientar decisões e promover o crescimento da equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.leadership_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
-
             'Conflict Resolution' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.conflict_resolution_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_very_poor_description',
                     'description' => 'Avoids or escalates conflicts and struggles to contribute to constructive resolutions.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Evita ou intensifica conflitos e tem dificuldade em contribuir para resoluções construtivas.',
+                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.conflict_resolution_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_basic_description',
                     'description' => 'Recognizes conflicts but has difficulty facilitating productive discussions to resolve them.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Reconhece conflitos, mas tem dificuldade em facilitar discussões produtivas para resolvê-los.',
+                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.conflict_resolution_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_intermediate_description',
                     'description' => 'Participates in resolving disagreements and helps maintain respectful communication.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Participa da resolução de desentendimentos e ajuda a manter uma comunicação respeitosa.',
+                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.conflict_resolution_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_advanced_description',
                     'description' => 'Effectively mediates conflicts and helps guide discussions toward constructive outcomes.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Medeia conflitos de forma eficaz e ajuda a conduzir discussões para resultados construtivos.',
+                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.conflict_resolution_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_expert_description',
                     'description' => 'Proactively identifies potential conflicts and facilitates collaborative and sustainable solutions.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Identifica conflitos potenciais de forma proativa e facilita soluções colaborativas e sustentáveis.',
+                    'i18n_description_key' => 'soft_skill_level_responses.conflict_resolution_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
-
             'Emotional Intelligence' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.emotional_intelligence_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_very_poor_description',
                     'description' => 'Struggles to recognize emotions in self or others and may react impulsively in challenging situations.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Tem dificuldade em reconhecer emoções em si ou em outras pessoas e pode reagir impulsivamente em situações desafiadoras.',
+                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.emotional_intelligence_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_basic_description',
                     'description' => 'Shows some awareness of emotions but has difficulty managing reactions consistently.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Demonstra alguma consciência emocional, mas tem dificuldade em gerenciar reações de forma consistente.',
+                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.emotional_intelligence_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_intermediate_description',
                     'description' => 'Recognizes emotional dynamics and generally responds in a respectful and balanced manner.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Reconhece dinâmicas emocionais e geralmente responde de forma respeitosa e equilibrada.',
+                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.emotional_intelligence_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_advanced_description',
                     'description' => 'Demonstrates strong emotional awareness and maintains constructive interactions even in stressful situations.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Demonstra forte consciência emocional e mantém interações construtivas mesmo em situações estressantes.',
+                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.emotional_intelligence_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_expert_description',
                     'description' => 'Exhibits exceptional emotional intelligence and positively influences the emotional dynamics of the team.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Exibe inteligência emocional excepcional e influencia positivamente a dinâmica emocional da equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.emotional_intelligence_expert_description',
+                    'evaluation_weight' => 5,
                 ],
             ],
-
             'Accountability' => [
                 [
                     'title' => 'Very Poor',
+                    'title_pt' => 'Muito baixo',
                     'i18n_title_key' => 'soft_skill_level_responses.accountability_very_poor',
-                    'i18n_description_key' => 'soft_skill_level_responses.accountability_very_poor_description',
                     'description' => 'Avoids responsibility for outcomes and frequently shifts blame to others.',
-                    'evaluation_weight' => 1
+                    'description_pt' => 'Evita responsabilidade pelos resultados e frequentemente transfere culpa para outras pessoas.',
+                    'i18n_description_key' => 'soft_skill_level_responses.accountability_very_poor_description',
+                    'evaluation_weight' => 1,
                 ],
                 [
                     'title' => 'Basic',
+                    'title_pt' => 'Básico',
                     'i18n_title_key' => 'soft_skill_level_responses.accountability_basic',
-                    'i18n_description_key' => 'soft_skill_level_responses.accountability_basic_description',
                     'description' => 'Accepts responsibility when prompted but may struggle to consistently follow through on commitments.',
-                    'evaluation_weight' => 2
+                    'description_pt' => 'Assume responsabilidade quando solicitado, mas pode ter dificuldade em cumprir compromissos de forma consistente.',
+                    'i18n_description_key' => 'soft_skill_level_responses.accountability_basic_description',
+                    'evaluation_weight' => 2,
                 ],
                 [
                     'title' => 'Intermediate',
+                    'title_pt' => 'Intermediário',
                     'i18n_title_key' => 'soft_skill_level_responses.accountability_intermediate',
-                    'i18n_description_key' => 'soft_skill_level_responses.accountability_intermediate_description',
                     'description' => 'Takes ownership of tasks and acknowledges responsibility for results.',
-                    'evaluation_weight' => 3
+                    'description_pt' => 'Assume propriedade das tarefas e reconhece responsabilidade pelos resultados.',
+                    'i18n_description_key' => 'soft_skill_level_responses.accountability_intermediate_description',
+                    'evaluation_weight' => 3,
                 ],
                 [
                     'title' => 'Advanced',
+                    'title_pt' => 'Avançado',
                     'i18n_title_key' => 'soft_skill_level_responses.accountability_advanced',
-                    'i18n_description_key' => 'soft_skill_level_responses.accountability_advanced_description',
                     'description' => 'Consistently demonstrates ownership, reliability, and responsibility for outcomes.',
-                    'evaluation_weight' => 4
+                    'description_pt' => 'Demonstra de forma consistente propriedade, confiabilidade e responsabilidade pelos resultados.',
+                    'i18n_description_key' => 'soft_skill_level_responses.accountability_advanced_description',
+                    'evaluation_weight' => 4,
                 ],
                 [
                     'title' => 'Expert',
+                    'title_pt' => 'Especialista',
                     'i18n_title_key' => 'soft_skill_level_responses.accountability_expert',
-                    'i18n_description_key' => 'soft_skill_level_responses.accountability_expert_description',
                     'description' => 'Leads by example in accountability and encourages a culture of ownership within the team.',
-                    'evaluation_weight' => 5
+                    'description_pt' => 'Lidera pelo exemplo em responsabilidade e incentiva uma cultura de propriedade na equipe.',
+                    'i18n_description_key' => 'soft_skill_level_responses.accountability_expert_description',
+                    'evaluation_weight' => 5,
                 ],
-            ]
+            ],
         ];
 
-        foreach($softSkillResponses as $skill => $responses){
+        foreach ($softSkillResponses as $skill => $responses) {
             $softSkill = SoftSkill::where('name', $skill)->first();
 
-            if(!$softSkill){
+            if (!$softSkill) {
                 continue;
             }
 
-            foreach($responses as $response){
-                SoftSkillLevelResponse::firstOrCreate([
-                    'soft_skill_id' => $softSkill->id,
-                    'evaluation_weight' => $response['evaluation_weight'],
-                ], [
-                    'title' => $response['title'],
-                    'i18n_title_key' => $response['i18n_title_key'],
-                    'description' => $response['description'],
-                    'i18n_description_key' => $response['i18n_description_key'],
-                ]);
+            foreach ($responses as $response) {
+                SoftSkillLevelResponse::updateOrCreate(
+                    [
+                        'soft_skill_id' => $softSkill->id,
+                        'evaluation_weight' => $response['evaluation_weight'],
+                    ],
+                    [
+                        'title' => $response['title'],
+                        'title_pt' => $response['title_pt'],
+                        'i18n_title_key' => $response['i18n_title_key'],
+                        'description' => $response['description'],
+                        'description_pt' => $response['description_pt'],
+                        'i18n_description_key' => $response['i18n_description_key'],
+                    ]
+                );
             }
         }
     }

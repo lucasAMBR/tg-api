@@ -15,8 +15,10 @@ class SoftSkillLevelResponse extends Model
     protected $fillable = [
         'soft_skill_id',
         'title',
+        'title_pt',
         'i18n_title_key',
         'description',
+        'description_pt',
         'i18n_description_key',
         'evaluation_weight',
     ];

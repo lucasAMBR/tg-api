@@ -35,4 +35,15 @@ enum DevSpecialtyEnum: string
             self::DEVOPS => 'DevOps',
         };
     }
+
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::FRONTEND => 'Frontend',
+            self::BACKEND => 'Backend',
+            self::FULLSTACK => 'Fullstack',
+            self::MOBILE => 'Mobile',
+            self::DEVOPS => 'DevOps',
+        };
+    }
 }

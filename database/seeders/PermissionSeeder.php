@@ -82,6 +82,13 @@ class PermissionSeeder extends Seeder
             ['name' => 'language.delete', 'guard_name' => 'api'],
             ['name' => 'language.approve', 'guard_name' => 'api'],
 
+            ['name' => 'question.view', 'guard_name' => 'api'],
+            ['name' => 'question.create', 'guard_name' => 'api'],
+            ['name' => 'question.update', 'guard_name' => 'api'],
+            ['name' => 'question.delete', 'guard_name' => 'api'],
+            ['name' => 'question_response.create', 'guard_name' => 'api'],
+            ['name' => 'question_response.delete', 'guard_name' => 'api'],
+
             ['name' => 'administration.dashboard', 'guard_name' => 'api'],
 
             ['name' => 'user.block', 'guard_name' => 'api'],

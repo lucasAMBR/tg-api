@@ -35,3 +35,5 @@ Route::prefix('user')->group(base_path('routes/api/User.php'));
 Route::prefix('recommendation-preferences')->group(base_path('routes/api/RecommendationPreferences.php'));
 
 Route::prefix('dev-vacancy')->group(base_path('routes/api/DevJobVacancy.php'));
+
+Route::prefix('question')->group(base_path('routes/api/Question.php'));

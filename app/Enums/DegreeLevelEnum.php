@@ -43,4 +43,18 @@ enum DegreeLevelEnum: string
             self::POST_DOCTORATE => "Post Doctorate",
         };
     }
+
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::HIGH_SCHOOL => 'Ensino Médio',
+            self::TECHNICAL => 'Técnico',
+            self::ASSOCIATE => 'Tecnólogo',
+            self::BACHELORS => 'Graduação',
+            self::POST_GRADUATE => 'Pós-graduação',
+            self::MASTERS => 'Mestrado',
+            self::DOCTORATE => 'Doutorado',
+            self::POST_DOCTORATE => 'Pós-doutorado',
+        };
+    }
 }

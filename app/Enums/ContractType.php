@@ -29,4 +29,13 @@ enum ContractType: string
             self::INTERNSHIP => "Internship",
         };
     }
+
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::CLT => 'CLT',
+            self::CONTRACTOR => 'PJ',
+            self::INTERNSHIP => 'Estágio',
+        };
+    }
 }

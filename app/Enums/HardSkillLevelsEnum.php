@@ -37,4 +37,16 @@ enum HardSkillLevelsEnum: string
             self::AUTHORITY => "Authority",
         };
     }
+
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::FUNDAMENTALS => 'Fundamentos',
+            self::BASIC => 'Básico',
+            self::INTERMEDIATE => 'Intermediário',
+            self::ADVANCED => 'Avançado',
+            self::EXPERT => 'Especialista',
+            self::AUTHORITY => 'Autoridade',
+        };
+    }
 }
