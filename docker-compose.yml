@@ -16,5 +16,43 @@ services:
       - libretranslate_data:/home/libretranslate/.local/share/argos-translate
     restart: unless-stopped
 
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    user: "${UID}:${GID}"
+    networks:
+      - brew-network
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+      - redis
+  
+  db: 
+    image: pgvector/pgvector:pg17
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - brew-network
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: brew_db
+      POSTGRES_USER: brew
+
+  redis: 
+    image: redis:alpine
+    volumes:
+      - redisdata:/data
+    networks:
+      - brew-network
+  
+networks:
+  brew-network:
+
 volumes:
   libretranslate_data:
+  pgdata:
+  redisdata:
