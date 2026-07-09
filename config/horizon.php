@@ -226,7 +226,8 @@ return [
                 'connection' => 'redis',
                 'queue' => [
                     'default', 
-                    'translations', 
+                    'translations',
+                    'profile-embedding',
                     'proficiency-tests',
                     'tests-pontuation-calc'
                 ],
