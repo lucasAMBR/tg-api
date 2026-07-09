@@ -5,6 +5,7 @@ namespace App\Services\AcademicBackground;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\AcademicBackground\AcademicBackgroundCollection;
 use App\Http\Resources\AcademicBackground\AcademicBackgroundResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\AcademicBackground;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,6 +63,8 @@ class AcademicBackgroundService
 
             TranslateContentJob::dispatch($academicBackground);
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($academicBackground->dev_profile_id);
+
             return new AcademicBackgroundResource($academicBackground);
         });
     }
@@ -80,6 +83,8 @@ class AcademicBackgroundService
                     ->toMediaCollection('certificate');
             }
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($academicBackground->dev_profile_id);
+
             return new AcademicBackgroundResource($academicBackground);
         });
     }
@@ -88,6 +93,8 @@ class AcademicBackgroundService
     {
         DB::transaction(function () use ($academicBackground) {
             $academicBackground->delete();
+
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($academicBackground->dev_profile_id);
         });
     }
 }

@@ -89,6 +89,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'question_response.create', 'guard_name' => 'api'],
             ['name' => 'question_response.delete', 'guard_name' => 'api'],
 
+            ['name' => 'proficiency_test.solicitate', 'guard_name' => 'api'],
+            ['name' => 'proficiency_test.view', 'guard_name' => 'api'],
+            ['name' => 'proficiency_test.submit', 'guard_name' => 'api'],
+
             ['name' => 'administration.dashboard', 'guard_name' => 'api'],
 
             ['name' => 'user.block', 'guard_name' => 'api'],

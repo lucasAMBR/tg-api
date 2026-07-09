@@ -8,6 +8,7 @@ use App\Http\Requests\Question\AddResponseToQuestionRequest;
 use App\Http\Requests\Question\IndexQuestionRequest;
 use App\Http\Requests\Question\StoreQuestionRequest;
 use App\Http\Requests\Question\UpdateQuestionRequest;
+use App\Http\Requests\Question\UpdateQuestionResponseRequest;
 use App\Models\Question;
 use App\Models\QuestionResponse;
 use App\Services\Question\QuestionService;
@@ -64,5 +65,12 @@ class QuestionController extends Controller
         $this->questionService->deleteResponseFromQuestion($response);
 
         return ApiResponse::success(null, "Response removed successfully");
+    }
+
+    public function updateResponse(QuestionResponse $response, UpdateQuestionResponseRequest $request)
+    {
+        $updatedResponse = $this->questionService->updateResponse($response, $request->validated());
+
+        return ApiResponse::success($updatedResponse, "Response updated successfully");
     }
 }

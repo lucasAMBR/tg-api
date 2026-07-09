@@ -5,6 +5,7 @@ namespace App\Services\AdditionalCourse;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\AdditionalCourse\AdditionalCourseCollection;
 use App\Http\Resources\AdditionalCourse\AdditionalCourseResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Models\AdditionalCourse;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,8 @@ class AdditionalCourseService
                     ->toMediaCollection('certificate');
             }
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($additionalCourse->dev_profile_id);
+
             return new AdditionalCourseResource($additionalCourse);
         });
     }
@@ -72,6 +75,8 @@ class AdditionalCourseService
                     ->toMediaCollection('certificate');
             }
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($additionalCourse->dev_profile_id);
+
             return new AdditionalCourseResource($additionalCourse);
         });
     }
@@ -80,6 +85,8 @@ class AdditionalCourseService
     {
         DB::transaction(function () use ($additionalCourse) {
             $additionalCourse->delete();
+
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($additionalCourse->dev_profile_id);
         });
     }
 }

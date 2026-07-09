@@ -5,6 +5,7 @@ namespace App\Services\HardSkill;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\HardSkill\HardSkillCollection;
 use App\Http\Resources\HardSkill\HardSkillResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Models\HardSkill;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -57,6 +58,8 @@ class HardSkillService
                 'dev_profile_id' => $devProfile->id
             ]);
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($hardSkill->dev_profile_id);
+
             return new HardSkillResource($hardSkill);
         });
     }
@@ -68,6 +71,8 @@ class HardSkillService
 
             $hardSkill->refresh();
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($hardSkill->dev_profile_id);
+
             return new HardSkillResource($hardSkill);
         });
     }
@@ -76,6 +81,8 @@ class HardSkillService
     {
         DB::transaction(function () use ($hardSkill): void {
             $hardSkill->delete();
+
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($hardSkill->dev_profile_id);
         });
     }
 }

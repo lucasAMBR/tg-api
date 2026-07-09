@@ -8,6 +8,7 @@ use App\Helpers\ProfileHelper;
 use App\Http\Resources\CompanySoftSkill\CompanySoftSkillResource;
 use App\Http\Resources\DevSoftSkill\DevSoftSkillResource;
 use App\Http\Resources\SoftSkill\SoftSkillResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Models\CompanySoftSkill;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
@@ -62,6 +63,8 @@ class SoftSkillService
 
         $profile->refresh();
 
+        GenerateDevProfileEmbeddingJob::dispatchDebounced($profile->id);
+
         return DevSoftSkillResource::collection($profile->dev_soft_skills);
     }
 
@@ -97,6 +100,8 @@ class SoftSkillService
         }
 
         $profile->refresh();
+
+        GenerateDevProfileEmbeddingJob::dispatchDebounced($profile->id);
 
         return DevSoftSkillResource::collection($profile->dev_soft_skills);
     }

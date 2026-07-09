@@ -21,7 +21,9 @@ class QuestionResponseResource extends JsonResource
             'response_pt' => $this->response_pt,
             'response_en' => $this->response_en,
             'translation_status' => $this->translation_status,
-            'is_correct' => $this->is_correct,
+            $this->mergeWhen(! $request->user()?->hasRole('dev'), [
+                'is_correct' => $this->is_correct,
+            ]),
             'code_snippet' => $this->code_snippet,
         ];
     }

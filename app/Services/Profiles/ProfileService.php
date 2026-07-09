@@ -11,6 +11,7 @@ use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileCollection;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\Profiles\DevProfile\DevProfileCollection;
 use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\ClientProfile;
 use App\Models\CompanyProfile;
@@ -135,6 +136,8 @@ class ProfileService
 
             TranslateContentJob::dispatch($devProfile);
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($devProfile->id);
+
             return new DevProfileResource($devProfile);
         });
     }
@@ -212,6 +215,10 @@ class ProfileService
 
             if (isset($data['bio'])) {
                 TranslateContentJob::dispatch($dev);
+            }
+
+            if (isset($data['bio']) || isset($data['specialty']) || isset($data['seniority_level'])) {
+                GenerateDevProfileEmbeddingJob::dispatchDebounced($dev->id);
             }
 
             return new DevProfileResource($dev);

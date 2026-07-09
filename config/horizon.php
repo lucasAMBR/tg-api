@@ -224,7 +224,12 @@ return [
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default', 'translations'],
+                'queue' => [
+                    'default', 
+                    'translations', 
+                    'proficiency-tests',
+                    'tests-pontuation-calc'
+                ],
                 'balance' => 'auto',
                 'maxProcesses' => 10,
                 'tries' => 3,

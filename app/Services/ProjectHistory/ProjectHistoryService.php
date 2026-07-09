@@ -6,6 +6,7 @@ use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\ProjectHistory\ProjectHistoryCollection;
 use App\Http\Resources\ProjectHistory\ProjectHistoryResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\ProjectHistory;
 use App\Models\ProjectHistoryImage;
@@ -68,6 +69,8 @@ class ProjectHistoryService
 
             TranslateContentJob::dispatch($projectHistory);
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($projectHistory->dev_profile_id);
+
             return new ProjectHistoryResource($projectHistory);
         });
     }
@@ -89,6 +92,8 @@ class ProjectHistoryService
                 $projectHistory->languages()->sync($data['languages']);
             }
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($projectHistory->dev_profile_id);
+
             return new ProjectHistoryResource($projectHistory);
         });
     }
@@ -97,6 +102,8 @@ class ProjectHistoryService
     {
         DB::transaction(function () use ($projectHistory) {
             $projectHistory->delete();
+
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($projectHistory->dev_profile_id);
         });
     }
 

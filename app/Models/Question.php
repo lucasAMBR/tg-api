@@ -65,4 +65,9 @@ class Question extends Model implements Translatable
     {
         return $this->hasMany(QuestionResponse::class);
     }
+
+    public function proficiencyTestResponses(): HasMany
+    {
+        return $this->hasMany(ProficiencyTestResponse::class, 'question_id');
+    }
 }

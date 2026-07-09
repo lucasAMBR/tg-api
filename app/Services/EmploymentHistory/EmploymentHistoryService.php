@@ -6,6 +6,7 @@ use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\EmploymentHistory\EmploymentHistoryCollection;
 use App\Http\Resources\EmploymentHistory\EmploymentHistoryResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\EmploymentHistory;
 use Illuminate\Database\Eloquent\Builder;
@@ -68,6 +69,8 @@ class EmploymentHistoryService
 
             TranslateContentJob::dispatch($employmentHistory);
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($employmentHistory->dev_profile_id);
+
             return new EmploymentHistoryResource($employmentHistory);
         });
     }
@@ -81,6 +84,8 @@ class EmploymentHistoryService
                 TranslateContentJob::dispatch($employmentHistory);
             }
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($employmentHistory->dev_profile_id);
+
             return new EmploymentHistoryResource($employmentHistory);
         });
     }
@@ -89,6 +94,8 @@ class EmploymentHistoryService
     {
         DB::transaction(function () use ($employmentHistory) {
             $employmentHistory->delete();
+
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($employmentHistory->dev_profile_id);
         });
     }
 }

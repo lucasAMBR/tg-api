@@ -30,6 +30,7 @@ class DevProfile extends Model implements Translatable
         'open_to_relocation',
         'open_to_work',
         'seniority_level',
+        'seniority_tested',
         'specialty',
         'score'
     ];

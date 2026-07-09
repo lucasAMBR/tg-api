@@ -5,6 +5,7 @@ namespace App\Services\Question;
 use App\Exceptions\ApiException;
 use App\Http\Resources\Question\QuestionCollection;
 use App\Http\Resources\Question\QuestionResource;
+use App\Http\Resources\Question\QuestionResponseResource;
 use App\Jobs\TranslateContentJob;
 use App\Models\Question;
 use App\Models\QuestionResponse;
@@ -115,6 +116,14 @@ class QuestionService
                 'code_snippet' => $data['code_snippet'] ?? null,
             ]);
 
+            if($data('manual_update_translation')) {
+                $question->question_pt = $data['question_pt'];
+                $question->question_en = $data['question_en'];
+                $question->save();
+            }else{
+                TranslateContentJob::dispatch($question);
+            }
+
             return new QuestionResource($question);
         });
     }
@@ -159,6 +168,27 @@ class QuestionService
     {
         DB::transaction(function () use ($response): void {
             $response->delete();
+        });
+    }
+
+    public function updateResponse(QuestionResponse $response, array $data): QuestionResponseResource
+    {
+        return DB::transaction(function () use ($response, $data) {
+            $response->update([
+                'response' => $data['response'],
+                'is_correct' => $data['is_correct'],
+                'code_snippet' => $data['code_snippet'] ?? null,
+            ]);
+
+            if($data('manual_update_translation')) {
+                $response->response_pt = $data['response_pt'];
+                $response->response_en = $data['response_en'];
+                $response->save();
+            }else{
+                TranslateContentJob::dispatch($response);
+            }
+
+            return new QuestionResponseResource($response);
         });
     }
 }

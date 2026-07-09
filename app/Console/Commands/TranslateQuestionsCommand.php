@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\TranslationStatusEnum;
 use App\Exceptions\ApiException;
 use App\Models\Question;
 use App\Models\QuestionResponse;
@@ -126,18 +127,22 @@ class TranslateQuestionsCommand extends Command
             return null;
         }
 
+        $question->updateTranslationStatus(TranslationStatusEnum::TRANSLATING->value);
+
         try {
             $translations = $this->translationService->getPortugueseAndEnglishTranslation($question->question);
 
             $question->update([
                 'question_pt' => $translations['pt-br'],
                 'question_en' => $translations['en'],
+                'translation_status' => TranslationStatusEnum::TRANSLATED->value,
             ]);
 
             $this->writeTranslationOutput($bar, "<fg=green>✓</> Pergunta {$question->id} traduzida");
 
             return true;
         } catch (ApiException $e) {
+            $question->updateTranslationStatus(TranslationStatusEnum::ERROR->value);
             $this->writeTranslationOutput($bar, "<fg=red>✗</> Erro ao traduzir pergunta {$question->id}: {$e->getMessage()}");
             return false;
         }
@@ -153,18 +158,22 @@ class TranslateQuestionsCommand extends Command
             return null;
         }
 
+        $response->updateTranslationStatus(TranslationStatusEnum::TRANSLATING->value);
+
         try {
             $translations = $this->translationService->getPortugueseAndEnglishTranslation($response->response);
 
             $response->update([
                 'response_pt' => $translations['pt-br'],
                 'response_en' => $translations['en'],
+                'translation_status' => TranslationStatusEnum::TRANSLATED->value,
             ]);
 
             $this->writeTranslationOutput($bar, "<fg=green>✓</> Resposta {$response->id} traduzida");
 
             return true;
         } catch (ApiException $e) {
+            $response->updateTranslationStatus(TranslationStatusEnum::ERROR->value);
             $this->writeTranslationOutput($bar, "<fg=red>✗</> Erro ao traduzir resposta {$response->id}: {$e->getMessage()}");
             return false;
         }

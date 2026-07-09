@@ -8,6 +8,7 @@ use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class QuestionResponse extends Model implements Translatable
@@ -50,6 +51,12 @@ class QuestionResponse extends Model implements Translatable
     protected $casts = [
         'code_snippet' => AsCollection::class
     ];
+
+    public function proficiencyTestResponses(): HasMany
+    {
+        return $this->hasMany(ProficiencyTestResponse::class, 'question_response_id');
+    }
+
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);

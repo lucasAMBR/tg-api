@@ -26,6 +26,8 @@ class UpdateQuestionRequest extends FormRequest
     {
         return [
             'question' => ['required', 'string', 'max:255'],
+            'question_pt' => ['required_if:manual_update_translation,true', 'string', 'max:255'],
+            'question_en' => ['required_if:manual_update_translation,true', 'string', 'max:255'],
             'difficulty_level' => ['required', 'integer', 'min:1', 'max:10'],
             'language_id' => ['nullable', 'integer', 'exists:languages,id'],
             'category' => ['required', 'string'],
@@ -33,6 +35,7 @@ class UpdateQuestionRequest extends FormRequest
             'code_snippet' => ['nullable', 'array', 'max:255'],
             'seniority_level' => ['required', 'string', Rule::enum(SeniorityLevelEnum::class)],
             'is_multiple_choice' => ['required', 'boolean'],
+            'manual_update_translation' => ['required', 'boolean'],
         ];
     }
 }

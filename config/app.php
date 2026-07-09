@@ -131,7 +131,50 @@ return [
         'embedding' => [
             'url' => env('OPEN_IA_URL'),
             'key' => env('OPEN_IA_KEY'),
-            'model' => 'text-embedding-3-small'
+            'model' => 'text-embedding-3-small',
+            'debounce_seconds' => env('EMBEDDING_DEBOUNCE_SECONDS', 60),
         ],
-    ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Proficiency Test Scoring
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the proficiency test score calculation: hit rate
+    | required to consider mastery on each seniority level, consistency
+    | boost multipliers and the focus/time violation penalties.
+    |
+    */
+
+    'proficiency_test' => [
+        'questions_per_page' => 10,
+
+        'mastery_thresholds' => [
+            'below_level' => 0.7,
+            'declared_level' => 0.6,
+            'above_level' => 0.5,
+        ],
+
+        'consistency_boosts' => [
+            'positive' => 1.15,
+            'negative' => 0.85,
+        ],
+
+        'seniority_adjustment' => [
+            'promote_min_hit_rate' => 0.75,
+            'demote_max_hit_rate' => 0.40,
+        ],
+
+        'alt_tabs' => [
+            'max_per_page' => 3,
+            'penalty_per_excess' => 0.02,
+        ],
+
+        'time' => [
+            'max_ideal_time_ratio' => 1.5,
+            'min_ideal_time_ratio' => 0.5,
+            'violation_penalty' => 0.05,
+        ],
+    ],
 ];
