@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(base_path('routes/api/Auth.php'));
@@ -39,3 +40,7 @@ Route::prefix('dev-vacancy')->group(base_path('routes/api/DevJobVacancy.php'));
 Route::prefix('question')->group(base_path('routes/api/Question.php'));
 
 Route::prefix('proficiency-test')->group(base_path('routes/api/ProficiencyTest.php'));
+
+Route::prefix('notification')->group(base_path('routes/api/Notification.php'));
+
+Broadcast::routes(['middleware' => ['auth:api']]);

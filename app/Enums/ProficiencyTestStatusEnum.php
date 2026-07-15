@@ -12,6 +12,7 @@ enum ProficiencyTestStatusEnum: string
     case GENERATED = 'generated';
     case AWAITING_SCORE = 'awaiting_score';
     case COMPLETED = 'completed';
+    case GENERATION_FAILED = 'generation_failed';
 
     public function label(): string
     {
@@ -20,6 +21,7 @@ enum ProficiencyTestStatusEnum: string
             self::GENERATED => 'Gerado',
             self::AWAITING_SCORE => 'Aguardando pontuação',
             self::COMPLETED => 'Concluído',
+            self::GENERATION_FAILED => 'Falha na geração do teste'
         };
     }
 
@@ -35,6 +37,7 @@ enum ProficiencyTestStatusEnum: string
             self::GENERATED => 'proficiency_test.status.generated',
             self::AWAITING_SCORE => 'proficiency_test.status.awaiting_score',
             self::COMPLETED => 'proficiency_test.status.completed',
+            self::GENERATION_FAILED => 'proficiency_test.status.generation_failed'
         };
     }
 }

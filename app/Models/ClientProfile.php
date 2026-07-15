@@ -9,6 +9,7 @@ use App\Traits\HasUuidV7;
 use App\Models\Address;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClientProfile extends Model implements Translatable
@@ -59,5 +60,10 @@ class ClientProfile extends Model implements Translatable
     public function address()
     {
         return $this->morphOne(Address::class, 'addressable');
+    }
+
+    public function notifications(): MorphMany
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
     }
 }
