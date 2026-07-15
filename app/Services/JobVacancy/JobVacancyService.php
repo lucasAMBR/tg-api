@@ -4,6 +4,7 @@ namespace App\Services\JobVacancy;
 
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
+use App\Jobs\GenerateJobVacancyEmbeddingJob;
 use App\Models\JobVacancy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,6 @@ class JobVacancyService {
                 $q->where('title', 'ILIKE', "%{$search}%")
                 ->orWhere('contract_type', 'ILIKE', "%{$search}%")
                 ->orWhere('seniority_level', 'ILIKE', "%{$search}%")
-                // Colocar busca pelo nivel da linguagem
                 ->orWhereHas('languages', function($q) use ($search) {
                     $q->where('name', 'ILIKE', "%{$search}%");
                 })
@@ -84,6 +84,9 @@ class JobVacancyService {
             );
             
             $jobVacancy->desirableLanguage()->sync($data['languages_desirable']);
+
+            $jobVacancy->refresh();
+            GenerateJobVacancyEmbeddingJob::dispatchDebounced($jobVacancy->id);
                 
             // Retorna ja com as relações carregadas
             return $jobVacancy->load('languages', 'softSkill', 'desirableLanguage', 'companyProfile');
@@ -150,6 +153,9 @@ class JobVacancyService {
                     $jobVacancy->softSkill()->attach($softSkill['new_soft_skills_id']);
                 }
             }
+
+            $jobVacancy->refresh();
+            GenerateJobVacancyEmbeddingJob::dispatchDebounced($jobVacancy->id);
 
             return $jobVacancy->fresh(['softSkill', 'languages']);
 
