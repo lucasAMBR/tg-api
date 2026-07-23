@@ -7,6 +7,7 @@ use App\Enums\ProficiencyTestStatusEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Enums\TranslationStatusEnum;
 use App\Exceptions\ApiException;
+use App\Http\Resources\ProficiencyTest\ProficiencyTestCollection;
 use App\Http\Resources\ProficiencyTest\ProficiencyTestResource;
 use App\Http\Resources\Question\QuestionResource;
 use App\Jobs\CalculateProficiencyTestScore;
@@ -14,7 +15,9 @@ use App\Jobs\GenerateProficiencyTest;
 use App\Models\DevProfile;
 use App\Models\ProficiencyTest;
 use App\Models\ProficiencyTestResponse;
+use App\Models\ProficiencyTestVisualization;
 use App\Models\Question;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -44,6 +47,49 @@ class ProficiencyTestService
         'devops',
         'frontend_fundamentals'
     ];
+
+    public function index(array $data)
+    {
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
+        $search = $data['search'] ?? null;
+        $devProfileId = $data['dev_profile_id'] ?? null;
+        $seniorityLevel = $data['seniority_level'] ?? null;
+        $specialty = $data['specialty'] ?? null;
+        $status = $data['status'] ?? null;
+
+        $proficiencyTests = ProficiencyTest::query()
+            ->with('devProfile')
+            ->when($search, function (Builder $query, $search) {
+                $query->whereHas('devProfile', function (Builder $query) use ($search) {
+                    $query->where('name', 'ILIKE', "%{$search}%");
+                });
+            })
+            ->when($devProfileId, function (Builder $query, $devProfileId) {
+                $query->where('dev_profile_id', $devProfileId);
+            })
+            ->when($seniorityLevel, function (Builder $query, $seniorityLevel) {
+                $query->where('seniority_level', $seniorityLevel);
+            })
+            ->when($specialty, function (Builder $query, $specialty) {
+                $query->where('specialty', $specialty);
+            })
+            ->when($status, function (Builder $query, $status) {
+                $query->where('status', $status);
+            })
+            ->latest('solicitation_date')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        return new ProficiencyTestCollection($proficiencyTests);
+    }
+
+    public function registerVisualization(ProficiencyTest $proficiencyTest, array $data): ProficiencyTestVisualization
+    {
+        return ProficiencyTestVisualization::create([
+            'proficiency_test_id' => $proficiencyTest->id,
+            'type' => $data['type'],
+        ]);
+    }
 
     public function solicitateProficiencyTest(DevProfile $devProfile, array $data)
     {
@@ -130,6 +176,12 @@ class ProficiencyTestService
                 'status' => ProficiencyTestStatusEnum::AWAITING_SCORE->value,
             ]);
 
+            $proficiencyTest->devProfile->notifications()->create([
+                'type' => 'proficiency_test_analysis_start',
+                'title' => 'Teste de proficiência',
+                'message' => 'Estamos iniciando a análise do seu teste de proficiência. Em alguns minutos você poderá ver o resultado!',
+            ]);
+
             CalculateProficiencyTestScore::dispatch($proficiencyTest);
 
             return new ProficiencyTestResource($proficiencyTest->fresh());
@@ -186,7 +238,29 @@ class ProficiencyTestService
             'seniority_tested' => true,
         ]);
 
+        $this->notifyScoreResult($proficiencyTest, $proficiencyTest->seniority_level, $evaluatedSeniorityLevel);
+
         return $score;
+    }
+
+    private function notifyScoreResult(ProficiencyTest $proficiencyTest, string $declaredLevel, string $evaluatedLevel): void
+    {
+        $declared = SeniorityLevelEnum::from($declaredLevel);
+        $evaluated = SeniorityLevelEnum::from($evaluatedLevel);
+
+        if ($evaluated->hierarchyLevel() > $declared->hierarchyLevel()) {
+            $message = "Calculamos a pontuação do seu teste de proficiência e sua senioridade subiu para {$evaluated->labelPt()}. Parabéns!";
+        } elseif ($evaluated->hierarchyLevel() < $declared->hierarchyLevel()) {
+            $message = "Calculamos a pontuação do seu teste de proficiência e sua senioridade foi ajustada para {$evaluated->labelPt()}.";
+        } else {
+            $message = "Calculamos a pontuação do seu teste de proficiência e aferimos com sucesso a sua senioridade de {$evaluated->labelPt()}!";
+        }
+
+        $proficiencyTest->devProfile->notifications()->create([
+            'type' => 'proficiency_test_score_calculated',
+            'title' => 'Teste de proficiência',
+            'message' => $message,
+        ]);
     }
 
     private function handleLevelMasteryMap(string $declaredLevel, Collection $responses): array

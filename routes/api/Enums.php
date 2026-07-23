@@ -10,3 +10,7 @@ Route::get('/employment-type', [EnumController::class, 'listEmploymentType']);
 Route::get("/degree-level", [EnumController::class, 'listDegreeLevels']);
 Route::get("/operational-segment", [EnumController::class, 'listOperationalSegments']);
 Route::get("/dev-specialty", [EnumController::class, 'listDevSpecialties']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::get("/question-category-stacks", [EnumController::class, 'listQuestionCategoryStacks']);
+});

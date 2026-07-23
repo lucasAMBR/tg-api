@@ -37,4 +37,9 @@ class ProficiencyTest extends Model
     {
         return $this->hasMany(ProficiencyTestResponse::class);
     }
+
+    public function proficiencyTestVisualizations(): HasMany
+    {
+        return $this->hasMany(ProficiencyTestVisualization::class);
+    }
 }

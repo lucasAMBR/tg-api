@@ -38,6 +38,7 @@ class DevProfileResource extends JsonResource
             'phone' => $this->phone,
             'seniority_level' => $this->seniority_level,
             'seniority_level_label' => SeniorityLevelEnum::from($this->seniority_level)->label(),
+            'seniority_tested' => (bool) $this->seniority_tested,
             'specialty' => $this->specialty,
             'specialty_label' => DevSpecialtyEnum::from($this->specialty)->label(),
             'birthdate' => $this->birthdate,

@@ -9,8 +9,10 @@ use App\Enums\DevSpecialtyEnum;
 use App\Enums\EmploymentType;
 use App\Enums\HardSkillLevelsEnum;
 use App\Enums\OperationalSegmentEnum;
+use App\Enums\QuestionCategoryEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class EnumController extends Controller
 {
@@ -47,5 +49,23 @@ class EnumController extends Controller
     public function listDevSpecialties()
     {
         return ApiResponse::success(DevSpecialtyEnum::options(), "Dev Specialties listed with success");
+    }
+
+    public function listQuestionCategoryStacks()
+    {
+        $devProfile = Auth::user()?->dev_profile;
+
+        if (!$devProfile) {
+            return ApiResponse::error("Authenticated user has no dev profile", status: 404);
+        }
+
+        $specialty = $devProfile->specialty instanceof DevSpecialtyEnum
+            ? $devProfile->specialty
+            : DevSpecialtyEnum::from($devProfile->specialty);
+
+        return ApiResponse::success(
+            QuestionCategoryEnum::stacksBySpecialty($specialty),
+            "Question category stacks listed with success"
+        );
     }
 }

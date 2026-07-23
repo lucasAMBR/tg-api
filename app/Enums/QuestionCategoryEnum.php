@@ -110,6 +110,37 @@ enum QuestionCategoryEnum: string
         ];
     }
 
+    /**
+     * Stacks selecionáveis agrupadas por área (frontend/backend), de acordo com a
+     * especialidade do dev. Cada item segue o formato { value, i18n_key }.
+     *
+     * @return array<string, array<int, array{value: string, i18n_key: string}>>
+     */
+    public static function stacksBySpecialty(DevSpecialtyEnum $specialty): array
+    {
+        $groups = [
+            'frontend' => self::frontendStacks(),
+            'backend' => self::backendStacks(),
+        ];
+
+        $areas = match ($specialty) {
+            DevSpecialtyEnum::FRONTEND => ['frontend'],
+            DevSpecialtyEnum::BACKEND => ['backend'],
+            DevSpecialtyEnum::FULLSTACK => ['frontend', 'backend'],
+        };
+
+        $result = [];
+
+        foreach ($areas as $area) {
+            $result[$area] = array_map(fn (self $case) => [
+                'value' => $case->value,
+                'i18n_key' => $case->i18nKey(),
+            ], $groups[$area]);
+        }
+
+        return $result;
+    }
+
     public function labelPt(): string
     {
         return match ($this) {

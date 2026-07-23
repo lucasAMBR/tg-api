@@ -33,11 +33,11 @@ enum ProficiencyTestStatusEnum: string
     public function i18nKey(): string
     {
         return match ($this) {
-            self::PENDING => 'proficiency_test.status.pending',
-            self::GENERATED => 'proficiency_test.status.generated',
-            self::AWAITING_SCORE => 'proficiency_test.status.awaiting_score',
-            self::COMPLETED => 'proficiency_test.status.completed',
-            self::GENERATION_FAILED => 'proficiency_test.status.generation_failed'
+            self::PENDING => 'enum.proficiency_test.status.pending',
+            self::GENERATED => 'enum.proficiency_test.status.generated',
+            self::AWAITING_SCORE => 'enum.proficiency_test.status.awaiting_score',
+            self::COMPLETED => 'enum.proficiency_test.status.completed',
+            self::GENERATION_FAILED => 'enum.proficiency_test.status.generation_failed'
         };
     }
 }
