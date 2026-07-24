@@ -9,6 +9,7 @@ use App\Enums\TranslationStatusEnum;
 use App\Exceptions\ApiException;
 use App\Http\Resources\ProficiencyTest\ProficiencyTestCollection;
 use App\Http\Resources\ProficiencyTest\ProficiencyTestResource;
+use App\Http\Resources\ProficiencyTest\ProficiencyTestReviewResource;
 use App\Http\Resources\Question\QuestionResource;
 use App\Jobs\CalculateProficiencyTestScore;
 use App\Jobs\GenerateProficiencyTest;
@@ -137,6 +138,16 @@ class ProficiencyTestService
             ->chunk(config('app.proficiency_test.questions_per_page'))
             ->map(fn ($chunk) => QuestionResource::collection($chunk->values()))
             ->values();
+    }
+
+    public function getProficiencyTestReview(ProficiencyTest $proficiencyTest)
+    {
+        $proficiencyTest->load([
+            'proficiencyTestResponses.question.question_responses',
+            'proficiencyTestResponses.questionResponse',
+        ]);
+
+        return ProficiencyTestReviewResource::collection($proficiencyTest->proficiencyTestResponses);
     }
 
     public function submitProficiencyTest(ProficiencyTest $proficiencyTest, array $chunks)

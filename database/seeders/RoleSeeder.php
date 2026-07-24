@@ -28,6 +28,7 @@ class RoleSeeder extends Seeder
             'client_profile.update',
             'client_profile.delete',
             'dev_profile.view',
+            'proficiency_test.view',
             'address.view',
             'address.create',
             'address.update',
@@ -60,7 +61,8 @@ class RoleSeeder extends Seeder
             'company_job_vacancy.create',
             'company_job_vacancy.view',
             'company_job_vacancy.delete',
-            'company_job_vacancy.update'
+            'company_job_vacancy.update',
+            'proficiency_test.view'
         ]);
 
         $devRole = Role::firstOrCreate([

@@ -52,6 +52,13 @@ class ProficiencyTestController extends Controller
         return ApiResponse::success($visualization, 'Proficiency test visualization registered with success', 201);
     }
 
+    public function getProficiencyTestReview(ProficiencyTest $proficiencyTest)
+    {
+        $review = $this->proficiencyTestService->getProficiencyTestReview($proficiencyTest);
+
+        return ApiResponse::success($review, 'Proficiency test review retrieved with success', 200);
+    }
+
     public function show(ProficiencyTest $proficiencyTest)
     {
         return ApiResponse::success(new ProficiencyTestResource($proficiencyTest), 'Proficiency test retrieved with success', 200);
