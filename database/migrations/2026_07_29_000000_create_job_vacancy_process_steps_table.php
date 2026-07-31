@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dev_profile_embeddings', function (Blueprint $table) {
+        Schema::create('job_vacancy_process_steps', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('dev_profile_id')->constrained('dev_profiles');
+            $table->uuid('job_vacancy_id');
+            $table->string('step');
+            $table->integer('order');
+            $table->foreign('job_vacancy_id')->references('id')->on('job_vacancies')->cascadeOnUpdate();
             $table->timestamps();
         });
-
-        DB::statement('ALTER TABLE dev_profile_embeddings ADD COLUMN embedding vector(1536)');
     }
 
     /**
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dev_profile_embeddings');
+        Schema::dropIfExists('job_vacancy_process_steps');
     }
 };

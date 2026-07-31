@@ -22,6 +22,7 @@ class ProficiencyTest extends Model
         'solicitation_date',
         'score',
         'max_score',
+        'profile_score_awarded',
     ];
 
     protected $casts = [

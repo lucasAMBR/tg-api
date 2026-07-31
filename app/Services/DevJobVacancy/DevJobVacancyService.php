@@ -97,6 +97,7 @@ class DevJobVacancyService {
         return DB::transaction(function() use ($companyProfile, $data) {
         
             return DevJobVacancy::query()->with(['jobVacancy'])
+            ->where('id', $data['id'])
             ->whereHas('jobVacancy', function($query) use ($companyProfile) {
                 $query->where('company_profile_id', $companyProfile->id);
             })->update([

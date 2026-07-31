@@ -43,4 +43,8 @@ Route::prefix('proficiency-test')->group(base_path('routes/api/ProficiencyTest.p
 
 Route::prefix('notification')->group(base_path('routes/api/Notification.php'));
 
+Route::prefix('search')->group(base_path('routes/api/Search.php'));
+
+Route::prefix('recommendation')->group(base_path('routes/api/Recommendation.php'));
+
 Broadcast::routes(['middleware' => ['auth:api']]);

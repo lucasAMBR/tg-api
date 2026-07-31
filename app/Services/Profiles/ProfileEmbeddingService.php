@@ -13,7 +13,6 @@ use App\Models\ProjectHistory;
 use App\Services\Embeddings\EmbeddingService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 class ProfileEmbeddingService
 {
@@ -25,9 +24,7 @@ class ProfileEmbeddingService
 
         $embedding = $this->embeddingService->generate($context);
 
-        $profileEmbedding = DevProfileEmbedding::where('dev_profile_id', $devProfile->id)->first();
-
-        DevProfileEmbedding::updateOrCreate(
+        $profileEmbedding = DevProfileEmbedding::updateOrCreate(
             ['dev_profile_id' => $devProfile->id],
             ['embedding' => $embedding]
         );

@@ -223,6 +223,9 @@ class ProficiencyTestService
 
         $evaluatedSeniorityLevel = $this->handleSeniorityAdjustment($proficiencyTest->seniority_level, $mastery, $totalHitRate);
 
+        $profileScoreAwarded = $this->handleProfileScoreGrade($score, (int) $proficiencyTest->max_score);
+        $previousProfileScoreAwarded = $this->getPreviousProfileScoreAwarded($proficiencyTest);
+
         Log::channel('proficiency_test')->info('Proficiency test score calculated', [
             'proficiency_test_id' => $proficiencyTest->id,
             'dev_profile_id' => $proficiencyTest->dev_profile_id,
@@ -237,21 +240,46 @@ class ProficiencyTestService
             'max_score' => $proficiencyTest->max_score,
             'final_score' => $score,
             'evaluated_seniority_level' => $evaluatedSeniorityLevel,
+            'profile_score_awarded' => $profileScoreAwarded,
+            'previous_profile_score_awarded' => $previousProfileScoreAwarded,
         ]);
 
         $proficiencyTest->update([
             'status' => ProficiencyTestStatusEnum::COMPLETED->value,
             'score' => $score,
+            'profile_score_awarded' => $profileScoreAwarded,
         ]);
 
-        $proficiencyTest->devProfile->update([
+        $devProfile = $proficiencyTest->devProfile;
+
+        $devProfile->update([
             'seniority_level' => $evaluatedSeniorityLevel,
             'seniority_tested' => true,
+            'score' => max(0, ($devProfile->score ?? 0) - $previousProfileScoreAwarded + $profileScoreAwarded),
         ]);
 
         $this->notifyScoreResult($proficiencyTest, $proficiencyTest->seniority_level, $evaluatedSeniorityLevel);
 
         return $score;
+    }
+
+    private function handleProfileScoreGrade(int $score, int $maxScore): int
+    {
+        if ($maxScore <= 0) {
+            return 1;
+        }
+
+        return max(1, min(10, (int) round(($score / $maxScore) * 10)));
+    }
+
+    private function getPreviousProfileScoreAwarded(ProficiencyTest $proficiencyTest): int
+    {
+        return (int) ProficiencyTest::where('dev_profile_id', $proficiencyTest->dev_profile_id)
+            ->where('id', '!=', $proficiencyTest->id)
+            ->where('status', ProficiencyTestStatusEnum::COMPLETED->value)
+            ->whereNotNull('profile_score_awarded')
+            ->latest('solicitation_date')
+            ->value('profile_score_awarded');
     }
 
     private function notifyScoreResult(ProficiencyTest $proficiencyTest, string $declaredLevel, string $evaluatedLevel): void

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobVacancy;
 
+use App\Enums\TranslationStatusEnum;
 use App\Http\Resources\Language\LanguageResource;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\SoftSkill\SoftSkillResource;
@@ -20,9 +21,17 @@ class JobVacancyResource extends JsonResource
     {
         return [
             'title' => $this->title,
+            'title_pt' => $this->title_pt,
+            'title_en' => $this->title_en,
             'description' => $this->description,
+            'description_pt' => $this->description_pt,
+            'description_en' => $this->description_en,
             'employment_type' => $this->employment_type,
             'benefits' => $this->benefits,
+            'benefits_pt' => $this->benefits_pt,
+            'benefits_en' => $this->benefits_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'estimated_salary' => $this->estimated_salary,
             'contract_type' => $this->contract_type,
             'seniority_level' => $this->seniority_level,
@@ -30,6 +39,7 @@ class JobVacancyResource extends JsonResource
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
             'soft_skills' => SoftSkillResource::collection($this->whenLoaded('softSkill')),
             'language_desirable' => LanguageResource::collection($this->whenLoaded('desirableLanguage')),
+            'process_steps' => JobVacancyProcessStepResource::collection($this->whenLoaded('processSteps')),
             'company_profile_id' => $this->company_profile_id,
             'profile' => new CompanyProfileResource($this->whenLoaded('companyProfile'))
         ];

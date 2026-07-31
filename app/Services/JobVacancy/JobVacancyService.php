@@ -5,6 +5,7 @@ namespace App\Services\JobVacancy;
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Jobs\GenerateJobVacancyEmbeddingJob;
+use App\Jobs\TranslateContentJob;
 use App\Models\JobVacancy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +45,7 @@ class JobVacancyService {
 
     public function store(Array $data){
 
+        /** @var \App\Models\User $authUser */
         $authUser = Auth::user();
 
         if(!$authUser->hasRole('company')) {
@@ -85,11 +87,20 @@ class JobVacancyService {
             
             $jobVacancy->desirableLanguage()->sync($data['languages_desirable']);
 
+            // Etapas do processo seletivo da vaga
+            $jobVacancy->processSteps()->createMany(
+                collect($data['process_steps'])->map(fn(array $processStep) => [
+                    'step' => $processStep['step'],
+                    'order' => $processStep['order']
+                ])->all()
+            );
+
             $jobVacancy->refresh();
             GenerateJobVacancyEmbeddingJob::dispatchDebounced($jobVacancy->id);
-                
+            TranslateContentJob::dispatch($jobVacancy);
+
             // Retorna ja com as relações carregadas
-            return $jobVacancy->load('languages', 'softSkill', 'desirableLanguage', 'companyProfile');
+            return $jobVacancy->load('languages', 'softSkill', 'desirableLanguage', 'companyProfile', 'processSteps');
 
         });
 
@@ -156,6 +167,10 @@ class JobVacancyService {
 
             $jobVacancy->refresh();
             GenerateJobVacancyEmbeddingJob::dispatchDebounced($jobVacancy->id);
+
+            if (isset($data['title']) || isset($data['description']) || isset($data['benefits'])) {
+                TranslateContentJob::dispatch($jobVacancy);
+            }
 
             return $jobVacancy->fresh(['softSkill', 'languages']);
 

@@ -5,6 +5,7 @@ namespace App\Http\Requests\JobVacancy;
 use App\Enums\ContractType;
 use App\Enums\EmploymentType;
 use App\Enums\HardSkillLevelsEnum;
+use App\Enums\SelectionProcessStageEnum;
 use App\Enums\SeniorityLevelEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
@@ -97,6 +98,21 @@ class StoreJobVacancyRequest extends FormRequest
             'specialties.*' => [
                 'required',
                 'string'
+            ],
+            'process_steps' => [
+                'required',
+                'array'
+            ],
+            'process_steps.*.step' => [
+                'required',
+                new Enum(SelectionProcessStageEnum::class),
+                'distinct'
+            ],
+            'process_steps.*.order' => [
+                'required',
+                'integer',
+                'min:1',
+                'distinct'
             ]
         ];
     }

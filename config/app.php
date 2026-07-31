@@ -167,14 +167,14 @@ return [
         ],
 
         'alt_tabs' => [
-            'max_per_page' => 3,
+            'max_per_page' => 1,
             'penalty_per_excess' => 0.02,
         ],
 
         'time' => [
             'max_ideal_time_ratio' => 1.5,
             'min_ideal_time_ratio' => 0.5,
-            'violation_penalty' => 0.05,
+            'violation_penalty' => 0.02,
         ],
     ],
 ];

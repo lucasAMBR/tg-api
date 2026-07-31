@@ -5,7 +5,6 @@ namespace App\Services\JobVacancy;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyEmbedding;
 use App\Services\Embeddings\EmbeddingService;
-use Illuminate\Support\Facades\Log;
 
 class JobVacancyEmbeddingService {
 
@@ -16,15 +15,11 @@ class JobVacancyEmbeddingService {
         $context = $this->constructJobVacancyContext($jobVacancy);
         $embedding = $this->embeddingService->generate($context);
 
-        $jobEmbedding = JobVacancy::where('job_vacancy_id', $jobVacancy->id)->first();
-
-        JobVacancyEmbedding::updateOrCreate(
+        $jobEmbedding = JobVacancyEmbedding::updateOrCreate(
             ['job_vacancy_id' => $jobVacancy->id],
             ['embedding' => $embedding]
         );
-        
-        Log::info($jobEmbedding);
-        
+
         return $jobEmbedding;
     }
 

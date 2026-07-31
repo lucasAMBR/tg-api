@@ -76,23 +76,37 @@ class TranslationService
     public function translateBatch(array $data): array
     {
         $translatedData = [];
-        
+
         foreach ($data as $field => $value) {
-            $language = $this->detectLanguage($value);
 
-            if ($language === 'pt') {
-                $translatedData[$field]['pt'] = $value;
-            }else{
-                $translatedData[$field]['pt'] = $this->translate($value, $language, 'pt');
+            // Campos que são listas de textos (ex: benefícios) são traduzidos item a item
+            if (is_array($value)) {
+                $translatedData[$field]['pt'] = [];
+                $translatedData[$field]['en'] = [];
+
+                foreach ($value as $item) {
+                    $translatedItem = $this->translateText($item);
+
+                    $translatedData[$field]['pt'][] = $translatedItem['pt'];
+                    $translatedData[$field]['en'][] = $translatedItem['en'];
+                }
+
+                continue;
             }
 
-            if ($language === 'en') {
-                $translatedData[$field]['en'] = $value;
-            }else{
-                $translatedData[$field]['en'] = $this->translate($value, $language, 'en');
-            }
+            $translatedData[$field] = $this->translateText($value);
         }
 
         return $translatedData;
+    }
+
+    private function translateText(string $content): array
+    {
+        $language = $this->detectLanguage($content);
+
+        return [
+            'pt' => $language === 'pt' ? $content : $this->translate($content, $language, 'pt'),
+            'en' => $language === 'en' ? $content : $this->translate($content, $language, 'en'),
+        ];
     }
 }
