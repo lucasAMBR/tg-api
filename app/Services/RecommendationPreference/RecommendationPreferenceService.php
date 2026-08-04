@@ -4,19 +4,26 @@ namespace App\Services\RecommendationPreference;
 
 use App\Http\Resources\RecommendationPreference\RecommendationPreferenceResource;
 use App\Models\DevProfile;
+use Illuminate\Support\Arr;
 
 class RecommendationPreferenceService
 {
-    public function getDevProfileRecommendationPreferences(DevProfile $devProfile)
+    public function getDevProfileRecommendationPreferences(array $data)
     {
+        $devProfile = DevProfile::findOrFail($data['dev_profile_id']);
+
         $recommendation = $devProfile->recommendation_preference;
 
         return new RecommendationPreferenceResource($recommendation);
     }
 
-    public function updateRecommendationPreference(DevProfile $profile, array $data)
+    public function updateRecommendationPreference(array $data)
     {
+        $profile = DevProfile::findOrFail($data['dev_profile_id']);
+
         $recommendation = $profile->recommendation_preference;
+
+        $data = Arr::except($data, ['dev_profile_id']);
 
         $recommendation->update($data);
 

@@ -8,6 +8,7 @@ use App\Http\Resources\HardSkill\HardSkillResource;
 use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Models\HardSkill;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -40,8 +41,10 @@ class HardSkillService
         return new HardSkillCollection($hardSkills);
     }
 
-    public function show(HardSkill $hardSkill)
+    public function show(array $data)
     {
+        $hardSkill = HardSkill::findOrFail($data['id']);
+
         return new HardSkillResource($hardSkill);
     }
 
@@ -64,8 +67,12 @@ class HardSkillService
         });
     }
 
-    public function update(HardSkill $hardSkill, array $data): HardSkillResource
+    public function update(array $data): HardSkillResource
     {
+        $hardSkill = HardSkill::findOrFail($data['id']);
+
+        $data = Arr::except($data, ['id']);
+
         return DB::transaction(function () use ($data, $hardSkill): HardSkillResource {
             $hardSkill->update($data);
 
@@ -77,8 +84,10 @@ class HardSkillService
         });
     }
 
-    public function delete(HardSkill $hardSkill): void
+    public function delete(array $data): void
     {
+        $hardSkill = HardSkill::findOrFail($data['id']);
+
         DB::transaction(function () use ($hardSkill): void {
             $hardSkill->delete();
 

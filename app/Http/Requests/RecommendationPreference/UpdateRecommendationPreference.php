@@ -22,6 +22,7 @@ class UpdateRecommendationPreference extends FormRequest
     public function rules(): array
     {
         return [
+            'dev_profile_id' => ['required', 'uuid', 'exists:dev_profiles,id'],
             "allow_clt" => ['sometimes', 'boolean'],
             'allow_contractor' => ['sometimes', 'boolean'],
             'allow_internship' => ['sometimes', 'boolean'],
@@ -35,5 +36,12 @@ class UpdateRecommendationPreference extends FormRequest
             'languages_blacklist' => ['sometimes', 'array'],
             'languages_blacklist.*' => ['string', 'exists:languages,id']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'dev_profile_id' => $this->route('dev_profile_id')
+        ]);
     }
 }

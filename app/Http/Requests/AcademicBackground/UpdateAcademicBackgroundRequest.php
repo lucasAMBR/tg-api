@@ -24,10 +24,18 @@ class UpdateAcademicBackgroundRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:academic_backgrounds,id'],
             'degree' => ['sometimes', 'string', 'min:3', 'max:255'],
             'degree_level' => ['sometimes', Rule::enum(DegreeLevelEnum::class)],
             'institution' => ['sometimes', 'string', 'min:3', 'max:255'],
             'certificate' => ['sometimes', 'file', 'mimes:png,jpg,jpeg,pdf', 'max:10000']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

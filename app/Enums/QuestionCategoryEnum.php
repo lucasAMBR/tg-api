@@ -112,9 +112,9 @@ enum QuestionCategoryEnum: string
 
     /**
      * Stacks selecionáveis agrupadas por área (frontend/backend), de acordo com a
-     * especialidade do dev. Cada item segue o formato { value, i18n_key }.
+     * especialidade do dev.
      *
-     * @return array<string, array<int, array{value: string, i18n_key: string}>>
+     * @return array<string, array<int, self>>
      */
     public static function stacksBySpecialty(DevSpecialtyEnum $specialty): array
     {
@@ -132,10 +132,7 @@ enum QuestionCategoryEnum: string
         $result = [];
 
         foreach ($areas as $area) {
-            $result[$area] = array_map(fn (self $case) => [
-                'value' => $case->value,
-                'i18n_key' => $case->i18nKey(),
-            ], $groups[$area]);
+            $result[$area] = $groups[$area];
         }
 
         return $result;

@@ -15,7 +15,6 @@ use App\Models\DevProfile;
 use App\Models\DevSoftSkill;
 use App\Models\SoftSkill;
 use App\Models\SoftSkillLevelResponse;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -106,7 +105,9 @@ class SoftSkillService
         return DevSoftSkillResource::collection($profile->dev_soft_skills);
     }
 
-    public function getDevSoftSkillsByProfileId(DevProfile $devProfile){
+    public function getDevSoftSkillsByProfileId(array $data){
+        $devProfile = DevProfile::findOrFail($data['dev_profile_id']);
+
         $softSkills = DevSoftSkill::query()
             ->select('dev_soft_skill.*')
             ->join('soft_skill_level_responses', 'dev_soft_skill.soft_skill_level_response_id', '=', 'soft_skill_level_responses.id')
@@ -124,12 +125,14 @@ class SoftSkillService
         return $limits[$profile->seniority_level] ?? 25;
     }
 
-    public function syncCompanySoftSkills(CompanyProfile $company, array $data)
+    public function syncCompanySoftSkills(array $data)
     {
+        $company = CompanyProfile::findOrFail($data['company_profile_id']);
+
         $authUser = Auth::user();
 
         if($authUser->id !== $company->user_id){
-            throw new AuthorizationException();
+            throw new ApiException("You cannot sync someone else's company soft skills!", 403);
         }
 
         return DB::transaction(function () use ($company, $data) {
@@ -153,8 +156,10 @@ class SoftSkillService
         });
     }
 
-    public function indexCompanySoftSkills(CompanyProfile $company)
+    public function indexCompanySoftSkills(array $data)
     {
+        $company = CompanyProfile::findOrFail($data['company_profile_id']);
+
         return CompanySoftSkillResource::collection(
             CompanySoftSkill::with('soft_skills')->where('company_profile_id', $company->id)->get()
         );

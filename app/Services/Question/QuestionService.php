@@ -62,8 +62,10 @@ class QuestionService
     }
 
 
-    public function showQuestion(Question $question): QuestionResource
+    public function showQuestion(array $data): QuestionResource
     {
+        $question = Question::findOrFail($data['id']);
+
         $question->load(['question_responses', 'language']);
 
         return new QuestionResource($question);
@@ -104,8 +106,10 @@ class QuestionService
         });
     }
 
-    public function updateQuestion(Question $question, array $data): QuestionResource
+    public function updateQuestion(array $data): QuestionResource
     {
+        $question = Question::findOrFail($data['id']);
+
         return DB::transaction(function () use ($question, $data): QuestionResource {
             $question->update([
                 'question' => $data['question'],
@@ -116,7 +120,7 @@ class QuestionService
                 'code_snippet' => $data['code_snippet'] ?? null,
             ]);
 
-            if($data('manual_update_translation')) {
+            if($data['manual_update_translation']) {
                 $question->question_pt = $data['question_pt'];
                 $question->question_en = $data['question_en'];
                 $question->save();
@@ -128,15 +132,19 @@ class QuestionService
         });
     }
 
-    public function deleteQuestion(Question $question): void
+    public function deleteQuestion(array $data): void
     {
+        $question = Question::findOrFail($data['id']);
+
         DB::transaction(function () use ($question): void {
             $question->delete();
         });
     }
 
-    public function addResponseToQuestion(Question $question, array $data): QuestionResource
+    public function addResponseToQuestion(array $data): QuestionResource
     {
+        $question = Question::findOrFail($data['question_id']);
+
         $responsesCount = $question->question_responses()->count();
         $rightResponsesCount = $question->question_responses()->where('is_correct', true)->count();
 
@@ -164,15 +172,19 @@ class QuestionService
         });
     }
 
-    public function deleteResponseFromQuestion(QuestionResponse $response): void
+    public function deleteResponseFromQuestion(array $data): void
     {
+        $response = QuestionResponse::findOrFail($data['id']);
+
         DB::transaction(function () use ($response): void {
             $response->delete();
         });
     }
 
-    public function updateResponse(QuestionResponse $response, array $data): QuestionResponseResource
+    public function updateResponse(array $data): QuestionResponseResource
     {
+        $response = QuestionResponse::findOrFail($data['id']);
+
         return DB::transaction(function () use ($response, $data) {
             $response->update([
                 'response' => $data['response'],
@@ -180,7 +192,7 @@ class QuestionService
                 'code_snippet' => $data['code_snippet'] ?? null,
             ]);
 
-            if($data('manual_update_translation')) {
+            if($data['manual_update_translation']) {
                 $response->response_pt = $data['response_pt'];
                 $response->response_en = $data['response_en'];
                 $response->save();

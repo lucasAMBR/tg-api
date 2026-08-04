@@ -22,8 +22,16 @@ class SyncCompanyStackRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:company_profiles,id'],
             'languages' => ['required', 'array'],
             'languages.*' => ['string', 'exists:languages,id']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

@@ -7,21 +7,21 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/', [ProficiencyTestController::class, 'index'])
         ->middleware('can:proficiency_test.view');
 
-    Route::get('/{proficiencyTest}', [ProficiencyTestController::class, 'show'])
+    Route::get('/{id}', [ProficiencyTestController::class, 'show'])
         ->middleware('can:proficiency_test.view');
 
-    Route::post('/{devProfile}', [ProficiencyTestController::class, 'solicitateProficiencyTest'])
+    Route::post('/{dev_profile_id}', [ProficiencyTestController::class, 'solicitateProficiencyTest'])
         ->middleware('can:proficiency_test.solicitate');
 
-    Route::get('/{proficiencyTest}/questions', [ProficiencyTestController::class, 'getProficiencyTestQuestions'])
+    Route::get('/{id}/questions', [ProficiencyTestController::class, 'getProficiencyTestQuestions'])
         ->middleware('can:proficiency_test.view');
 
-    Route::get('/{proficiencyTest}/review', [ProficiencyTestController::class, 'getProficiencyTestReview'])
+    Route::get('/{id}/review', [ProficiencyTestController::class, 'getProficiencyTestReview'])
         ->middleware('can:proficiency_test.view');
 
-    Route::post('/{proficiencyTest}/submit', [ProficiencyTestController::class, 'submitProficiencyTest'])
+    Route::post('/{id}/submit', [ProficiencyTestController::class, 'submitProficiencyTest'])
         ->middleware('can:proficiency_test.submit');
 
-    Route::post('/{proficiencyTest}/visualizations', [ProficiencyTestController::class, 'registerVisualization'])
+    Route::post('/{id}/visualizations', [ProficiencyTestController::class, 'registerVisualization'])
         ->middleware('can:proficiency_test.view');
 });

@@ -23,8 +23,16 @@ class SolicitateProficiencyTestRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'dev_profile_id' => ['required', 'uuid', 'exists:dev_profiles,id'],
             'backend_category' => ['required_without:frontend_category', 'nullable', 'string', 'max:255'],
             'frontend_category' => ['required_without:backend_category', 'nullable', 'string', 'max:255'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'dev_profile_id' => $this->route('dev_profile_id')
+        ]);
     }
 }

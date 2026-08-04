@@ -8,6 +8,7 @@ use App\Jobs\GenerateJobVacancyEmbeddingJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\JobVacancy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -106,27 +107,33 @@ class JobVacancyService {
 
     }
 
-    public function show(JobVacancy $jobVacancy) {
+    public function show(array $data) {
+
+        $jobVacancy = JobVacancy::findOrFail($data['id']);
 
         // load() porque ja carrega a relação sem precisar consultar novamente o banco
         return $jobVacancy->load(['softSkill', 'languages']);
 
     }
 
-    public function update(array $data, JobVacancy $jobVacancy) {
+    public function update(array $data) {
+
+        $jobVacancy = JobVacancy::findOrFail($data['id']);
+
+        $data = Arr::except($data, ['id']);
 
         return DB::transaction(function() use ($data, $jobVacancy) {
 
             // VAGA
-            $jobVacancy->update([
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'employment_type' => $data['employment_type'],
-                'benefits' => $data['benefits'],
-                'estimated_salary' => $data['estimated_salary'],
-                'contract_type' => $data['contract_type'],
-                'seniority_level' => $data['seniority_level'],
-            ]);
+            $jobVacancy->update(Arr::only($data, [
+                'title',
+                'description',
+                'employment_type',
+                'benefits',
+                'estimated_salary',
+                'contract_type',
+                'seniority_level',
+            ]));
 
             // LINGUAGEM E NIVEL
             foreach($data['languages'] ?? [] as $language) {
@@ -177,7 +184,9 @@ class JobVacancyService {
         });
     }
 
-    public function destroy(JobVacancy $jobVacancy) {
+    public function destroy(array $data) {
+
+        $jobVacancy = JobVacancy::findOrFail($data['id']);
 
         return DB::transaction(function() use($jobVacancy) {
 

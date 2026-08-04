@@ -22,8 +22,16 @@ class SaveImagesToProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:project_histories,id'],
             'images' => ['required'],
             'images.*' => ['image', 'mimes:jpeg,jpg,png,webp', 'max:10000'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

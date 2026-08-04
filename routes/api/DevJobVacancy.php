@@ -5,6 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function() {
     Route::get('/applies', [DevJobVacancyController::class, 'indexApplies']);
-    Route::post('/{jobVacancyId}/apply', [DevJobVacancyController::class, 'apply']);
+    Route::post('/{job_vacancy_id}/apply', [DevJobVacancyController::class, 'apply']);
     Route::patch('/{id}', [DevJobVacancyController::class, 'reviewApply']);
 });

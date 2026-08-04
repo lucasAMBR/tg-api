@@ -2,14 +2,17 @@
 
 namespace App\Services\AdditionalCourse;
 
+use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\AdditionalCourse\AdditionalCourseCollection;
 use App\Http\Resources\AdditionalCourse\AdditionalCourseResource;
 use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Models\AdditionalCourse;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class AdditionalCourseService
 {
@@ -65,8 +68,14 @@ class AdditionalCourseService
         });
     }
 
-    public function update(AdditionalCourse $additionalCourse, array $data)
+    public function update(array $data)
     {
+        $additionalCourse = AdditionalCourse::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $additionalCourse);
+
+        $data = Arr::except($data, ['id']);
+
         return DB::transaction(function () use ($additionalCourse, $data) {
             $additionalCourse->update($data);
 
@@ -81,12 +90,23 @@ class AdditionalCourseService
         });
     }
 
-    public function delete(AdditionalCourse $additionalCourse)
+    public function delete(array $data)
     {
+        $additionalCourse = AdditionalCourse::findOrFail($data['id']);
+
+        $this->ensureOwnership('delete', $additionalCourse);
+
         DB::transaction(function () use ($additionalCourse) {
             $additionalCourse->delete();
 
             GenerateDevProfileEmbeddingJob::dispatchDebounced($additionalCourse->dev_profile_id);
         });
+    }
+
+    private function ensureOwnership(string $ability, AdditionalCourse $additionalCourse): void
+    {
+        if (Gate::denies($ability, $additionalCourse)) {
+            throw new ApiException('This additional course does not belong to your profile!', 403);
+        }
     }
 }

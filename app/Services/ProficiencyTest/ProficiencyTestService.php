@@ -84,16 +84,27 @@ class ProficiencyTestService
         return new ProficiencyTestCollection($proficiencyTests);
     }
 
-    public function registerVisualization(ProficiencyTest $proficiencyTest, array $data): ProficiencyTestVisualization
+    public function show(array $data): ProficiencyTestResource
     {
+        $proficiencyTest = ProficiencyTest::findOrFail($data['id']);
+
+        return new ProficiencyTestResource($proficiencyTest);
+    }
+
+    public function registerVisualization(array $data): ProficiencyTestVisualization
+    {
+        $proficiencyTest = ProficiencyTest::findOrFail($data['id']);
+
         return ProficiencyTestVisualization::create([
             'proficiency_test_id' => $proficiencyTest->id,
             'type' => $data['type'],
         ]);
     }
 
-    public function solicitateProficiencyTest(DevProfile $devProfile, array $data)
+    public function solicitateProficiencyTest(array $data)
     {
+        $devProfile = DevProfile::findOrFail($data['dev_profile_id']);
+
         $lastTest = ProficiencyTest::where('dev_profile_id', $devProfile->id)
             ->latest('solicitation_date')
             ->first();
@@ -127,8 +138,10 @@ class ProficiencyTestService
         return new ProficiencyTestResource($proficiencyTest);
     }
 
-    public function getProficiencyTestQuestions(ProficiencyTest $proficiencyTest)
+    public function getProficiencyTestQuestions(array $data)
     {
+        $proficiencyTest = ProficiencyTest::findOrFail($data['id']);
+
         $proficiencyTest->load('proficiencyTestResponses.question.question_responses');
 
         return $proficiencyTest->proficiencyTestResponses
@@ -140,8 +153,10 @@ class ProficiencyTestService
             ->values();
     }
 
-    public function getProficiencyTestReview(ProficiencyTest $proficiencyTest)
+    public function getProficiencyTestReview(array $data)
     {
+        $proficiencyTest = ProficiencyTest::findOrFail($data['id']);
+
         $proficiencyTest->load([
             'proficiencyTestResponses.question.question_responses',
             'proficiencyTestResponses.questionResponse',
@@ -150,8 +165,12 @@ class ProficiencyTestService
         return ProficiencyTestReviewResource::collection($proficiencyTest->proficiencyTestResponses);
     }
 
-    public function submitProficiencyTest(ProficiencyTest $proficiencyTest, array $chunks)
+    public function submitProficiencyTest(array $data)
     {
+        $proficiencyTest = ProficiencyTest::findOrFail($data['id']);
+
+        $chunks = $data['chunks'];
+
         if ($proficiencyTest->status === ProficiencyTestStatusEnum::COMPLETED->value) {
             throw new ApiException('This proficiency test has already been submitted!', 422);
         }

@@ -2,14 +2,17 @@
 
 namespace App\Services\CompanyProjects;
 
+use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\CompanyProject\CompanyProjectCollection;
 use App\Http\Resources\CompanyProject\CompanyProjectResource;
 use App\Jobs\TranslateContentJob;
 use App\Models\CompanyProject;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class CompanyProjectService {
 
@@ -42,9 +45,15 @@ class CompanyProjectService {
         });
     }
 
-    public function update(array $data, CompanyProject $companyProject): CompanyProjectResource {
+    public function update(array $data): CompanyProjectResource {
 
-        // Lembrete pra mim (Kauã) nunca mais esquecer o caralho do return 
+        $companyProject = CompanyProject::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $companyProject);
+
+        $data = Arr::except($data, ['id']);
+
+        // Lembrete pra mim (Kauã) nunca mais esquecer o caralho do return
         return DB::transaction(function() use ($data, $companyProject) {
 
             $companyProject->update($data);
@@ -63,7 +72,11 @@ class CompanyProjectService {
         
     }
 
-    public function destroy(CompanyProject $companyProject): CompanyProjectResource {
+    public function destroy(array $data): CompanyProjectResource {
+
+        $companyProject = CompanyProject::findOrFail($data['id']);
+
+        $this->ensureOwnership('delete', $companyProject);
 
         return DB::transaction(function() use ($companyProject) {
 
@@ -72,6 +85,14 @@ class CompanyProjectService {
             return new CompanyProjectResource($companyProject);
 
         });
+
+    }
+
+    private function ensureOwnership(string $ability, CompanyProject $companyProject): void {
+
+        if (Gate::denies($ability, $companyProject)) {
+            throw new ApiException('This project does not belong to your profile!', 403);
+        }
 
     }
 

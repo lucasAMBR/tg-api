@@ -43,7 +43,7 @@ class StoreDevJobVacancyRequest extends FormRequest
 
     public function prepareForValidation() {
         $this->merge([
-            'job_vacancy_id' => $this->route('jobVacancyId')
+            'job_vacancy_id' => $this->route('job_vacancy_id')
         ]);
     }
 }

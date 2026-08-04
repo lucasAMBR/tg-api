@@ -28,6 +28,11 @@ class UpdateJobVacancyRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => [
+                'required',
+                'uuid',
+                'exists:job_vacancies,id'
+            ],
             'title' => [
                 'sometimes',
                 'string'
@@ -93,5 +98,12 @@ class UpdateJobVacancyRequest extends FormRequest
                 'exists:soft_skills,id'
             ]
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

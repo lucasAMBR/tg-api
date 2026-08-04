@@ -15,7 +15,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use SebastianBergmann\CodeCoverage\Report\Xml\Project;
+use Illuminate\Support\Facades\Gate;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProjectHistoryService
@@ -75,12 +75,20 @@ class ProjectHistoryService
         });
     }
 
-    public function show(ProjectHistory $projectHistory){
+    public function show(array $data){
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
         return new ProjectHistoryResource($projectHistory);
     }
 
-    public function update(ProjectHistory $projectHistory, array $data): ProjectHistoryResource
+    public function update(array $data): ProjectHistoryResource
     {
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $projectHistory);
+
+        $data = Arr::except($data, ['id']);
+
         return DB::transaction(function () use ($projectHistory, $data) {
             $projectHistory->update($data);
 
@@ -98,8 +106,12 @@ class ProjectHistoryService
         });
     }
 
-    public function delete(ProjectHistory $projectHistory): void
+    public function delete(array $data): void
     {
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('delete', $projectHistory);
+
         DB::transaction(function () use ($projectHistory) {
             $projectHistory->delete();
 
@@ -107,9 +119,13 @@ class ProjectHistoryService
         });
     }
 
-    public function saveImagesInProject(ProjectHistory $projectHistory, array $images): ProjectHistoryResource
+    public function saveImagesInProject(array $data): ProjectHistoryResource
     {
-        $images = Arr::flatten($images);
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $projectHistory);
+
+        $images = Arr::flatten($data['images']);
 
         foreach($images as $image){
             if($image instanceof UploadedFile){
@@ -121,9 +137,13 @@ class ProjectHistoryService
         return new ProjectHistoryResource($projectHistory);
     }
 
-    public function removeImageFromProject(ProjectHistory $projectHistory, int $mediaId):void
+    public function removeImageFromProject(array $data):void
     {
-        $media = Media::findOrFail($mediaId);
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $projectHistory);
+
+        $media = Media::findOrFail($data['image_id']);
 
         if($projectHistory->id != $media->model_id){
             throw new ApiException("This image doesn't belong to this project galery!");
@@ -131,4 +151,12 @@ class ProjectHistoryService
 
         $media->delete();
     }
+
+    private function ensureOwnership(string $ability, ProjectHistory $projectHistory): void
+    {
+        if (Gate::denies($ability, $projectHistory)) {
+            throw new ApiException('This project does not belong to your profile!', 403);
+        }
+    }
+
 }

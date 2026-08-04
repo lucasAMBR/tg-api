@@ -17,8 +17,10 @@ use App\Models\ClientProfile;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ProfileService
 {
@@ -91,22 +93,28 @@ class ProfileService
         return new ClientProfileCollection($clientProfiles);
     }
 
-    public function showDevProfile(DevProfile $dev)
+    public function showDevProfile(array $data)
     {
+        $dev = DevProfile::findOrFail($data['id']);
+
         $dev->load('user');
 
         return new DevProfileResource($dev);
     }
 
-    public function showCompanyProfile(CompanyProfile $company)
+    public function showCompanyProfile(array $data)
     {
+        $company = CompanyProfile::findOrFail($data['id']);
+
         $company->load('user');
 
         return new CompanyProfileResource($company);
     }
 
-    public function showClientProfile(ClientProfile $client)
+    public function showClientProfile(array $data)
     {
+        $client = ClientProfile::findOrFail($data['id']);
+
         $client->load('user');
 
         return new ClientProfileResource($client);
@@ -165,12 +173,14 @@ class ProfileService
         });
     }
 
-    public function syncCompanyProfileStacks(CompanyProfile $company, Array $data)
+    public function syncCompanyProfileStacks(Array $data)
     {
+        $company = CompanyProfile::findOrFail($data['id']);
+
         $authUser = Auth::user();
 
         if($authUser->id !== $company->user_id){
-            throw new ApiException("You cannot sync someone company stack!");
+            throw new ApiException("You cannot sync someone else's company stack!", 403);
         }
 
         $languageList = $data['languages'];
@@ -180,8 +190,10 @@ class ProfileService
         return new CompanyProfileResource($company);
     }
 
-    public function getCompanyStack(CompanyProfile $company)
+    public function getCompanyStack(array $data)
     {
+        $company = CompanyProfile::findOrFail($data['id']);
+
         return LanguageResource::collection($company->languages);
     }
 
@@ -207,7 +219,13 @@ class ProfileService
         });
     }
 
-    public function updateDevProfile(Array $data, DevProfile $dev) {
+    public function updateDevProfile(Array $data) {
+
+        $dev = DevProfile::findOrFail($data['id']);
+
+        $this->ensureAuthorized('update', $dev);
+
+        $data = Arr::except($data, ['id']);
 
         return DB::transaction(function() use ($data, $dev) {
 
@@ -227,7 +245,13 @@ class ProfileService
 
     }
 
-    public function updateCompanyProfile(Array $data, CompanyProfile $company) {
+    public function updateCompanyProfile(Array $data) {
+
+        $company = CompanyProfile::findOrFail($data['id']);
+
+        $this->ensureAuthorized('update', $company);
+
+        $data = Arr::except($data, ['id']);
 
         return DB::transaction(function() use ($data, $company) {
 
@@ -243,7 +267,13 @@ class ProfileService
 
     }
 
-    public function updateClientProfile(Array $data, ClientProfile $client) {
+    public function updateClientProfile(Array $data) {
+
+        $client = ClientProfile::findOrFail($data['id']);
+
+        $this->ensureAuthorized('update', $client);
+
+        $data = Arr::except($data, ['id']);
 
         return DB::transaction(function() use ($data, $client) {
 
@@ -259,7 +289,11 @@ class ProfileService
 
     }
 
-    public function destroyDevProfile(DevProfile $dev) {
+    public function destroyDevProfile(array $data) {
+
+        $dev = DevProfile::findOrFail($data['id']);
+
+        $this->ensureAuthorized('delete', $dev);
 
         return DB::transaction(function() use ($dev) {
 
@@ -269,7 +303,11 @@ class ProfileService
 
     }
 
-    public function destroyCompanyProfile(CompanyProfile $company) {
+    public function destroyCompanyProfile(array $data) {
+
+        $company = CompanyProfile::findOrFail($data['id']);
+
+        $this->ensureAuthorized('delete', $company);
 
         return DB::transaction(function() use ($company) {
 
@@ -279,8 +317,11 @@ class ProfileService
 
     }
 
-    public function destroyClientProfile(ClientProfile $client) {
+    public function destroyClientProfile(array $data) {
 
+        $client = ClientProfile::findOrFail($data['id']);
+
+        $this->ensureAuthorized('delete', $client);
 
         return DB::transaction(function() use ($client) {
 
@@ -288,6 +329,14 @@ class ProfileService
 
         });
 
+    }
+
+
+    private function ensureAuthorized(string $ability, DevProfile|CompanyProfile|ClientProfile $profile): void
+    {
+        if (Gate::denies($ability, $profile)) {
+            throw new ApiException('This profile does not belong to you!', 403);
+        }
     }
 
 }

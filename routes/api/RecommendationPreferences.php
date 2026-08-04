@@ -4,6 +4,6 @@ use App\Http\Controllers\RecommendationPreference\RecommendationPreferenceContro
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:api")->group(function () {
-    Route::get('/{devProfile}', [RecommendationPreferenceController::class, 'getPreferences']);
-    Route::patch('/{profile}', [RecommendationPreferenceController::class, 'updatePreference']);
+    Route::get('/{dev_profile_id}', [RecommendationPreferenceController::class, 'getPreferences']);
+    Route::patch('/{dev_profile_id}', [RecommendationPreferenceController::class, 'updatePreference']);
 });

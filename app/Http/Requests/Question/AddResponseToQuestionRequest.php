@@ -23,9 +23,17 @@ class AddResponseToQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'question_id' => ['required', 'uuid', 'exists:questions,id'],
             'response' => ['required', 'string', 'max:255'],
             'is_correct' => ['required', 'boolean'],
             'code_snippet' => ['nullable', 'array'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'question_id' => $this->route('question_id')
+        ]);
     }
 }

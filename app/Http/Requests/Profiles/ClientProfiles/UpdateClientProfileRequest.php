@@ -24,11 +24,19 @@ class UpdateClientProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:client_profiles,id'],
             'cpf' => ['sometimes', new Cpf],
             'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'bio' => ['sometimes', 'string'],
             'phone' => ['sometimes', new Cellphone],
             'birthdate' => ['sometimes', 'date', 'date_format:Y-m-d'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

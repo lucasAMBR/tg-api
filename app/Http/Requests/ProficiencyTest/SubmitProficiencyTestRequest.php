@@ -23,6 +23,7 @@ class SubmitProficiencyTestRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:proficiency_tests,id'],
             'chunks' => ['required', 'array', 'min:1'],
             'chunks.*.time_taken' => ['required', 'integer', 'min:0'],
             'chunks.*.alt_tabs' => ['required', 'integer', 'min:0'],
@@ -30,5 +31,12 @@ class SubmitProficiencyTestRequest extends FormRequest
             'chunks.*.responses.*.question_id' => ['required', 'uuid', 'exists:questions,id'],
             'chunks.*.responses.*.response_id' => ['required', 'uuid', 'exists:question_responses,id'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

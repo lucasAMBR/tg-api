@@ -3,48 +3,85 @@
 namespace App\Http\Controllers\User;
 
 use App\Builder\ApiResponse;
+use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\BlockUserAccessRequest;
+use App\Http\Requests\User\DeleteUserRequest;
+use App\Http\Requests\User\UnblockUserAccessRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use App\Models\User;
 use App\Services\User\UserService;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
+use Dedoc\Scramble\Attributes\Endpoint;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    use AuthorizesRequests;
-
     public function __construct(protected UserService $user_service){}
 
-    public function update(User $user, UpdateUserRequest $request)
+    #[Endpoint(operationId: 'updateUser', title: 'Atualizar usuário', description: '**operationId:** `updateUser` — Atualiza os dados do usuário. Requer autorização via `UserPolicy::update`. Quando `new_password` é enviado, o `old_password` precisa conferir com a senha atual, caso contrário a operação é recusada. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
+    public function update(UpdateUserRequest $request): JsonResponse
     {
-        $this->authorize('update', $user);
+        try {
+            $updated = $this->user_service->update($request->validated());
 
-        $updated = $this->user_service->update($user, $request->validated());
-
-        return ApiResponse::success($updated, "User updated with success!");
+            return ApiResponse::success($updated, "User updated with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
     }
 
-    public function blockUserAccess(User $user)
+    #[Endpoint(operationId: 'blockUserAccess', title: 'Bloquear usuário', description: '**operationId:** `blockUserAccess` — Marca o usuário como bloqueado (`is_blocked = true`), impedindo novos logins. Requer a permissão `user.block`. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
+    public function blockUserAccess(BlockUserAccessRequest $request): JsonResponse
     {
-        $blocked = $this->user_service->blockUserAccess($user);
+        try {
+            $blocked = $this->user_service->blockUserAccess($request->validated());
 
-        return ApiResponse::success($blocked, "User blocked with success!");
+            return ApiResponse::success($blocked, "User blocked with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
     }
 
-    public function unblockUserAccess(User $user)
+    #[Endpoint(operationId: 'unblockUserAccess', title: 'Desbloquear usuário', description: '**operationId:** `unblockUserAccess` — Remove o bloqueio do usuário (`is_blocked = false`), liberando o login novamente. Requer a permissão `user.block`. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
+    public function unblockUserAccess(UnblockUserAccessRequest $request): JsonResponse
     {
-        $unblocked = $this->user_service->unblockUserAccess($user);
+        try {
+            $unblocked = $this->user_service->unblockUserAccess($request->validated());
 
-        return ApiResponse::success($unblocked, "User unblocked with success!");
+            return ApiResponse::success($unblocked, "User unblocked with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
     }
 
-    public function delete(User $user){
-        $this->authorize('delete', $user);
+    #[Endpoint(operationId: 'deleteUser', title: 'Remover usuário', description: '**operationId:** `deleteUser` — Remove a conta do usuário. Requer autorização via `UserPolicy::delete`. Em **200**, `data` é `null`.')]
+    public function delete(DeleteUserRequest $request): JsonResponse {
+        try {
+            $this->user_service->delete($request->validated());
 
-        $this->user_service->delete($user);
-
-        return ApiResponse::success(null, "Account deleted with success!");
+            return ApiResponse::success(null, "Account deleted with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
     }
 
 }

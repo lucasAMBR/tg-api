@@ -41,7 +41,8 @@ class JobVacancyResource extends JsonResource
             'language_desirable' => LanguageResource::collection($this->whenLoaded('desirableLanguage')),
             'process_steps' => JobVacancyProcessStepResource::collection($this->whenLoaded('processSteps')),
             'company_profile_id' => $this->company_profile_id,
-            'profile' => new CompanyProfileResource($this->whenLoaded('companyProfile'))
+            'profile' => new CompanyProfileResource($this->whenLoaded('companyProfile')),
+            'dev_profiles_count' => $this->whenCounted('devProfiles')
         ];
     }
 }

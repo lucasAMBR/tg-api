@@ -23,8 +23,16 @@ class RecommendationDevsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'job_vacancy_id' => ['required', 'uuid', 'exists:job_vacancies,id'],
             'limit' => ['nullable', 'integer', 'min:1', 'max:50'],
             'min_similarity' => ['nullable', 'numeric', 'min:0', 'max:1']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'job_vacancy_id' => $this->route('job_vacancy_id')
+        ]);
     }
 }

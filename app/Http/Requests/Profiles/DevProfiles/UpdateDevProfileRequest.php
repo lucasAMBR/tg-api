@@ -27,6 +27,7 @@ class UpdateDevProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:dev_profiles,id'],
             'cpf' => ['sometimes', new Cpf],
             'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'bio' => ['sometimes', 'string'],
@@ -35,5 +36,12 @@ class UpdateDevProfileRequest extends FormRequest
             'seniority_level' => ['sometimes', Rule::enum(SeniorityLevelEnum::class)],
             'specialty' => ['sometimes', Rule::enum(DevSpecialtyEnum::class)],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

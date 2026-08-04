@@ -4,15 +4,21 @@ namespace App\Services\Recommendation;
 
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
+use App\Http\Resources\Recommendation\RecommendedDevResource;
 use App\Models\DevProfile;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyEmbedding;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class RecommendationService {
 
-    public function recommendDevsForJobVacancy(JobVacancy $jobVacancy, array $data) {
+    public function recommendDevsForJobVacancy(array $data): AnonymousResourceCollection 
+    {
 
+        $jobVacancy = JobVacancy::findOrFail($data['job_vacancy_id']);
+
+        /** @var \App\Models\User $authUser */
         $authUser = Auth::user();
 
         if(!$authUser->hasRole('company')) {
@@ -37,7 +43,7 @@ class RecommendationService {
         $minSimilarity = $data['min_similarity'] ?? null;
 
         // 1 - distância de cosseno (<=>) = similaridade (1 = idêntico)
-        return DevProfile::query()
+        $devs = DevProfile::query()
             ->join('dev_profile_embeddings', 'dev_profile_embeddings.dev_profile_id', '=', 'dev_profiles.id')
             ->selectRaw(
                 'dev_profiles.*, 1 - (dev_profile_embeddings.embedding <=> ?::vector) AS similarity',
@@ -53,6 +59,8 @@ class RecommendationService {
             ->orderByRaw('dev_profile_embeddings.embedding <=> ?::vector', [$vector])
             ->limit($limit)
             ->get();
+
+        return RecommendedDevResource::collection($devs);
 
     }
 

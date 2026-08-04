@@ -2,65 +2,89 @@
 
 namespace App\Services\Search;
 
+use App\Http\Resources\JobVacancy\JobVacancyResource;
+use App\Http\Resources\Profiles\ClientProfile\ClientProfileResource;
+use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
+use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
+use App\Http\Resources\Search\SearchResultResource;
 use App\Models\ClientProfile;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
 use App\Models\JobVacancy;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SearchService {
 
-    public function search(array $data) {
+    public function search(array $data): SearchResultResource {
 
         $search = $data['search'];
-        $limit = $data['limit'] ?? 10;
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
 
-        return [
-            'dev_profiles' => $this->searchDevProfiles($search, $limit),
-            'company_profiles' => $this->searchCompanyProfiles($search, $limit),
-            'client_profiles' => $this->searchClientProfiles($search, $limit),
-            'job_vacancies' => $this->searchJobVacancies($search, $limit),
+        $queries = [
+            'dev_profiles' => $this->devProfilesQuery($search),
+            'company_profiles' => $this->companyProfilesQuery($search),
+            'client_profiles' => $this->clientProfilesQuery($search),
+            'job_vacancies' => $this->jobVacanciesQuery($search),
         ];
 
+        $results = array_map(
+            fn (Builder $query): LengthAwarePaginator => $query->paginate($perPage, ['*'], 'page', $page),
+            $queries
+        );
+
+        return new SearchResultResource($results);
+
     }
 
-    public function topCompanies(int $limit = 10) {
+    public function topCompanies(int $limit = 10): AnonymousResourceCollection {
 
-        return CompanyProfile::query()
+        $companies = CompanyProfile::query()
             ->orderByDesc('score')
             ->limit($limit)
             ->get();
 
+        return CompanyProfileResource::collection($companies);
+
     }
 
-    public function topDevs(int $limit = 10) {
+    public function topDevs(int $limit = 10): AnonymousResourceCollection {
 
-        return DevProfile::query()
+        $devs = DevProfile::query()
             ->orderByDesc('score')
             ->limit($limit)
             ->get();
 
+        return DevProfileResource::collection($devs);
+
     }
 
-    public function topClients(int $limit = 10) {
+    public function topClients(int $limit = 10): AnonymousResourceCollection {
 
-        return ClientProfile::query()
+        $clients = ClientProfile::query()
             ->orderByDesc('score')
             ->limit($limit)
             ->get();
 
+        return ClientProfileResource::collection($clients);
+
     }
 
-    public function topJobVacancies(int $limit = 10) {
+    public function topJobVacancies(int $limit = 10): AnonymousResourceCollection {
 
-        return JobVacancy::query()->with(['softSkill', 'languages'])
+        $jobVacancies = JobVacancy::query()->with(['softSkill', 'languages'])
             ->withCount('devProfiles')
             ->orderByDesc('dev_profiles_count')
             ->limit($limit)
             ->get();
 
+        return JobVacancyResource::collection($jobVacancies);
+
     }
 
-    private function searchDevProfiles(string $search, int $limit) {
+    private function devProfilesQuery(string $search): Builder {
 
         return DevProfile::query()
             ->where(function($query) use ($search) {
@@ -69,12 +93,12 @@ class SearchService {
                 ->orWhere('specialty', 'ILIKE', "%{$search}%")
                 ->orWhere('seniority_level', 'ILIKE', "%{$search}%");
             })
-            ->limit($limit)
-            ->get();
+            ->orderByDesc('created_at')
+            ->orderBy('id');
 
     }
 
-    private function searchCompanyProfiles(string $search, int $limit) {
+    private function companyProfilesQuery(string $search): Builder {
 
         return CompanyProfile::query()
             ->where(function($query) use ($search) {
@@ -82,24 +106,24 @@ class SearchService {
                 ->orWhere('bio', 'ILIKE', "%{$search}%")
                 ->orWhere('operational_segment', 'ILIKE', "%{$search}%");
             })
-            ->limit($limit)
-            ->get();
+            ->orderByDesc('created_at')
+            ->orderBy('id');
 
     }
 
-    private function searchClientProfiles(string $search, int $limit) {
+    private function clientProfilesQuery(string $search): Builder {
 
         return ClientProfile::query()
             ->where(function($query) use ($search) {
                 $query->where('name', 'ILIKE', "%{$search}%")
                 ->orWhere('bio', 'ILIKE', "%{$search}%");
             })
-            ->limit($limit)
-            ->get();
+            ->orderByDesc('created_at')
+            ->orderBy('id');
 
     }
 
-    private function searchJobVacancies(string $search, int $limit) {
+    private function jobVacanciesQuery(string $search): Builder {
 
         return JobVacancy::query()->with(['softSkill', 'languages'])
             ->where(function($query) use ($search) {
@@ -114,8 +138,8 @@ class SearchService {
                     $q->where('name', 'ILIKE', "%{$search}%");
                 });
             })
-            ->limit($limit)
-            ->get();
+            ->orderByDesc('created_at')
+            ->orderBy('id');
 
     }
 

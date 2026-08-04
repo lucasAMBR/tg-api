@@ -23,6 +23,7 @@ class UpdateQuestionResponseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:question_responses,id'],
             'response' => ['required', 'string', 'max:255'],
             'response_pt' => ['required_if:manual_update_translation,true', 'string', 'max:255'],
             'response_en' => ['required_if:manual_update_translation,true', 'string', 'max:255'],
@@ -30,5 +31,12 @@ class UpdateQuestionResponseRequest extends FormRequest
             'code_snippet' => ['nullable', 'array', 'max:255'],
             'manual_update_translation' => ['required', 'boolean'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

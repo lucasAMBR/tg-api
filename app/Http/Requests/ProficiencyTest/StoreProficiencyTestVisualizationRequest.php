@@ -20,7 +20,15 @@ class StoreProficiencyTestVisualizationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:proficiency_tests,id'],
             'type' => ['required', Rule::enum(ProficiencyTestVisualizationTypeEnum::class)],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

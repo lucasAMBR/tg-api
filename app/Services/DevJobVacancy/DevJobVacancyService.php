@@ -5,14 +5,15 @@ namespace App\Services\DevJobVacancy;
 use App\Enums\JobVacancyStatusEnum;
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
+use App\Http\Resources\DevJobVacancy\DevJobVacancyCollection;
+use App\Http\Resources\DevJobVacancy\DevJobVacancyResource;
 use App\Models\DevJobVacancy;
-use App\Models\JobVacancy;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DevJobVacancyService {
 
-    public function apply(array $data) {
+    public function apply(array $data): DevJobVacancyResource {
 
         $authUser = Auth::user();
 
@@ -37,23 +38,25 @@ class DevJobVacancyService {
             throw new ApiException('Developer already applied for this vacancy!');
         }
 
-        return DB::transaction(function () use ($devProfile, $data) {            
+        return DB::transaction(function () use ($devProfile, $data) {
 
             $application = DevJobVacancy::create([
                 'dev_profile_id' => $devProfile->id,
                 'job_vacancy_id' => $data['job_vacancy_id'],
                 'status' => JobVacancyStatusEnum::PENDING,
-                'feedback' => $data['feedback'],
+                'feedback' => $data['feedback'] ?? null,
             ]);
 
             $application->refresh();
-            return $application->load(['jobVacancy', 'devProfile']);
+            $application->load(['jobVacancy', 'devProfile']);
+
+            return new DevJobVacancyResource($application);
 
         });
 
     }
 
-    public function indexApplies(array $data) {
+    public function indexApplies(array $data): DevJobVacancyCollection {
 
         $authUser = Auth::user();
 
@@ -67,7 +70,7 @@ class DevJobVacancyService {
         $per_page = $data['per_page'] ?? 10;
         $search = $data['search'] ?? '';
 
-        return DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
+        $applies = DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
         ->whereHas('jobVacancy', function($query) use ($companyProfile) {
             $query->where('company_profile_id', $companyProfile->id);
         })
@@ -87,22 +90,32 @@ class DevJobVacancyService {
             $page
         );
 
+        return new DevJobVacancyCollection($applies);
+
     }
 
-    public function reviewApply(array $data) {
+    public function reviewApply(array $data): DevJobVacancyResource {
 
         $authUser = Auth::user();
         $companyProfile = ProfileHelper::getUserProfileByRole($authUser);
 
-        return DB::transaction(function() use ($companyProfile, $data) {
-        
-            return DevJobVacancy::query()->with(['jobVacancy'])
+        $apply = DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
             ->where('id', $data['id'])
             ->whereHas('jobVacancy', function($query) use ($companyProfile) {
                 $query->where('company_profile_id', $companyProfile->id);
-            })->update([
+            })->first();
+
+        if(!$apply) {
+            throw new ApiException("This apply does not belong to your company!", 403);
+        }
+
+        return DB::transaction(function() use ($apply, $data) {
+
+            $apply->update([
                 'status' => $data['status']
             ]);
+
+            return new DevJobVacancyResource($apply);
 
         });
 

@@ -26,6 +26,7 @@ class UpdateCompanyProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:company_profiles,id'],
             'cnpj' => ['sometimes', new Cnpj],
             'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'bio' => ['sometimes', 'string'],
@@ -33,5 +34,12 @@ class UpdateCompanyProfileRequest extends FormRequest
             'founding_date' => ['sometimes', 'date', 'date_format:Y-m-d'],
             'operational_segment' => ['sometimes', Rule::enum(OperationalSegmentEnum::class)]
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests\Search;
 
+use App\Traits\IndexRequestTrait;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SearchRequest extends FormRequest
 {
+    use IndexRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,9 +25,9 @@ class SearchRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        return array_merge($this->paginationRules(), [
             'search' => ['required', 'string', 'min:2'],
-            'limit' => ['nullable', 'integer', 'min:1', 'max:50']
-        ];
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:50'],
+        ]);
     }
 }

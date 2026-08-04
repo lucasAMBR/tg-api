@@ -2,6 +2,7 @@
 
 namespace App\Services\AcademicBackground;
 
+use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\AcademicBackground\AcademicBackgroundCollection;
 use App\Http\Resources\AcademicBackground\AcademicBackgroundResource;
@@ -9,8 +10,10 @@ use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\AcademicBackground;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class AcademicBackgroundService
 {
@@ -69,8 +72,14 @@ class AcademicBackgroundService
         });
     }
 
-    public function update(AcademicBackground $academicBackground, array $data)
+    public function update(array $data)
     {
+        $academicBackground = AcademicBackground::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $academicBackground);
+
+        $data = Arr::except($data, ['id']);
+
         return DB::transaction(function () use ($academicBackground, $data) {
             $academicBackground->update($data);
 
@@ -89,12 +98,23 @@ class AcademicBackgroundService
         });
     }
 
-    public function delete(AcademicBackground $academicBackground)
+    public function delete(array $data)
     {
+        $academicBackground = AcademicBackground::findOrFail($data['id']);
+
+        $this->ensureOwnership('delete', $academicBackground);
+
         DB::transaction(function () use ($academicBackground) {
             $academicBackground->delete();
 
             GenerateDevProfileEmbeddingJob::dispatchDebounced($academicBackground->dev_profile_id);
         });
+    }
+
+    private function ensureOwnership(string $ability, AcademicBackground $academicBackground): void
+    {
+        if (Gate::denies($ability, $academicBackground)) {
+            throw new ApiException('This academic background does not belong to your profile!', 403);
+        }
     }
 }

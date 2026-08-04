@@ -24,8 +24,16 @@ class UpdateHardSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:hard_skills,id'],
             'language_id' => ['sometimes', 'string', 'exists:languages,id'],
             'skill_level' => ['sometimes', Rule::enum(HardSkillLevelsEnum::class)]
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

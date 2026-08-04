@@ -22,9 +22,17 @@ class UpdateAdditionalCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:additional_courses,id'],
             'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'provider' => ['sometimes', 'string', 'min:3', 'max:255'],
             'certificate' => ['sometimes', 'file', 'mimes:png,jpg,jpeg,pdf', 'max:10000']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

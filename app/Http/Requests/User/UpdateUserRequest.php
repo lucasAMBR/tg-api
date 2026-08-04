@@ -23,6 +23,11 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => [
+                'required',
+                'uuid',
+                'exists:users,id'
+            ],
             'email' => [
                 'sometimes',
                 'email',
@@ -65,5 +70,12 @@ class UpdateUserRequest extends FormRequest
                 'max:10000'
             ],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

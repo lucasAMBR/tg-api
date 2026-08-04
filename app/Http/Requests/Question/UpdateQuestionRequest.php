@@ -25,6 +25,7 @@ class UpdateQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:questions,id'],
             'question' => ['required', 'string', 'max:255'],
             'question_pt' => ['required_if:manual_update_translation,true', 'string', 'max:255'],
             'question_en' => ['required_if:manual_update_translation,true', 'string', 'max:255'],
@@ -37,5 +38,12 @@ class UpdateQuestionRequest extends FormRequest
             'is_multiple_choice' => ['required', 'boolean'],
             'manual_update_translation' => ['required', 'boolean'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

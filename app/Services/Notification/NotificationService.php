@@ -31,8 +31,10 @@ class NotificationService
         return new NotificationCollection($notifications);
     }
 
-    public function markAsRead(Notification $notification)
+    public function markAsRead(array $data)
     {
+        $notification = Notification::findOrFail($data['id']);
+
         $this->ensureOwnership($notification);
 
         if ($notification->read_at === null) {

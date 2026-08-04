@@ -10,8 +10,10 @@ use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\EmploymentHistory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class EmploymentHistoryService
 {
@@ -75,8 +77,14 @@ class EmploymentHistoryService
         });
     }
 
-    public function update(EmploymentHistory $employmentHistory, array $data)
+    public function update(array $data)
     {
+        $employmentHistory = EmploymentHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $employmentHistory);
+
+        $data = Arr::except($data, ['id']);
+
         return DB::transaction(function () use ($employmentHistory, $data) {
             $employmentHistory->update($data);
 
@@ -90,12 +98,23 @@ class EmploymentHistoryService
         });
     }
 
-    public function delete(EmploymentHistory $employmentHistory)
+    public function delete(array $data)
     {
+        $employmentHistory = EmploymentHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('delete', $employmentHistory);
+
         DB::transaction(function () use ($employmentHistory) {
             $employmentHistory->delete();
 
             GenerateDevProfileEmbeddingJob::dispatchDebounced($employmentHistory->dev_profile_id);
         });
+    }
+
+    private function ensureOwnership(string $ability, EmploymentHistory $employmentHistory): void
+    {
+        if (Gate::denies($ability, $employmentHistory)) {
+            throw new ApiException('This employment history does not belong to your profile!', 403);
+        }
     }
 }
