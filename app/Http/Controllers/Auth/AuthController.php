@@ -15,7 +15,7 @@ class AuthController extends Controller
 {
     public function __construct(protected AuthService $authService){}
 
-    #[Endpoint(operationId: 'register', title: 'Cadastrar usuário', description: '**operationId:** `register` — Cria um novo usuário, atribui a `role` informada e, quando enviado, anexa o arquivo `profile_pic` à coleção de mídia `profile_pic`. Ao final, autentica automaticamente o usuário criado. Em **201**, `data.user` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`) e a resposta também traz `data.permissions`, `data.token` e `data.refresh_expires_in`.')]
+    #[Endpoint(operationId: 'authRegister', title: 'Cadastrar usuário', description: '**operationId:** `authRegister` — Cria um novo usuário, atribui a `role` informada e, quando enviado, anexa o arquivo `profile_pic` à coleção de mídia `profile_pic`. Ao final, autentica automaticamente o usuário criado. Em **201**, `data.user` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`) e a resposta também traz `data.permissions`, `data.token` e `data.refresh_expires_in`.')]
     public function register(StoreUserRequest $request): JsonResponse
     {
         try {
@@ -32,7 +32,7 @@ class AuthController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'login', title: 'Login', description: '**operationId:** `login` — Autenticação com `email` e `password`. Contas bloqueadas (`is_blocked`) e credenciais inválidas resultam em erro. Em **200**, `data.user` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`) — já com o perfil correspondente à role carregado — e a resposta também traz `data.permissions`, `data.token` e `data.refresh_expires_in`.')]
+    #[Endpoint(operationId: 'authLogin', title: 'Login', description: '**operationId:** `authLogin` — Autenticação com `email` e `password`. Contas bloqueadas (`is_blocked`) e credenciais inválidas resultam em erro. Em **200**, `data.user` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`) — já com o perfil correspondente à role carregado — e a resposta também traz `data.permissions`, `data.token` e `data.refresh_expires_in`.')]
     public function login(LoginRequest $request): JsonResponse
     {
         try {
@@ -49,7 +49,7 @@ class AuthController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'profile', title: 'Consultar usuário autenticado', description: '**operationId:** `profile` — Retorna os dados do usuário autenticado com o perfil correspondente à sua role carregado. Em **200**, `data.user` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`) e `data.permissions` traz a lista de permissões do usuário.')]
+    #[Endpoint(operationId: 'authProfile', title: 'Consultar usuário autenticado', description: '**operationId:** `authProfile` — Retorna os dados do usuário autenticado com o perfil correspondente à sua role carregado. Em **200**, `data.user` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`) e `data.permissions` traz a lista de permissões do usuário.')]
     public function profile(): JsonResponse
     {
         try {
@@ -66,7 +66,7 @@ class AuthController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'logout', title: 'Logout', description: '**operationId:** `logout` — Invalida o token JWT atual do usuário autenticado. Em **200**, `data` é `null`.')]
+    #[Endpoint(operationId: 'authLogout', title: 'Logout', description: '**operationId:** `authLogout` — Invalida o token JWT atual do usuário autenticado. Em **200**, `data` é `null`.')]
     public function logout(): JsonResponse
     {
         try {
@@ -83,7 +83,7 @@ class AuthController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'refreshToken', title: 'Renovar token', description: '**operationId:** `refreshToken` — Gera um novo token JWT a partir do token atual (enviado no header `Authorization`). Em **200**, `data.token` traz o novo token e `data.refresh_expires_in` o tempo de vida do refresh em segundos.')]
+    #[Endpoint(operationId: 'authRefreshToken', title: 'Renovar token', description: '**operationId:** `authRefreshToken` — Gera um novo token JWT a partir do token atual (enviado no header `Authorization`). Em **200**, `data.token` traz o novo token e `data.refresh_expires_in` o tempo de vida do refresh em segundos.')]
     public function refreshToken(): JsonResponse
     {
         try {

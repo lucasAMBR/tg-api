@@ -105,7 +105,7 @@ class JobVacancyController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'destroyJobVacancy', title: 'Remover vaga', description: '**operationId:** `destroyJobVacancy` — Remove a vaga e desfaz os vínculos com linguagens e soft skills. Em **200**, `data` é `null`.')]
+    #[Endpoint(operationId: 'deleteJobVacancy', title: 'Remover vaga', description: '**operationId:** `deleteJobVacancy` — Remove a vaga e desfaz os vínculos com linguagens e soft skills. Em **200**, `data` é `null`.')]
     public function destroy(DestroyJobVacancyRequest $request): JsonResponse {
 
         try {

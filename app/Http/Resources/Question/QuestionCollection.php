@@ -19,11 +19,11 @@ class QuestionCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'pagination' => [
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage(),
+                'total' => (int) $this->total(),
+                'count' => (int) $this->count(),
+                'per_page' => (int) $this->perPage(),
+                'current_page' => (int) $this->currentPage(),
+                'total_pages' => (int) $this->lastPage(),
             ],
         ];
     }

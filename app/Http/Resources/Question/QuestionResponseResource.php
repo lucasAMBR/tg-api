@@ -22,9 +22,9 @@ class QuestionResponseResource extends JsonResource
             'response_en' => $this->response_en,
             'translation_status' => $this->translation_status,
             $this->mergeWhen(! $request->user()?->hasRole('dev'), [
-                'is_correct' => $this->is_correct,
+                'is_correct' => (bool) $this->is_correct,
             ]),
-            'code_snippet' => $this->code_snippet,
+            'code_snippet' => $this->code_snippet ? new CodeSnippetResource($this->code_snippet) : null,
         ];
     }
 }

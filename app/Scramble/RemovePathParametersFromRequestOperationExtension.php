@@ -57,6 +57,8 @@ class RemovePathParametersFromRequestOperationExtension extends OperationExtensi
             return;
         }
 
+        $isEmptyAfterRemoval = true;
+
         foreach ($operation->requestBodyObject->content as $schemaOrReference) {
             // O corpo costuma ser um $ref para um componente (ex.: UpdateStudyBaseRequest);
             // resolvemos a referência para mutar o schema real do componente.
@@ -65,6 +67,9 @@ class RemovePathParametersFromRequestOperationExtension extends OperationExtensi
                 : $schemaOrReference;
 
             if (! $schema instanceof Schema || ! $schema->type instanceof ObjectType) {
+                // Conteúdo que não sabemos inspecionar: preserva o corpo.
+                $isEmptyAfterRemoval = false;
+
                 continue;
             }
 
@@ -75,6 +80,18 @@ class RemovePathParametersFromRequestOperationExtension extends OperationExtensi
             }
 
             $type->required = array_values(array_diff($type->required, $pathParameters));
+
+            if ($type->properties !== []) {
+                $isEmptyAfterRemoval = false;
+            }
+        }
+
+        // Endpoints cujo FormRequest só valida parâmetros de path (ex.: block,
+        // unblock, approve, read) ficariam com um corpo de objeto livre e
+        // obrigatório na spec, forçando o client a enviar `{}`. Como não sobrou
+        // nenhuma propriedade, o corpo é removido.
+        if ($isEmptyAfterRemoval) {
+            $operation->requestBodyObject = null;
         }
     }
 }

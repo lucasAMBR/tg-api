@@ -37,12 +37,17 @@ class ProficiencyTestController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'getProficiencyTestQuestions', title: 'Consultar questões do teste', description: '**operationId:** `getProficiencyTestQuestions` — Retorna as questões do teste agrupadas em páginas, conforme `app.proficiency_test.questions_per_page`. Em **200**, `data` é uma lista de páginas, cada uma com itens no schema **Question Resource** (`App\\Http\\Resources\\Question\\QuestionResource`).')]
+    #[Endpoint(operationId: 'listTestQuestions', title: 'Consultar questões do teste', description: '**operationId:** `listTestQuestions` — Retorna as questões do teste agrupadas em páginas, conforme `app.proficiency_test.questions_per_page`. Em **200**, `data` é uma lista de páginas, cada uma com itens no schema **Question Resource** (`App\\Http\\Resources\\Question\\QuestionResource`).')]
     public function getProficiencyTestQuestions(GetProficiencyTestQuestionsRequest $request): JsonResponse
     {
         try {
             $questions = $this->proficiencyTestService->getProficiencyTestQuestions($request->validated());
 
+            /**
+             * @status 200
+             *
+             * @body array{error: false, message: string, data: array<int, array<int, \App\Http\Resources\Question\QuestionResource>>}
+             */
             return ApiResponse::success($questions, 'Proficiency test questions retrieved with success', 200);
         } catch (ApiException $e) {
             /**
@@ -88,7 +93,7 @@ class ProficiencyTestController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'registerProficiencyTestVisualization', title: 'Registrar visualização do teste', description: '**operationId:** `registerProficiencyTestVisualization` — Registra uma visualização do teste com o `type` informado. Em **201**, `data` traz o registro de visualização criado (`proficiency_test_id` e `type`).')]
+    #[Endpoint(operationId: 'visualizeTest', title: 'Registrar visualização do teste', description: '**operationId:** `visualizeTest` — Registra uma visualização do teste com o `type` informado. Em **201**, `data` traz o registro de visualização criado (`proficiency_test_id` e `type`).')]
     public function registerVisualization(StoreProficiencyTestVisualizationRequest $request): JsonResponse
     {
         try {
@@ -105,7 +110,7 @@ class ProficiencyTestController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'getProficiencyTestReview', title: 'Consultar revisão do teste', description: '**operationId:** `getProficiencyTestReview` — Retorna a revisão do teste: cada questão respondida com suas alternativas e a resposta escolhida pelo desenvolvedor. Em **200**, `data[]` segue o schema **Proficiency Test Review Resource** (`App\\Http\\Resources\\ProficiencyTest\\ProficiencyTestReviewResource`).')]
+    #[Endpoint(operationId: 'testReview', title: 'Consultar revisão do teste', description: '**operationId:** `testReview` — Retorna a revisão do teste: cada questão respondida com suas alternativas e a resposta escolhida pelo desenvolvedor. Em **200**, `data[]` segue o schema **Proficiency Test Review Resource** (`App\\Http\\Resources\\ProficiencyTest\\ProficiencyTestReviewResource`).')]
     public function getProficiencyTestReview(GetProficiencyTestReviewRequest $request): JsonResponse
     {
         try {

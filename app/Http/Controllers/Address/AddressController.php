@@ -33,7 +33,7 @@ class AddressController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'showAuthUserAddress', title: 'Consultar endereço do usuário autenticado', description: '**operationId:** `showAuthUserAddress` — Retorna o endereço do perfil ativo do usuário autenticado. Em **200**, `data.has_address` indica se existe endereço cadastrado e `data.address` segue o schema **Address Resource** (`App\\Http\\Resources\\Addresses\\AddressResource`) ou é `null` quando não há endereço.')]
+    #[Endpoint(operationId: 'authUserAddress', title: 'Consultar endereço do usuário autenticado', description: '**operationId:** `authUserAddress` — Retorna o endereço do perfil ativo do usuário autenticado. Em **200**, `data.has_address` indica se existe endereço cadastrado e `data.address` segue o schema **Address Resource** (`App\\Http\\Resources\\Addresses\\AddressResource`) ou é `null` quando não há endereço.')]
     public function showAuthUserAddress(): JsonResponse
     {
         try {

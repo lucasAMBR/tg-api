@@ -21,7 +21,7 @@ class QuestionController extends Controller
 {
     public function __construct(protected QuestionService $questionService){}
 
-    #[Endpoint(operationId: 'indexQuestion', title: 'Listar questões', description: '**operationId:** `indexQuestion` — Lista paginada das questões, com `question_responses` carregadas e filtros opcionais por `search` (enunciado, traduções, alternativas e nome da linguagem), `difficulty_level`, `language_id`, `category`, `seniority_level`, `is_multiple_choice` e `translation_status`. Em **200**, `data.data[]` segue o schema **Question Resource** (`App\\Http\\Resources\\Question\\QuestionResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'indexQuestions', title: 'Listar questões', description: '**operationId:** `indexQuestions` — Lista paginada das questões, com `question_responses` carregadas e filtros opcionais por `search` (enunciado, traduções, alternativas e nome da linguagem), `difficulty_level`, `language_id`, `category`, `seniority_level`, `is_multiple_choice` e `translation_status`. Em **200**, `data.data[]` segue o schema **Question Resource** (`App\\Http\\Resources\\Question\\QuestionResource`) e `data.pagination` traz os metadados de paginação.')]
     public function index(IndexQuestionRequest $request): JsonResponse
     {
         try {

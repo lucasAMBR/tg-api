@@ -59,6 +59,12 @@ class DevProfile extends Model implements Translatable
         ]);
     }
 
+    protected $casts = [
+        'open_to_work' => 'boolean',
+        'open_to_relocation' => 'boolean',
+        'seniority_tested' => 'boolean',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

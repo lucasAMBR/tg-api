@@ -104,7 +104,7 @@ class ProjectHistoryController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'saveImagesInProjectHistory', title: 'Adicionar imagens à galeria do projeto', description: '**operationId:** `saveImagesInProjectHistory` — Anexa as imagens enviadas à coleção de mídia `gallery` do projeto. Requer que o registro pertença ao perfil autenticado (`ProjectHistoryPolicy::update`). Em **200**, `data` segue o schema **Project History Resource** (`App\\Http\\Resources\\ProjectHistory\\ProjectHistoryResource`).')]
+    #[Endpoint(operationId: 'storeProjectHistoryImages', title: 'Adicionar imagens à galeria do projeto', description: '**operationId:** `storeProjectHistoryImages` — Anexa as imagens enviadas à coleção de mídia `gallery` do projeto. Requer que o registro pertença ao perfil autenticado (`ProjectHistoryPolicy::update`). Em **200**, `data` segue o schema **Project History Resource** (`App\\Http\\Resources\\ProjectHistory\\ProjectHistoryResource`).')]
     public function saveImagesInProject(SaveImagesToProjectRequest $request): JsonResponse
     {
         try {
@@ -121,7 +121,7 @@ class ProjectHistoryController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'removeImageFromProjectHistory', title: 'Remover imagem da galeria do projeto', description: '**operationId:** `removeImageFromProjectHistory` — Remove a imagem informada da galeria do projeto. Requer que o registro pertença ao perfil autenticado (`ProjectHistoryPolicy::update`) e que a imagem pertença a esse projeto. Em **200**, `data` é `null`.')]
+    #[Endpoint(operationId: 'deleteProjectHistoryImage', title: 'Remover imagem da galeria do projeto', description: '**operationId:** `deleteProjectHistoryImage` — Remove a imagem informada da galeria do projeto. Requer que o registro pertença ao perfil autenticado (`ProjectHistoryPolicy::update`) e que a imagem pertença a esse projeto. Em **200**, `data` é `null`.')]
     public function removeImageFromProject(RemoveImageFromProjectRequest $request): JsonResponse
     {
         try {

@@ -22,7 +22,7 @@ class CompanyProjectController extends Controller
         $this->companyProject = $companyProject;
     }
 
-    #[Endpoint(operationId: 'storeCompanyProject', title: 'Cadastrar projeto da empresa', description: '**operationId:** `storeCompanyProject` — Cadastra um projeto para o perfil de empresa autenticado, vinculando as `languages` informadas e disparando a tradução de `title` e `description`. Em **201**, `data` segue o schema **Company Project Resource** (`App\\Http\\Resources\\CompanyProject\\CompanyProjectResource`), já com as linguagens carregadas.')]
+    #[Endpoint(operationId: 'StoreCompanyProject', title: 'Cadastrar projeto da empresa', description: '**operationId:** `StoreCompanyProject` — Cadastra um projeto para o perfil de empresa autenticado, vinculando as `languages` informadas e disparando a tradução de `title` e `description`. Em **201**, `data` segue o schema **Company Project Resource** (`App\\Http\\Resources\\CompanyProject\\CompanyProjectResource`), já com as linguagens carregadas.')]
     public function store(StoreCompanyProjectRequest $request): JsonResponse {
 
         try {
@@ -40,7 +40,7 @@ class CompanyProjectController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'updateCompanyProject', title: 'Atualizar projeto da empresa', description: '**operationId:** `updateCompanyProject` — Atualiza um projeto existente. Requer que o registro pertença ao perfil autenticado (`CompanyProjectPolicy::update`). Quando `title` ou `description` mudam, a tradução é refeita; quando `languages` é enviado, o vínculo de linguagens é sincronizado. Em **200**, `data` segue o schema **Company Project Resource** (`App\\Http\\Resources\\CompanyProject\\CompanyProjectResource`).')]
+    #[Endpoint(operationId: 'UpdateCompanyProject', title: 'Atualizar projeto da empresa', description: '**operationId:** `UpdateCompanyProject` — Atualiza um projeto existente. Requer que o registro pertença ao perfil autenticado (`CompanyProjectPolicy::update`). Quando `title` ou `description` mudam, a tradução é refeita; quando `languages` é enviado, o vínculo de linguagens é sincronizado. Em **200**, `data` segue o schema **Company Project Resource** (`App\\Http\\Resources\\CompanyProject\\CompanyProjectResource`).')]
     public function update(UpdateCompanyProjectsRequest $request): JsonResponse {
 
         try {
@@ -58,7 +58,7 @@ class CompanyProjectController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'destroyCompanyProject', title: 'Remover projeto da empresa', description: '**operationId:** `destroyCompanyProject` — Remove um projeto. Requer que o registro pertença ao perfil autenticado (`CompanyProjectPolicy::delete`). Em **200**, `data` segue o schema **Company Project Resource** (`App\\Http\\Resources\\CompanyProject\\CompanyProjectResource`) com os dados do projeto removido.')]
+    #[Endpoint(operationId: 'DeleteCompanyProject', title: 'Remover projeto da empresa', description: '**operationId:** `DeleteCompanyProject` — Remove um projeto. Requer que o registro pertença ao perfil autenticado (`CompanyProjectPolicy::delete`). Em **200**, `data` segue o schema **Company Project Resource** (`App\\Http\\Resources\\CompanyProject\\CompanyProjectResource`) com os dados do projeto removido.')]
     public function destroy(DestroyCompanyProjectRequest $request): JsonResponse {
 
         try {
@@ -76,7 +76,7 @@ class CompanyProjectController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'indexCompanyProject', title: 'Listar projetos da empresa', description: '**operationId:** `indexCompanyProject` — Lista paginada dos projetos, com filtros opcionais por `company_profile_id` e `search` (busca em `title`, `description` e no nome das linguagens vinculadas). Em **200**, `data.data[]` segue o schema **Company Project Resource** (`App\\Http\\Resources\\CompanyProject\\CompanyProjectResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'IndexCompanyProject', title: 'Listar projetos da empresa', description: '**operationId:** `IndexCompanyProject` — Lista paginada dos projetos, com filtros opcionais por `company_profile_id` e `search` (busca em `title`, `description` e no nome das linguagens vinculadas). Em **200**, `data.data[]` segue o schema **Company Project Resource** (`App\\Http\\Resources\\CompanyProject\\CompanyProjectResource`) e `data.pagination` traz os metadados de paginação.')]
     public function index(IndexCompanyProjectsRequest $request): JsonResponse {
 
         try {

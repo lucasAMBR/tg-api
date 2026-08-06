@@ -138,7 +138,12 @@ class ProficiencyTestService
         return new ProficiencyTestResource($proficiencyTest);
     }
 
-    public function getProficiencyTestQuestions(array $data)
+    /**
+     * As questões do teste, agrupadas em páginas.
+     *
+     * @return Collection<int, Collection<int, QuestionResource>>
+     */
+    public function getProficiencyTestQuestions(array $data): Collection
     {
         $proficiencyTest = ProficiencyTest::findOrFail($data['id']);
 
@@ -149,7 +154,7 @@ class ProficiencyTestService
             ->filter()
             ->values()
             ->chunk(config('app.proficiency_test.questions_per_page'))
-            ->map(fn ($chunk) => QuestionResource::collection($chunk->values()))
+            ->map(fn ($chunk) => $chunk->values()->map(fn ($question) => new QuestionResource($question)))
             ->values();
     }
 

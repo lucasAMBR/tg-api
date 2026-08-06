@@ -31,8 +31,8 @@ class AcademicBackgroundResource extends JsonResource
             'institution' => $this->institution,
             'is_verified' => $this->certificate === null ? false : true,
             'certificate' => $certificate ? [
-                'id'              => $certificate->id,
-                'certificate_url' => str_replace(config('app.url') . '/storage', '', $certificate->getUrl()),
+                'id'              => (int) $certificate->id,
+                'certificate_url' => (string) str_replace(config('app.url') . '/storage', '', $certificate->getUrl()),
             ] : null,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),

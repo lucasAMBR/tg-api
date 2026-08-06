@@ -17,7 +17,7 @@ class AdditionalCourseController extends Controller
 {
     public function __construct(protected AdditionalCourseService $additionalCourseService){}
 
-    #[Endpoint(operationId: 'indexAdditionalCourse', title: 'Listar cursos complementares', description: '**operationId:** `indexAdditionalCourse` — Lista paginada dos cursos complementares, com filtros opcionais por `dev_profile_id`, `search` (busca em `name` e `provider`) e `verified` (apenas cursos com certificado anexado). Em **200**, `data.data[]` segue o schema **Additional Course Resource** (`App\\Http\\Resources\\AdditionalCourse\\AdditionalCourseResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'indexAdditionalCourses', title: 'Listar cursos complementares', description: '**operationId:** `indexAdditionalCourses` — Lista paginada dos cursos complementares, com filtros opcionais por `dev_profile_id`, `search` (busca em `name` e `provider`) e `verified` (apenas cursos com certificado anexado). Em **200**, `data.data[]` segue o schema **Additional Course Resource** (`App\\Http\\Resources\\AdditionalCourse\\AdditionalCourseResource`) e `data.pagination` traz os metadados de paginação.')]
     public function index(IndexAdditionalCourseRequest $request): JsonResponse
     {
         try {

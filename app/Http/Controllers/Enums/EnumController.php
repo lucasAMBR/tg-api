@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EnumController extends Controller
 {
-    #[Endpoint(operationId: 'listSeniorityLevelEnumCases', title: 'Listar níveis de senioridade', description: '**operationId:** `listSeniorityLevelEnumCases` — Lista os casos do enum `SeniorityLevelEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    #[Endpoint(operationId: 'enumSeniority', title: 'Listar níveis de senioridade', description: '**operationId:** `enumSeniority` — Lista os casos do enum `SeniorityLevelEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
     public function listSeniorityLevelEnumCases(): JsonResponse
     {
         try {
@@ -36,7 +36,7 @@ class EnumController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'listHardSkillLevelEnumCases', title: 'Listar níveis de hard skill', description: '**operationId:** `listHardSkillLevelEnumCases` — Lista os casos do enum `HardSkillLevelsEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    #[Endpoint(operationId: 'enumHardSkillLevel', title: 'Listar níveis de hard skill', description: '**operationId:** `enumHardSkillLevel` — Lista os casos do enum `HardSkillLevelsEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
     public function listHardSkillLevelEnumCases(): JsonResponse
     {
         try {
@@ -51,7 +51,7 @@ class EnumController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'listEmploymentType', title: 'Listar tipos de vínculo', description: '**operationId:** `listEmploymentType` — Lista os casos do enum `EmploymentType`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    #[Endpoint(operationId: 'enumEmploymentType', title: 'Listar tipos de vínculo', description: '**operationId:** `enumEmploymentType` — Lista os casos do enum `EmploymentType`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
     public function listEmploymentType(): JsonResponse
     {
         try {
@@ -66,7 +66,7 @@ class EnumController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'listContractType', title: 'Listar tipos de contrato', description: '**operationId:** `listContractType` — Lista os casos do enum `ContractType`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    #[Endpoint(operationId: 'enumContractType', title: 'Listar tipos de contrato', description: '**operationId:** `enumContractType` — Lista os casos do enum `ContractType`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
     public function listContractType(): JsonResponse
     {
         try {
@@ -81,7 +81,7 @@ class EnumController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'listDegreeLevels', title: 'Listar níveis de formação', description: '**operationId:** `listDegreeLevels` — Lista os casos do enum `DegreeLevelEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    #[Endpoint(operationId: 'enumDegreeLevel', title: 'Listar níveis de formação', description: '**operationId:** `enumDegreeLevel` — Lista os casos do enum `DegreeLevelEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
     public function listDegreeLevels(): JsonResponse
     {
         try {
@@ -96,7 +96,7 @@ class EnumController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'listOperationalSegments', title: 'Listar segmentos de atuação', description: '**operationId:** `listOperationalSegments` — Lista os casos do enum `OperationalSegmentEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    #[Endpoint(operationId: 'enumOperationalSegments', title: 'Listar segmentos de atuação', description: '**operationId:** `enumOperationalSegments` — Lista os casos do enum `OperationalSegmentEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
     public function listOperationalSegments(): JsonResponse
     {
         try {
@@ -111,7 +111,7 @@ class EnumController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'listDevSpecialties', title: 'Listar especialidades de desenvolvedor', description: '**operationId:** `listDevSpecialties` — Lista os casos do enum `DevSpecialtyEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    #[Endpoint(operationId: 'enumDevSpecialty', title: 'Listar especialidades de desenvolvedor', description: '**operationId:** `enumDevSpecialty` — Lista os casos do enum `DevSpecialtyEnum`. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
     public function listDevSpecialties(): JsonResponse
     {
         try {
@@ -126,7 +126,7 @@ class EnumController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'listQuestionCategoryStacks', title: 'Listar stacks por especialidade', description: '**operationId:** `listQuestionCategoryStacks` — Lista as stacks de categorias de questão disponíveis para a especialidade do perfil de desenvolvedor autenticado. Em **200**, `data` é agrupado por área (`frontend` e/ou `backend`), cada uma com uma lista no schema **Question Category Stack Resource** (`App\\Http\\Resources\\Question\\QuestionCategoryStackResource`), com os campos `value` e `i18n_key`. Quando o usuário autenticado não possui perfil de desenvolvedor, a resposta é **404**.')]
+    #[Endpoint(operationId: 'enumQuestionStackBySpecialty', title: 'Listar stacks por especialidade', description: '**operationId:** `enumQuestionStackBySpecialty` — Lista as stacks de categorias de questão disponíveis para a especialidade do perfil de desenvolvedor autenticado. Em **200**, `data` é agrupado por área (`frontend` e/ou `backend`), cada uma com uma lista no schema **Question Category Stack Resource** (`App\\Http\\Resources\\Question\\QuestionCategoryStackResource`), com os campos `value` e `i18n_key`. Quando o usuário autenticado não possui perfil de desenvolvedor, a resposta é **404**.')]
     public function listQuestionCategoryStacks(): JsonResponse
     {
         try {

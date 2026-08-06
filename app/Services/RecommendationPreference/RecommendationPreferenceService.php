@@ -14,6 +14,8 @@ class RecommendationPreferenceService
 
         $recommendation = $devProfile->recommendation_preference;
 
+        $recommendation->load('blackListedLanguages');
+
         return new RecommendationPreferenceResource($recommendation);
     }
 
@@ -32,6 +34,8 @@ class RecommendationPreferenceService
         }
 
         $recommendation->refresh();
+
+        $recommendation->load('blackListedLanguages');
 
         return new RecommendationPreferenceResource($recommendation);
     }

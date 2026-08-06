@@ -31,7 +31,7 @@ class ProfileController extends Controller
 
     public function __construct(protected ProfileService $profileService){}
 
-    #[Endpoint(operationId: 'indexDevProfiles', title: 'Listar perfis de desenvolvedor', description: '**operationId:** `indexDevProfiles` — Lista paginada dos perfis de desenvolvedor, com `address` carregado e filtros opcionais por `search` (nome), `seniority_level`, `specialty`, `open_to_relocation` e `open_to_work`. Em **200**, `data.data[]` segue o schema **Dev Profile Resource** (`App\\Http\\Resources\\Profiles\\DevProfile\\DevProfileResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'indexDevProfile', title: 'Listar perfis de desenvolvedor', description: '**operationId:** `indexDevProfile` — Lista paginada dos perfis de desenvolvedor, com `address` carregado e filtros opcionais por `search` (nome), `seniority_level`, `specialty`, `open_to_relocation` e `open_to_work`. Em **200**, `data.data[]` segue o schema **Dev Profile Resource** (`App\\Http\\Resources\\Profiles\\DevProfile\\DevProfileResource`) e `data.pagination` traz os metadados de paginação.')]
     public function indexDevProfiles(IndexDevProfileRequest $request): JsonResponse
     {
         try {
@@ -48,7 +48,7 @@ class ProfileController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'indexCompanyProfiles', title: 'Listar perfis de empresa', description: '**operationId:** `indexCompanyProfiles` — Lista paginada dos perfis de empresa, com `address` carregado e filtros opcionais por `search` (nome) e `operational_segment`. Em **200**, `data.data[]` segue o schema **Company Profile Resource** (`App\\Http\\Resources\\Profiles\\CompanyProfile\\CompanyProfileResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'indexCompanyProfile', title: 'Listar perfis de empresa', description: '**operationId:** `indexCompanyProfile` — Lista paginada dos perfis de empresa, com `address` carregado e filtros opcionais por `search` (nome) e `operational_segment`. Em **200**, `data.data[]` segue o schema **Company Profile Resource** (`App\\Http\\Resources\\Profiles\\CompanyProfile\\CompanyProfileResource`) e `data.pagination` traz os metadados de paginação.')]
     public function indexCompanyProfiles(IndexCompanyProfileRequest $request): JsonResponse
     {
         try {
@@ -99,7 +99,7 @@ class ProfileController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'showCompanyProfile', title: 'Consultar perfil de empresa', description: '**operationId:** `showCompanyProfile` — Retorna um perfil de empresa específico, com o `user` carregado. Em **200**, `data` segue o schema **Company Profile Resource** (`App\\Http\\Resources\\Profiles\\CompanyProfile\\CompanyProfileResource`).')]
+    #[Endpoint(operationId: 'showCompany', title: 'Consultar perfil de empresa', description: '**operationId:** `showCompany` — Retorna um perfil de empresa específico, com o `user` carregado. Em **200**, `data` segue o schema **Company Profile Resource** (`App\\Http\\Resources\\Profiles\\CompanyProfile\\CompanyProfileResource`).')]
     public function showCompanyProfile(ShowCompanyProfileRequest $request): JsonResponse
     {
         try {
@@ -116,7 +116,7 @@ class ProfileController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'showClientProfile', title: 'Consultar perfil de cliente', description: '**operationId:** `showClientProfile` — Retorna um perfil de cliente específico, com o `user` carregado. Em **200**, `data` segue o schema **Client Profile Resource** (`App\\Http\\Resources\\Profiles\\ClientProfile\\ClientProfileResource`).')]
+    #[Endpoint(operationId: 'showClient', title: 'Consultar perfil de cliente', description: '**operationId:** `showClient` — Retorna um perfil de cliente específico, com o `user` carregado. Em **200**, `data` segue o schema **Client Profile Resource** (`App\\Http\\Resources\\Profiles\\ClientProfile\\ClientProfileResource`).')]
     public function showClientProfile(ShowClientProfileRequest $request): JsonResponse
     {
         try {
@@ -150,7 +150,7 @@ class ProfileController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'storeCompanyProfile', title: 'Cadastrar perfil de empresa', description: '**operationId:** `storeCompanyProfile` — Cria o perfil de empresa do usuário autenticado e dispara a tradução do conteúdo. Em **201**, `data` segue o schema **Company Profile Resource** (`App\\Http\\Resources\\Profiles\\CompanyProfile\\CompanyProfileResource`).')]
+    #[Endpoint(operationId: 'StoreCompanyProfile', title: 'Cadastrar perfil de empresa', description: '**operationId:** `StoreCompanyProfile` — Cria o perfil de empresa do usuário autenticado e dispara a tradução do conteúdo. Em **201**, `data` segue o schema **Company Profile Resource** (`App\\Http\\Resources\\Profiles\\CompanyProfile\\CompanyProfileResource`).')]
     public function storeCompanyProfile(StoreCompanyProfileRequest $request): JsonResponse
     {
         try {
@@ -167,7 +167,7 @@ class ProfileController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'storeClientProfile', title: 'Cadastrar perfil de cliente', description: '**operationId:** `storeClientProfile` — Cria o perfil de cliente do usuário autenticado e dispara a tradução do conteúdo. Em **201**, `data` segue o schema **Client Profile Resource** (`App\\Http\\Resources\\Profiles\\ClientProfile\\ClientProfileResource`).')]
+    #[Endpoint(operationId: 'StoreClientProfile', title: 'Cadastrar perfil de cliente', description: '**operationId:** `StoreClientProfile` — Cria o perfil de cliente do usuário autenticado e dispara a tradução do conteúdo. Em **201**, `data` segue o schema **Client Profile Resource** (`App\\Http\\Resources\\Profiles\\ClientProfile\\ClientProfileResource`).')]
     public function storeClientProfile(StoreClientProfileRequest $request): JsonResponse
     {
         try {
@@ -184,7 +184,7 @@ class ProfileController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'updateDevProfile', title: 'Atualizar perfil de desenvolvedor', description: '**operationId:** `updateDevProfile` — Atualiza o perfil de desenvolvedor. Requer autorização via `DevProfilePolicy::update`. Quando `bio` muda, a tradução é refeita; quando `bio`, `specialty` ou `seniority_level` mudam, o embedding do perfil é regerado. Em **200**, `data` segue o schema **Dev Profile Resource** (`App\\Http\\Resources\\Profiles\\DevProfile\\DevProfileResource`).')]
+    #[Endpoint(operationId: 'UpdateDevProfile', title: 'Atualizar perfil de desenvolvedor', description: '**operationId:** `UpdateDevProfile` — Atualiza o perfil de desenvolvedor. Requer autorização via `DevProfilePolicy::update`. Quando `bio` muda, a tradução é refeita; quando `bio`, `specialty` ou `seniority_level` mudam, o embedding do perfil é regerado. Em **200**, `data` segue o schema **Dev Profile Resource** (`App\\Http\\Resources\\Profiles\\DevProfile\\DevProfileResource`).')]
     public function updateDevProfile(UpdateDevProfileRequest $request): JsonResponse {
 
         try {
@@ -202,7 +202,7 @@ class ProfileController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'updateCompanyProfile', title: 'Atualizar perfil de empresa', description: '**operationId:** `updateCompanyProfile` — Atualiza o perfil de empresa. Requer autorização via `CompanyProfilePolicy::update`. Quando `bio` muda, a tradução é refeita. Em **200**, `data` segue o schema **Company Profile Resource** (`App\\Http\\Resources\\Profiles\\CompanyProfile\\CompanyProfileResource`).')]
+    #[Endpoint(operationId: 'UpdateCompanyProfile', title: 'Atualizar perfil de empresa', description: '**operationId:** `UpdateCompanyProfile` — Atualiza o perfil de empresa. Requer autorização via `CompanyProfilePolicy::update`. Quando `bio` muda, a tradução é refeita. Em **200**, `data` segue o schema **Company Profile Resource** (`App\\Http\\Resources\\Profiles\\CompanyProfile\\CompanyProfileResource`).')]
     public function updateCompanyProfile(UpdateCompanyProfileRequest $request): JsonResponse {
 
         try {
@@ -254,7 +254,7 @@ class ProfileController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'updateClientProfile', title: 'Atualizar perfil de cliente', description: '**operationId:** `updateClientProfile` — Atualiza o perfil de cliente. Requer autorização via `ClientProfilePolicy::update`. Quando `bio` muda, a tradução é refeita. Em **200**, `data` segue o schema **Client Profile Resource** (`App\\Http\\Resources\\Profiles\\ClientProfile\\ClientProfileResource`).')]
+    #[Endpoint(operationId: 'UpdateClientProfile', title: 'Atualizar perfil de cliente', description: '**operationId:** `UpdateClientProfile` — Atualiza o perfil de cliente. Requer autorização via `ClientProfilePolicy::update`. Quando `bio` muda, a tradução é refeita. Em **200**, `data` segue o schema **Client Profile Resource** (`App\\Http\\Resources\\Profiles\\ClientProfile\\ClientProfileResource`).')]
     public function updateClientProfile(UpdateClientProfileRequest $request): JsonResponse {
 
         try {
@@ -272,7 +272,7 @@ class ProfileController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'destroyDevProfile', title: 'Remover perfil de desenvolvedor', description: '**operationId:** `destroyDevProfile` — Remove o perfil de desenvolvedor. Requer autorização via `DevProfilePolicy::delete`. Em **200**, `data` indica se a exclusão foi efetivada.')]
+    #[Endpoint(operationId: 'DeleteDevProfile', title: 'Remover perfil de desenvolvedor', description: '**operationId:** `DeleteDevProfile` — Remove o perfil de desenvolvedor. Requer autorização via `DevProfilePolicy::delete`. Em **200**, `data` indica se a exclusão foi efetivada.')]
     public function destroyDevProfile(DestroyDevProfileRequest $request): JsonResponse {
 
         try {
@@ -290,7 +290,7 @@ class ProfileController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'destroyCompanyProfile', title: 'Remover perfil de empresa', description: '**operationId:** `destroyCompanyProfile` — Remove o perfil de empresa. Requer autorização via `CompanyProfilePolicy::delete`. Em **200**, `data` indica se a exclusão foi efetivada.')]
+    #[Endpoint(operationId: 'DeleteCompanyProfile', title: 'Remover perfil de empresa', description: '**operationId:** `DeleteCompanyProfile` — Remove o perfil de empresa. Requer autorização via `CompanyProfilePolicy::delete`. Em **200**, `data` indica se a exclusão foi efetivada.')]
     public function destroyCompanyProfile(DestroyCompanyProfileRequest $request): JsonResponse {
 
         try {
@@ -308,7 +308,7 @@ class ProfileController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'destroyClientProfile', title: 'Remover perfil de cliente', description: '**operationId:** `destroyClientProfile` — Remove o perfil de cliente. Requer autorização via `ClientProfilePolicy::delete`. Em **200**, `data` indica se a exclusão foi efetivada.')]
+    #[Endpoint(operationId: 'DeleteClientProfile', title: 'Remover perfil de cliente', description: '**operationId:** `DeleteClientProfile` — Remove o perfil de cliente. Requer autorização via `ClientProfilePolicy::delete`. Em **200**, `data` indica se a exclusão foi efetivada.')]
     public function destroyClientProfile(DestroyClientProfileRequest $request): JsonResponse {
 
         try {

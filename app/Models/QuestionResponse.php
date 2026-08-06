@@ -49,7 +49,8 @@ class QuestionResponse extends Model implements Translatable
     }
 
     protected $casts = [
-        'code_snippet' => AsCollection::class
+        'code_snippet' => AsCollection::class,
+        'is_correct' => 'boolean',
     ];
 
     public function proficiencyTestResponses(): HasMany

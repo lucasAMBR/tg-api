@@ -24,8 +24,8 @@ class QuestionResource extends JsonResource
             'language_id' => $this->language_id,
             'category' => $this->category,
             'ideal_time_to_solve' => $this->ideal_time_to_solve,
-            'code_snippet' => $this->code_snippet,
-            'is_multiple_choice' => $this->is_multiple_choice,
+            'code_snippet' => $this->code_snippet ? new CodeSnippetResource($this->code_snippet) : null,
+            'is_multiple_choice' => (bool) $this->is_multiple_choice,
             'seniority_level' => $this->seniority_level,
             'responses' => QuestionResponseResource::collection($this->question_responses),
         ];

@@ -43,9 +43,9 @@ class DevProfileResource extends JsonResource
             'specialty_label' => DevSpecialtyEnum::from($this->specialty)->label(),
             'birthdate' => $this->birthdate,
             'score' => $this->score,
-            'open_to_work' => $this->open_to_work,
-            'open_to_relocation' => $this->open_to_relocation,
-            'is_blocked' => $this->user->is_blocked,
+            'open_to_work' => (bool) $this->open_to_work,
+            'open_to_relocation' => (bool) $this->open_to_relocation,
+            'is_blocked' => (bool) $this->user->is_blocked,
             'employment_histories' => $this->whenLoaded('employment_histories', function () {
                 return EmploymentHistoryResource::collection($this->employment_histories);
             }),

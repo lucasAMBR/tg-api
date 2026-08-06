@@ -37,15 +37,15 @@ class ProjectHistoryResource extends JsonResource
                 return LanguageResource::collection($this->languages);
             }),
             'gallery' => $this->getMedia('gallery')->map(function ($media) {
-                $originalRelative = str_replace(config('app.url') . '/storage', '', $media->getUrl());
-                $thumbRelative = str_replace(config('app.url') . '/storage', '', $media->getUrl('thumb'));
+                $originalRelative = (string) str_replace(config('app.url') . '/storage', '', $media->getUrl());
+                $thumbRelative = (string) str_replace(config('app.url') . '/storage', '', $media->getUrl('thumb'));
 
                 return [
-                    'id' => $media->id,
+                    'id' => (int) $media->id,
                     'original_url' => $originalRelative,
                     'thumb_url' => $thumbRelative,
                 ];
-            }),
+            })->values(),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

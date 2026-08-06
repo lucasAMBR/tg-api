@@ -34,7 +34,7 @@ class UserController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'blockUserAccess', title: 'Bloquear usuário', description: '**operationId:** `blockUserAccess` — Marca o usuário como bloqueado (`is_blocked = true`), impedindo novos logins. Requer a permissão `user.block`. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
+    #[Endpoint(operationId: 'userBlockAccess', title: 'Bloquear usuário', description: '**operationId:** `userBlockAccess` — Marca o usuário como bloqueado (`is_blocked = true`), impedindo novos logins. Requer a permissão `user.block`. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
     public function blockUserAccess(BlockUserAccessRequest $request): JsonResponse
     {
         try {
@@ -51,7 +51,7 @@ class UserController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'unblockUserAccess', title: 'Desbloquear usuário', description: '**operationId:** `unblockUserAccess` — Remove o bloqueio do usuário (`is_blocked = false`), liberando o login novamente. Requer a permissão `user.block`. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
+    #[Endpoint(operationId: 'userUnblockAccess', title: 'Desbloquear usuário', description: '**operationId:** `userUnblockAccess` — Remove o bloqueio do usuário (`is_blocked = false`), liberando o login novamente. Requer a permissão `user.block`. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
     public function unblockUserAccess(UnblockUserAccessRequest $request): JsonResponse
     {
         try {

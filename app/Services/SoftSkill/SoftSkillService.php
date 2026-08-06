@@ -64,6 +64,8 @@ class SoftSkillService
 
         GenerateDevProfileEmbeddingJob::dispatchDebounced($profile->id);
 
+        $profile->load('dev_soft_skills.soft_skill', 'dev_soft_skills.soft_skill_level_response');
+
         return DevSoftSkillResource::collection($profile->dev_soft_skills);
     }
 
@@ -102,6 +104,8 @@ class SoftSkillService
 
         GenerateDevProfileEmbeddingJob::dispatchDebounced($profile->id);
 
+        $profile->load('dev_soft_skills.soft_skill', 'dev_soft_skills.soft_skill_level_response');
+
         return DevSoftSkillResource::collection($profile->dev_soft_skills);
     }
 
@@ -109,6 +113,7 @@ class SoftSkillService
         $devProfile = DevProfile::findOrFail($data['dev_profile_id']);
 
         $softSkills = DevSoftSkill::query()
+            ->with(['soft_skill', 'soft_skill_level_response'])
             ->select('dev_soft_skill.*')
             ->join('soft_skill_level_responses', 'dev_soft_skill.soft_skill_level_response_id', '=', 'soft_skill_level_responses.id')
             ->where('dev_soft_skill.dev_profile_id', $devProfile->id)

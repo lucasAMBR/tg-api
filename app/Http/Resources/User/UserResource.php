@@ -6,7 +6,6 @@ use App\Http\Resources\Profiles\AdminProfile\AdminProfileResource;
 use App\Http\Resources\Profiles\ClientProfile\ClientProfileResource;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
-use App\Models\CompanyProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,9 +23,9 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'profile_pic' => $media ? [
-                'id'           => $media->id,
-                'original_url' => str_replace(config('app.url') . '/storage', '', $media->getUrl()),
-                'thumb_url'    => str_replace(config('app.url') . '/storage', '', $media->getUrl('thumb')),
+                'id'           => (int) $media->id,
+                'original_url' => (string) str_replace(config('app.url') . '/storage', '', $media->getUrl()),
+                'thumb_url'    => (string) str_replace(config('app.url') . '/storage', '', $media->getUrl('thumb')),
             ] : null,
             'email' => $this->email,
             'dev_profile' => $this->whenLoaded('dev_profile', function () {
@@ -41,11 +40,31 @@ class UserResource extends JsonResource
             'admin_profile' => $this->whenLoaded('admin_profile', function () {
                 return new AdminProfileResource($this->admin_profile);
             }),
-            'role' => $this->getRoleNames(),
+            'role' => $this->roleNames(),
             'admin_active_profile' => $this->admin_active_profile,
-            'is_blocked' => $this->is_blocked,
+            'is_blocked' => (bool) $this->is_blocked,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
+    }
+
+    /**
+     * Nomes das roles do usuário.
+     *
+     * O retorno de `getRoleNames()` é uma Collection que o Scramble não
+     * consegue tipar (a annotation da relation `roles` acaba vazando para a
+     * spec), então normalizamos para uma lista de strings.
+     *
+     * @return list<string>
+     */
+    private function roleNames(): array
+    {
+        $names = [];
+
+        foreach ($this->getRoleNames() as $name) {
+            $names[] = (string) $name;
+        }
+
+        return $names;
     }
 }

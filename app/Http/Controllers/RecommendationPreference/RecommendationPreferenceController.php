@@ -15,7 +15,7 @@ class RecommendationPreferenceController extends Controller
 {
     public function __construct(protected RecommendationPreferenceService $recommendationPreferenceService){}
 
-    #[Endpoint(operationId: 'getRecommendationPreferences', title: 'Consultar preferências de recomendação', description: '**operationId:** `getRecommendationPreferences` — Retorna as preferências de recomendação do perfil de desenvolvedor informado. Em **200**, `data` segue o schema **Recommendation Preference Resource** (`App\\Http\\Resources\\RecommendationPreference\\RecommendationPreferenceResource`).')]
+    #[Endpoint(operationId: 'getDevRecommendationPreference', title: 'Consultar preferências de recomendação', description: '**operationId:** `getDevRecommendationPreference` — Retorna as preferências de recomendação do perfil de desenvolvedor informado. Em **200**, `data` segue o schema **Recommendation Preference Resource** (`App\\Http\\Resources\\RecommendationPreference\\RecommendationPreferenceResource`).')]
     public function getPreferences(GetRecommendationPreferenceRequest $request): JsonResponse
     {
         try {
@@ -32,7 +32,7 @@ class RecommendationPreferenceController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'updateRecommendationPreference', title: 'Atualizar preferências de recomendação', description: '**operationId:** `updateRecommendationPreference` — Atualiza as preferências de recomendação do perfil de desenvolvedor informado. Quando `languages_blacklist` é enviado, a lista de linguagens bloqueadas é sincronizada. Em **200**, `data` segue o schema **Recommendation Preference Resource** (`App\\Http\\Resources\\RecommendationPreference\\RecommendationPreferenceResource`).')]
+    #[Endpoint(operationId: 'updateRecommendationPreferences', title: 'Atualizar preferências de recomendação', description: '**operationId:** `updateRecommendationPreferences` — Atualiza as preferências de recomendação do perfil de desenvolvedor informado. Quando `languages_blacklist` é enviado, a lista de linguagens bloqueadas é sincronizada. Em **200**, `data` segue o schema **Recommendation Preference Resource** (`App\\Http\\Resources\\RecommendationPreference\\RecommendationPreferenceResource`).')]
     public function updatePreference(UpdateRecommendationPreference $request): JsonResponse
     {
         try {

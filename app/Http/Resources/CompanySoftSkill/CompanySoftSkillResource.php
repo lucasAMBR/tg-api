@@ -18,9 +18,7 @@ class CompanySoftSkillResource extends JsonResource
         return [
             'id' => $this->id,
             'soft_skill_id' => $this->soft_skill_id,
-            'soft_skill' => $this->whenLoaded('soft_skills', function() {
-                return new SoftSkillResource($this->soft_skills);
-            }),
+            'soft_skill' => new SoftSkillResource($this->soft_skills),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String()
         ];

@@ -16,7 +16,7 @@ class DevJobVacancyController extends Controller
 {
     public function __construct(protected DevJobVacancyService $devJobVacancyService) {}
 
-    #[Endpoint(operationId: 'applyDevJobVacancy', title: 'Candidatar-se a uma vaga', description: '**operationId:** `applyDevJobVacancy` — Inscreve o desenvolvedor autenticado na vaga informada, com status inicial `PENDING`. Exige role `dev` e perfil de desenvolvedor existente, e recusa candidaturas duplicadas para a mesma vaga. Em **201**, `data` segue o schema **Dev Job Vacancy Resource** (`App\\Http\\Resources\\DevJobVacancy\\DevJobVacancyResource`), com `jobVacancy` e `devProfile` carregados.')]
+    #[Endpoint(operationId: 'storeDevJobVacancy', title: 'Candidatar-se a uma vaga', description: '**operationId:** `storeDevJobVacancy` — Inscreve o desenvolvedor autenticado na vaga informada, com status inicial `PENDING`. Exige role `dev` e perfil de desenvolvedor existente, e recusa candidaturas duplicadas para a mesma vaga. Em **201**, `data` segue o schema **Dev Job Vacancy Resource** (`App\\Http\\Resources\\DevJobVacancy\\DevJobVacancyResource`), com `jobVacancy` e `devProfile` carregados.')]
     public function apply(StoreDevJobVacancyRequest $request): JsonResponse {
 
         try {
@@ -38,7 +38,7 @@ class DevJobVacancyController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'indexAppliesDevJobVacancy', title: 'Listar candidaturas das vagas da empresa', description: '**operationId:** `indexAppliesDevJobVacancy` — Lista paginada das candidaturas às vagas do perfil de empresa autenticado (exige role `company`), com filtro opcional `search` (busca no nome do desenvolvedor e no título da vaga). Em **200**, `data.data[]` segue o schema **Dev Job Vacancy Resource** (`App\\Http\\Resources\\DevJobVacancy\\DevJobVacancyResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'indexApplies', title: 'Listar candidaturas das vagas da empresa', description: '**operationId:** `indexApplies` — Lista paginada das candidaturas às vagas do perfil de empresa autenticado (exige role `company`), com filtro opcional `search` (busca no nome do desenvolvedor e no título da vaga). Em **200**, `data.data[]` segue o schema **Dev Job Vacancy Resource** (`App\\Http\\Resources\\DevJobVacancy\\DevJobVacancyResource`) e `data.pagination` traz os metadados de paginação.')]
     public function indexApplies(IndexDevJobVacancyRequest $request): JsonResponse {
 
         try {
@@ -60,7 +60,7 @@ class DevJobVacancyController extends Controller
 
     }
 
-    #[Endpoint(operationId: 'reviewApplyDevJobVacancy', title: 'Avaliar candidatura', description: '**operationId:** `reviewApplyDevJobVacancy` — Atualiza o `status` de uma candidatura. A atualização só é aplicada quando a vaga pertence ao perfil de empresa autenticado; caso contrário a resposta é **403**. Em **200**, `data` segue o schema **Dev Job Vacancy Resource** (`App\\Http\\Resources\\DevJobVacancy\\DevJobVacancyResource`), com `jobVacancy` e `devProfile` carregados.')]
+    #[Endpoint(operationId: 'reviewApply', title: 'Avaliar candidatura', description: '**operationId:** `reviewApply` — Atualiza o `status` de uma candidatura. A atualização só é aplicada quando a vaga pertence ao perfil de empresa autenticado; caso contrário a resposta é **403**. Em **200**, `data` segue o schema **Dev Job Vacancy Resource** (`App\\Http\\Resources\\DevJobVacancy\\DevJobVacancyResource`), com `jobVacancy` e `devProfile` carregados.')]
     public function reviewApply(ReviewDevJobVacancyRequest $request): JsonResponse {
 
         try {

@@ -35,7 +35,7 @@ class CompanyProfileResource extends JsonResource
             'operational_segment_label' => OperationalSegmentEnum::labelFromValue($this->operational_segment),
             'score' => $this->score,
             'address' => new AddressResource($this->whenLoaded('address')),
-            'is_blocked' => $this->user->is_blocked,
+            'is_blocked' => (bool) $this->user->is_blocked,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
