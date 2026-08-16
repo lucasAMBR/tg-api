@@ -9,6 +9,7 @@ use App\Traits\HasUuidV7;
 use App\Models\Address;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -65,5 +66,10 @@ class ClientProfile extends Model implements Translatable
     public function notifications(): MorphMany
     {
         return $this->morphMany(Notification::class, 'notifiable');
+    }
+
+    public function freelanceJobVacancies(): HasMany
+    {
+        return $this->hasMany(FreelanceJobVacancy::class);
     }
 }

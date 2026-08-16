@@ -67,6 +67,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'company_project.update', 'guard_name' => 'api'],
             ['name' => 'company_project.delete', 'guard_name' => 'api'],
 
+            ['name' => 'client_job_vacancy.create', 'guard_name' => 'api'],
+            ['name' => 'client_job_vacancy.view', 'guard_name' => 'api'],
+            ['name' => 'client_job_vacancy.delete', 'guard_name' => 'api'],
+            ['name' => 'client_job_vacancy.update', 'guard_name' => 'api'],
+
             ['name' => 'client_profile.view', 'guard_name' => 'api'],
             ['name' => 'client_profile.create', 'guard_name' => 'api'],
             ['name' => 'client_profile.update', 'guard_name' => 'api'],

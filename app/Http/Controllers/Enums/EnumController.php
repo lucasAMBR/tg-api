@@ -7,13 +7,16 @@ use App\Enums\ContractType;
 use App\Enums\DegreeLevelEnum;
 use App\Enums\DevSpecialtyEnum;
 use App\Enums\EmploymentType;
+use App\Enums\FreelanceJobTypeEnum;
 use App\Enums\HardSkillLevelsEnum;
 use App\Enums\OperationalSegmentEnum;
 use App\Enums\QuestionCategoryEnum;
+use App\Enums\SalaryTypeEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Enum\EnumResource;
+use App\Http\Resources\Enum\FreelanceJobTypeResource;
 use App\Http\Resources\Question\QuestionCategoryStackResource;
 use Dedoc\Scramble\Attributes\Endpoint;
 use Illuminate\Http\JsonResponse;
@@ -116,6 +119,36 @@ class EnumController extends Controller
     {
         try {
             return ApiResponse::success(EnumResource::collection(DevSpecialtyEnum::cases()), "Dev Specialties listed with success");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+    }
+
+    #[Endpoint(operationId: 'enumFreelanceJobType', title: 'Listar tipos de serviço freelance', description: '**operationId:** `enumFreelanceJobType` — Lista os casos do enum `FreelanceJobTypeEnum`. Em **200**, `data[]` segue o schema **Freelance Job Type Resource** (`App\\Http\\Resources\\Enum\\FreelanceJobTypeResource`), com os campos `value`, `label`, `i18nKey` e `requires_stack` — este último indica se o tipo exige o envio de linguagens no cadastro da vaga.')]
+    public function listFreelanceJobType(): JsonResponse
+    {
+        try {
+            return ApiResponse::success(FreelanceJobTypeResource::collection(FreelanceJobTypeEnum::cases()), "freelance job type listed with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+    }
+
+    #[Endpoint(operationId: 'enumSalaryType', title: 'Listar tipos de remuneração', description: '**operationId:** `enumSalaryType` — Lista os casos do enum `SalaryTypeEnum`, usados na periodicidade do pagamento das vagas freelance. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    public function listSalaryType(): JsonResponse
+    {
+        try {
+            return ApiResponse::success(EnumResource::collection(SalaryTypeEnum::cases()), "salary type listed with success!");
         } catch (ApiException $e) {
             /**
              * @status 400

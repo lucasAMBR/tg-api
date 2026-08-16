@@ -5,6 +5,7 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
+/.claude
 /.fleet
 /.idea
 /.nova
@@ -19,6 +20,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+CLAUDE.md
 Homestead.json
 Homestead.yaml
 Thumbs.db

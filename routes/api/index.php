@@ -29,6 +29,8 @@ Route::prefix('enum')->group(base_path('routes/api/Enums.php'));
 
 Route::prefix('job-vacancy')->group(base_path('routes/api/JobVacancy.php'));
 
+Route::prefix('freelance-job-vacancy')->group(base_path('routes/api/FreelanceJobVacancy.php'));
+
 Route::prefix('user')->group(base_path('routes/api/User.php'));
 
 Route::prefix('recommendation-preferences')->group(base_path('routes/api/RecommendationPreferences.php'));
