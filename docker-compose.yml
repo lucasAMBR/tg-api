@@ -15,12 +15,20 @@ services:
     volumes:
       - libretranslate_data:/home/libretranslate/.local/share/argos-translate
     restart: unless-stopped
+    networks:
+      - brew-network
 
   app:
-    build: .
+    build:
+      context: .
+      args:
+        UID: "${UID:-1000}"
+        GID: "${GID:-1000}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8000:8000"
-    user: "${UID}:${GID}"
+    user: "${UID:-1000}:${GID:-1000}"
     networks:
       - brew-network
     volumes:
