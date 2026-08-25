@@ -228,6 +228,7 @@ return [
                     'default', 
                     'translations',
                     'profile-embedding',
+                    'freelance-vacancy-embedding',
                     'proficiency-tests',
                     'tests-pontuation-calc'
                 ],

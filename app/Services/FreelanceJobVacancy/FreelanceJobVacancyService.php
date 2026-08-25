@@ -4,6 +4,7 @@ namespace App\Services\FreelanceJobVacancy;
 
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
+use App\Jobs\GenerateFreelanceJobVacancyEmbeddingJob;
 use App\Models\FreelanceJobVacancy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -68,6 +69,9 @@ class FreelanceJobVacancyService
 
             $this->syncLanguages($freelanceJobVacancy, $languages);
 
+            $freelanceJobVacancy->refresh();
+            GenerateFreelanceJobVacancyEmbeddingJob::dispatchDebounced($freelanceJobVacancy->id);
+
             // Retorna ja com as relações carregadas
             return $freelanceJobVacancy->load('languages', 'clientProfile');
         });
@@ -105,6 +109,9 @@ class FreelanceJobVacancyService
             if (array_key_exists('languages', $data)) {
                 $this->syncLanguages($freelanceJobVacancy, $data['languages']);
             }
+
+            $freelanceJobVacancy->refresh();
+            GenerateFreelanceJobVacancyEmbeddingJob::dispatchDebounced($freelanceJobVacancy->id);
 
             return $freelanceJobVacancy->fresh(['languages', 'clientProfile']);
         });

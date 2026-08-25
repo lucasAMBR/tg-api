@@ -180,7 +180,7 @@ return [
       'security_strategy' => [
         MiddlewareAuthSecurityStrategy::class,
         [
-            'middleware' => ['auth.api'],
+            'middleware' => ['auth', 'auth:*'],
             'scheme' => SecurityScheme::http('bearer', 'JWT'),
         ],
     ],
