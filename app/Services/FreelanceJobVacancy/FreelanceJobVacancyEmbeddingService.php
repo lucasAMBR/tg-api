@@ -7,7 +7,6 @@ use App\Enums\HardSkillLevelsEnum;
 use App\Models\FreelanceJobVacancy;
 use App\Models\FreelanceJobVacancyEmbedding;
 use App\Services\Embeddings\EmbeddingService;
-use RuntimeException;
 
 class FreelanceJobVacancyEmbeddingService
 {
@@ -17,36 +16,14 @@ class FreelanceJobVacancyEmbeddingService
     {
         $context = $this->constructFreelanceJobVacancyContext($freelanceJobVacancy);
 
-        $embedding = $this->extractVector(
-            $this->embeddingService->generate($context)
-        );
+        $vector = $this->embeddingService->generate($context);
 
         $freelanceJobVacancyEmbedding = FreelanceJobVacancyEmbedding::updateOrCreate(
             ['freelance_job_vacancy_id' => $freelanceJobVacancy->id],
-            ['embedding' => $embedding]
+            ['embedding' => $vector]
         );
 
         return $freelanceJobVacancyEmbedding;
-    }
-
-    /**
-     * O EmbeddingService devolve a resposta completa da API. Aqui pegamos só o
-     * vetor, que é o que a coluna `vector` do pgvector aceita.
-     *
-     * @return array<int, float>
-     */
-    private function extractVector(mixed $response): array
-    {
-        $embedding = is_array($response)
-            ? data_get($response, 'data.0.embedding')
-            : null;
-
-        // Estamos sempre dentro de um job em fila: lançar deixa o retry/backoff agir
-        if (!is_array($embedding)) {
-            throw new RuntimeException('Não foi possível gerar o embedding da vaga freelance.');
-        }
-
-        return $embedding;
     }
 
     private function constructFreelanceJobVacancyContext(FreelanceJobVacancy $freelanceJobVacancy): string

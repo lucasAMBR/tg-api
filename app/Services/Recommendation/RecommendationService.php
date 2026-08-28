@@ -9,8 +9,11 @@ use App\Helpers\ProfileHelper;
 use App\Http\Resources\Recommendation\RecommendedDevResource;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
+use App\Models\FreelanceJobVacancy;
+use App\Models\FreelanceJobVacancyEmbedding;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyEmbedding;
+use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Query\JoinClause;
@@ -50,6 +53,63 @@ class RecommendationService {
         // O binding precisa ir como literal "[1,2,3]": array vira 1536 bindings e desalinha o resto da query
         $vectorLiteral = is_array($vector) ? '[' . implode(',', $vector) . ']' : $vector;
 
+        return $this->recommendDevsByVector(
+            $vectorLiteral,
+            $data,
+            fn(Builder $query) => $this->applyRecommendationPreferences($query, $jobVacancy, $companyProfile)
+        );
+
+    }
+
+    /**
+     * Mesma recomendação por similaridade, mas partindo de uma vaga freelance.
+     * Aqui o dono é um perfil de cliente, não de empresa.
+     */
+    public function recommendDevsForFreelanceJobVacancy(array $data): AnonymousResourceCollection
+    {
+
+        $freelanceJobVacancy = FreelanceJobVacancy::findOrFail($data['freelance_job_vacancy_id']);
+
+        /** @var \App\Models\User $authUser */
+        $authUser = Auth::user();
+
+        if(!$authUser->hasRole('client')) {
+            throw new ApiException("You must be a client to get recommendations!");
+        }
+
+        $clientProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        if(!$clientProfile || $freelanceJobVacancy->client_profile_id !== $clientProfile->id) {
+            throw new ApiException("This freelance job vacancy doesn't belong to you!");
+        }
+
+        $vector = FreelanceJobVacancyEmbedding::query()
+            ->where('freelance_job_vacancy_id', $freelanceJobVacancy->id)
+            ->value('embedding');
+
+        if(!$vector) {
+            throw new ApiException("This freelance job vacancy doesn't have an embedding yet!");
+        }
+
+        // O binding precisa ir como literal "[1,2,3]": array vira 1536 bindings e desalinha o resto da query
+        $vectorLiteral = is_array($vector) ? '[' . implode(',', $vector) . ']' : $vector;
+
+        return $this->recommendDevsByVector(
+            $vectorLiteral,
+            $data,
+            fn(Builder $query) => $this->applyFreelanceRecommendationPreferences($query, $freelanceJobVacancy)
+        );
+
+    }
+
+    /**
+     * Busca os devs mais próximos de um vetor de vaga, já no literal do pgvector.
+     * `limit` (padrão 10) e `min_similarity` vêm do request; $applyPreferences deixa
+     * cada tipo de vaga aplicar os filtros que fazem sentido para ela.
+     */
+    private function recommendDevsByVector(string $vectorLiteral, array $data, Closure $applyPreferences): AnonymousResourceCollection
+    {
+
         $limit = $data['limit'] ?? 10;
         $minSimilarity = $data['min_similarity'] ?? null;
 
@@ -65,9 +125,7 @@ class RecommendationService {
                 'dev_profiles.*, 1 - (dev_profile_embeddings.embedding <=> ?::vector) AS similarity',
                 [$vectorLiteral]
             )
-            ->tap(function(Builder $query) use ($jobVacancy, $companyProfile) {
-                $this->applyRecommendationPreferences($query, $jobVacancy, $companyProfile);
-            })
+            ->tap($applyPreferences)
             ->when(!is_null($minSimilarity), function($query) use ($vectorLiteral, $minSimilarity) {
                 $query->whereRaw(
                     '1 - (dev_profile_embeddings.embedding <=> ?::vector) >= ?',
@@ -81,6 +139,23 @@ class RecommendationService {
 
         return RecommendedDevResource::collection($devs);
 
+    }
+
+    /**
+     * Vaga freelance não tem tipo de contrato nem modalidade: é sempre contratação como
+     * contractor e sem exigência de presença. Por isso só entram aqui os filtros que
+     * mapeiam sem inventar regra — min_remuneration fica de fora porque o salário da vaga
+     * pode ser por dia ou semana, e distância porque a vaga não exige presença.
+     */
+    private function applyFreelanceRecommendationPreferences(Builder $query, FreelanceJobVacancy $freelanceJobVacancy): void
+    {
+        $requiredLanguageIds = $freelanceJobVacancy->languages()->pluck('languages.id');
+
+        $query->whereRaw('COALESCE(recommendation_preferences.allow_contractor, true) = true');
+        $query->whereRaw('COALESCE(recommendation_preferences.allow_remote, true) = true');
+
+        $this->filterByBlackListedLanguages($query, $requiredLanguageIds);
+        $this->filterByStackFlexibility($query, $requiredLanguageIds);
     }
 
     /**
