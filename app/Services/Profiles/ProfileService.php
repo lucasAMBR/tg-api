@@ -36,7 +36,7 @@ class ProfileService
         $openToWork = $data['open_to_work'] ?? null;
 
         $devProfiles = DevProfile::query()
-            ->with('address')
+            ->with(['address', 'user.media'])
             ->when($search, function(Builder $query, $search) {
                 $query->where('name', 'ILIKE', "%{$search}%");
             })
@@ -65,7 +65,7 @@ class ProfileService
         $operationalSegment = $data['operational_segment'] ?? null;
 
         $companyProfiles = CompanyProfile::query()
-            ->with('address')
+            ->with(['address', 'user.media'])
             ->when($search, function(Builder $query, $search) {
                 $query->where('name', 'ILIKE', "%{$search}%");
             })
@@ -84,7 +84,7 @@ class ProfileService
         $search = $data['search'] ?? null;
 
         $clientProfiles = ClientProfile::query()
-            ->with('address')
+            ->with(['address', 'user.media'])
             ->when($search, function(Builder $query, $search) {
                 $query->where('name', 'ILIKE', "%{$search}%");
             })
@@ -97,7 +97,7 @@ class ProfileService
     {
         $dev = DevProfile::findOrFail($data['id']);
 
-        $dev->load('user');
+        $dev->load('user.media');
 
         return new DevProfileResource($dev);
     }
@@ -106,7 +106,7 @@ class ProfileService
     {
         $company = CompanyProfile::findOrFail($data['id']);
 
-        $company->load('user');
+        $company->load('user.media');
 
         return new CompanyProfileResource($company);
     }
@@ -115,7 +115,7 @@ class ProfileService
     {
         $client = ClientProfile::findOrFail($data['id']);
 
-        $client->load('user');
+        $client->load('user.media');
 
         return new ClientProfileResource($client);
     }

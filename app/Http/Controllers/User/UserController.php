@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     public function __construct(protected UserService $user_service){}
 
-    #[Endpoint(operationId: 'updateUser', title: 'Atualizar usuário', description: '**operationId:** `updateUser` — Atualiza os dados do usuário. Requer autorização via `UserPolicy::update`. Quando `new_password` é enviado, o `old_password` precisa conferir com a senha atual, caso contrário a operação é recusada. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
+    #[Endpoint(operationId: 'updateUser', title: 'Atualizar usuário', description: '**operationId:** `updateUser` — Atualiza os dados do usuário. Requer autorização via `UserPolicy::update`. Quando `new_password` é enviado, o `old_password` precisa conferir com a senha atual, caso contrário a operação é recusada. Quando `profile_pic` é enviado, o arquivo substitui a foto atual na coleção de mídia `profile_pic` (a coleção é `singleFile`); como o PHP não faz parse de `multipart/form-data` em `PATCH`, use `POST /user/{id}` nesse caso. Em **200**, `data` segue o schema **User Resource** (`App\\Http\\Resources\\User\\UserResource`).')]
     public function update(UpdateUserRequest $request): JsonResponse
     {
         try {

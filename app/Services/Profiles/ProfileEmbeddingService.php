@@ -22,17 +22,17 @@ class ProfileEmbeddingService
     {
         $context = $this->constructContext($devProfile);
 
-        $embedding = $this->embeddingService->generate($context);
+        $vector = $this->embeddingService->generate($context);
 
         $profileEmbedding = DevProfileEmbedding::updateOrCreate(
             ['dev_profile_id' => $devProfile->id],
-            ['embedding' => $embedding]
+            ['embedding' => $vector]
         );
 
         return $profileEmbedding;
     }
 
-    private function constructContext(DevProfile $devProfile): string
+    public function constructContext(DevProfile $devProfile): string
     {
         $finalText = '';
 

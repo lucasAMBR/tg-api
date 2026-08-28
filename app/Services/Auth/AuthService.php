@@ -56,6 +56,8 @@ class AuthService
             $refreshTtlInSeconds = (int) Config::get('jwt.refresh_ttl') * 60;
             $token = JWTAuth::fromUser($user);
 
+            $user->load('media');
+
             if($user->hasRole('dev')){
                 $user->load('dev_profile');
             }
@@ -90,6 +92,8 @@ class AuthService
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+
+        $user->load('media');
 
         if($user->hasRole('dev')){
             $user->load('dev_profile');

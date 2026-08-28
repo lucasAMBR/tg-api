@@ -18,15 +18,9 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $media = $this->getFirstMedia('profile_pic');
-
         return [
             'id' => $this->id,
-            'profile_pic' => $media ? [
-                'id'           => (int) $media->id,
-                'original_url' => (string) str_replace(config('app.url') . '/storage', '', $media->getUrl()),
-                'thumb_url'    => (string) str_replace(config('app.url') . '/storage', '', $media->getUrl('thumb')),
-            ] : null,
+            'profile_pic' => $this->profile_pic,
             'email' => $this->email,
             'dev_profile' => $this->whenLoaded('dev_profile', function () {
                 return new DevProfileResource($this->dev_profile);

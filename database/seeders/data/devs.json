@@ -1,0 +1,2063 @@
+[
+    {
+        "email": "rafael.moreira@example.com",
+        "profile": {
+            "name": "Rafael Moreira",
+            "bio": "Desenvolvedor backend com 9 anos de carreira construindo APIs REST em PHP e Laravel para produtos SaaS de alto volume. Especialista em modelagem de dados relacionais, otimização de consultas no PostgreSQL e arquitetura orientada a filas com Redis e Horizon. Costuma liderar tecnicamente squads de 4 a 6 pessoas e é referência interna em code review e testes automatizados.",
+            "birthdate": "1992-04-11",
+            "seniority_level": "senior",
+            "specialty": "backend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 880,
+            "phone": "+5531900000101"
+        },
+        "address": {
+            "cep": "30140-071",
+            "address_type": "residential",
+            "street": "Rua Pernambuco",
+            "street_complete_name": "Rua Pernambuco, Savassi",
+            "district": "Savassi",
+            "city": "Belo Horizonte",
+            "state": "MG",
+            "latitude": -19.93860000,
+            "longitude": -43.93170000,
+            "number": "1240"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Fintech Nexo",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Desenvolvedor Backend Sênior",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "senior",
+                "actuation_details": "Responsável pelo core de cobranças em Laravel, processando cerca de 2 milhões de transações por mês. Reescreveu o motor de conciliação usando jobs em fila e reduziu o tempo de fechamento diário de 4 horas para 18 minutos. Atua como líder técnico de um squad de 5 pessoas e mantém a cobertura de testes acima de 80%.",
+                "start_date": "2022-03-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Softlane Sistemas",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Desenvolvedor Backend Pleno",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolvimento de APIs REST em Laravel para um ERP de varejo. Implementou cache com Redis nas rotas mais acessadas e migrou o sistema de autenticação para tokens JWT com controle de permissões por papel.",
+                "start_date": "2018-06-01",
+                "end_date": "2022-02-28",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Motor de Conciliação Bancária",
+                "description": "Serviço em Laravel que importa arquivos CNAB, concilia lançamentos com pedidos internos e expõe relatórios via API. Usa filas com Redis, particionamento de tabelas no PostgreSQL e processa 500 mil linhas em poucos minutos.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/conciliacao-cnab",
+                "languages": ["php", "laravel"]
+            },
+            {
+                "title": "API de Cobrança Recorrente",
+                "description": "API multi-tenant para assinaturas com régua de cobrança, retentativas automáticas e webhooks assinados. Documentada em OpenAPI e coberta por testes de integração.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["php", "laravel", "typescript"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Ciência da Computação",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal de Minas Gerais"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Arquitetura de Software com PHP Moderno", "provider": "Alura" },
+            { "name": "PostgreSQL para Alta Performance", "provider": "Udemy" }
+        ],
+        "hard_skills": [
+            { "language": "php", "skill_level": "authority" },
+            { "language": "laravel", "skill_level": "expert" },
+            { "language": "typescript", "skill_level": "intermediate" },
+            { "language": "java-script", "skill_level": "intermediate" },
+            { "language": "go", "skill_level": "basic" },
+            { "language": "html", "skill_level": "intermediate" },
+            { "language": "css", "skill_level": "basic" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Communication", "level": "Advanced" },
+            { "soft_skill": "Leadership", "level": "Advanced" },
+            { "soft_skill": "Problem Solving", "level": "Expert" },
+            { "soft_skill": "Accountability", "level": "Advanced" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 25,
+            "hybrid_jobs_radius": 45,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 12000.00,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "camila.duarte@example.com",
+        "profile": {
+            "name": "Camila Duarte",
+            "bio": "Desenvolvedora fullstack focada no ecossistema PHP e Vue.js. Trabalha em produtos de gestão para clínicas, cuidando tanto do backend em Laravel quanto das telas em Vue com Tailwind. Gosta de aproximar time de produto e engenharia e escreve boa parte da documentação técnica dos projetos que participa.",
+            "birthdate": "1995-09-23",
+            "seniority_level": "mid_level",
+            "specialty": "fullstack",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 640,
+            "phone": "+5531900000102"
+        },
+        "address": {
+            "cep": "32010-160",
+            "address_type": "residential",
+            "street": "Avenida João César de Oliveira",
+            "street_complete_name": "Avenida João César de Oliveira, Eldorado",
+            "district": "Eldorado",
+            "city": "Contagem",
+            "state": "MG",
+            "latitude": -19.93210000,
+            "longitude": -44.05390000,
+            "number": "3300"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Clinicare Tecnologia",
+                "company_location": "Contagem, MG",
+                "position_name": "Desenvolvedora Fullstack Pleno",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolve módulos de agendamento e prontuário eletrônico em Laravel com frontend em Vue.js. Implementou a exportação de relatórios em fila assíncrona e participou da migração do sistema de MySQL para PostgreSQL.",
+                "start_date": "2021-08-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Agência Ponto Web",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Desenvolvedora Web Júnior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "junior",
+                "actuation_details": "Manutenção de sites institucionais e lojas virtuais em PHP, além de integrações com gateways de pagamento e correios.",
+                "start_date": "2019-02-01",
+                "end_date": "2021-07-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Portal do Paciente",
+                "description": "SPA em Vue.js consumindo API Laravel, com agendamento online, upload de exames e notificações por e-mail. Interface responsiva construída com Tailwind CSS.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/portal-paciente",
+                "languages": ["php", "laravel", "vue-js", "tailwind-css"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Sistemas de Informação",
+                "degree_level": "bachelors",
+                "institution": "Pontifícia Universidade Católica de Minas Gerais"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Vue.js do Zero ao Avançado", "provider": "Udemy" },
+            { "name": "Laravel Avançado: Filas e Eventos", "provider": "Alura" }
+        ],
+        "hard_skills": [
+            { "language": "php", "skill_level": "advanced" },
+            { "language": "laravel", "skill_level": "advanced" },
+            { "language": "vue-js", "skill_level": "advanced" },
+            { "language": "java-script", "skill_level": "advanced" },
+            { "language": "tailwind-css", "skill_level": "intermediate" },
+            { "language": "html", "skill_level": "advanced" },
+            { "language": "css", "skill_level": "advanced" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Communication", "level": "Expert" },
+            { "soft_skill": "Teamwork", "level": "Advanced" },
+            { "soft_skill": "Time Management", "level": "Advanced" },
+            { "soft_skill": "Adaptability", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 30,
+            "hybrid_jobs_radius": 50,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 8000.00,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "thiago.nakamura@example.com",
+        "profile": {
+            "name": "Thiago Nakamura",
+            "bio": "Engenheiro de software backend especializado em Java e Spring Boot, com forte atuação em sistemas distribuídos e integração via Kafka. Passou os últimos anos quebrando monolitos em microsserviços dentro do setor bancário, com foco em observabilidade, resiliência e contratos de API bem definidos.",
+            "birthdate": "1988-12-02",
+            "seniority_level": "senior",
+            "specialty": "backend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 910,
+            "phone": "+5531900000103"
+        },
+        "address": {
+            "cep": "04543-011",
+            "address_type": "residential",
+            "street": "Rua Olimpíadas",
+            "street_complete_name": "Rua Olimpíadas, Vila Olímpia",
+            "district": "Vila Olímpia",
+            "city": "São Paulo",
+            "state": "SP",
+            "latitude": -23.59570000,
+            "longitude": -46.68930000,
+            "number": "205"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Banco Aurora",
+                "company_location": "São Paulo, SP",
+                "position_name": "Engenheiro de Software Sênior",
+                "employment_type": "remote",
+                "contract_type": "clt",
+                "seniority_level": "senior",
+                "actuation_details": "Lidera a plataforma de pagamentos instantâneos em Java com Spring Boot, distribuída em 14 microsserviços com comunicação via Kafka. Implantou tracing distribuído e reduziu o tempo médio de detecção de incidentes de 40 para 6 minutos.",
+                "start_date": "2020-05-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Consultoria Meridian",
+                "company_location": "São Paulo, SP",
+                "position_name": "Desenvolvedor Java Pleno",
+                "employment_type": "on_site",
+                "contract_type": "contractor",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolvimento de serviços de integração entre sistemas legados e canais digitais, usando Spring Boot, filas JMS e bancos Oracle.",
+                "start_date": "2015-01-01",
+                "end_date": "2020-04-30",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Plataforma de Pagamentos Instantâneos",
+                "description": "Conjunto de microsserviços em Spring Boot responsáveis por autorização, liquidação e devolução de transações instantâneas, com idempotência garantida e reprocessamento automático de falhas.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["java", "spring-boot", "kotlin"]
+            },
+            {
+                "title": "Biblioteca Interna de Resiliência",
+                "description": "Biblioteca Java com circuit breaker, retry com backoff exponencial e bulkhead, adotada por mais de 30 serviços internos do banco.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/resilience-kit",
+                "languages": ["java"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Engenharia de Computação",
+                "degree_level": "bachelors",
+                "institution": "Universidade Estadual de Campinas"
+            },
+            {
+                "degree": "Arquitetura de Sistemas Distribuídos",
+                "degree_level": "post_graduate",
+                "institution": "Instituto de Tecnologia e Inovação"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Apache Kafka para Desenvolvedores", "provider": "Confluent" },
+            { "name": "Certified Kubernetes Application Developer", "provider": "Linux Foundation" }
+        ],
+        "hard_skills": [
+            { "language": "java", "skill_level": "authority" },
+            { "language": "spring-boot", "skill_level": "authority" },
+            { "language": "kotlin", "skill_level": "advanced" },
+            { "language": "go", "skill_level": "intermediate" },
+            { "language": "python", "skill_level": "basic" },
+            { "language": "typescript", "skill_level": "basic" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Critical Thinking", "level": "Expert" },
+            { "soft_skill": "Problem Solving", "level": "Expert" },
+            { "soft_skill": "Communication", "level": "Intermediate" },
+            { "soft_skill": "Leadership", "level": "Advanced" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": false,
+            "allow_hybrid": false,
+            "allow_remote": true,
+            "on_site_job_radius": 10,
+            "hybrid_jobs_radius": 15,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 18000.00,
+            "black_listed_languages": ["php", "cobol"]
+        }
+    },
+    {
+        "email": "bianca.ferreira@example.com",
+        "profile": {
+            "name": "Bianca Ferreira",
+            "bio": "Desenvolvedora frontend sênior com foco em React, TypeScript e design systems. Constrói interfaces acessíveis e performáticas, com atenção a Core Web Vitals e testes de componentes. Já conduziu a criação de duas bibliotecas de componentes usadas por múltiplos times de produto.",
+            "birthdate": "1991-07-19",
+            "seniority_level": "senior",
+            "specialty": "frontend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 850,
+            "phone": "+5531900000104"
+        },
+        "address": {
+            "cep": "22410-003",
+            "address_type": "residential",
+            "street": "Rua Visconde de Pirajá",
+            "street_complete_name": "Rua Visconde de Pirajá, Ipanema",
+            "district": "Ipanema",
+            "city": "Rio de Janeiro",
+            "state": "RJ",
+            "latitude": -22.98410000,
+            "longitude": -43.20200000,
+            "number": "550"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Marketplace Vitrine",
+                "company_location": "Rio de Janeiro, RJ",
+                "position_name": "Desenvolvedora Frontend Sênior",
+                "employment_type": "remote",
+                "contract_type": "contractor",
+                "seniority_level": "senior",
+                "actuation_details": "Responsável pelo design system em React e TypeScript consumido por 8 times. Migrou o checkout para Next.js com renderização no servidor e melhorou o LCP de 4,1s para 1,6s.",
+                "start_date": "2021-02-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Estúdio Interface",
+                "company_location": "Rio de Janeiro, RJ",
+                "position_name": "Desenvolvedora Frontend Pleno",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolvimento de aplicações React para clientes de mídia e educação, com foco em acessibilidade WCAG e testes automatizados com Testing Library.",
+                "start_date": "2017-04-01",
+                "end_date": "2021-01-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Design System Vitrine",
+                "description": "Biblioteca de 60 componentes React em TypeScript, documentada em Storybook, com tokens de tema, suporte a modo escuro e testes visuais de regressão.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/vitrine-ds",
+                "languages": ["react", "typescript", "css"]
+            },
+            {
+                "title": "Checkout Next.js",
+                "description": "Reescrita do fluxo de checkout em Next.js com renderização híbrida, otimização de imagens e testes end to end cobrindo os principais meios de pagamento.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["next-js", "react", "typescript", "tailwind-css"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Design Digital",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal do Rio de Janeiro"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Acessibilidade Web na Prática", "provider": "Alura" },
+            { "name": "Performance em Aplicações React", "provider": "Frontend Masters" }
+        ],
+        "hard_skills": [
+            { "language": "react", "skill_level": "authority" },
+            { "language": "typescript", "skill_level": "expert" },
+            { "language": "next-js", "skill_level": "advanced" },
+            { "language": "java-script", "skill_level": "expert" },
+            { "language": "css", "skill_level": "expert" },
+            { "language": "html", "skill_level": "expert" },
+            { "language": "tailwind-css", "skill_level": "advanced" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Communication", "level": "Advanced" },
+            { "soft_skill": "Critical Thinking", "level": "Advanced" },
+            { "soft_skill": "Teamwork", "level": "Expert" },
+            { "soft_skill": "Accountability", "level": "Advanced" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": false,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": false,
+            "allow_hybrid": false,
+            "allow_remote": true,
+            "on_site_job_radius": 10,
+            "hybrid_jobs_radius": 20,
+            "allow_stack_flexibility": false,
+            "min_remuneration": 15000.00,
+            "black_listed_languages": ["php", "delphi", "visual-basic"]
+        }
+    },
+    {
+        "email": "lucas.prado@example.com",
+        "profile": {
+            "name": "Lucas Prado",
+            "bio": "Desenvolvedor fullstack júnior com um ano e meio de experiência em aplicações Node.js e React. Veio de um bootcamp intensivo e vem ganhando autonomia em tarefas de API e interface. Gosta de escrever testes e aprende rápido quando recebe mentoria próxima.",
+            "birthdate": "2000-03-08",
+            "seniority_level": "junior",
+            "specialty": "fullstack",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": false,
+            "score": 320,
+            "phone": "+5531900000105"
+        },
+        "address": {
+            "cep": "32600-000",
+            "address_type": "residential",
+            "street": "Avenida Amazonas",
+            "street_complete_name": "Avenida Amazonas, Centro",
+            "district": "Centro",
+            "city": "Betim",
+            "state": "MG",
+            "latitude": -19.96780000,
+            "longitude": -44.19830000,
+            "number": "890"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Startup Rota Ágil",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Desenvolvedor Fullstack Júnior",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "junior",
+                "actuation_details": "Desenvolve telas em React e endpoints em Node.js com TypeScript para um sistema de roteirização de entregas. Participou da criação da suíte de testes de integração da API.",
+                "start_date": "2024-09-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Startup Rota Ágil",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Estagiário de Desenvolvimento",
+                "employment_type": "on_site",
+                "contract_type": "intership",
+                "seniority_level": "intern",
+                "actuation_details": "Apoio no desenvolvimento de componentes React e correção de bugs reportados pelo suporte, com acompanhamento diário de um desenvolvedor sênior.",
+                "start_date": "2023-08-01",
+                "end_date": "2024-08-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Painel de Entregas",
+                "description": "Painel web em React que mostra o status das entregas em tempo real via WebSocket, com filtros por região e exportação em CSV.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/painel-entregas",
+                "languages": ["react", "typescript", "java-script"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Análise e Desenvolvimento de Sistemas",
+                "degree_level": "associate",
+                "institution": "Centro Universitário UNA"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Bootcamp Fullstack JavaScript", "provider": "Rocketseat" },
+            { "name": "Git e GitHub para Times", "provider": "Alura" }
+        ],
+        "hard_skills": [
+            { "language": "java-script", "skill_level": "intermediate" },
+            { "language": "typescript", "skill_level": "basic" },
+            { "language": "react", "skill_level": "intermediate" },
+            { "language": "html", "skill_level": "advanced" },
+            { "language": "css", "skill_level": "intermediate" },
+            { "language": "bootstrap", "skill_level": "intermediate" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Adaptability", "level": "Advanced" },
+            { "soft_skill": "Teamwork", "level": "Advanced" },
+            { "soft_skill": "Communication", "level": "Intermediate" },
+            { "soft_skill": "Time Management", "level": "Basic" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": false,
+            "allow_internship": true,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 35,
+            "hybrid_jobs_radius": 60,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 4000.00,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "amanda.vasconcelos@example.com",
+        "profile": {
+            "name": "Amanda Vasconcelos",
+            "bio": "Desenvolvedora backend em Python com foco em Django e pipelines de dados. Atua na fronteira entre engenharia de software e dados, construindo APIs analíticas e processos de ETL. Tem experiência em levar modelos de machine learning para produção com monitoramento de deriva.",
+            "birthdate": "1990-11-30",
+            "seniority_level": "senior",
+            "specialty": "backend",
+            "open_to_relocation": true,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 795,
+            "phone": "+5531900000106"
+        },
+        "address": {
+            "cep": "51020-000",
+            "address_type": "residential",
+            "street": "Rua Barão de Souza Leão",
+            "street_complete_name": "Rua Barão de Souza Leão, Boa Viagem",
+            "district": "Boa Viagem",
+            "city": "Recife",
+            "state": "PE",
+            "latitude": -8.12180000,
+            "longitude": -34.90420000,
+            "number": "425"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Dataflow Analytics",
+                "company_location": "Recife, PE",
+                "position_name": "Desenvolvedora Backend Sênior",
+                "employment_type": "remote",
+                "contract_type": "clt",
+                "seniority_level": "senior",
+                "actuation_details": "Construiu a API analítica em Django REST Framework que serve dashboards para 200 clientes, além de pipelines de ETL em Airflow processando 3 TB por mês. Automatizou o deploy dos modelos de recomendação com testes de regressão de métricas.",
+                "start_date": "2021-06-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Instituto Cordilheira",
+                "company_location": "Recife, PE",
+                "position_name": "Desenvolvedora Python Pleno",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolvimento de sistemas de coleta e tratamento de dados públicos em Python e Flask, com publicação de APIs abertas e visualizações interativas.",
+                "start_date": "2016-03-01",
+                "end_date": "2021-05-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Plataforma de Indicadores Sociais",
+                "description": "API em Django que consolida indicadores de mais de 5 mil municípios, com cache por camadas e endpoints de séries temporais consumidos por jornalistas e pesquisadores.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/indicadores-api",
+                "languages": ["python", "django"]
+            },
+            {
+                "title": "Pipeline de Ingestão em Tempo Quase Real",
+                "description": "Pipeline em Python que ingere eventos de clientes, aplica validação de esquema e grava em data lake particionado, com alertas automáticos de qualidade de dados.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["python", "flask"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Estatística",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal de Pernambuco"
+            },
+            {
+                "degree": "Ciência de Dados",
+                "degree_level": "masters",
+                "institution": "Universidade Federal de Pernambuco"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Engenharia de Dados com Airflow", "provider": "Data Engineering Academy" },
+            { "name": "Django REST Framework Avançado", "provider": "Udemy" }
+        ],
+        "hard_skills": [
+            { "language": "python", "skill_level": "authority" },
+            { "language": "django", "skill_level": "expert" },
+            { "language": "flask", "skill_level": "advanced" },
+            { "language": "go", "skill_level": "basic" },
+            { "language": "java-script", "skill_level": "basic" },
+            { "language": "html", "skill_level": "intermediate" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Critical Thinking", "level": "Expert" },
+            { "soft_skill": "Accountability", "level": "Expert" },
+            { "soft_skill": "Problem Solving", "level": "Advanced" },
+            { "soft_skill": "Communication", "level": "Advanced" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 20,
+            "hybrid_jobs_radius": 40,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 14000.00,
+            "black_listed_languages": ["cobol", "visual-basic"]
+        }
+    },
+    {
+        "email": "diego.salgado@example.com",
+        "profile": {
+            "name": "Diego Salgado",
+            "bio": "Desenvolvedor backend no ecossistema Microsoft, com domínio de C# e ASP.NET Core. Trabalha com sistemas de logística que precisam de integração constante com parceiros externos via SOAP e REST. Tem apreço por código bem tipado e por documentação de contratos de integração.",
+            "birthdate": "1993-05-27",
+            "seniority_level": "mid_level",
+            "specialty": "backend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 610,
+            "phone": "+5531900000107"
+        },
+        "address": {
+            "cep": "80530-000",
+            "address_type": "residential",
+            "street": "Rua Comendador Araújo",
+            "street_complete_name": "Rua Comendador Araújo, Centro",
+            "district": "Centro",
+            "city": "Curitiba",
+            "state": "PR",
+            "latitude": -25.43530000,
+            "longitude": -49.27760000,
+            "number": "310"
+        },
+        "employment_histories": [
+            {
+                "company_name": "TransLog Soluções",
+                "company_location": "Curitiba, PR",
+                "position_name": "Desenvolvedor .NET Pleno",
+                "employment_type": "remote",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolve serviços em ASP.NET Core para roteirização e rastreamento de cargas, com integrações a transportadoras parceiras. Migrou serviços de .NET Framework para .NET 8 sem interrupção de operação.",
+                "start_date": "2022-01-10",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Sistemas Paraná",
+                "company_location": "Curitiba, PR",
+                "position_name": "Desenvolvedor C# Júnior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "junior",
+                "actuation_details": "Manutenção de aplicações desktop em C# e Windows Forms, além de relatórios em SQL Server para o setor industrial.",
+                "start_date": "2019-03-01",
+                "end_date": "2021-12-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Hub de Integração de Transportadoras",
+                "description": "Serviço em ASP.NET Core que normaliza APIs de 12 transportadoras diferentes em um contrato único, com fila de reprocessamento e painel de status por parceiro.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["csharp", "aspnet-core"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Sistemas de Informação",
+                "degree_level": "bachelors",
+                "institution": "Universidade Tecnológica Federal do Paraná"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Clean Architecture com .NET", "provider": "Balta.io" },
+            { "name": "SQL Server: Tuning de Consultas", "provider": "Udemy" }
+        ],
+        "hard_skills": [
+            { "language": "csharp", "skill_level": "expert" },
+            { "language": "aspnet-core", "skill_level": "advanced" },
+            { "language": "aspnet", "skill_level": "advanced" },
+            { "language": "typescript", "skill_level": "basic" },
+            { "language": "angular", "skill_level": "basic" },
+            { "language": "html", "skill_level": "intermediate" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Accountability", "level": "Advanced" },
+            { "soft_skill": "Problem Solving", "level": "Advanced" },
+            { "soft_skill": "Teamwork", "level": "Intermediate" },
+            { "soft_skill": "Conflict Resolution", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": false,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 15,
+            "hybrid_jobs_radius": 25,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 10000.00,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "juliana.antunes@example.com",
+        "profile": {
+            "name": "Juliana Antunes",
+            "bio": "Desenvolvedora frontend com domínio de Angular e RxJS, acostumada a aplicações corporativas densas em formulários e regras de negócio. Trabalha como prestadora de serviço e valoriza escopo bem definido, entregas incrementais e comunicação assíncrona.",
+            "birthdate": "1994-01-16",
+            "seniority_level": "mid_level",
+            "specialty": "frontend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": false,
+            "score": 545,
+            "phone": "+5531900000108"
+        },
+        "address": {
+            "cep": "90570-020",
+            "address_type": "residential",
+            "street": "Rua Mostardeiro",
+            "street_complete_name": "Rua Mostardeiro, Moinhos de Vento",
+            "district": "Moinhos de Vento",
+            "city": "Porto Alegre",
+            "state": "RS",
+            "latitude": -30.02790000,
+            "longitude": -51.20650000,
+            "number": "777"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Consultoria Sul Digital",
+                "company_location": "Porto Alegre, RS",
+                "position_name": "Desenvolvedora Frontend Pleno",
+                "employment_type": "remote",
+                "contract_type": "contractor",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolve módulos Angular para sistemas de seguradoras, com formulários dinâmicos gerados por esquema e validações complexas. Reduziu o tamanho do bundle principal em 38% usando carregamento sob demanda.",
+                "start_date": "2021-05-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Softmais",
+                "company_location": "Porto Alegre, RS",
+                "position_name": "Desenvolvedora Web Júnior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "junior",
+                "actuation_details": "Manutenção de painéis administrativos em AngularJS e jQuery, com migração gradual de telas para Angular moderno.",
+                "start_date": "2018-09-01",
+                "end_date": "2021-04-30",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Gerador de Formulários Dinâmicos",
+                "description": "Módulo Angular que monta formulários a partir de um esquema JSON, com validação reativa, máscara de campos e suporte a regras condicionais entre perguntas.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/ng-form-schema",
+                "languages": ["angular", "typescript"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Tecnologia em Sistemas para Internet",
+                "degree_level": "associate",
+                "institution": "Instituto Federal do Rio Grande do Sul"
+            }
+        ],
+        "additional_courses": [
+            { "name": "RxJS na Prática", "provider": "Alura" },
+            { "name": "Testes com Jasmine e Karma", "provider": "Udemy" }
+        ],
+        "hard_skills": [
+            { "language": "angular", "skill_level": "expert" },
+            { "language": "typescript", "skill_level": "advanced" },
+            { "language": "java-script", "skill_level": "advanced" },
+            { "language": "jquery", "skill_level": "intermediate" },
+            { "language": "css", "skill_level": "advanced" },
+            { "language": "html", "skill_level": "advanced" },
+            { "language": "bootstrap", "skill_level": "advanced" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Time Management", "level": "Expert" },
+            { "soft_skill": "Accountability", "level": "Advanced" },
+            { "soft_skill": "Communication", "level": "Intermediate" },
+            { "soft_skill": "Adaptability", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": false,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": false,
+            "allow_hybrid": false,
+            "allow_remote": true,
+            "on_site_job_radius": 10,
+            "hybrid_jobs_radius": 20,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 9500.00,
+            "black_listed_languages": ["cobol", "delphi"]
+        }
+    },
+    {
+        "email": "pedro.lima@example.com",
+        "profile": {
+            "name": "Pedro Henrique Lima",
+            "bio": "Estudante de Engenharia de Software no sexto período, em busca de estágio para atuar com desenvolvimento web. Participa de projetos de extensão da faculdade e de uma empresa júnior, onde já entregou dois sistemas simples do início ao fim.",
+            "birthdate": "2004-06-05",
+            "seniority_level": "intern",
+            "specialty": "fullstack",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": false,
+            "score": 140,
+            "phone": "+5531900000109"
+        },
+        "address": {
+            "cep": "31270-901",
+            "address_type": "residential",
+            "street": "Avenida Antônio Carlos",
+            "street_complete_name": "Avenida Antônio Carlos, Pampulha",
+            "district": "Pampulha",
+            "city": "Belo Horizonte",
+            "state": "MG",
+            "latitude": -19.85190000,
+            "longitude": -43.99060000,
+            "number": "6627"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Empresa Júnior Codex",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Desenvolvedor Voluntário",
+                "employment_type": "hybrid",
+                "contract_type": "intership",
+                "seniority_level": "intern",
+                "actuation_details": "Desenvolveu dois sistemas web para pequenos comércios locais usando PHP e Bootstrap, cuidando desde o levantamento de requisitos até a publicação em hospedagem compartilhada.",
+                "start_date": "2024-03-01",
+                "end_date": null,
+                "is_current": true
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Sistema de Controle de Estoque",
+                "description": "Aplicação web simples em PHP com cadastro de produtos, movimentações de entrada e saída e relatório de itens abaixo do estoque mínimo. Interface em Bootstrap.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/estoque-simples",
+                "languages": ["php", "html", "css", "bootstrap"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Engenharia de Software",
+                "degree_level": "bachelors",
+                "institution": "Pontifícia Universidade Católica de Minas Gerais"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Lógica de Programação", "provider": "Curso em Vídeo" },
+            { "name": "Introdução ao Laravel", "provider": "Alura" }
+        ],
+        "hard_skills": [
+            { "language": "php", "skill_level": "basic" },
+            { "language": "html", "skill_level": "intermediate" },
+            { "language": "css", "skill_level": "intermediate" },
+            { "language": "java-script", "skill_level": "basic" },
+            { "language": "bootstrap", "skill_level": "basic" },
+            { "language": "laravel", "skill_level": "fundamentals" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Adaptability", "level": "Advanced" },
+            { "soft_skill": "Teamwork", "level": "Intermediate" },
+            { "soft_skill": "Communication", "level": "Intermediate" },
+            { "soft_skill": "Time Management", "level": "Basic" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": false,
+            "allow_contractor": false,
+            "allow_internship": true,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 25,
+            "hybrid_jobs_radius": 40,
+            "allow_stack_flexibility": true,
+            "min_remuneration": null,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "marina.costa@example.com",
+        "profile": {
+            "name": "Marina Costa",
+            "bio": "Desenvolvedora mobile sênior com foco em Flutter e React Native. Publicou aplicativos com mais de um milhão de downloads somados e domina temas de performance de listas, offline first e distribuição nas lojas. Também mantém pacotes abertos usados pela comunidade brasileira.",
+            "birthdate": "1989-08-14",
+            "seniority_level": "senior",
+            "specialty": "frontend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 830,
+            "phone": "+5531900000110"
+        },
+        "address": {
+            "cep": "88015-200",
+            "address_type": "residential",
+            "street": "Avenida Beira Mar Norte",
+            "street_complete_name": "Avenida Beira Mar Norte, Centro",
+            "district": "Centro",
+            "city": "Florianópolis",
+            "state": "SC",
+            "latitude": -27.59540000,
+            "longitude": -48.54800000,
+            "number": "1450"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Appline Mobile",
+                "company_location": "Florianópolis, SC",
+                "position_name": "Desenvolvedora Mobile Sênior",
+                "employment_type": "remote",
+                "contract_type": "clt",
+                "seniority_level": "senior",
+                "actuation_details": "Lidera o desenvolvimento de dois aplicativos em Flutter para os setores de saúde e educação, com sincronização offline, notificações push segmentadas e pipeline de publicação automatizado nas duas lojas.",
+                "start_date": "2020-10-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Mobly Studio",
+                "company_location": "Florianópolis, SC",
+                "position_name": "Desenvolvedora React Native Pleno",
+                "employment_type": "hybrid",
+                "contract_type": "contractor",
+                "seniority_level": "mid_level",
+                "actuation_details": "Construção de aplicativos React Native para clientes de varejo, com integração a gateways de pagamento e otimização de listas longas.",
+                "start_date": "2017-01-01",
+                "end_date": "2020-09-30",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "App de Telemedicina",
+                "description": "Aplicativo Flutter com agendamento, videochamada e receituário digital assinado. Funciona parcialmente offline e sincroniza consultas quando a rede volta.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["flutter", "kotlin"]
+            },
+            {
+                "title": "Pacote de Formulários Flutter",
+                "description": "Pacote aberto que padroniza campos, máscaras e validações em aplicativos Flutter, com suporte a temas e testes de widget.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/flutter-forms",
+                "languages": ["flutter"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Ciência da Computação",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal de Santa Catarina"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Flutter Avançado: Arquitetura e Testes", "provider": "Udemy" },
+            { "name": "Publicação e ASO nas Lojas", "provider": "Alura" }
+        ],
+        "hard_skills": [
+            { "language": "flutter", "skill_level": "authority" },
+            { "language": "react-native", "skill_level": "expert" },
+            { "language": "kotlin", "skill_level": "intermediate" },
+            { "language": "typescript", "skill_level": "advanced" },
+            { "language": "java-script", "skill_level": "advanced" },
+            { "language": "react", "skill_level": "advanced" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Leadership", "level": "Advanced" },
+            { "soft_skill": "Problem Solving", "level": "Expert" },
+            { "soft_skill": "Emotional Intelligence", "level": "Advanced" },
+            { "soft_skill": "Communication", "level": "Advanced" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": false,
+            "allow_hybrid": false,
+            "allow_remote": true,
+            "on_site_job_radius": 10,
+            "hybrid_jobs_radius": 20,
+            "allow_stack_flexibility": false,
+            "min_remuneration": 16000.00,
+            "black_listed_languages": ["php", "cobol", "delphi"]
+        }
+    },
+    {
+        "email": "gustavo.ribeiro@example.com",
+        "profile": {
+            "name": "Gustavo Ribeiro",
+            "bio": "Analista de sistemas com mais de vinte anos dedicados a sistemas legados corporativos. Domina COBOL em ambiente mainframe, Delphi e rotinas em Visual Basic, e é a pessoa que a empresa chama quando um processo batch de folha de pagamento para de rodar. Tem paciência com documentação antiga e conhece profundamente as regras de negócio dos sistemas que mantém.",
+            "birthdate": "1976-02-21",
+            "seniority_level": "senior",
+            "specialty": "backend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": false,
+            "score": 700,
+            "phone": "+5531900000111"
+        },
+        "address": {
+            "cep": "38400-100",
+            "address_type": "residential",
+            "street": "Avenida João Naves de Ávila",
+            "street_complete_name": "Avenida João Naves de Ávila, Centro",
+            "district": "Centro",
+            "city": "Uberlândia",
+            "state": "MG",
+            "latitude": -18.91860000,
+            "longitude": -48.27720000,
+            "number": "2100"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Cooperativa Central Triângulo",
+                "company_location": "Uberlândia, MG",
+                "position_name": "Analista de Sistemas Sênior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "senior",
+                "actuation_details": "Mantém o sistema de folha de pagamento em COBOL rodando em mainframe, com rotinas batch mensais que atendem 18 mil cooperados. Conduziu a documentação completa das regras de cálculo e a integração do legado com uma API moderna via arquivos e filas.",
+                "start_date": "2009-04-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Indústria Metalminas",
+                "company_location": "Uberlândia, MG",
+                "position_name": "Programador Delphi",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolvimento e manutenção de sistemas desktop em Delphi para controle de produção industrial, com relatórios e integração com balanças e coletores.",
+                "start_date": "2001-08-01",
+                "end_date": "2009-03-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Modernização do Batch de Folha",
+                "description": "Reorganização das rotinas COBOL de fechamento de folha, reduzindo a janela de processamento noturno de 6 para 2 horas e criando um mecanismo de reprocessamento seletivo por matrícula.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["cobol"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Processamento de Dados",
+                "degree_level": "associate",
+                "institution": "Universidade Federal de Uberlândia"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Modernização de Mainframe", "provider": "IBM Training" },
+            { "name": "Fundamentos de Integração de Legado", "provider": "Senac" }
+        ],
+        "hard_skills": [
+            { "language": "cobol", "skill_level": "authority" },
+            { "language": "delphi", "skill_level": "expert" },
+            { "language": "visual-basic", "skill_level": "advanced" },
+            { "language": "c", "skill_level": "intermediate" },
+            { "language": "java", "skill_level": "basic" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Accountability", "level": "Expert" },
+            { "soft_skill": "Critical Thinking", "level": "Advanced" },
+            { "soft_skill": "Adaptability", "level": "Basic" },
+            { "soft_skill": "Teamwork", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": false,
+            "allow_internship": false,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 20,
+            "hybrid_jobs_radius": 30,
+            "allow_stack_flexibility": false,
+            "min_remuneration": 11000.00,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "fernanda.alencar@example.com",
+        "profile": {
+            "name": "Fernanda Alencar",
+            "bio": "Engenheira de plataforma com atuação em Go e Rust, focada em infraestrutura interna, latência baixa e confiabilidade. Desenhou o modelo de multitenancy e o gateway de API de uma plataforma que atende milhares de requisições por segundo. Atua como referência técnica transversal entre times.",
+            "birthdate": "1987-10-09",
+            "seniority_level": "staff",
+            "specialty": "backend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 960,
+            "phone": "+5531900000112"
+        },
+        "address": {
+            "cep": "13024-430",
+            "address_type": "residential",
+            "street": "Avenida Norte-Sul",
+            "street_complete_name": "Avenida Norte-Sul, Cambuí",
+            "district": "Cambuí",
+            "city": "Campinas",
+            "state": "SP",
+            "latitude": -22.90990000,
+            "longitude": -47.06260000,
+            "number": "980"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Cloudmark Infra",
+                "company_location": "Campinas, SP",
+                "position_name": "Staff Engineer",
+                "employment_type": "remote",
+                "contract_type": "contractor",
+                "seniority_level": "staff",
+                "actuation_details": "Projetou o gateway de API em Go que roteia 12 mil requisições por segundo com autenticação, limitação de taxa e observabilidade completa. Escreveu em Rust o componente de indexação que reduziu o custo de infraestrutura em 40%.",
+                "start_date": "2021-01-15",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Orbital Systems",
+                "company_location": "São Paulo, SP",
+                "position_name": "Engenheira de Software Sênior",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "senior",
+                "actuation_details": "Desenvolvimento de serviços de alta disponibilidade em Go, com foco em sharding de banco, migrações sem downtime e definição de SLOs por serviço.",
+                "start_date": "2016-06-01",
+                "end_date": "2020-12-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Gateway de API Multitenant",
+                "description": "Gateway em Go com roteamento dinâmico por tenant, limitação de taxa distribuída, cache de autorização e propagação de contexto de tracing entre serviços.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/tenant-gateway",
+                "languages": ["go"]
+            },
+            {
+                "title": "Indexador em Rust",
+                "description": "Componente em Rust que constrói índices invertidos em memória com consumo previsível, substituindo um serviço em Java e reduzindo drasticamente o uso de memória.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["rust"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Engenharia de Computação",
+                "degree_level": "bachelors",
+                "institution": "Instituto Tecnológico de Aeronáutica"
+            },
+            {
+                "degree": "Sistemas Distribuídos",
+                "degree_level": "masters",
+                "institution": "Universidade Estadual de Campinas"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Rust Avançado: Concorrência e Performance", "provider": "Rust Academy" },
+            { "name": "Certified Kubernetes Administrator", "provider": "Linux Foundation" }
+        ],
+        "hard_skills": [
+            { "language": "go", "skill_level": "authority" },
+            { "language": "rust", "skill_level": "expert" },
+            { "language": "c", "skill_level": "advanced" },
+            { "language": "cpp", "skill_level": "advanced" },
+            { "language": "python", "skill_level": "intermediate" },
+            { "language": "java", "skill_level": "intermediate" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Critical Thinking", "level": "Expert" },
+            { "soft_skill": "Leadership", "level": "Expert" },
+            { "soft_skill": "Problem Solving", "level": "Expert" },
+            { "soft_skill": "Communication", "level": "Advanced" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": false,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": false,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 10,
+            "hybrid_jobs_radius": 15,
+            "allow_stack_flexibility": false,
+            "min_remuneration": 25000.00,
+            "black_listed_languages": ["php", "cobol", "visual-basic", "delphi"]
+        }
+    },
+    {
+        "email": "rodrigo.bastos@example.com",
+        "profile": {
+            "name": "Rodrigo Bastos",
+            "bio": "Desenvolvedor backend júnior em PHP e Laravel, com pouco mais de dois anos de experiência em sistemas de gestão. Já cuidou sozinho de módulos pequenos em produção e vem estudando testes automatizados e boas práticas de arquitetura em camadas.",
+            "birthdate": "1999-12-12",
+            "seniority_level": "junior",
+            "specialty": "backend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 390,
+            "phone": "+5531900000113"
+        },
+        "address": {
+            "cep": "34000-000",
+            "address_type": "residential",
+            "street": "Alameda Oscar Niemeyer",
+            "street_complete_name": "Alameda Oscar Niemeyer, Vale do Sereno",
+            "district": "Vale do Sereno",
+            "city": "Nova Lima",
+            "state": "MG",
+            "latitude": -19.98570000,
+            "longitude": -43.84670000,
+            "number": "132"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Gestor Fácil Sistemas",
+                "company_location": "Nova Lima, MG",
+                "position_name": "Desenvolvedor Backend Júnior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "junior",
+                "actuation_details": "Desenvolve e mantém módulos de contas a pagar e a receber em Laravel, escreve testes de feature e cuida de rotinas agendadas de importação de extratos bancários.",
+                "start_date": "2023-11-01",
+                "end_date": null,
+                "is_current": true
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Importador de Extratos OFX",
+                "description": "Comando artisan em Laravel que lê arquivos OFX, categoriza lançamentos por regras configuráveis e concilia automaticamente com contas a pagar já cadastradas.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/importador-ofx",
+                "languages": ["php", "laravel"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Análise e Desenvolvimento de Sistemas",
+                "degree_level": "associate",
+                "institution": "Centro Universitário Newton Paiva"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Laravel: Testes Automatizados", "provider": "Alura" },
+            { "name": "SQL para Desenvolvedores", "provider": "Udemy" }
+        ],
+        "hard_skills": [
+            { "language": "php", "skill_level": "intermediate" },
+            { "language": "laravel", "skill_level": "intermediate" },
+            { "language": "java-script", "skill_level": "basic" },
+            { "language": "html", "skill_level": "intermediate" },
+            { "language": "css", "skill_level": "basic" },
+            { "language": "bootstrap", "skill_level": "basic" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Accountability", "level": "Advanced" },
+            { "soft_skill": "Teamwork", "level": "Advanced" },
+            { "soft_skill": "Adaptability", "level": "Intermediate" },
+            { "soft_skill": "Communication", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": true,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 30,
+            "hybrid_jobs_radius": 50,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 4500.00,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "larissa.monteiro@example.com",
+        "profile": {
+            "name": "Larissa Monteiro",
+            "bio": "Desenvolvedora fullstack que combina backend em Python com frontend em React. Trabalha em produtos de educação a distância, cuidando de APIs Django e de painéis interativos. Só considera vagas que envolvam a stack que já domina, porque prefere aprofundar a trocar de ecossistema.",
+            "birthdate": "1996-02-28",
+            "seniority_level": "mid_level",
+            "specialty": "fullstack",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 665,
+            "phone": "+5531900000114"
+        },
+        "address": {
+            "cep": "74110-010",
+            "address_type": "residential",
+            "street": "Avenida Tocantins",
+            "street_complete_name": "Avenida Tocantins, Setor Central",
+            "district": "Setor Central",
+            "city": "Goiânia",
+            "state": "GO",
+            "latitude": -16.68690000,
+            "longitude": -49.26480000,
+            "number": "455"
+        },
+        "employment_histories": [
+            {
+                "company_name": "EducaMais Plataforma",
+                "company_location": "Goiânia, GO",
+                "position_name": "Desenvolvedora Fullstack Pleno",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolve a API em Django que gerencia trilhas de aprendizagem e o painel do aluno em React. Implementou o sistema de progresso por competência e relatórios de engajamento consumidos pela equipe pedagógica.",
+                "start_date": "2022-04-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Agência Cerrado Digital",
+                "company_location": "Goiânia, GO",
+                "position_name": "Desenvolvedora Python Júnior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "junior",
+                "actuation_details": "Automação de rotinas internas em Python e desenvolvimento de pequenos serviços em Flask para clientes do agronegócio.",
+                "start_date": "2020-01-15",
+                "end_date": "2022-03-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Painel de Progresso do Aluno",
+                "description": "Painel em React que exibe progresso por competência, com gráficos interativos e recomendações de conteúdo geradas pela API Django.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["python", "django", "react", "typescript"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Ciência da Computação",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal de Goiás"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Django e Celery em Produção", "provider": "Udemy" },
+            { "name": "React com TypeScript", "provider": "Rocketseat" }
+        ],
+        "hard_skills": [
+            { "language": "python", "skill_level": "advanced" },
+            { "language": "django", "skill_level": "advanced" },
+            { "language": "react", "skill_level": "intermediate" },
+            { "language": "typescript", "skill_level": "intermediate" },
+            { "language": "java-script", "skill_level": "advanced" },
+            { "language": "html", "skill_level": "advanced" },
+            { "language": "css", "skill_level": "intermediate" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Problem Solving", "level": "Advanced" },
+            { "soft_skill": "Communication", "level": "Advanced" },
+            { "soft_skill": "Emotional Intelligence", "level": "Advanced" },
+            { "soft_skill": "Time Management", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": false,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 15,
+            "hybrid_jobs_radius": 25,
+            "allow_stack_flexibility": false,
+            "min_remuneration": 9000.00,
+            "black_listed_languages": ["cobol"]
+        }
+    },
+    {
+        "email": "vinicius.tavares@example.com",
+        "profile": {
+            "name": "Vinícius Tavares",
+            "bio": "Desenvolvedor frontend com foco em React e Next.js, com bastante prática em landing pages de alta conversão e sites de conteúdo. Trabalha próximo de times de marketing e mede o impacto de cada entrega em métricas de negócio. Não tem interesse em vagas que envolvam PHP.",
+            "birthdate": "1997-05-04",
+            "seniority_level": "mid_level",
+            "specialty": "frontend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 590,
+            "phone": "+5531900000115"
+        },
+        "address": {
+            "cep": "30575-100",
+            "address_type": "residential",
+            "street": "Rua Deputado Gregoriano Canedo",
+            "street_complete_name": "Rua Deputado Gregoriano Canedo, Buritis",
+            "district": "Buritis",
+            "city": "Belo Horizonte",
+            "state": "MG",
+            "latitude": -19.97570000,
+            "longitude": -43.97600000,
+            "number": "220"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Growth Lab Marketing",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Desenvolvedor Frontend Pleno",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Constrói páginas em Next.js com foco em SEO técnico e velocidade, integrando CMS headless e ferramentas de teste A/B. Elevou a nota de performance das páginas principais de 62 para 95.",
+                "start_date": "2022-07-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Freelancer",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Desenvolvedor Web",
+                "employment_type": "remote",
+                "contract_type": "contractor",
+                "seniority_level": "junior",
+                "actuation_details": "Desenvolvimento de sites institucionais e blogs em React com integração a CMS, atendendo pequenas empresas da região.",
+                "start_date": "2020-05-01",
+                "end_date": "2022-06-30",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Site de Conteúdo com CMS Headless",
+                "description": "Aplicação Next.js com geração estática incremental, integração a CMS headless, sitemap dinâmico e dados estruturados para busca. Estilização com Tailwind CSS.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/site-headless",
+                "languages": ["next-js", "react", "typescript", "tailwind-css"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Publicidade e Propaganda",
+                "degree_level": "bachelors",
+                "institution": "Universidade FUMEC"
+            }
+        ],
+        "additional_courses": [
+            { "name": "SEO Técnico para Desenvolvedores", "provider": "Alura" },
+            { "name": "Next.js na Prática", "provider": "Rocketseat" }
+        ],
+        "hard_skills": [
+            { "language": "react", "skill_level": "advanced" },
+            { "language": "next-js", "skill_level": "advanced" },
+            { "language": "java-script", "skill_level": "advanced" },
+            { "language": "typescript", "skill_level": "intermediate" },
+            { "language": "tailwind-css", "skill_level": "expert" },
+            { "language": "html", "skill_level": "expert" },
+            { "language": "css", "skill_level": "expert" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Communication", "level": "Advanced" },
+            { "soft_skill": "Adaptability", "level": "Advanced" },
+            { "soft_skill": "Time Management", "level": "Advanced" },
+            { "soft_skill": "Critical Thinking", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 20,
+            "hybrid_jobs_radius": 40,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 8500.00,
+            "black_listed_languages": ["php", "laravel", "cobol"]
+        }
+    },
+    {
+        "email": "patricia.nogueira@example.com",
+        "profile": {
+            "name": "Patrícia Nogueira",
+            "bio": "Desenvolvedora backend em Kotlin e Spring Boot, com experiência em plataformas de logística e integrações com marketplaces. Gosta de tipagem forte, testes de contrato e de deixar o serviço fácil de operar para quem está de plantão.",
+            "birthdate": "1994-09-11",
+            "seniority_level": "mid_level",
+            "specialty": "backend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 705,
+            "phone": "+5531900000116"
+        },
+        "address": {
+            "cep": "41820-021",
+            "address_type": "residential",
+            "street": "Avenida Tancredo Neves",
+            "street_complete_name": "Avenida Tancredo Neves, Caminho das Árvores",
+            "district": "Caminho das Árvores",
+            "city": "Salvador",
+            "state": "BA",
+            "latitude": -12.97770000,
+            "longitude": -38.45520000,
+            "number": "1632"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Entrega Norte Tecnologia",
+                "company_location": "Salvador, BA",
+                "position_name": "Desenvolvedora Backend Pleno",
+                "employment_type": "remote",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolve serviços em Kotlin com Spring Boot para cálculo de frete e rastreamento de pedidos, integrando quatro marketplaces. Implantou testes de contrato que eliminaram quebras de integração em produção.",
+                "start_date": "2022-02-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Bahia Software House",
+                "company_location": "Salvador, BA",
+                "position_name": "Desenvolvedora Java Júnior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "junior",
+                "actuation_details": "Manutenção de APIs Java com Spring e criação de rotinas de importação de pedidos, com apoio na sustentação de produção.",
+                "start_date": "2019-07-01",
+                "end_date": "2022-01-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Serviço de Cálculo de Frete",
+                "description": "Serviço em Kotlin e Spring Boot que consulta tabelas de transportadoras em paralelo, aplica regras comerciais por região e responde em menos de 200 milissegundos no percentil 95.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["kotlin", "spring-boot", "java"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Engenharia de Software",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal da Bahia"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Kotlin para Backend", "provider": "Alura" },
+            { "name": "Testes de Contrato com Pact", "provider": "Udemy" }
+        ],
+        "hard_skills": [
+            { "language": "kotlin", "skill_level": "expert" },
+            { "language": "java", "skill_level": "advanced" },
+            { "language": "spring-boot", "skill_level": "advanced" },
+            { "language": "typescript", "skill_level": "basic" },
+            { "language": "python", "skill_level": "basic" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Accountability", "level": "Expert" },
+            { "soft_skill": "Teamwork", "level": "Advanced" },
+            { "soft_skill": "Problem Solving", "level": "Advanced" },
+            { "soft_skill": "Conflict Resolution", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": false,
+            "allow_hybrid": false,
+            "allow_remote": true,
+            "on_site_job_radius": 10,
+            "hybrid_jobs_radius": 20,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 11500.00,
+            "black_listed_languages": ["php", "delphi"]
+        }
+    },
+    {
+        "email": "eduardo.campos@example.com",
+        "profile": {
+            "name": "Eduardo Campos",
+            "bio": "Desenvolvedor fullstack sênior com longa estrada em Ruby on Rails. Constrói produtos do zero, das migrações de banco até a interface, e defende ciclos curtos de entrega. Tem experiência em conduzir a parte técnica de startups em estágio inicial.",
+            "birthdate": "1986-03-17",
+            "seniority_level": "senior",
+            "specialty": "fullstack",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 810,
+            "phone": "+5531900000117"
+        },
+        "address": {
+            "cep": "36016-000",
+            "address_type": "residential",
+            "street": "Avenida Barão do Rio Branco",
+            "street_complete_name": "Avenida Barão do Rio Branco, Centro",
+            "district": "Centro",
+            "city": "Juiz de Fora",
+            "state": "MG",
+            "latitude": -21.76420000,
+            "longitude": -43.34960000,
+            "number": "2100"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Ventura Startups",
+                "company_location": "Juiz de Fora, MG",
+                "position_name": "Desenvolvedor Fullstack Sênior",
+                "employment_type": "remote",
+                "contract_type": "contractor",
+                "seniority_level": "senior",
+                "actuation_details": "Atua como primeiro desenvolvedor de produtos em estágio inicial, construindo aplicações Rails completas com Hotwire, testes em RSpec e deploy contínuo. Já levou três produtos do protótipo ao primeiro cliente pagante.",
+                "start_date": "2019-09-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Coletivo Web",
+                "company_location": "Juiz de Fora, MG",
+                "position_name": "Desenvolvedor Rails Pleno",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolvimento de plataformas de assinatura em Ruby on Rails, com integração a meios de pagamento, área administrativa e relatórios de churn.",
+                "start_date": "2013-02-01",
+                "end_date": "2019-08-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Plataforma de Assinaturas",
+                "description": "Aplicação Rails com planos, cupons, cobrança recorrente e portal do assinante. Painel administrativo com métricas de retenção e exportação de relatórios.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/rails-assinaturas",
+                "languages": ["ruby", "ruby-on-rails", "java-script"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Ciência da Computação",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal de Juiz de Fora"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Rails Avançado com Hotwire", "provider": "Udemy" },
+            { "name": "Product Discovery para Devs", "provider": "Alura" }
+        ],
+        "hard_skills": [
+            { "language": "ruby", "skill_level": "authority" },
+            { "language": "ruby-on-rails", "skill_level": "expert" },
+            { "language": "java-script", "skill_level": "advanced" },
+            { "language": "typescript", "skill_level": "intermediate" },
+            { "language": "html", "skill_level": "advanced" },
+            { "language": "css", "skill_level": "advanced" },
+            { "language": "python", "skill_level": "intermediate" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Leadership", "level": "Advanced" },
+            { "soft_skill": "Adaptability", "level": "Expert" },
+            { "soft_skill": "Critical Thinking", "level": "Advanced" },
+            { "soft_skill": "Communication", "level": "Advanced" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 20,
+            "hybrid_jobs_radius": 35,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 13000.00,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "isabela.rocha@example.com",
+        "profile": {
+            "name": "Isabela Rocha",
+            "bio": "Desenvolvedora frontend júnior com foco em Vue.js e Svelte. Migrou de uma carreira em design gráfico e traz forte sensibilidade visual para as interfaces que constrói. Aceita deslocamentos longos por oportunidades presenciais na capital.",
+            "birthdate": "1998-07-25",
+            "seniority_level": "junior",
+            "specialty": "frontend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": false,
+            "score": 355,
+            "phone": "+5531900000118"
+        },
+        "address": {
+            "cep": "35700-000",
+            "address_type": "residential",
+            "street": "Avenida Prefeito Alberto Moura",
+            "street_complete_name": "Avenida Prefeito Alberto Moura, Centro",
+            "district": "Centro",
+            "city": "Sete Lagoas",
+            "state": "MG",
+            "latitude": -19.46580000,
+            "longitude": -44.24670000,
+            "number": "1180"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Studio Meia-Noite",
+                "company_location": "Sete Lagoas, MG",
+                "position_name": "Desenvolvedora Frontend Júnior",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "junior",
+                "actuation_details": "Implementa interfaces em Vue.js a partir de protótipos no Figma, cuidando de responsividade, animações e consistência visual entre telas.",
+                "start_date": "2024-02-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Freelancer",
+                "company_location": "Sete Lagoas, MG",
+                "position_name": "Designer e Desenvolvedora Web",
+                "employment_type": "remote",
+                "contract_type": "contractor",
+                "seniority_level": "intern",
+                "actuation_details": "Criação de identidade visual e sites simples para comércios locais, unindo design e implementação em HTML, CSS e JavaScript.",
+                "start_date": "2021-06-01",
+                "end_date": "2024-01-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Catálogo Interativo de Produtos",
+                "description": "Aplicação Svelte com filtros animados, carregamento progressivo de imagens e modo escuro. Focada em desempenho em conexões lentas.",
+                "prod_url": null,
+                "github_url": "https://github.com/exemplo/catalogo-svelte",
+                "languages": ["svelte", "java-script", "css"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Design Gráfico",
+                "degree_level": "bachelors",
+                "institution": "Universidade do Estado de Minas Gerais"
+            },
+            {
+                "degree": "Desenvolvimento Web Front-end",
+                "degree_level": "technical",
+                "institution": "Senac Minas"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Vue.js Essencial", "provider": "Alura" },
+            { "name": "Animações com CSS Moderno", "provider": "Origamid" }
+        ],
+        "hard_skills": [
+            { "language": "vue-js", "skill_level": "intermediate" },
+            { "language": "svelte", "skill_level": "intermediate" },
+            { "language": "java-script", "skill_level": "intermediate" },
+            { "language": "css", "skill_level": "advanced" },
+            { "language": "html", "skill_level": "advanced" },
+            { "language": "tailwind-css", "skill_level": "basic" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Adaptability", "level": "Advanced" },
+            { "soft_skill": "Emotional Intelligence", "level": "Advanced" },
+            { "soft_skill": "Teamwork", "level": "Intermediate" },
+            { "soft_skill": "Time Management", "level": "Intermediate" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": true,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 80,
+            "hybrid_jobs_radius": 100,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 4200.00,
+            "black_listed_languages": []
+        }
+    },
+    {
+        "email": "marcelo.ferraz@example.com",
+        "profile": {
+            "name": "Marcelo Ferraz",
+            "bio": "Arquiteto de software com atuação em Java, Go e desenho de plataformas corporativas. Conduz decisões técnicas de longo prazo, define padrões de integração entre domínios e faz mentoria de pessoas sêniores. Escreve muitos documentos de decisão e prefere consenso técnico a imposição.",
+            "birthdate": "1984-01-30",
+            "seniority_level": "staff",
+            "specialty": "backend",
+            "open_to_relocation": false,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 940,
+            "phone": "+5531900000119"
+        },
+        "address": {
+            "cep": "30421-166",
+            "address_type": "residential",
+            "street": "Rua Silva Ortiz",
+            "street_complete_name": "Rua Silva Ortiz, Nova Suíça",
+            "district": "Nova Suíça",
+            "city": "Belo Horizonte",
+            "state": "MG",
+            "latitude": -19.93390000,
+            "longitude": -43.98720000,
+            "number": "88"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Grupo Horizonte Varejo",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Arquiteto de Software",
+                "employment_type": "hybrid",
+                "contract_type": "clt",
+                "seniority_level": "staff",
+                "actuation_details": "Define a arquitetura da plataforma de comércio do grupo, com nove domínios de negócio e integração por eventos. Conduziu a migração do monolito Java para serviços independentes sem parar a operação das lojas.",
+                "start_date": "2019-01-07",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Consultoria Norte Sul TI",
+                "company_location": "Belo Horizonte, MG",
+                "position_name": "Especialista Java Sênior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "senior",
+                "actuation_details": "Atuou como especialista técnico em projetos de integração corporativa, definindo padrões de mensageria, segurança de APIs e estratégias de migração de dados.",
+                "start_date": "2010-05-01",
+                "end_date": "2018-12-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Estrangulamento do Monolito de Vendas",
+                "description": "Programa de dois anos que extraiu nove domínios do monolito Java para serviços independentes, usando padrão de estrangulamento, sincronização por eventos e migração gradual de tráfego.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["java", "spring-boot", "go"]
+            },
+            {
+                "title": "Catálogo de Padrões de Integração",
+                "description": "Documentação viva com padrões de mensageria, versionamento de contratos e políticas de retentativa, adotada como referência por todos os times de engenharia do grupo.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["java"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Ciência da Computação",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal de Minas Gerais"
+            },
+            {
+                "degree": "Arquitetura de Software",
+                "degree_level": "post_graduate",
+                "institution": "Fundação Getúlio Vargas"
+            }
+        ],
+        "additional_courses": [
+            { "name": "Domain-Driven Design na Prática", "provider": "Full Cycle" },
+            { "name": "Arquitetura Orientada a Eventos", "provider": "Alura" }
+        ],
+        "hard_skills": [
+            { "language": "java", "skill_level": "authority" },
+            { "language": "spring-boot", "skill_level": "expert" },
+            { "language": "go", "skill_level": "advanced" },
+            { "language": "kotlin", "skill_level": "intermediate" },
+            { "language": "python", "skill_level": "intermediate" },
+            { "language": "typescript", "skill_level": "basic" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Leadership", "level": "Expert" },
+            { "soft_skill": "Critical Thinking", "level": "Expert" },
+            { "soft_skill": "Conflict Resolution", "level": "Advanced" },
+            { "soft_skill": "Communication", "level": "Expert" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": false,
+            "allow_internship": false,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 25,
+            "hybrid_jobs_radius": 40,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 22000.00,
+            "black_listed_languages": ["cobol", "visual-basic"]
+        }
+    },
+    {
+        "email": "natalia.siqueira@example.com",
+        "profile": {
+            "name": "Natália Siqueira",
+            "bio": "Desenvolvedora fullstack sênior no ecossistema Microsoft, unindo backend em ASP.NET Core e frontend em Angular. Atuou em sistemas industriais com forte componente de integração e disponibilidade. Está aberta a mudar de cidade pela oportunidade certa.",
+            "birthdate": "1990-06-18",
+            "seniority_level": "senior",
+            "specialty": "fullstack",
+            "open_to_relocation": true,
+            "open_to_work": true,
+            "seniority_tested": true,
+            "score": 785,
+            "phone": "+5531900000120"
+        },
+        "address": {
+            "cep": "69010-140",
+            "address_type": "residential",
+            "street": "Avenida Eduardo Ribeiro",
+            "street_complete_name": "Avenida Eduardo Ribeiro, Centro",
+            "district": "Centro",
+            "city": "Manaus",
+            "state": "AM",
+            "latitude": -3.13070000,
+            "longitude": -60.02300000,
+            "number": "620"
+        },
+        "employment_histories": [
+            {
+                "company_name": "Polo Industrial Tech",
+                "company_location": "Manaus, AM",
+                "position_name": "Desenvolvedora Fullstack Sênior",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "senior",
+                "actuation_details": "Responsável pelo sistema de apontamento de produção em ASP.NET Core com frontend Angular, integrado a coletores de chão de fábrica. Implantou monitoramento de linha em tempo real usando SignalR e reduziu paradas não registradas em 60%.",
+                "start_date": "2018-11-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "company_name": "Amazon Sistemas Ltda",
+                "company_location": "Manaus, AM",
+                "position_name": "Desenvolvedora .NET Pleno",
+                "employment_type": "on_site",
+                "contract_type": "clt",
+                "seniority_level": "mid_level",
+                "actuation_details": "Desenvolvimento de módulos fiscais em C# e relatórios gerenciais, com integração a sistemas de emissão de notas e conferência de estoque.",
+                "start_date": "2014-03-01",
+                "end_date": "2018-10-31",
+                "is_current": false
+            }
+        ],
+        "project_histories": [
+            {
+                "title": "Monitor de Linha de Produção",
+                "description": "Aplicação Angular com atualização em tempo real via SignalR mostrando o estado de 40 postos de trabalho, com alertas de parada e histórico de eficiência por turno.",
+                "prod_url": null,
+                "github_url": null,
+                "languages": ["csharp", "aspnet-core", "angular", "typescript"]
+            }
+        ],
+        "academic_backgrounds": [
+            {
+                "degree": "Engenharia de Computação",
+                "degree_level": "bachelors",
+                "institution": "Universidade Federal do Amazonas"
+            },
+            {
+                "degree": "Gestão de Projetos de TI",
+                "degree_level": "post_graduate",
+                "institution": "Universidade do Estado do Amazonas"
+            }
+        ],
+        "additional_courses": [
+            { "name": "ASP.NET Core: APIs e Segurança", "provider": "Balta.io" },
+            { "name": "Angular Avançado", "provider": "Alura" }
+        ],
+        "hard_skills": [
+            { "language": "csharp", "skill_level": "expert" },
+            { "language": "aspnet-core", "skill_level": "expert" },
+            { "language": "angular", "skill_level": "advanced" },
+            { "language": "typescript", "skill_level": "advanced" },
+            { "language": "aspnet", "skill_level": "advanced" },
+            { "language": "html", "skill_level": "advanced" },
+            { "language": "css", "skill_level": "intermediate" }
+        ],
+        "soft_skills": [
+            { "soft_skill": "Problem Solving", "level": "Expert" },
+            { "soft_skill": "Accountability", "level": "Advanced" },
+            { "soft_skill": "Leadership", "level": "Advanced" },
+            { "soft_skill": "Teamwork", "level": "Advanced" }
+        ],
+        "recommendation_preference": {
+            "allow_clt": true,
+            "allow_contractor": true,
+            "allow_internship": false,
+            "allow_on_site": true,
+            "allow_hybrid": true,
+            "allow_remote": true,
+            "on_site_job_radius": 20,
+            "hybrid_jobs_radius": 40,
+            "allow_stack_flexibility": true,
+            "min_remuneration": 13000.00,
+            "black_listed_languages": []
+        }
+    }
+]

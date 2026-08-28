@@ -117,7 +117,7 @@ class DevProfile extends Model implements Translatable
             'job_vacancy_id'
         )
         ->using(DevJobVacancy::class)
-        ->withPivot('status', 'feedback')
+        ->withPivot('status', 'process_step', 'feedback')
         ->withTimestamps();
     }
 

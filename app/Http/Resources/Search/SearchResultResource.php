@@ -6,7 +6,7 @@ use App\Http\Resources\JobVacancy\JobVacancyResource;
 use App\Http\Resources\Profiles\ClientProfile\ClientProfileResource;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,56 +19,64 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class SearchResultResource extends JsonResource
 {
     /**
-     * Mapa de grupo => resource responsável por serializar seus itens.
-     *
-     * @var array<string, class-string<JsonResource>>
-     */
-    private const GROUPS = [
-        'dev_profiles' => DevProfileResource::class,
-        'company_profiles' => CompanyProfileResource::class,
-        'client_profiles' => ClientProfileResource::class,
-        'job_vacancies' => JobVacancyResource::class,
-    ];
-
-    /**
      * Transform the resource into an array.
+     *
+     * Os grupos são montados um a um, com as chaves escritas literalmente,
+     * porque o Scramble analisa este método estaticamente: um `foreach` sobre
+     * um mapa de grupos deixaria o schema sem nenhuma propriedade conhecida.
      *
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
-        $result = [];
-        $paginators = [];
+        /** @var LengthAwarePaginator $devProfiles */
+        $devProfiles = $this->resource['dev_profiles'];
+        /** @var LengthAwarePaginator $companyProfiles */
+        $companyProfiles = $this->resource['company_profiles'];
+        /** @var LengthAwarePaginator $clientProfiles */
+        $clientProfiles = $this->resource['client_profiles'];
+        /** @var LengthAwarePaginator $jobVacancies */
+        $jobVacancies = $this->resource['job_vacancies'];
 
-        foreach (self::GROUPS as $group => $resource) {
-            /** @var LengthAwarePaginator $paginator */
-            $paginator = $this->resource[$group];
-            $paginators[] = $paginator;
-
-            $result[$group] = [
-                'data' => $resource::collection($paginator->getCollection()),
-                'pagination' => $this->paginationMeta($paginator),
-            ];
-        }
-
-        $result['pagination'] = $this->synchronizedPagination($paginators);
-
-        return $result;
+        return [
+            'dev_profiles' => [
+                'data' => DevProfileResource::collection($devProfiles->getCollection()),
+                'pagination' => $this->paginationMeta($devProfiles),
+            ],
+            'company_profiles' => [
+                'data' => CompanyProfileResource::collection($companyProfiles->getCollection()),
+                'pagination' => $this->paginationMeta($companyProfiles),
+            ],
+            'client_profiles' => [
+                'data' => ClientProfileResource::collection($clientProfiles->getCollection()),
+                'pagination' => $this->paginationMeta($clientProfiles),
+            ],
+            'job_vacancies' => [
+                'data' => JobVacancyResource::collection($jobVacancies->getCollection()),
+                'pagination' => $this->paginationMeta($jobVacancies),
+            ],
+            'pagination' => $this->synchronizedPagination([
+                $devProfiles,
+                $companyProfiles,
+                $clientProfiles,
+                $jobVacancies,
+            ]),
+        ];
     }
 
     /**
      * Meta de paginação de um grupo isolado.
      *
-     * @return array<string, int>
+     * @return array{total: int, count: int, per_page: int, current_page: int, total_pages: int}
      */
     private function paginationMeta(LengthAwarePaginator $paginator): array
     {
         return [
-            'total' => $paginator->total(),
-            'count' => $paginator->count(),
-            'per_page' => $paginator->perPage(),
-            'current_page' => $paginator->currentPage(),
-            'total_pages' => $paginator->lastPage(),
+            'total' => (int) $paginator->total(),
+            'count' => (int) $paginator->count(),
+            'per_page' => (int) $paginator->perPage(),
+            'current_page' => (int) $paginator->currentPage(),
+            'total_pages' => (int) $paginator->lastPage(),
         ];
     }
 
@@ -79,22 +87,22 @@ class SearchResultResource extends JsonResource
      * navegação só termina quando todos os grupos se esgotam.
      *
      * @param  array<int, LengthAwarePaginator>  $paginators
-     * @return array<string, int|bool>
+     * @return array{total: int, count: int, per_page: int, current_page: int, total_pages: int, has_more_pages: bool}
      */
     private function synchronizedPagination(array $paginators): array
     {
         $first = $paginators[0];
 
-        $currentPage = $first->currentPage();
-        $totalPages = max(array_map(fn (LengthAwarePaginator $p) => $p->lastPage(), $paginators));
+        $currentPage = (int) $first->currentPage();
+        $totalPages = (int) max(array_map(fn (LengthAwarePaginator $p) => $p->lastPage(), $paginators));
 
         return [
-            'total' => array_sum(array_map(fn (LengthAwarePaginator $p) => $p->total(), $paginators)),
-            'count' => array_sum(array_map(fn (LengthAwarePaginator $p) => $p->count(), $paginators)),
-            'per_page' => $first->perPage(),
+            'total' => (int) array_sum(array_map(fn (LengthAwarePaginator $p) => $p->total(), $paginators)),
+            'count' => (int) array_sum(array_map(fn (LengthAwarePaginator $p) => $p->count(), $paginators)),
+            'per_page' => (int) $first->perPage(),
             'current_page' => $currentPage,
             'total_pages' => $totalPages,
-            'has_more_pages' => $currentPage < $totalPages,
+            'has_more_pages' => (bool) ($currentPage < $totalPages),
         ];
     }
 }

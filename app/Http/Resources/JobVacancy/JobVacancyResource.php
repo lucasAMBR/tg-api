@@ -20,6 +20,7 @@ class JobVacancyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
             'title_pt' => $this->title_pt,
             'title_en' => $this->title_en,
@@ -36,6 +37,10 @@ class JobVacancyResource extends JsonResource
             'contract_type' => $this->contract_type,
             'seniority_level' => $this->seniority_level,
             'specialties' => $this->specialties,
+            'status' => $this->status,
+            'status_label' => $this->status?->label(),
+            'process_step' => $this->process_step,
+            'process_step_label' => $this->process_step?->label(),
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
             'soft_skills' => SoftSkillResource::collection($this->whenLoaded('softSkill')),
             'language_desirable' => LanguageResource::collection($this->whenLoaded('desirableLanguage')),

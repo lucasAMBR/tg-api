@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\DevJobVacancy;
 
+use App\Enums\DevJobVacancyStatusEnum;
 use App\Traits\IndexRequestTrait;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class IndexDevJobVacancyRequest extends FormRequest
 {
@@ -26,6 +28,9 @@ class IndexDevJobVacancyRequest extends FormRequest
      */
     public function rules(): array
     {
-        return array_merge($this->paginationRules());
+        return array_merge($this->paginationRules(), [
+            'status' => ['nullable', new Enum(DevJobVacancyStatusEnum::class)],
+            'job_vacancy_id' => ['nullable', 'uuid', 'exists:job_vacancies,id']
+        ]);
     }
 }

@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y git unzip libpq-dev libzip-dev libexif-
 # Instala as extensões PHP (Adicionado 'exif' na lista)
 RUN docker-php-ext-install pdo pdo_pgsql zip pcntl exif && pecl install redis && docker-php-ext-enable redis
 
+# Limites de upload (a imagem base usa 2M/8M, menor que o permitido na validação)
+COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

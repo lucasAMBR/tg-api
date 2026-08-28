@@ -20,6 +20,7 @@ class AdminProfileResource extends JsonResource
             'user_id' => $this->user_id,
             'name' => $this->name,
             'user' => new UserResource($this->whenLoaded('user')),
+            'profile_pic' => $this->user?->profile_pic['original_url'] ?? null,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

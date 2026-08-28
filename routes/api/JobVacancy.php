@@ -8,5 +8,7 @@ Route::middleware('auth:api')->group(function() {
     Route::post('/', [JobVacancyController::class, 'store'])->middleware('can:company_job_vacancy.create');
     Route::get('/{id}', [JobVacancyController::class, 'show'])->middleware('can:company_job_vacancy.view');
     Route::patch('/{id}', [JobVacancyController::class, 'update'])->middleware('can:company_job_vacancy.update');
+    Route::patch('/{id}/status', [JobVacancyController::class, 'updateStatus'])->middleware('can:company_job_vacancy.update');
+    Route::patch('/{id}/close-inscriptions', [JobVacancyController::class, 'closeInscriptions'])->middleware('can:company_job_vacancy.update');
     Route::delete('/{id}', [JobVacancyController::class, 'destroy'])->middleware('can:company_job_vacancy.delete');
 });

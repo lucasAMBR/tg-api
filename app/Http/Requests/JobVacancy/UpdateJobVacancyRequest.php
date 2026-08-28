@@ -3,6 +3,7 @@
 namespace App\Http\Requests\JobVacancy;
 
 use App\Enums\ContractType;
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\EmploymentType;
 use App\Enums\HardSkillLevelsEnum;
 use App\Enums\SeniorityLevelEnum;
@@ -64,6 +65,10 @@ class UpdateJobVacancyRequest extends FormRequest
             'seniority_level' => [
                 'sometimes',
                 new Enum(SeniorityLevelEnum::class)
+            ],
+            'specialties' => [
+                'sometimes',
+                new Enum(DevSpecialtyEnum::class)
             ],
             'languages' => [
                 'sometimes',

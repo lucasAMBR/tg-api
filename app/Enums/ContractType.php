@@ -11,7 +11,7 @@ enum ContractType: string
 
     case CLT = "clt";
     case CONTRACTOR = "contractor";
-    case INTERNSHIP = "intership";
+    case INTERNSHIP = "internship";
 
     public function i18nKey() {
         return match($this){

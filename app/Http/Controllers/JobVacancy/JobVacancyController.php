@@ -5,11 +5,13 @@ namespace App\Http\Controllers\JobVacancy;
 use App\Builder\ApiResponse;
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JobVacancy\CloseJobVacancyInscriptionsRequest;
 use App\Http\Requests\JobVacancy\DestroyJobVacancyRequest;
 use App\Http\Requests\JobVacancy\IndexJobVacancyRequest;
 use App\Http\Requests\JobVacancy\ShowJobVacancyRequest;
 use App\Http\Requests\JobVacancy\StoreJobVacancyRequest;
 use App\Http\Requests\JobVacancy\UpdateJobVacancyRequest;
+use App\Http\Requests\JobVacancy\UpdateJobVacancyStatusRequest;
 use App\Http\Resources\JobVacancy\JobVacancyResource;
 use App\Services\JobVacancy\JobVacancyService;
 use Dedoc\Scramble\Attributes\Endpoint;
@@ -20,7 +22,7 @@ class JobVacancyController extends Controller
 
     public function __construct(protected JobVacancyService $jobVacancy) {}
 
-    #[Endpoint(operationId: 'indexJobVacancy', title: 'Listar vagas', description: '**operationId:** `indexJobVacancy` — Lista paginada das vagas, com `softSkill` e `languages` carregados e filtro opcional `search` (busca em `title`, `contract_type`, `seniority_level` e nos nomes das linguagens e soft skills vinculadas). Em **200**, `data[]` segue o schema **Job Vacancy Resource** (`App\\Http\\Resources\\JobVacancy\\JobVacancyResource`).')]
+    #[Endpoint(operationId: 'indexJobVacancy', title: 'Listar vagas', description: '**operationId:** `indexJobVacancy` — Lista paginada das vagas, com `softSkill` e `languages` carregados e filtros opcionais `search` (busca em `title`, `contract_type`, `seniority_level` e nos nomes das linguagens e soft skills vinculadas) , `company_profile_id` (retorna apenas as vagas da empresa informada), `seniority_level` (`intern`, `junior`, `mid_level`, `senior`, `staff`) e `status` (`open_inscriptions`, `closed_inscriptions`, `canceled`, `concluded`). Em **200**, `data[]` segue o schema **Job Vacancy Resource** (`App\\Http\\Resources\\JobVacancy\\JobVacancyResource`).')]
     public function index(IndexJobVacancyRequest $request): JsonResponse {
 
         try {
@@ -92,6 +94,50 @@ class JobVacancyController extends Controller
             return ApiResponse::success(
                 new JobVacancyResource($data),
                 'Job vacancy updated with success!',
+                200
+            );
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+
+    }
+
+    #[Endpoint(operationId: 'updateJobVacancyStatus', title: 'Atualizar status da vaga', description: '**operationId:** `updateJobVacancyStatus` — Atualiza o status da vaga (`open_inscriptions`, `closed_inscriptions`, `canceled`, `concluded`) respeitando as transições permitidas: de `open_inscriptions` para `closed_inscriptions` ou `canceled`, e de `closed_inscriptions` para `concluded` ou `canceled`. A vaga precisa pertencer ao perfil de empresa autenticado, caso contrário a resposta é **403**. Ao encerrar as inscrições, a vaga deixa de aceitar novas candidaturas e o `process_step` da vaga e das candidaturas em andamento passa para `resume_screening`. Em **200**, `data` segue o schema **Job Vacancy Resource** (`App\\Http\\Resources\\JobVacancy\\JobVacancyResource`).')]
+    public function updateStatus(UpdateJobVacancyStatusRequest $request): JsonResponse {
+
+        try {
+            $data = $this->jobVacancy->updateStatus($request->validated());
+
+            return ApiResponse::success(
+                new JobVacancyResource($data),
+                'Job vacancy status updated with success!',
+                200
+            );
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+
+    }
+
+    #[Endpoint(operationId: 'closeJobVacancyInscriptions', title: 'Encerrar inscrições da vaga', description: '**operationId:** `closeJobVacancyInscriptions` — Encerra as inscrições de uma vaga que esteja em `open_inscriptions`. A vaga precisa pertencer ao perfil de empresa autenticado, caso contrário a resposta é **403**. A partir daí a vaga não aceita novas candidaturas, o `process_step` da vaga e das candidaturas em andamento passa para `resume_screening` e cada desenvolvedor inscrito recebe uma notificação avisando que a análise curricular vai se iniciar. Em **200**, `data` segue o schema **Job Vacancy Resource** (`App\\Http\\Resources\\JobVacancy\\JobVacancyResource`).')]
+    public function closeInscriptions(CloseJobVacancyInscriptionsRequest $request): JsonResponse {
+
+        try {
+            $data = $this->jobVacancy->closeInscriptions($request->validated());
+
+            return ApiResponse::success(
+                new JobVacancyResource($data),
+                'Job vacancy inscriptions closed with success!',
                 200
             );
         } catch (ApiException $e) {
