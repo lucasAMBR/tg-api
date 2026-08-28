@@ -81,7 +81,10 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             ->quality(80);
     }
 
-    public function getProfilePicAttribute()
+    /**
+     * @return array{id: int, original_url: string, thumb_url: string}|null
+     */
+    public function getProfilePicAttribute(): ?array
     {
         $media = $this->getFirstMedia('profile_pic');
 
@@ -90,8 +93,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         }
 
         return [
-            'id' => $media->id,
-            'url' => $media->getUrl(),
+            'id'           => (int) $media->id,
+            'original_url' => (string) $media->getUrl(),
+            'thumb_url'    => (string) $media->getUrl('thumb'),
         ];
     }
 

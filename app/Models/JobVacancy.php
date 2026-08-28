@@ -4,10 +4,14 @@ namespace App\Models;
 
 use App\Contracts\Translatable;
 use App\Enums\ContractType;
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\EmploymentType;
+use App\Enums\JobVacancyStatusEnum;
+use App\Enums\SelectionProcessStageEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Enums\TranslationStatusEnum;
 use App\Traits\HasUuidV7;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,7 +41,17 @@ class JobVacancy extends Model implements Translatable
         'contract_type',
         'seniority_level',
         'specialties',
+        'status',
+        'process_step',
         'company_profile_id'
+    ];
+
+    /**
+     * Toda vaga nasce com as inscrições abertas e aguardando a triagem de currículos
+     */
+    protected $attributes = [
+        'status' => JobVacancyStatusEnum::OPEN_INSCRIPTIONS->value,
+        'process_step' => SelectionProcessStageEnum::AWAITING_RESUME_SCREENING->value
     ];
 
     protected $casts = [
@@ -47,7 +61,9 @@ class JobVacancy extends Model implements Translatable
         'benefits' => 'array',
         'benefits_pt' => 'array',
         'benefits_en' => 'array',
-        'specialties' => 'array'
+        'specialties' => DevSpecialtyEnum::class,
+        'status' => JobVacancyStatusEnum::class,
+        'process_step' => SelectionProcessStageEnum::class
     ];
 
     public function getTranslatableContent(): array
@@ -112,7 +128,7 @@ class JobVacancy extends Model implements Translatable
             'dev_profile_id'
         )
         ->using(DevJobVacancy::class)
-        ->withPivot('status', 'feedback')
+        ->withPivot('status', 'process_step', 'feedback')
         ->withTimestamps();
     }
 
@@ -122,6 +138,24 @@ class JobVacancy extends Model implements Translatable
 
     public function processSteps(): HasMany {
         return $this->hasMany(JobVacancyProcessStep::class)->orderBy('order');
+    }
+
+    public function applications(): HasMany {
+        return $this->hasMany(DevJobVacancy::class, 'job_vacancy_id');
+    }
+
+    /**
+     * Indica se a vaga ainda recebe novas candidaturas
+     */
+    public function acceptsApplications(): bool {
+        return $this->status?->acceptsApplications() ?? false;
+    }
+
+    /**
+     * Limita a consulta às vagas com inscrições abertas
+     */
+    public function scopeOpenForApplications(Builder $query): Builder {
+        return $query->where('status', JobVacancyStatusEnum::OPEN_INSCRIPTIONS);
     }
 
 }

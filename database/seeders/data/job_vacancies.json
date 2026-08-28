@@ -1,0 +1,956 @@
+[
+    {
+        "company_email": "contato@nexopay.example.com",
+        "title": "Pessoa Desenvolvedora Backend Sênior (PHP/Laravel)",
+        "description": "Atuação no core de pagamentos, evoluindo APIs de alta volumetria que processam mais de 3 milhões de transações mensais. O dia a dia envolve modelagem de domínio, otimização de consultas em PostgreSQL particionado, processamento assíncrono com filas Redis e instrumentação de observabilidade. Esperamos autonomia técnica para conduzir refatorações grandes com segurança, escrever testes automatizados e participar ativamente de code review.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde e odontológico sem coparticipação",
+            "Vale refeição de R$ 1.200 por mês",
+            "Auxílio home office de R$ 250",
+            "Budget anual de R$ 5.000 para estudos",
+            "PLR semestral"
+        ],
+        "estimated_salary": 14500,
+        "contract_type": "clt",
+        "seniority_level": "senior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "php",
+                "level": "advanced"
+            },
+            {
+                "slug": "laravel",
+                "level": "advanced"
+            }
+        ],
+        "languages_desirable": [
+            "go",
+            "python"
+        ],
+        "soft_skills": [
+            "Accountability",
+            "Problem Solving",
+            "Communication"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@nexopay.example.com",
+        "title": "Pessoa Desenvolvedora Frontend Pleno (React)",
+        "description": "Construção das interfaces do checkout transparente e do painel do lojista, com foco em performance, acessibilidade e consistência do design system. Trabalho próximo de produto e design, com métricas claras de conversão. Envolve testes de componente, integração com APIs tokenizadas e cuidado com estados de erro em fluxos de pagamento.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.000 por mês",
+            "Day off no aniversário",
+            "Horário flexível"
+        ],
+        "estimated_salary": 9500,
+        "contract_type": "clt",
+        "seniority_level": "mid_level",
+        "specialties": "frontend",
+        "languages": [
+            {
+                "slug": "typescript",
+                "level": "intermediate"
+            },
+            {
+                "slug": "react",
+                "level": "advanced"
+            }
+        ],
+        "languages_desirable": [
+            "next-js",
+            "tailwind-css"
+        ],
+        "soft_skills": [
+            "Communication",
+            "Teamwork"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "screening_questions",
+            "interview",
+            "live_coding"
+        ]
+    },
+    {
+        "company_email": "contato@vitalcare.example.com",
+        "title": "Pessoa Desenvolvedora Java Pleno (Spring Boot)",
+        "description": "Desenvolvimento de serviços de prontuário eletrônico e integrações HL7/FHIR com operadoras e laboratórios. O contexto exige rigor com dados sensíveis de pacientes, rastreabilidade de auditoria e conformidade com a LGPD. Você vai participar do desenho de contratos de API, evolução de microsserviços e melhoria contínua da cobertura de testes.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Plano de saúde extensivo a dependentes",
+            "Vale refeição de R$ 1.100 por mês",
+            "Vale transporte",
+            "Auxílio creche",
+            "Gympass"
+        ],
+        "estimated_salary": 11000,
+        "contract_type": "clt",
+        "seniority_level": "mid_level",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "java",
+                "level": "advanced"
+            },
+            {
+                "slug": "spring-boot",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "kotlin",
+            "typescript"
+        ],
+        "soft_skills": [
+            "Teamwork",
+            "Critical Thinking",
+            "Emotional Intelligence"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview"
+        ]
+    },
+    {
+        "company_email": "contato@vitalcare.example.com",
+        "title": "Pessoa Desenvolvedora Angular Júnior",
+        "description": "Manutenção e evolução dos painéis clínicos usados por médicos e equipes de enfermagem. É uma vaga de entrada com acompanhamento próximo de pessoas desenvolvedoras sêniores, pareamento frequente e plano de desenvolvimento individual. Espera-se familiaridade com componentes, formulários reativos e consumo de APIs REST.",
+        "employment_type": "on_site",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 900 por mês",
+            "Vale transporte",
+            "Mentoria técnica semanal"
+        ],
+        "estimated_salary": 5200,
+        "contract_type": "clt",
+        "seniority_level": "junior",
+        "specialties": "frontend",
+        "languages": [
+            {
+                "slug": "angular",
+                "level": "basic"
+            },
+            {
+                "slug": "typescript",
+                "level": "basic"
+            }
+        ],
+        "languages_desirable": [
+            "css",
+            "html"
+        ],
+        "soft_skills": [
+            "Communication",
+            "Adaptability"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@lumeneducacao.example.com",
+        "title": "Pessoa Desenvolvedora Python Pleno (Django)",
+        "description": "Evolução da plataforma de trilhas de aprendizagem usada por redes de ensino, incluindo o motor de progresso do aluno e relatórios pedagógicos. O time é pequeno e multidisciplinar, então você participa desde a descoberta até a entrega. Envolve modelagem de dados, tarefas assíncronas com Celery e cuidado com performance em relatórios pesados.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.000 por mês",
+            "Auxílio home office",
+            "Licença parental estendida",
+            "Sexta-feira curta"
+        ],
+        "estimated_salary": 10500,
+        "contract_type": "clt",
+        "seniority_level": "mid_level",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "python",
+                "level": "advanced"
+            },
+            {
+                "slug": "django",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "vue-js",
+            "flask"
+        ],
+        "soft_skills": [
+            "Communication",
+            "Adaptability",
+            "Time Management"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "screening_questions",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@lumeneducacao.example.com",
+        "title": "Estágio em Desenvolvimento Web",
+        "description": "Vaga de estágio para quem está cursando tecnologia e quer aprender na prática. Você vai apoiar o time em correções, pequenas features e melhorias de interface, sempre com pareamento e revisão de código. Buscamos vontade de aprender e noções de HTML, CSS e JavaScript.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Bolsa auxílio",
+            "Vale transporte",
+            "Vale refeição de R$ 600 por mês",
+            "Horário flexível para estudos"
+        ],
+        "estimated_salary": 2200,
+        "contract_type": "intership",
+        "seniority_level": "intern",
+        "specialties": "fullstack",
+        "languages": [
+            {
+                "slug": "java-script",
+                "level": "fundamentals"
+            },
+            {
+                "slug": "html",
+                "level": "basic"
+            }
+        ],
+        "languages_desirable": [
+            "css",
+            "python"
+        ],
+        "soft_skills": [
+            "Adaptability",
+            "Communication"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "group_dynamic"
+        ]
+    },
+    {
+        "company_email": "contato@rotamax.example.com",
+        "title": "Pessoa Desenvolvedora Backend Sênior (Go)",
+        "description": "Trabalho no motor de roteirização e no rastreamento em tempo real de frotas, com serviços que processam milhares de eventos de telemetria por segundo. Envolve modelagem de filas, otimização de latência, particionamento de dados geoespaciais e decisões de arquitetura distribuída. Buscamos alguém confortável com trade-offs de consistência e disponibilidade.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde e odontológico",
+            "Vale refeição de R$ 1.300 por mês",
+            "Auxílio home office de R$ 300",
+            "Stock options",
+            "Budget de conferências"
+        ],
+        "estimated_salary": 16000,
+        "contract_type": "contractor",
+        "seniority_level": "senior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "go",
+                "level": "expert"
+            },
+            {
+                "slug": "python",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "rust",
+            "typescript"
+        ],
+        "soft_skills": [
+            "Problem Solving",
+            "Accountability",
+            "Teamwork"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@rotamax.example.com",
+        "title": "Pessoa Desenvolvedora Frontend Pleno (React)",
+        "description": "Construção do painel de operação logística, com mapas interativos, atualizações em tempo real via WebSocket e tabelas densas de dados. O desafio é manter a interface fluida mesmo com grande volume de atualizações simultâneas. Você vai trabalhar lado a lado com o time de dados e com operações.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.100 por mês",
+            "Auxílio home office",
+            "Férias flexíveis"
+        ],
+        "estimated_salary": 9800,
+        "contract_type": "contractor",
+        "seniority_level": "mid_level",
+        "specialties": "frontend",
+        "languages": [
+            {
+                "slug": "react",
+                "level": "advanced"
+            },
+            {
+                "slug": "typescript",
+                "level": "advanced"
+            }
+        ],
+        "languages_desirable": [
+            "next-js",
+            "go"
+        ],
+        "soft_skills": [
+            "Problem Solving",
+            "Communication"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "live_coding"
+        ]
+    },
+    {
+        "company_email": "contato@fortishield.example.com",
+        "title": "Pessoa Engenheira de Software Staff (Rust)",
+        "description": "Liderança técnica no agente de detecção que roda no endpoint dos clientes, com requisitos duros de consumo de memória, segurança de memória e compatibilidade multiplataforma. O papel combina escrita de código crítico, definição de arquitetura e mentoria do time. Experiência com análise de binários, sistemas operacionais e criptografia aplicada é muito valorizada.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde premium",
+            "Vale refeição de R$ 1.500 por mês",
+            "Auxílio home office de R$ 400",
+            "Bônus anual por performance",
+            "Certificações de segurança pagas"
+        ],
+        "estimated_salary": 24000,
+        "contract_type": "clt",
+        "seniority_level": "staff",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "rust",
+                "level": "authority"
+            },
+            {
+                "slug": "c",
+                "level": "advanced"
+            }
+        ],
+        "languages_desirable": [
+            "go",
+            "cpp"
+        ],
+        "soft_skills": [
+            "Critical Thinking",
+            "Accountability",
+            "Leadership"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@fortishield.example.com",
+        "title": "Pessoa Desenvolvedora Python Pleno (Automação de Segurança)",
+        "description": "Desenvolvimento de automações de resposta a incidentes, integrações com SIEM e pipelines de enriquecimento de indicadores de comprometimento. O time trabalha em regime de plantão rotativo e preza por documentação clara de runbooks. É uma boa vaga para quem gosta de unir desenvolvimento e segurança ofensiva/defensiva.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.200 por mês",
+            "Adicional de sobreaviso",
+            "Certificações pagas"
+        ],
+        "estimated_salary": 12000,
+        "contract_type": "clt",
+        "seniority_level": "mid_level",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "python",
+                "level": "advanced"
+            },
+            {
+                "slug": "go",
+                "level": "basic"
+            }
+        ],
+        "languages_desirable": [
+            "rust",
+            "c"
+        ],
+        "soft_skills": [
+            "Critical Thinking",
+            "Conflict Resolution"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "screening_questions",
+            "interview"
+        ]
+    },
+    {
+        "company_email": "contato@pixelforge.example.com",
+        "title": "Pessoa Desenvolvedora de Gameplay Sênior (C++)",
+        "description": "Implementação de sistemas de gameplay, física e IA de inimigos em engine própria, com forte foco em performance de frame e uso de memória em consoles. O trabalho é presencial no estúdio, com ciclos de playtest semanais e colaboração direta com game design e arte. Experiência com profiling e otimização de baixo nível é essencial.",
+        "employment_type": "on_site",
+        "benefits": [
+            "Plano de saúde e odontológico",
+            "Vale refeição de R$ 1.100 por mês",
+            "Estacionamento no estúdio",
+            "Biblioteca de jogos e hardware para testes",
+            "Semana de descanso após cada lançamento"
+        ],
+        "estimated_salary": 15000,
+        "contract_type": "clt",
+        "seniority_level": "senior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "cpp",
+                "level": "expert"
+            },
+            {
+                "slug": "c",
+                "level": "advanced"
+            }
+        ],
+        "languages_desirable": [
+            "csharp",
+            "rust"
+        ],
+        "soft_skills": [
+            "Adaptability",
+            "Teamwork",
+            "Problem Solving"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "portfolio_review",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@pixelforge.example.com",
+        "title": "Pessoa Desenvolvedora Unity Júnior (C#)",
+        "description": "Apoio na produção de protótipos e ferramentas internas em Unity, incluindo editores customizados que aceleram o trabalho de level design. Vaga ideal para quem já publicou jogos pessoais ou participou de game jams e quer entrar no mercado com acompanhamento próximo.",
+        "employment_type": "on_site",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 900 por mês",
+            "Vale transporte",
+            "Participação em game jams pagas pela empresa"
+        ],
+        "estimated_salary": 5500,
+        "contract_type": "clt",
+        "seniority_level": "junior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "csharp",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "cpp"
+        ],
+        "soft_skills": [
+            "Teamwork",
+            "Adaptability"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "portfolio_review",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@altocloud.example.com",
+        "title": "Pessoa Engenheira de Plataforma Sênior (Go)",
+        "description": "Construção da plataforma interna de deploy usada por dezenas de squads, incluindo operadores Kubernetes, CLI de desenvolvedor e pipelines de entrega contínua. O foco é reduzir o atrito de quem consome a plataforma, com boas APIs, documentação e defaults seguros. Envolve trabalho próximo de SRE e forte cultura de postmortem sem culpados.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde e odontológico",
+            "Vale refeição de R$ 1.400 por mês",
+            "Auxílio home office de R$ 350",
+            "Budget de nuvem para laboratórios pessoais",
+            "PLR anual"
+        ],
+        "estimated_salary": 17500,
+        "contract_type": "clt",
+        "seniority_level": "senior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "go",
+                "level": "advanced"
+            },
+            {
+                "slug": "python",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "rust",
+            "typescript"
+        ],
+        "soft_skills": [
+            "Problem Solving",
+            "Accountability",
+            "Time Management"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@sinapse.example.com",
+        "title": "Pessoa Engenheira de Machine Learning Sênior",
+        "description": "Desenvolvimento de pipelines de treino e serving de modelos de linguagem aplicados a atendimento e busca semântica. Envolve avaliação sistemática de qualidade, versionamento de datasets, controle de custo de inferência e colaboração com pesquisa. Buscamos alguém que goste tanto de experimentação quanto de colocar modelos em produção com confiabilidade.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.300 por mês",
+            "Auxílio home office",
+            "Budget de GPU para experimentos pessoais",
+            "Participação em conferências internacionais"
+        ],
+        "estimated_salary": 19000,
+        "contract_type": "clt",
+        "seniority_level": "senior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "python",
+                "level": "expert"
+            },
+            {
+                "slug": "flask",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "typescript",
+            "go"
+        ],
+        "soft_skills": [
+            "Critical Thinking",
+            "Communication",
+            "Adaptability"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@sinapse.example.com",
+        "title": "Pessoa Desenvolvedora Fullstack Pleno (Next.js)",
+        "description": "Construção dos produtos que expõem os modelos do laboratório para clientes finais, incluindo playground, painel de uso e cobrança por consumo. É uma vaga fullstack de verdade: você toca desde a interface até os endpoints que orquestram inferência. Streaming de respostas e boas práticas de estado assíncrono fazem parte do dia a dia.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.200 por mês",
+            "Auxílio home office",
+            "Horário flexível"
+        ],
+        "estimated_salary": 11500,
+        "contract_type": "contractor",
+        "seniority_level": "mid_level",
+        "specialties": "fullstack",
+        "languages": [
+            {
+                "slug": "typescript",
+                "level": "advanced"
+            },
+            {
+                "slug": "next-js",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "python",
+            "react"
+        ],
+        "soft_skills": [
+            "Communication",
+            "Adaptability"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "screening_questions",
+            "interview",
+            "live_coding"
+        ]
+    },
+    {
+        "company_email": "contato@codelab.example.com",
+        "title": "Pessoa Desenvolvedora Fullstack Pleno (Laravel + Vue)",
+        "description": "Atuação em projetos de clientes variados, alternando entre manutenção de sistemas legados e greenfield. Exige facilidade para trocar de contexto, conversar diretamente com o cliente e estimar entregas de forma realista. O time preza por documentação enxuta e entregas frequentes.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 950 por mês",
+            "Vale transporte",
+            "Banco de horas",
+            "Bônus por projeto entregue no prazo"
+        ],
+        "estimated_salary": 8800,
+        "contract_type": "clt",
+        "seniority_level": "mid_level",
+        "specialties": "fullstack",
+        "languages": [
+            {
+                "slug": "php",
+                "level": "advanced"
+            },
+            {
+                "slug": "laravel",
+                "level": "advanced"
+            },
+            {
+                "slug": "vue-js",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "java-script",
+            "bootstrap"
+        ],
+        "soft_skills": [
+            "Communication",
+            "Time Management",
+            "Adaptability"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@codelab.example.com",
+        "title": "Pessoa Desenvolvedora PHP Júnior",
+        "description": "Manutenção evolutiva de sistemas administrativos de clientes, com foco em correção de bugs, criação de relatórios e pequenas features. É uma porta de entrada com trilha clara para pleno em até dois anos, com revisão de código e pareamento constantes.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 800 por mês",
+            "Vale transporte",
+            "Curso de inglês subsidiado"
+        ],
+        "estimated_salary": 4800,
+        "contract_type": "clt",
+        "seniority_level": "junior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "php",
+                "level": "basic"
+            },
+            {
+                "slug": "laravel",
+                "level": "fundamentals"
+            }
+        ],
+        "languages_desirable": [
+            "java-script"
+        ],
+        "soft_skills": [
+            "Communication",
+            "Time Management"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@mercadovivo.example.com",
+        "title": "Pessoa Desenvolvedora Backend Sênior (E-commerce)",
+        "description": "Responsável pelos serviços de catálogo, carrinho e integração com marketplaces, com picos de tráfego em datas sazonais. Envolve estratégias de cache, idempotência em integrações externas e planejamento de capacidade para Black Friday. Buscamos alguém que já tenha operado sistemas sob carga real e saiba priorizar sob pressão.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Plano de saúde e odontológico",
+            "Vale refeição de R$ 1.200 por mês",
+            "Desconto em compras na plataforma",
+            "PLR anual",
+            "Auxílio home office"
+        ],
+        "estimated_salary": 15500,
+        "contract_type": "clt",
+        "seniority_level": "senior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "php",
+                "level": "expert"
+            },
+            {
+                "slug": "laravel",
+                "level": "expert"
+            }
+        ],
+        "languages_desirable": [
+            "go",
+            "typescript"
+        ],
+        "soft_skills": [
+            "Teamwork",
+            "Problem Solving",
+            "Accountability"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview"
+        ]
+    },
+    {
+        "company_email": "contato@mercadovivo.example.com",
+        "title": "Pessoa Desenvolvedora Frontend Pleno (Next.js)",
+        "description": "Evolução da vitrine e do checkout com foco obsessivo em Core Web Vitals e taxa de conversão. Você vai trabalhar com renderização no servidor, testes A/B e otimização de imagens e fontes. O time roda experimentos toda semana e mede o impacto de cada entrega.",
+        "employment_type": "remote",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.100 por mês",
+            "Auxílio home office",
+            "Desconto em compras na plataforma"
+        ],
+        "estimated_salary": 10200,
+        "contract_type": "clt",
+        "seniority_level": "mid_level",
+        "specialties": "frontend",
+        "languages": [
+            {
+                "slug": "next-js",
+                "level": "advanced"
+            },
+            {
+                "slug": "react",
+                "level": "advanced"
+            },
+            {
+                "slug": "tailwind-css",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "typescript",
+            "php"
+        ],
+        "soft_skills": [
+            "Problem Solving",
+            "Time Management"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "screening_questions",
+            "interview",
+            "live_coding"
+        ]
+    },
+    {
+        "company_email": "contato@bancoorion.example.com",
+        "title": "Pessoa Desenvolvedora Java Sênior (Core Bancário)",
+        "description": "Modernização do core bancário, migrando rotinas críticas de COBOL para serviços em Java com Spring Boot, sem interromper a operação. O trabalho exige leitura de código legado, testes de paridade rigorosos e comunicação constante com áreas de negócio e compliance. É um ambiente regulado, com processos formais de mudança.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Plano de saúde e odontológico premium",
+            "Vale refeição de R$ 1.500 por mês",
+            "Previdência privada com contrapartida",
+            "PLR de até 4 salários",
+            "Auxílio educação"
+        ],
+        "estimated_salary": 18000,
+        "contract_type": "clt",
+        "seniority_level": "senior",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "java",
+                "level": "expert"
+            },
+            {
+                "slug": "spring-boot",
+                "level": "advanced"
+            }
+        ],
+        "languages_desirable": [
+            "cobol",
+            "kotlin"
+        ],
+        "soft_skills": [
+            "Accountability",
+            "Critical Thinking",
+            "Leadership"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@bancoorion.example.com",
+        "title": "Pessoa Especialista COBOL (Manutenção de Legado)",
+        "description": "Sustentação das rotinas batch de liquidação e conciliação que ainda rodam em mainframe, além de apoio ao time de modernização na documentação das regras de negócio implícitas no código. Vaga rara, com forte demanda por precisão e paciência para arqueologia de sistemas.",
+        "employment_type": "on_site",
+        "benefits": [
+            "Plano de saúde premium",
+            "Vale refeição de R$ 1.500 por mês",
+            "Previdência privada",
+            "Estabilidade e plano de carreira estruturado"
+        ],
+        "estimated_salary": 16500,
+        "contract_type": "clt",
+        "seniority_level": "staff",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "cobol",
+                "level": "authority"
+            }
+        ],
+        "languages_desirable": [
+            "java"
+        ],
+        "soft_skills": [
+            "Accountability",
+            "Critical Thinking"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview"
+        ]
+    },
+    {
+        "company_email": "contato@casanova.example.com",
+        "title": "Pessoa Desenvolvedora .NET Pleno (C#)",
+        "description": "Desenvolvimento e sustentação do ERP interno e das integrações com PDV das lojas físicas. Envolve APIs em ASP.NET Core, rotinas de sincronização offline-first e relatórios gerenciais. O time atende diretamente as áreas de operação e precisa equilibrar urgência com qualidade.",
+        "employment_type": "on_site",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.000 por mês",
+            "Vale transporte",
+            "Desconto em produtos das lojas",
+            "Seguro de vida"
+        ],
+        "estimated_salary": 9200,
+        "contract_type": "clt",
+        "seniority_level": "mid_level",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "csharp",
+                "level": "advanced"
+            },
+            {
+                "slug": "aspnet-core",
+                "level": "intermediate"
+            }
+        ],
+        "languages_desirable": [
+            "java-script",
+            "aspnet"
+        ],
+        "soft_skills": [
+            "Teamwork",
+            "Time Management"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@casanova.example.com",
+        "title": "Pessoa Desenvolvedora Mobile Pleno (Flutter)",
+        "description": "Evolução do aplicativo de clientes, com clube de vantagens, cupons e retirada em loja. Envolve sincronização offline, notificações push segmentadas e cuidado com o tamanho do binário. Você vai acompanhar métricas de crash e de adoção de cada release.",
+        "employment_type": "hybrid",
+        "benefits": [
+            "Plano de saúde",
+            "Vale refeição de R$ 1.000 por mês",
+            "Desconto em produtos das lojas",
+            "Auxílio home office"
+        ],
+        "estimated_salary": 10000,
+        "contract_type": "clt",
+        "seniority_level": "mid_level",
+        "specialties": "frontend",
+        "languages": [
+            {
+                "slug": "flutter",
+                "level": "advanced"
+            }
+        ],
+        "languages_desirable": [
+            "kotlin",
+            "java-script"
+        ],
+        "soft_skills": [
+            "Teamwork",
+            "Emotional Intelligence"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "interview",
+            "technical_challenge"
+        ]
+    },
+    {
+        "company_email": "contato@altocloud.example.com",
+        "title": "Estágio em Engenharia de Software (Cloud)",
+        "description": "Estágio no time de plataforma, apoiando automações de infraestrutura, melhorias na CLI interna e documentação técnica. Você vai aprender Git, containers e observabilidade na prática, com mentoria formal e revisões semanais de progresso.",
+        "employment_type": "remote",
+        "benefits": [
+            "Bolsa auxílio",
+            "Auxílio home office",
+            "Vale refeição de R$ 700 por mês",
+            "Horário flexível para a faculdade"
+        ],
+        "estimated_salary": 2500,
+        "contract_type": "intership",
+        "seniority_level": "intern",
+        "specialties": "backend",
+        "languages": [
+            {
+                "slug": "python",
+                "level": "fundamentals"
+            },
+            {
+                "slug": "go",
+                "level": "fundamentals"
+            }
+        ],
+        "languages_desirable": [
+            "typescript"
+        ],
+        "soft_skills": [
+            "Adaptability",
+            "Communication"
+        ],
+        "process_steps": [
+            "resume_screening",
+            "screening_questions",
+            "interview"
+        ]
+    }
+]

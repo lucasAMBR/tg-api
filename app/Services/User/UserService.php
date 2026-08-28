@@ -5,6 +5,7 @@ namespace App\Services\User;
 use App\Exceptions\ApiException;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,9 @@ class UserService
 
         $data = Arr::except($data, ['id']);
 
-        return DB::transaction(function () use ($authUser, $user, $data) {
+        $profilePic = Arr::pull($data, 'profile_pic');
+
+        return DB::transaction(function () use ($authUser, $user, $data, $profilePic) {
             $user->fill($data);
 
             // 2. Lógica de senha (Melhorada)
@@ -38,7 +41,14 @@ class UserService
             // 3. Salva as alterações de fato
             $user->save();
 
-            // 4. Retorna a instância do Model $user para o Resource
+            // 4. A coleção é singleFile(), então o upload substitui a foto anterior
+            if ($profilePic instanceof UploadedFile) {
+                $user->addMedia($profilePic)->toMediaCollection('profile_pic');
+
+                $user->load('media');
+            }
+
+            // 5. Retorna a instância do Model $user para o Resource
             return new UserResource($user);
         });
     }

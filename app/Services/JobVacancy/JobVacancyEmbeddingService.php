@@ -13,11 +13,11 @@ class JobVacancyEmbeddingService {
     public function createJobVacancyEmbedding(JobVacancy $jobVacancy)
     {
         $context = $this->constructJobVacancyContext($jobVacancy);
-        $embedding = $this->embeddingService->generate($context);
+        $vector = $this->embeddingService->generate($context);
 
         $jobEmbedding = JobVacancyEmbedding::updateOrCreate(
             ['job_vacancy_id' => $jobVacancy->id],
-            ['embedding' => $embedding]
+            ['embedding' => $vector]
         );
 
         return $jobEmbedding;
@@ -38,21 +38,20 @@ class JobVacancyEmbeddingService {
         $basicData = "[Informações da Vaga] \n";
         $basicData .= "Título da Vaga: {$jobVacancy->title}\n";
         
-        if (!empty($jobVacancy->specialties)) {
-            $specialtiesText = implode(', ', $jobVacancy->specialties);
-            $basicData .= "Especialidades: {$specialtiesText}\n";
+        if ($jobVacancy->specialties) {
+            $basicData .= "Especialidade: {$jobVacancy->specialties->label()}\n";
         }
 
         if ($jobVacancy->seniority_level) {
-            $basicData .= "Nível de Senioridade: {$jobVacancy->seniority_level}\n";
+            $basicData .= "Nível de Senioridade: {$jobVacancy->seniority_level->label()}\n";
         }
 
         if ($jobVacancy->contract_type) {
-            $basicData .= "Tipo de Contrato: {$jobVacancy->contract_type}\n";
+            $basicData .= "Tipo de Contrato: {$jobVacancy->contract_type->label()}\n";
         }
 
         if ($jobVacancy->employment_type) {
-            $basicData .= "Modelo de Trabalho: {$jobVacancy->employment_type}\n";
+            $basicData .= "Modelo de Trabalho: {$jobVacancy->employment_type->label()}\n";
         }
         
         if ($jobVacancy->estimated_salary) {

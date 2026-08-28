@@ -49,7 +49,11 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call([
-            DevPreferencesSeeder::class
+            DevProfilesSeeder::class,
+            DevPreferencesSeeder::class,
+            CompanyProfilesSeeder::class,
+            ClientProfilesSeeder::class,
+            JobVacancySeeder::class
         ]);
     }
 

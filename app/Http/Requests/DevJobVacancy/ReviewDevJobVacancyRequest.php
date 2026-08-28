@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\DevJobVacancy;
 
-use App\Enums\JobVacancyStatusEnum;
+use App\Enums\DevJobVacancyStatusEnum;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
@@ -31,8 +31,13 @@ class ReviewDevJobVacancyRequest extends FormRequest
                 'exists:dev_job_vacancy,id'
             ],
             'status' => [
-                'required', 
-                new Enum(JobVacancyStatusEnum::class)
+                'sometimes',
+                new Enum(DevJobVacancyStatusEnum::class)
+            ],
+            'feedback' => [
+                'sometimes',
+                'nullable',
+                'string'
             ]
         ];
     }

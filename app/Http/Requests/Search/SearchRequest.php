@@ -11,7 +11,7 @@ class SearchRequest extends FormRequest
     use IndexRequestTrait;
 
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if t`he user is authorized to make this request.
      */
     public function authorize(): bool
     {
@@ -26,7 +26,7 @@ class SearchRequest extends FormRequest
     public function rules(): array
     {
         return array_merge($this->paginationRules(), [
-            'search' => ['required', 'string', 'min:2'],
+            'search' => ['nullable', 'string', 'min:1'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:50'],
         ]);
     }

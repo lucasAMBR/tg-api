@@ -22,6 +22,7 @@ class CompanyProfileResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'user' => new UserResource($this->whenLoaded('user')),
+            'profile_pic' => $this->user?->profile_pic['original_url'] ?? null,
             'name' => $this->name,
             'bio' => $this->bio,
             'bio_pt' => $this->bio_pt,

@@ -14,12 +14,13 @@ use App\Models\JobVacancy;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class SearchService {
 
     public function search(array $data): SearchResultResource {
 
-        $search = $data['search'];
+        $search = $data['search'] ?? null;
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
 
@@ -39,9 +40,9 @@ class SearchService {
 
     }
 
-    public function topCompanies(int $limit = 10): AnonymousResourceCollection {
+    public function topCompanies(int $limit = 3): AnonymousResourceCollection {
 
-        $companies = CompanyProfile::query()
+        $companies = $this->excludeAuthUser(CompanyProfile::query())
             ->orderByDesc('score')
             ->limit($limit)
             ->get();
@@ -50,9 +51,9 @@ class SearchService {
 
     }
 
-    public function topDevs(int $limit = 10): AnonymousResourceCollection {
+    public function topDevs(int $limit = 3): AnonymousResourceCollection {
 
-        $devs = DevProfile::query()
+        $devs = $this->excludeAuthUser(DevProfile::query())
             ->orderByDesc('score')
             ->limit($limit)
             ->get();
@@ -61,9 +62,9 @@ class SearchService {
 
     }
 
-    public function topClients(int $limit = 10): AnonymousResourceCollection {
+    public function topClients(int $limit = 3): AnonymousResourceCollection {
 
-        $clients = ClientProfile::query()
+        $clients = $this->excludeAuthUser(ClientProfile::query())
             ->orderByDesc('score')
             ->limit($limit)
             ->get();
@@ -72,9 +73,10 @@ class SearchService {
 
     }
 
-    public function topJobVacancies(int $limit = 10): AnonymousResourceCollection {
+    public function topJobVacancies(int $limit = 3): AnonymousResourceCollection {
 
-        $jobVacancies = JobVacancy::query()->with(['softSkill', 'languages'])
+        $jobVacancies = JobVacancy::query()->openForApplications()
+            ->with(['softSkill', 'languages', 'companyProfile'])
             ->withCount('devProfiles')
             ->orderByDesc('dev_profiles_count')
             ->limit($limit)
@@ -84,58 +86,80 @@ class SearchService {
 
     }
 
-    private function devProfilesQuery(string $search): Builder {
+    /**
+     * Remove da listagem o perfil do próprio usuário autenticado, para que ele
+     * não apareça entre os resultados que está navegando.
+     */
+    private function excludeAuthUser(Builder $query): Builder {
 
-        return DevProfile::query()
-            ->where(function($query) use ($search) {
-                $query->where('name', 'ILIKE', "%{$search}%")
-                ->orWhere('bio', 'ILIKE', "%{$search}%")
-                ->orWhere('specialty', 'ILIKE', "%{$search}%")
-                ->orWhere('seniority_level', 'ILIKE', "%{$search}%");
+        return $query->when(Auth::id(), function(Builder $query, string $authUserId) {
+            $query->where('user_id', '!=', $authUserId);
+        });
+
+    }
+
+    private function devProfilesQuery(?string $search): Builder {
+
+        return $this->excludeAuthUser(DevProfile::query())
+            ->when($search, function(Builder $query, string $search) {
+                $query->where(function($query) use ($search) {
+                    $query->where('name', 'ILIKE', "%{$search}%")
+                    ->orWhere('bio', 'ILIKE', "%{$search}%")
+                    ->orWhere('specialty', 'ILIKE', "%{$search}%")
+                    ->orWhere('seniority_level', 'ILIKE', "%{$search}%");
+                });
             })
             ->orderByDesc('created_at')
             ->orderBy('id');
 
     }
 
-    private function companyProfilesQuery(string $search): Builder {
+    private function companyProfilesQuery(?string $search): Builder {
 
-        return CompanyProfile::query()
-            ->where(function($query) use ($search) {
-                $query->where('name', 'ILIKE', "%{$search}%")
-                ->orWhere('bio', 'ILIKE', "%{$search}%")
-                ->orWhere('operational_segment', 'ILIKE', "%{$search}%");
+        return $this->excludeAuthUser(CompanyProfile::query())
+            ->when($search, function(Builder $query, string $search) {
+                $query->where(function($query) use ($search) {
+                    $query->where('name', 'ILIKE', "%{$search}%")
+                    ->orWhere('bio', 'ILIKE', "%{$search}%")
+                    ->orWhere('operational_segment', 'ILIKE', "%{$search}%");
+                });
             })
             ->orderByDesc('created_at')
             ->orderBy('id');
 
     }
 
-    private function clientProfilesQuery(string $search): Builder {
+    private function clientProfilesQuery(?string $search): Builder {
 
-        return ClientProfile::query()
-            ->where(function($query) use ($search) {
-                $query->where('name', 'ILIKE', "%{$search}%")
-                ->orWhere('bio', 'ILIKE', "%{$search}%");
+        return $this->excludeAuthUser(ClientProfile::query())
+            ->when($search, function(Builder $query, string $search) {
+                $query->where(function($query) use ($search) {
+                    $query->where('name', 'ILIKE', "%{$search}%")
+                    ->orWhere('bio', 'ILIKE', "%{$search}%");
+                });
             })
             ->orderByDesc('created_at')
             ->orderBy('id');
 
     }
 
-    private function jobVacanciesQuery(string $search): Builder {
+    private function jobVacanciesQuery(?string $search): Builder {
 
-        return JobVacancy::query()->with(['softSkill', 'languages'])
-            ->where(function($query) use ($search) {
-                $query->where('title', 'ILIKE', "%{$search}%")
-                ->orWhere('description', 'ILIKE', "%{$search}%")
-                ->orWhere('contract_type', 'ILIKE', "%{$search}%")
-                ->orWhere('seniority_level', 'ILIKE', "%{$search}%")
-                ->orWhereHas('languages', function($q) use ($search) {
-                    $q->where('name', 'ILIKE', "%{$search}%");
-                })
-                ->orWhereHas('softSkill', function($q) use ($search) {
-                    $q->where('name', 'ILIKE', "%{$search}%");
+        // A busca só expõe vagas que ainda aceitam candidaturas
+        return JobVacancy::query()->openForApplications()
+            ->with(['softSkill', 'languages', 'companyProfile'])
+            ->when($search, function(Builder $query, string $search) {
+                $query->where(function($query) use ($search) {
+                    $query->where('title', 'ILIKE', "%{$search}%")
+                    ->orWhere('description', 'ILIKE', "%{$search}%")
+                    ->orWhere('contract_type', 'ILIKE', "%{$search}%")
+                    ->orWhere('seniority_level', 'ILIKE', "%{$search}%")
+                    ->orWhereHas('languages', function($q) use ($search) {
+                        $q->where('name', 'ILIKE', "%{$search}%");
+                    })
+                    ->orWhereHas('softSkill', function($q) use ($search) {
+                        $q->where('name', 'ILIKE', "%{$search}%");
+                    });
                 });
             })
             ->orderByDesc('created_at')
