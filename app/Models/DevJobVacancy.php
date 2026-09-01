@@ -49,4 +49,8 @@ class DevJobVacancy extends Pivot
         // não tem MAX() para uuid
         return $this->hasOne(PortfolioSolicitation::class, 'dev_job_vacancy_id')->latest('created_at');
     }
+
+    public function interviews(): HasMany {
+        return $this->hasMany(DevJobVacancyInterview::class, 'dev_job_vacancy_id');
+    }
 }

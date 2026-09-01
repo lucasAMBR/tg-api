@@ -10,6 +10,7 @@ use App\Helpers\ProfileHelper;
 use App\Http\Resources\DevJobVacancy\DevJobVacancyCollection;
 use App\Http\Resources\DevJobVacancy\DevJobVacancyResource;
 use App\Models\DevJobVacancy;
+use App\Models\DevJobVacancyInterview;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyProcessStep;
 use App\Models\PortfolioSolicitation;
@@ -376,6 +377,12 @@ class DevJobVacancyService {
                 $this->requestPortfolios($jobVacancy, $approved, $dueDate);
             }
 
+            // A etapa de entrevista começa com a criação do registro de entrevista de
+            // cada aprovado, que depois será usado pra negociar o horário e realizar a call
+            if($nextStep === SelectionProcessStageEnum::INTERVIEW) {
+                $this->createInterviews($jobVacancy, $approved);
+            }
+
             return [
                 'process_step' => $nextStep?->value,
                 'approved' => DevJobVacancyResource::collection(
@@ -420,6 +427,33 @@ class DevJobVacancyService {
                 'message' => "A empresa está solicitando o seu portfólio para a etapa de análise de portfólio da vaga {$jobVacancy->title}. Envie o link até {$dueDate->format('d/m/Y')}!",
                 'link' => env('APP_URL') . '/jobs'
             ]);
+
+        }
+
+    }
+
+    /**
+     * Cria o registro de entrevista de cada candidatura que avançou para a etapa de
+     * entrevista, com um título automático, sem horário definido ainda. É esse
+     * registro que vai ser usado para negociar o horário com o dev e, depois,
+     * realizar a call
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $approved
+     */
+    private function createInterviews(JobVacancy $jobVacancy, Collection $approved): void {
+
+        $companyName = $jobVacancy->companyProfile?->name;
+
+        foreach($approved as $application) {
+
+            // Um único registro de entrevista por candidatura, mesmo que a etapa seja reprocessada
+            DevJobVacancyInterview::firstOrCreate(
+                ['dev_job_vacancy_id' => $application->id],
+                [
+                    'job_vacancy_id' => $jobVacancy->id,
+                    'title' => "Entrevista - {$application->devProfile?->name} e {$companyName} - {$jobVacancy->title}"
+                ]
+            );
 
         }
 
