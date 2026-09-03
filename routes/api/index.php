@@ -41,6 +41,8 @@ Route::prefix('portfolio-solicitation')->group(base_path('routes/api/PortfolioSo
 
 Route::prefix('dev-vacancy-interview')->group(base_path('routes/api/DevJobVacancyInterview.php'));
 
+Route::prefix('screening-questionnaire')->group(base_path('routes/api/ScreeningQuestionnaire.php'));
+
 Route::prefix('question')->group(base_path('routes/api/Question.php'));
 
 Route::prefix('proficiency-test')->group(base_path('routes/api/ProficiencyTest.php'));

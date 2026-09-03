@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\DevJobVacancy;
 
+use App\Http\Resources\DevJobVacancyInterview\DevJobVacancyInterviewResource;
+use App\Http\Resources\DevScreeningQuestionnaire\DevScreeningQuestionnaireResource;
 use App\Http\Resources\JobVacancy\JobVacancyResource;
 use App\Http\Resources\PortfolioSolicitation\PortfolioSolicitationResource;
 use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
@@ -36,7 +38,16 @@ class DevJobVacancyResource extends JsonResource
             /**
              * Solicitação de portfólio da candidatura, carregada na etapa de análise de portfólio
              */
-            'portfolio_solicitation' => new PortfolioSolicitationResource($this->whenLoaded('portfolioSolicitation'))
+            'portfolio_solicitation' => new PortfolioSolicitationResource($this->whenLoaded('portfolioSolicitation')),
+            /**
+             * Preenchimento do questionário de triagem da candidatura, carregado na
+             * etapa de perguntas de triagem
+             */
+            'screening_questionnaire' => new DevScreeningQuestionnaireResource($this->whenLoaded('screeningQuestionnaire')),
+            /**
+             * Entrevista da candidatura, carregada na etapa de entrevista
+             */
+            'interview' => new DevJobVacancyInterviewResource($this->whenLoaded('interview'))
 
             /**
              * Caso retorne o model do profile ou da vaga eu preciso chamar o método

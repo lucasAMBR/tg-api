@@ -14,6 +14,7 @@ use App\Models\DevJobVacancyInterview;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyProcessStep;
 use App\Models\PortfolioSolicitation;
+use App\Services\ScreeningQuestionnaire\ScreeningQuestionnaireService;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
@@ -24,10 +25,13 @@ use Illuminate\Support\Facades\DB;
 class DevJobVacancyService {
 
     /**
-     * Prazo padrão, em dias, para o envio do portfólio quando a empresa não informa
+     * Prazo padrão, em dias, para a entrega do que a próxima etapa pede (o envio do
+     * portfólio, a resposta do questionário de triagem) quando a empresa não informa
      * uma data na virada da etapa
      */
-    private const PORTFOLIO_DUE_DAYS = 7;
+    private const STEP_DUE_DAYS = 7;
+
+    public function __construct(protected ScreeningQuestionnaireService $screeningQuestionnaireService) {}
 
     public function apply(array $data): DevJobVacancyResource {
 
@@ -258,7 +262,9 @@ class DevJobVacancyService {
     private function stepRelations(?string $processStep = null): array {
 
         $relations = [
-            SelectionProcessStageEnum::PORTFOLIO_REVIEW->value => 'portfolioSolicitation'
+            SelectionProcessStageEnum::SCREENING_QUESTIONS->value => 'screeningQuestionnaire',
+            SelectionProcessStageEnum::PORTFOLIO_REVIEW->value => 'portfolioSolicitation',
+            SelectionProcessStageEnum::INTERVIEW->value => 'interview'
         ];
 
         if($processStep === null) {
@@ -294,6 +300,11 @@ class DevJobVacancyService {
      * são aprovadas na etapa e seguem para a próxima, e todas as demais candidaturas
      * em andamento naquela etapa são recusadas.
      *
+     * Quando a próxima etapa exige algo preparado pela empresa que ainda não existe,
+     * as aprovadas param na espera dessa etapa (`awaiting_*`) em vez de entrarem nela.
+     * É o caso das perguntas de triagem sem questionário cadastrado: as candidaturas
+     * ficam em `awaiting_screening_questions` até a empresa montar o formulário.
+     *
      * NOTA: por enquanto o avanço é puramente manual, decidido pela empresa. Novas
      * regras de avanço serão implementadas conforme cada etapa do processo seletivo
      * for melhor desenvolvida (ex.: exigir a correção do teste de proficiência nas
@@ -315,7 +326,28 @@ class DevJobVacancyService {
         }
 
         $currentStep = $jobVacancy->process_step;
+
+        // Etapa que ainda não começou não tem o que avançar: o processo só segue depois
+        // que a empresa prepara o que falta (ex.: cadastrar o questionário de triagem)
+        if($currentStep?->isAwaiting()) {
+            throw new ApiException(
+                "The current step of this vacancy has not started yet!",
+                400,
+                ['process_step' => $currentStep->value]
+            );
+        }
+
         $nextStep = $this->getNextProcessStep($jobVacancy);
+
+        // A etapa de perguntas de triagem só começa com o questionário cadastrado
+        $screeningQuestionnaire = $nextStep === SelectionProcessStageEnum::SCREENING_QUESTIONS
+            ? $this->screeningQuestionnaireService->getVacancyQuestionnaire($jobVacancy)
+            : null;
+
+        // Sem o questionário, as aprovadas ficam aguardando a empresa montar o formulário
+        $startedStep = $nextStep === SelectionProcessStageEnum::SCREENING_QUESTIONS && !$screeningQuestionnaire
+            ? $nextStep->awaitingStage()
+            : $nextStep;
 
         $applies = $jobVacancy->applications()
             ->with(['jobVacancy', 'devProfile'])
@@ -344,12 +376,13 @@ class DevJobVacancyService {
             fn(DevJobVacancy $apply) => in_array($apply->id, $approvedIds, true)
         );
 
-        // Prazo de entrega usado quando a próxima etapa exige o envio do portfólio
+        // Prazo de entrega usado quando a próxima etapa pede algo do dev: o envio do
+        // portfólio ou a resposta do questionário de triagem
         $dueDate = isset($data['due_date'])
             ? Carbon::parse($data['due_date'])
-            : now()->addDays(self::PORTFOLIO_DUE_DAYS);
+            : now()->addDays(self::STEP_DUE_DAYS);
 
-        return DB::transaction(function() use ($jobVacancy, $approved, $rejected, $currentStep, $nextStep, $dueDate) {
+        return DB::transaction(function() use ($jobVacancy, $approved, $rejected, $currentStep, $nextStep, $startedStep, $screeningQuestionnaire, $dueDate) {
 
             // A recusa mantém o passo em que aconteceu
             if($rejected->isNotEmpty()) {
@@ -360,17 +393,23 @@ class DevJobVacancyService {
             if($approved->isNotEmpty()) {
                 DevJobVacancy::whereIn('id', $approved->pluck('id'))->update(
                     // Sem próxima etapa a candidatura chega ao fim do processo aprovada
-                    $nextStep
-                        ? ['process_step' => $nextStep->value]
+                    $startedStep
+                        ? ['process_step' => $startedStep->value]
                         : ['status' => DevJobVacancyStatusEnum::APPROVED->value]
                 );
             }
 
-            if($nextStep) {
-                $jobVacancy->update(['process_step' => $nextStep->value]);
+            if($startedStep) {
+                $jobVacancy->update(['process_step' => $startedStep->value]);
             }
 
             $this->notifyStepAdvance($jobVacancy, $approved, $rejected, $currentStep, $nextStep);
+
+            // As perguntas de triagem começam abrindo o questionário da vaga para cada
+            // aprovado responder até o prazo informado
+            if($screeningQuestionnaire) {
+                $this->screeningQuestionnaireService->createDevQuestionnaires($jobVacancy, $approved, $dueDate);
+            }
 
             // A análise de portfólio começa com a solicitação do portfólio de cada aprovado
             if($nextStep === SelectionProcessStageEnum::PORTFOLIO_REVIEW) {
@@ -384,7 +423,7 @@ class DevJobVacancyService {
             }
 
             return [
-                'process_step' => $nextStep?->value,
+                'process_step' => $startedStep?->value,
                 'approved' => DevJobVacancyResource::collection(
                     DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
                         ->whereIn('id', $approved->pluck('id'))

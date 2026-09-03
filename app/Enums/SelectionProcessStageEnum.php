@@ -23,6 +23,45 @@ enum SelectionProcessStageEnum: string
     case AWAITING_PORTFOLIO_REVIEW = 'awaiting_portfolio_review';
     case PORTFOLIO_REVIEW = 'portfolio_review';
 
+    /**
+     * Prefixo que liga cada etapa à espera pelo início dela
+     */
+    private const AWAITING_PREFIX = 'awaiting_';
+
+    /**
+     * Indica se a etapa é a espera pelo início da etapa em si, ou seja, uma das
+     * `awaiting_*`. É onde as candidaturas ficam enquanto a empresa não prepara o
+     * que a etapa exige (ex.: o questionário das perguntas de triagem)
+     */
+    public function isAwaiting(): bool
+    {
+        return str_starts_with($this->value, self::AWAITING_PREFIX);
+    }
+
+    /**
+     * A etapa em si, sem a espera. Uma etapa que já começou devolve ela mesma
+     */
+    public function startedStage(): self
+    {
+        if(!$this->isAwaiting()) {
+            return $this;
+        }
+
+        return self::tryFrom(substr($this->value, strlen(self::AWAITING_PREFIX))) ?? $this;
+    }
+
+    /**
+     * A espera pelo início da etapa. Uma etapa que já está em espera devolve ela mesma
+     */
+    public function awaitingStage(): self
+    {
+        if($this->isAwaiting()) {
+            return $this;
+        }
+
+        return self::tryFrom(self::AWAITING_PREFIX . $this->value) ?? $this;
+    }
+
     public function label(): string
     {
         return match ($this) {

@@ -5,6 +5,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -19,6 +20,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+
+        /**
+         * A sinalização WebRTC carrega SDP e ICE candidates gerados pelo browser,
+         * que o backend só repassa sem interpretar. O trim padrão do Laravel come o
+         * `\r\n` final do SDP e o outro peer não consegue mais desserializar, então
+         * essa rota passa sem nenhuma transformação do payload
+         */
+        $isInterviewSignal = fn (Request $request) => $request->is('api/dev-vacancy-interview/*/signal');
+
+        $middleware->trimStrings(except: [$isInterviewSignal]);
+        $middleware->convertEmptyStringsToNull(except: [$isInterviewSignal]);
 
     })
     ->withExceptions(function (Exceptions $exceptions): void {

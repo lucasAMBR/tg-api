@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobVacancy extends Model implements Translatable
@@ -142,6 +143,19 @@ class JobVacancy extends Model implements Translatable
 
     public function applications(): HasMany {
         return $this->hasMany(DevJobVacancy::class, 'job_vacancy_id');
+    }
+
+    public function screeningQuestionnaires(): HasMany {
+        return $this->hasMany(ScreeningQuestionnaire::class, 'job_vacancy_id');
+    }
+
+    /**
+     * Questionário de triagem vigente da vaga
+     */
+    public function screeningQuestionnaire(): HasOne {
+        // Ordena em vez de usar latestOfMany(), que desempata com MAX(id) e o Postgres
+        // não tem MAX() para uuid
+        return $this->hasOne(ScreeningQuestionnaire::class, 'job_vacancy_id')->latest('created_at');
     }
 
     /**

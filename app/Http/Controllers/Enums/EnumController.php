@@ -12,6 +12,7 @@ use App\Enums\HardSkillLevelsEnum;
 use App\Enums\OperationalSegmentEnum;
 use App\Enums\QuestionCategoryEnum;
 use App\Enums\SalaryTypeEnum;
+use App\Enums\ScreeningQuestionTypeEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
@@ -186,6 +187,21 @@ class EnumController extends Controller
                 $stacks,
                 "Question category stacks listed with success"
             );
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+    }
+
+    #[Endpoint(operationId: 'enumScreeningQuestionType', title: 'Listar tipos de pergunta de triagem', description: '**operationId:** `enumScreeningQuestionType` — Lista os casos do enum `ScreeningQuestionTypeEnum`, os tipos de pergunta aceitos no questionário de triagem da vaga (`essay`, `single_choice` e `multiple_choice`). Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    public function listScreeningQuestionTypes(): JsonResponse
+    {
+        try {
+            return ApiResponse::success(EnumResource::collection(ScreeningQuestionTypeEnum::cases()), "screening question types listed with success!");
         } catch (ApiException $e) {
             /**
              * @status 400

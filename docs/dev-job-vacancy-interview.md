@@ -24,6 +24,21 @@ transição, o backend cria um `DevJobVacancyInterview` com:
 
 A partir daí é 100% negociação entre dev e empresa via os endpoints abaixo.
 
+### Como o front obtém a entrevista
+
+Não existe endpoint de `index`/`show` de entrevista — ela chega **junto da candidatura**, no campo
+`interview` do `DevJobVacancyResource`, seguindo o mesmo padrão da solicitação de portfólio. A
+relação é carregada só quando a candidatura está na etapa `interview` (mapa `stepRelations()` do
+`DevJobVacancyService`), então o campo aparece em:
+
+- `GET /dev-vacancy/{job_vacancy_id}/step-applies?process_step=interview` — lado **empresa**, as
+  candidaturas paradas na etapa de entrevista daquela vaga
+- `GET /dev-vacancy/my-applies` — lado **dev**, que carrega os dados de todas as etapas de uma vez
+  (a candidatura pode estar em qualquer uma), então basta olhar `interview` nas que estão com
+  `process_step === "interview"`
+
+O `id` usado em todas as rotas do §3 e §4 é o `interview.id` que vem daí.
+
 ---
 
 ## 2. Modelo / `status`

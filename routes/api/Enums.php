@@ -12,6 +12,7 @@ Route::get("/operational-segment", [EnumController::class, 'listOperationalSegme
 Route::get("/dev-specialty", [EnumController::class, 'listDevSpecialties']);
 Route::get("/freelance-job-type", [EnumController::class, 'listFreelanceJobType']);
 Route::get("/salary-type", [EnumController::class, 'listSalaryType']);
+Route::get("/screening-question-type", [EnumController::class, 'listScreeningQuestionTypes']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get("/question-category-stacks", [EnumController::class, 'listQuestionCategoryStacks']);

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\DevJobVacancy;
+namespace App\Http\Requests\ScreeningQuestionnaire;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdvanceStepDevJobVacancyRequest extends FormRequest
+class ShowScreeningQuestionnaireRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,24 +27,6 @@ class AdvanceStepDevJobVacancyRequest extends FormRequest
                 'required',
                 'uuid',
                 'exists:job_vacancies,id'
-            ],
-            // Lista pode vir vazia, o que significa recusar todas as candidaturas da etapa
-            'apply_ids' => [
-                'present',
-                'array'
-            ],
-            'apply_ids.*' => [
-                'required',
-                'uuid',
-                'distinct',
-                'exists:dev_job_vacancy,id'
-            ],
-            // Prazo de entrega usado quando a próxima etapa pede algo do dev: o envio do
-            // portfólio ou a resposta do questionário de triagem
-            'due_date' => [
-                'nullable',
-                'date',
-                'after:today'
             ]
         ];
     }

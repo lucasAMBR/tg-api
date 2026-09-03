@@ -50,7 +50,29 @@ class DevJobVacancy extends Pivot
         return $this->hasOne(PortfolioSolicitation::class, 'dev_job_vacancy_id')->latest('created_at');
     }
 
+    public function screeningQuestionnaires(): HasMany {
+        return $this->hasMany(DevScreeningQuestionnaire::class, 'dev_job_vacancy_id');
+    }
+
+    /**
+     * Preenchimento vigente do questionário de triagem da candidatura
+     */
+    public function screeningQuestionnaire(): HasOne {
+        // Ordena em vez de usar latestOfMany(), que desempata com MAX(id) e o Postgres
+        // não tem MAX() para uuid
+        return $this->hasOne(DevScreeningQuestionnaire::class, 'dev_job_vacancy_id')->latest('created_at');
+    }
+
     public function interviews(): HasMany {
         return $this->hasMany(DevJobVacancyInterview::class, 'dev_job_vacancy_id');
+    }
+
+    /**
+     * Entrevista vigente da candidatura
+     */
+    public function interview(): HasOne {
+        // Ordena em vez de usar latestOfMany(), que desempata com MAX(id) e o Postgres
+        // não tem MAX() para uuid
+        return $this->hasOne(DevJobVacancyInterview::class, 'dev_job_vacancy_id')->latest('created_at');
     }
 }
