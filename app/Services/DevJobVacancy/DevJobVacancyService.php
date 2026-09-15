@@ -188,6 +188,12 @@ class DevJobVacancyService {
         // Só os dados da etapa consultada, ex.: o envio do portfólio na análise de portfólio
         $relations = array_merge(['jobVacancy', 'devProfile'], $this->stepRelations($processStep));
 
+        // A empresa avalia as perguntas de triagem pelas respostas, então elas vêm junto
+        if($processStep === SelectionProcessStageEnum::SCREENING_QUESTIONS->value) {
+            $relations[] = 'screeningQuestionnaire.answers.question';
+            $relations[] = 'screeningQuestionnaire.answers.options';
+        }
+
         $applies = DevJobVacancy::query()->with($relations)
         ->where('job_vacancy_id', $jobVacancy->id)
         ->where('status', DevJobVacancyStatusEnum::IN_PROGRESS)
