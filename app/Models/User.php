@@ -27,6 +27,12 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     protected $keyType = 'string';
 
     /**
+     * Perfis usados pelo UserSimpleResource para exibir o nome do autor.
+     * Carregue junto com o usuário para evitar N+1 em listagens.
+     */
+    public const PROFILE_RELATIONS = ['dev_profile', 'company_profile', 'client_profile', 'admin_profile'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -117,6 +123,16 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public function admin_profile(): HasOne
     {
         return $this->hasOne(AdminProfile::class);
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function favoritePosts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'favorite_posts')->withTimestamps();
     }
 
     public function getJWTIdentifier()

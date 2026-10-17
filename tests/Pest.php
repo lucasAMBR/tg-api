@@ -26,6 +26,11 @@ function createUserWithRole(string $role): User
 
 function actingAsApi(User $user): array
 {
+    // O guard e o jwt-auth guardam o usuário/token da requisição anterior dentro
+    // do mesmo teste; sem isso, trocar de usuário entre requisições não tem efeito.
+    auth()->forgetGuards();
+    app('tymon.jwt')->unsetToken();
+
     $token = JWTAuth::fromUser($user);
 
     return ['Authorization' => "Bearer {$token}"];

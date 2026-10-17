@@ -53,4 +53,10 @@ Route::prefix('search')->group(base_path('routes/api/Search.php'));
 
 Route::prefix('recommendation')->group(base_path('routes/api/Recommendation.php'));
 
+Route::prefix('post')->group(base_path('routes/api/Post.php'));
+
+Route::prefix('comment')->group(base_path('routes/api/Comment.php'));
+
+Route::prefix('like')->group(base_path('routes/api/Like.php'));
+
 Broadcast::routes(['middleware' => ['auth:api']]);

@@ -42,7 +42,15 @@ class RoleSeeder extends Seeder
             'address.view',
             'address.create',
             'address.update',
-            'address.delete'
+            'address.delete',
+            'post.view',
+            'post.create',
+            'post.update',
+            'post.delete',
+            'comment.view',
+            'comment.create',
+            'comment.update',
+            'comment.delete',
         ]);
 
         $companyRole = Role::firstOrCreate([
@@ -75,7 +83,15 @@ class RoleSeeder extends Seeder
             'company_job_vacancy.view',
             'company_job_vacancy.delete',
             'company_job_vacancy.update',
-            'proficiency_test.view'
+            'proficiency_test.view',
+            'post.view',
+            'post.create',
+            'post.update',
+            'post.delete',
+            'comment.view',
+            'comment.create',
+            'comment.update',
+            'comment.delete',
         ]);
 
         $devRole = Role::firstOrCreate([
@@ -121,6 +137,14 @@ class RoleSeeder extends Seeder
             'proficiency_test.solicitate',
             'proficiency_test.view',
             'proficiency_test.submit',
+            'post.view',
+            'post.create',
+            'post.update',
+            'post.delete',
+            'comment.view',
+            'comment.create',
+            'comment.update',
+            'comment.delete',
         ]);
     }
 }

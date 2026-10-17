@@ -101,6 +101,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'administration.dashboard', 'guard_name' => 'api'],
 
             ['name' => 'user.block', 'guard_name' => 'api'],
+
+            ['name' => 'post.view', 'guard_name' => 'api'],
+            ['name' => 'post.create', 'guard_name' => 'api'],
+            ['name' => 'post.update', 'guard_name' => 'api'],
+            ['name' => 'post.delete', 'guard_name' => 'api'],
+
+            ['name' => 'comment.view', 'guard_name' => 'api'],
+            ['name' => 'comment.create', 'guard_name' => 'api'],
+            ['name' => 'comment.update', 'guard_name' => 'api'],
+            ['name' => 'comment.delete', 'guard_name' => 'api'],
         ]);
 
         foreach($permissions as $permission){

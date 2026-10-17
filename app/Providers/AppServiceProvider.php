@@ -27,7 +27,9 @@ class AppServiceProvider extends ServiceProvider
             'developer' => \App\Models\DevProfile::class,
             'company' => \App\Models\CompanyProfile::class,
             'client' => \App\Models\ClientProfile::class,
-            'admin' => \App\Models\AdminProfile::class
+            'admin' => \App\Models\AdminProfile::class,
+            'post' => \App\Models\Post::class,
+            'comment' => \App\Models\Comment::class,
         ]);
     }
 }
