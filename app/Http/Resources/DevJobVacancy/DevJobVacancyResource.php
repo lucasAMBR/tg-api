@@ -3,7 +3,10 @@
 namespace App\Http\Resources\DevJobVacancy;
 
 use App\Http\Resources\DevJobVacancyInterview\DevJobVacancyInterviewResource;
+use App\Http\Resources\DevJobVacancyLiveCoding\DevJobVacancyLiveCodingResource;
+use App\Http\Resources\DevLanguageAssessment\DevLanguageAssessmentResource;
 use App\Http\Resources\DevScreeningQuestionnaire\DevScreeningQuestionnaireResource;
+use App\Http\Resources\DevTechnicalChallenge\DevTechnicalChallengeResource;
 use App\Http\Resources\JobVacancy\JobVacancyResource;
 use App\Http\Resources\PortfolioSolicitation\PortfolioSolicitationResource;
 use App\Http\Resources\Profiles\DevProfile\DevProfileResource;
@@ -47,7 +50,19 @@ class DevJobVacancyResource extends JsonResource
             /**
              * Entrevista da candidatura, carregada na etapa de entrevista
              */
-            'interview' => new DevJobVacancyInterviewResource($this->whenLoaded('interview'))
+            'interview' => new DevJobVacancyInterviewResource($this->whenLoaded('interview')),
+            /**
+             * Entrega do desafio técnico da candidatura, carregada na etapa de desafio técnico
+             */
+            'technical_challenge' => new DevTechnicalChallengeResource($this->whenLoaded('technicalChallenge')),
+            /**
+             * Live coding da candidatura, carregado na etapa de live coding
+             */
+            'live_coding' => new DevJobVacancyLiveCodingResource($this->whenLoaded('liveCoding')),
+            /**
+             * Prova de idioma da candidatura, carregada na etapa de avaliação de idioma
+             */
+            'language_assessment' => new DevLanguageAssessmentResource($this->whenLoaded('languageAssessment'))
 
             /**
              * Caso retorne o model do profile ou da vaga eu preciso chamar o método

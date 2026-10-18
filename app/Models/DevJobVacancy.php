@@ -63,6 +63,45 @@ class DevJobVacancy extends Pivot
         return $this->hasOne(DevScreeningQuestionnaire::class, 'dev_job_vacancy_id')->latest('created_at');
     }
 
+    public function technicalChallenges(): HasMany {
+        return $this->hasMany(DevTechnicalChallenge::class, 'dev_job_vacancy_id');
+    }
+
+    /**
+     * Entrega vigente do desafio técnico da candidatura
+     */
+    public function technicalChallenge(): HasOne {
+        // Ordena em vez de usar latestOfMany(), que desempata com MAX(id) e o Postgres
+        // não tem MAX() para uuid
+        return $this->hasOne(DevTechnicalChallenge::class, 'dev_job_vacancy_id')->latest('created_at');
+    }
+
+    public function languageAssessments(): HasMany {
+        return $this->hasMany(DevLanguageAssessment::class, 'dev_job_vacancy_id');
+    }
+
+    /**
+     * Prova de idioma vigente da candidatura
+     */
+    public function languageAssessment(): HasOne {
+        // Ordena em vez de usar latestOfMany(), que desempata com MAX(id) e o Postgres
+        // não tem MAX() para uuid
+        return $this->hasOne(DevLanguageAssessment::class, 'dev_job_vacancy_id')->latest('created_at');
+    }
+
+    public function liveCodings(): HasMany {
+        return $this->hasMany(DevJobVacancyLiveCoding::class, 'dev_job_vacancy_id');
+    }
+
+    /**
+     * Live coding vigente da candidatura
+     */
+    public function liveCoding(): HasOne {
+        // Ordena em vez de usar latestOfMany(), que desempata com MAX(id) e o Postgres
+        // não tem MAX() para uuid
+        return $this->hasOne(DevJobVacancyLiveCoding::class, 'dev_job_vacancy_id')->latest('created_at');
+    }
+
     public function interviews(): HasMany {
         return $this->hasMany(DevJobVacancyInterview::class, 'dev_job_vacancy_id');
     }

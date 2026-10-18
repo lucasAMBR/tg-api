@@ -41,13 +41,21 @@ Route::prefix('portfolio-solicitation')->group(base_path('routes/api/PortfolioSo
 
 Route::prefix('dev-vacancy-interview')->group(base_path('routes/api/DevJobVacancyInterview.php'));
 
+Route::prefix('dev-vacancy-live-coding')->group(base_path('routes/api/DevJobVacancyLiveCoding.php'));
+
+Route::prefix('language-assessment')->group(base_path('routes/api/LanguageAssessment.php'));
+
 Route::prefix('screening-questionnaire')->group(base_path('routes/api/ScreeningQuestionnaire.php'));
+
+Route::prefix('technical-challenge')->group(base_path('routes/api/TechnicalChallenge.php'));
 
 Route::prefix('question')->group(base_path('routes/api/Question.php'));
 
 Route::prefix('proficiency-test')->group(base_path('routes/api/ProficiencyTest.php'));
 
 Route::prefix('notification')->group(base_path('routes/api/Notification.php'));
+
+Route::prefix('chat')->group(base_path('routes/api/Chat.php'));
 
 Route::prefix('search')->group(base_path('routes/api/Search.php'));
 

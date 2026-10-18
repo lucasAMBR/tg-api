@@ -11,10 +11,18 @@ use App\Http\Resources\DevJobVacancy\DevJobVacancyCollection;
 use App\Http\Resources\DevJobVacancy\DevJobVacancyResource;
 use App\Models\DevJobVacancy;
 use App\Models\DevJobVacancyInterview;
+use App\Models\DevJobVacancyLiveCoding;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyProcessStep;
+use App\Models\LanguageAssessment;
 use App\Models\PortfolioSolicitation;
+use App\Models\ScreeningQuestionnaire;
+use App\Models\TechnicalChallenge;
+use App\Services\Chat\ChatService;
+use App\Services\DevJobVacancyLiveCoding\DevJobVacancyLiveCodingService;
+use App\Services\LanguageAssessment\LanguageAssessmentService;
 use App\Services\ScreeningQuestionnaire\ScreeningQuestionnaireService;
+use App\Services\TechnicalChallenge\TechnicalChallengeService;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
@@ -31,7 +39,13 @@ class DevJobVacancyService {
      */
     private const STEP_DUE_DAYS = 7;
 
-    public function __construct(protected ScreeningQuestionnaireService $screeningQuestionnaireService) {}
+    public function __construct(
+        protected ScreeningQuestionnaireService $screeningQuestionnaireService,
+        protected TechnicalChallengeService $technicalChallengeService,
+        protected DevJobVacancyLiveCodingService $devJobVacancyLiveCodingService,
+        protected LanguageAssessmentService $languageAssessmentService,
+        protected ChatService $chatService
+    ) {}
 
     public function apply(array $data): DevJobVacancyResource {
 
@@ -261,6 +275,10 @@ class DevJobVacancyService {
      * Relações com os dados próprios de cada etapa do processo seletivo. Sem passo
      * informado devolve todas, para acompanhar candidaturas em etapas diferentes.
      *
+     * A espera de uma etapa carrega os mesmos dados dela: é justamente onde a empresa
+     * prepara o que falta para a etapa começar (ex.: escrever o exercício do live
+     * coding de cada candidatura parada em `awaiting_live_coding`)
+     *
      * NOTA: cada nova etapa que passar a ter dados próprios entra nesse mapa
      *
      * @return array<int, string>
@@ -270,14 +288,19 @@ class DevJobVacancyService {
         $relations = [
             SelectionProcessStageEnum::SCREENING_QUESTIONS->value => 'screeningQuestionnaire',
             SelectionProcessStageEnum::PORTFOLIO_REVIEW->value => 'portfolioSolicitation',
-            SelectionProcessStageEnum::INTERVIEW->value => 'interview'
+            SelectionProcessStageEnum::INTERVIEW->value => 'interview',
+            SelectionProcessStageEnum::TECHNICAL_CHALLENGE->value => 'technicalChallenge',
+            SelectionProcessStageEnum::LIVE_CODING->value => 'liveCoding',
+            SelectionProcessStageEnum::LANGUAGE_ASSESSMENT->value => 'languageAssessment'
         ];
 
         if($processStep === null) {
             return array_values($relations);
         }
 
-        return isset($relations[$processStep]) ? [$relations[$processStep]] : [];
+        $stage = SelectionProcessStageEnum::tryFrom($processStep)?->startedStage()->value;
+
+        return isset($relations[$stage]) ? [$relations[$stage]] : [];
 
     }
 
@@ -308,8 +331,10 @@ class DevJobVacancyService {
      *
      * Quando a próxima etapa exige algo preparado pela empresa que ainda não existe,
      * as aprovadas param na espera dessa etapa (`awaiting_*`) em vez de entrarem nela.
-     * É o caso das perguntas de triagem sem questionário cadastrado: as candidaturas
-     * ficam em `awaiting_screening_questions` até a empresa montar o formulário.
+     * É o caso das perguntas de triagem sem questionário cadastrado, do desafio
+     * técnico sem desafio cadastrado, do live coding sem o exercício publicado e da
+     * avaliação de idioma sem a prova cadastrada: as candidaturas ficam na espera da
+     * etapa (`awaiting_*`) até a empresa cadastrar o que falta.
      *
      * NOTA: por enquanto o avanço é puramente manual, decidido pela empresa. Novas
      * regras de avanço serão implementadas conforme cada etapa do processo seletivo
@@ -350,10 +375,15 @@ class DevJobVacancyService {
             ? $this->screeningQuestionnaireService->getVacancyQuestionnaire($jobVacancy)
             : null;
 
-        // Sem o questionário, as aprovadas ficam aguardando a empresa montar o formulário
-        $startedStep = $nextStep === SelectionProcessStageEnum::SCREENING_QUESTIONS && !$screeningQuestionnaire
-            ? $nextStep->awaitingStage()
-            : $nextStep;
+        // A etapa de desafio técnico só começa com o desafio cadastrado
+        $technicalChallenge = $nextStep === SelectionProcessStageEnum::TECHNICAL_CHALLENGE
+            ? $this->technicalChallengeService->getVacancyChallenge($jobVacancy)
+            : null;
+
+        // A etapa de avaliação de idioma só começa com a prova cadastrada
+        $languageAssessment = $nextStep === SelectionProcessStageEnum::LANGUAGE_ASSESSMENT
+            ? $this->languageAssessmentService->getVacancyAssessment($jobVacancy)
+            : null;
 
         $applies = $jobVacancy->applications()
             ->with(['jobVacancy', 'devProfile'])
@@ -382,13 +412,26 @@ class DevJobVacancyService {
             fn(DevJobVacancy $apply) => in_array($apply->id, $approvedIds, true)
         );
 
+        // O live coding só começa com o exercício de cada aprovado publicado. Diferente
+        // das outras etapas o pré-requisito é por candidatura, então precisa dos
+        // aprovados em mãos — e no primeiro avanço nunca está pronto, porque os
+        // registros de live coding só nascem aqui dentro, sem enunciado
+        $liveCodingExercisesPublished = $nextStep === SelectionProcessStageEnum::LIVE_CODING
+            && $this->devJobVacancyLiveCodingService->exercisesArePublished($approved);
+
+        // Sem o que a etapa exige, as aprovadas ficam aguardando a empresa preparar o
+        // que falta em vez de entrarem na etapa
+        $startedStep = $this->stepIsMissingRequirement($nextStep, $screeningQuestionnaire, $technicalChallenge, $liveCodingExercisesPublished, $languageAssessment)
+            ? $nextStep->awaitingStage()
+            : $nextStep;
+
         // Prazo de entrega usado quando a próxima etapa pede algo do dev: o envio do
         // portfólio ou a resposta do questionário de triagem
         $dueDate = isset($data['due_date'])
             ? Carbon::parse($data['due_date'])
             : now()->addDays(self::STEP_DUE_DAYS);
 
-        return DB::transaction(function() use ($jobVacancy, $approved, $rejected, $currentStep, $nextStep, $startedStep, $screeningQuestionnaire, $dueDate) {
+        return DB::transaction(function() use ($jobVacancy, $approved, $rejected, $currentStep, $nextStep, $startedStep, $screeningQuestionnaire, $technicalChallenge, $languageAssessment, $dueDate) {
 
             // A recusa mantém o passo em que aconteceu
             if($rejected->isNotEmpty()) {
@@ -411,10 +454,28 @@ class DevJobVacancyService {
 
             $this->notifyStepAdvance($jobVacancy, $approved, $rejected, $currentStep, $nextStep);
 
+            // No fim do processo a empresa já manda uma mensagem no chat para cada
+            // aprovado, avisando que vai entrar em contato para a contratação
+            if(!$nextStep) {
+                $this->sendHiringMessages($jobVacancy, $approved);
+            }
+
             // As perguntas de triagem começam abrindo o questionário da vaga para cada
             // aprovado responder até o prazo informado
             if($screeningQuestionnaire) {
                 $this->screeningQuestionnaireService->createDevQuestionnaires($jobVacancy, $approved, $dueDate);
+            }
+
+            // O desafio técnico começa abrindo a entrega do desafio da vaga para cada
+            // aprovado resolver até o prazo definido pela empresa no enunciado
+            if($technicalChallenge) {
+                $this->technicalChallengeService->createDevChallenges($jobVacancy, $approved, $dueDate);
+            }
+
+            // A avaliação de idioma começa abrindo a prova da vaga para cada aprovado
+            // responder até o prazo definido pela empresa no formulário
+            if($languageAssessment) {
+                $this->languageAssessmentService->createDevAssessments($jobVacancy, $approved, $dueDate);
             }
 
             // A análise de portfólio começa com a solicitação do portfólio de cada aprovado
@@ -426,6 +487,15 @@ class DevJobVacancyService {
             // cada aprovado, que depois será usado pra negociar o horário e realizar a call
             if($nextStep === SelectionProcessStageEnum::INTERVIEW) {
                 $this->createInterviews($jobVacancy, $approved);
+            }
+
+            // O live coding segue o mesmo desenho da entrevista: o registro de cada
+            // aprovado nasce aqui e depois é usado pra publicar o exercício, negociar
+            // o horário e realizar a call. Os registros são criados mesmo quando a
+            // etapa para na espera — é neles que a empresa escreve o enunciado que
+            // destrava o `awaiting_live_coding`
+            if($nextStep === SelectionProcessStageEnum::LIVE_CODING) {
+                $this->createLiveCodings($jobVacancy, $approved);
             }
 
             return [
@@ -505,6 +575,33 @@ class DevJobVacancyService {
     }
 
     /**
+     * Cria o registro de live coding de cada candidatura que avançou para a etapa de
+     * live coding, com um título automático, sem exercício e sem horário definidos
+     * ainda. É esse registro que vai ser usado para publicar o enunciado, negociar o
+     * horário com o dev e, depois, realizar a call
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $approved
+     */
+    private function createLiveCodings(JobVacancy $jobVacancy, Collection $approved): void {
+
+        $companyName = $jobVacancy->companyProfile?->name;
+
+        foreach($approved as $application) {
+
+            // Um único registro de live coding por candidatura, mesmo que a etapa seja reprocessada
+            DevJobVacancyLiveCoding::firstOrCreate(
+                ['dev_job_vacancy_id' => $application->id],
+                [
+                    'job_vacancy_id' => $jobVacancy->id,
+                    'title' => "Live coding - {$application->devProfile?->name} e {$companyName} - {$jobVacancy->title}"
+                ]
+            );
+
+        }
+
+    }
+
+    /**
      * Avisa cada desenvolvedor sobre o resultado da etapa: os aprovados recebem a
      * próxima etapa que vai se iniciar (ou a aprovação final, quando não há próxima)
      * e os eliminados são avisados de que não seguem no processo seletivo
@@ -548,6 +645,59 @@ class DevJobVacancyService {
             ]);
 
         }
+
+    }
+
+    /**
+     * Envia, em nome da empresa, a mensagem automática no chat de cada desenvolvedor
+     * aprovado no processo seletivo
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $approved
+     */
+    private function sendHiringMessages(JobVacancy $jobVacancy, Collection $approved): void {
+
+        $companyUserId = Auth::id();
+
+        foreach($approved as $application) {
+
+            $devProfile = $application->devProfile;
+
+            if(!$devProfile) {
+                continue;
+            }
+
+            $this->chatService->sendAutomaticMessage(
+                $companyUserId,
+                $devProfile->user_id,
+                "Olá, {$devProfile->name}! Parabéns pela aprovação no processo seletivo da vaga {$jobVacancy->title}! Em breve entraremos em contato para alinhar a documentação e os próximos passos da sua contratação."
+            );
+
+        }
+
+    }
+
+    /**
+     * Indica se a próxima etapa exige algo preparado pela empresa que ainda não existe.
+     * Nesse caso as candidaturas aprovadas param na espera da etapa (`awaiting_*`) até
+     * o cadastro ser feito: é o caso das perguntas de triagem sem questionário, do
+     * desafio técnico sem desafio, do live coding sem o exercício de cada aprovado e
+     * da avaliação de idioma sem a prova
+     */
+    private function stepIsMissingRequirement(
+        ?SelectionProcessStageEnum $nextStep,
+        ?ScreeningQuestionnaire $screeningQuestionnaire,
+        ?TechnicalChallenge $technicalChallenge,
+        bool $liveCodingExercisesPublished,
+        ?LanguageAssessment $languageAssessment
+    ): bool {
+
+        return match ($nextStep) {
+            SelectionProcessStageEnum::SCREENING_QUESTIONS => !$screeningQuestionnaire,
+            SelectionProcessStageEnum::TECHNICAL_CHALLENGE => !$technicalChallenge,
+            SelectionProcessStageEnum::LIVE_CODING => !$liveCodingExercisesPublished,
+            SelectionProcessStageEnum::LANGUAGE_ASSESSMENT => !$languageAssessment,
+            default => false
+        };
 
     }
 

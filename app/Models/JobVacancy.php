@@ -158,6 +158,32 @@ class JobVacancy extends Model implements Translatable
         return $this->hasOne(ScreeningQuestionnaire::class, 'job_vacancy_id')->latest('created_at');
     }
 
+    public function technicalChallenges(): HasMany {
+        return $this->hasMany(TechnicalChallenge::class, 'job_vacancy_id');
+    }
+
+    /**
+     * Desafio técnico vigente da vaga
+     */
+    public function technicalChallenge(): HasOne {
+        // Ordena em vez de usar latestOfMany(), que desempata com MAX(id) e o Postgres
+        // não tem MAX() para uuid
+        return $this->hasOne(TechnicalChallenge::class, 'job_vacancy_id')->latest('created_at');
+    }
+
+    public function languageAssessments(): HasMany {
+        return $this->hasMany(LanguageAssessment::class, 'job_vacancy_id');
+    }
+
+    /**
+     * Prova de idioma vigente da vaga
+     */
+    public function languageAssessment(): HasOne {
+        // Ordena em vez de usar latestOfMany(), que desempata com MAX(id) e o Postgres
+        // não tem MAX() para uuid
+        return $this->hasOne(LanguageAssessment::class, 'job_vacancy_id')->latest('created_at');
+    }
+
     /**
      * Indica se a vaga ainda recebe novas candidaturas
      */

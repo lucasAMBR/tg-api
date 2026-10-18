@@ -37,6 +37,11 @@ class UserResource extends JsonResource
             'role' => $this->roleNames(),
             'admin_active_profile' => $this->admin_active_profile,
             'is_blocked' => (bool) $this->is_blocked,
+            /**
+             * Confirmação de leitura do chat. Desligada, quem mandou a mensagem não fica
+             * sabendo que o usuário leu, e o usuário também deixa de ver a leitura dos outros
+             */
+            'read_receipts_enabled' => (bool) $this->read_receipts_enabled,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

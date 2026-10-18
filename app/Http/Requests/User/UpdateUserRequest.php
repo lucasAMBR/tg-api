@@ -69,6 +69,11 @@ class UpdateUserRequest extends FormRequest
                 'mimes:jpeg,jpg,png,webp',
                 'max:10000'
             ],
+            // Confirmação de leitura do chat (ver ChatMessage::readAtFor)
+            'read_receipts_enabled' => [
+                'sometimes',
+                'boolean'
+            ],
         ];
     }
 

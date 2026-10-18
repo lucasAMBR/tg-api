@@ -41,7 +41,15 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'email',
         'admin_active_profile',
         'password',
-        'is_blocked'
+        'is_blocked',
+        'read_receipts_enabled'
+    ];
+
+    /**
+     * Mesmo default da coluna, para o model recém-criado (ainda sem refresh) já ter o valor
+     */
+    protected $attributes = [
+        'read_receipts_enabled' => true,
     ];
 
     protected $appends = ['profile_pic'];
@@ -69,6 +77,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_blocked' => 'boolean',
+            'read_receipts_enabled' => 'boolean',
         ];
     }
 
