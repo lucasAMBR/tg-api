@@ -22,7 +22,7 @@ class PostController extends Controller
 {
     public function __construct(protected PostService $postService){}
 
-    #[Endpoint(operationId: 'indexPost', title: 'Listar feed de postagens', description: '**operationId:** `indexPost` — Feed paginado de postagens, das mais recentes para as mais antigas, com autor, imagens, contadores de curtidas/comentários/favoritos e se o usuário autenticado curtiu/favoritou. Filtros opcionais por `user_id` e `search` (busca no conteúdo). Em **200**, `data.data[]` segue o schema **Post Resource** (`App\\Http\\Resources\\Post\\PostResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'indexPost', title: 'Listar feed de postagens', description: '**operationId:** `indexPost` — Feed paginado de postagens, com autor, imagens, contadores de curtidas/comentários/favoritos e se o usuário autenticado curtiu/favoritou. Filtros opcionais por `user_id` e `search` (busca no conteúdo). O parâmetro `sort` define a ordenação: `recent` (padrão) traz das mais recentes para as mais antigas e `popular` traz das com mais engajamento para as com menos, pontuando cada postagem por comentários (peso 3), favoritos (peso 2) e curtidas (peso 1), com a data mais recente como critério de desempate. Em **200**, `data.data[]` segue o schema **Post Resource** (`App\\Http\\Resources\\Post\\PostResource`) e `data.pagination` traz os metadados de paginação.')]
     public function index(IndexPostRequest $request): JsonResponse
     {
         try {

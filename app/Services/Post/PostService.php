@@ -16,12 +16,20 @@ class PostService
 {
     private const MAX_IMAGES = 10;
 
+    /** Pesos do score de popularidade: comentar engaja mais do que curtir. */
+    private const POPULARITY_WEIGHTS = [
+        'likes' => 1,
+        'comments' => 3,
+        'favorites' => 2,
+    ];
+
     public function index(array $data): PostCollection
     {
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
         $search = $data['search'] ?? null;
         $userId = $data['user_id'] ?? null;
+        $sort = $data['sort'] ?? 'recent';
 
         $posts = $this->query()
             ->when($userId, function (Builder $query, $userId) {
@@ -30,7 +38,11 @@ class PostService
             ->when($search, function (Builder $query, $search) {
                 $query->where('content', 'ILIKE', "%{$search}%");
             })
-            ->latest()
+            ->when(
+                $sort === 'popular',
+                fn (Builder $query) => $this->orderByPopularity($query),
+                fn (Builder $query) => $query->latest(),
+            )
             ->paginate($perPage, ['*'], 'page', $page);
 
         return new PostCollection($posts);
@@ -169,6 +181,37 @@ class PostService
                     $query->where('users.id', $userId);
                 },
             ]);
+    }
+
+    /**
+     * Das postagens com mais engajamento para as com menos. O score entra como
+     * subconsulta com alias próprio porque o Postgres não aceita o alias de um
+     * `withCount` dentro de uma expressão no ORDER BY — só como nome isolado.
+     *
+     * A data desempata, então postagens sem nenhum engajamento continuam saindo
+     * da mais recente para a mais antiga e a paginação não embaralha.
+     */
+    private function orderByPopularity(Builder $query): Builder
+    {
+        $weights = self::POPULARITY_WEIGHTS;
+
+        return $query
+            ->selectRaw(
+                '(
+                    (select count(*) from likes
+                        where likes.likeable_type = ? and likes.likeable_id = posts.id) * ?
+                    + (select count(*) from comments where comments.post_id = posts.id) * ?
+                    + (select count(*) from favorite_posts where favorite_posts.post_id = posts.id) * ?
+                ) as popularity_score',
+                [
+                    (new Post)->getMorphClass(),
+                    $weights['likes'],
+                    $weights['comments'],
+                    $weights['favorites'],
+                ],
+            )
+            ->orderByDesc('popularity_score')
+            ->latest();
     }
 
     private function ensureAbility(string $ability, Post $post): void
