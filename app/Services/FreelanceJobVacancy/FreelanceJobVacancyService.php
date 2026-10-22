@@ -4,6 +4,7 @@ namespace App\Services\FreelanceJobVacancy;
 
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
+use App\Http\Resources\FreelanceJobVacancy\FreelanceJobVacancyCollection;
 use App\Jobs\GenerateFreelanceJobVacancyEmbeddingJob;
 use App\Models\FreelanceJobVacancy;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class FreelanceJobVacancyService
 {
-    public function index(array $data)
+    public function index(array $data): FreelanceJobVacancyCollection
     {
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 15;
@@ -22,7 +23,7 @@ class FreelanceJobVacancyService
         $seniorityLevel = $data['seniority_level'] ?? null;
         $onlyMine = $data['only_mine'] ?? false;
 
-        return FreelanceJobVacancy::query()
+        $freelanceJobVacancies = FreelanceJobVacancy::query()
             ->with('languages', 'clientProfile')
             ->when($search, function (Builder $query, $search) {
                 $query->where(function (Builder $q) use ($search) {
@@ -46,6 +47,8 @@ class FreelanceJobVacancyService
                 'page',
                 $page
             );
+
+        return new FreelanceJobVacancyCollection($freelanceJobVacancies);
     }
 
     public function store(array $data)

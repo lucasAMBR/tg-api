@@ -19,14 +19,14 @@ class FreelanceJobVacancyController extends Controller
 {
     public function __construct(protected FreelanceJobVacancyService $freelanceJobVacancy) {}
 
-    #[Endpoint(operationId: 'indexFreelanceJobVacancy', title: 'Listar vagas freelance', description: '**operationId:** `indexFreelanceJobVacancy` — Lista paginada das vagas freelance publicadas por clientes, com `languages` e `clientProfile` carregados. Aceita os filtros opcionais `search` (busca em `title`, `job_type`, `seniority_level` e nos nomes das linguagens vinculadas), `job_type`, `seniority_level` e `only_mine` (restringe às vagas do cliente autenticado). Em **200**, `data[]` segue o schema **Freelance Job Vacancy Resource** (`App\\Http\\Resources\\FreelanceJobVacancy\\FreelanceJobVacancyResource`).')]
+    #[Endpoint(operationId: 'indexFreelanceJobVacancy', title: 'Listar vagas freelance', description: '**operationId:** `indexFreelanceJobVacancy` — Lista paginada das vagas freelance publicadas por clientes, com `languages` e `clientProfile` carregados. Aceita os filtros opcionais `search` (busca em `title`, `job_type`, `seniority_level` e nos nomes das linguagens vinculadas), `job_type`, `seniority_level` e `only_mine` (restringe às vagas do cliente autenticado). Em **200**, `data.data[]` segue o schema **Freelance Job Vacancy Resource** (`App\\Http\\Resources\\FreelanceJobVacancy\\FreelanceJobVacancyResource`) e `data.pagination` traz os metadados de paginação.')]
     public function index(IndexFreelanceJobVacancyRequest $request): JsonResponse
     {
         try {
             $data = $this->freelanceJobVacancy->index($request->validated());
 
             return ApiResponse::success(
-                FreelanceJobVacancyResource::collection($data),
+                $data,
                 'Freelance job vacancies indexed with success!',
                 200
             );
