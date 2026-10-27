@@ -23,7 +23,7 @@ class RecommendationDevsForFreelanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'freelance_job_vacancy_id' => ['required', 'uuid', 'exists:freelance_job_vacancies,id'],
+            'freelance_job_vacancy_id' => ['required', 'uuid', 'exists:freelance_job_vacancies,id,deleted_at,NULL'],
             'limit' => ['nullable', 'integer', 'min:1', 'max:50'],
             'min_similarity' => ['nullable', 'numeric', 'min:0', 'max:1']
         ];

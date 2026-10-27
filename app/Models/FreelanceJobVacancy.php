@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Enums\FreelanceJobTypeEnum;
-use App\Enums\SalaryTypeEnum;
+use App\Enums\FreelanceJobVacancyStatusEnum;
+use App\Enums\FreelanceProposalStatusEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Traits\HasUuidV7;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FreelanceJobVacancy extends Model
@@ -22,11 +25,20 @@ class FreelanceJobVacancy extends Model
         'title',
         'description',
         'job_type',
-        'salary_type',
-        'estimated_salary',
+        'budget',
+        'status',
+        'contracted_at',
+        'completed_at',
         'client_profile_id',
         'specialties',
         'seniority_level'
+    ];
+
+    /**
+     * Mesmo default da coluna, para o model recém-criado (ainda sem refresh) já ter o status
+     */
+    protected $attributes = [
+        'status' => FreelanceJobVacancyStatusEnum::OPEN->value
     ];
 
     protected function casts(): array
@@ -35,12 +47,19 @@ class FreelanceJobVacancy extends Model
             'title' => 'string',
             'description' => 'string',
             'job_type' => FreelanceJobTypeEnum::class,
-            'salary_type' => SalaryTypeEnum::class,
-            'estimated_salary' => 'decimal:2',
+            'budget' => 'decimal:2',
+            'status' => FreelanceJobVacancyStatusEnum::class,
+            'contracted_at' => 'datetime',
+            'completed_at' => 'datetime',
             'client_profile_id' => 'string',
             'specialties' => 'array',
             'seniority_level' => SeniorityLevelEnum::class
         ];
+    }
+
+    public function acceptsProposals(): bool
+    {
+        return $this->status?->acceptsProposals() ?? false;
     }
 
     public function languages(): BelongsToMany
@@ -58,5 +77,34 @@ class FreelanceJobVacancy extends Model
     public function clientProfile(): BelongsTo
     {
         return $this->belongsTo(ClientProfile::class);
+    }
+
+    public function proposals(): HasMany
+    {
+        return $this->hasMany(FreelanceProposal::class);
+    }
+
+    /**
+     * O orçamento escolhido pelo cliente, que fechou o contrato do freela
+     */
+    public function acceptedProposal(): HasOne
+    {
+        return $this->hasOne(FreelanceProposal::class)
+            ->where('status', FreelanceProposalStatusEnum::ACCEPTED);
+    }
+
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(FreelanceInvitation::class);
+    }
+
+    public function feedPosts(): HasMany
+    {
+        return $this->hasMany(FreelanceFeedPost::class);
+    }
+
+    public function embedding(): HasOne
+    {
+        return $this->hasOne(FreelanceJobVacancyEmbedding::class);
     }
 }

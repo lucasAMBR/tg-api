@@ -1,36 +1,56 @@
-FROM php:8.4-fpm
+# Imagem de produção (Coolify): nginx + php-fpm + Horizon + Reverb no mesmo
+# container, gerenciados pelo supervisord. Banco, Redis, LibreTranslate e afins
+# ficam de fora, como serviços separados.
+# Para desenvolvimento local, o docker-compose usa o Dockerfile.dev.
 
-# UID/GID do usuário do host, para que os arquivos criados dentro do
-# container (migrations, cache, vendor...) pertençam ao seu usuário.
-ARG UID=1000
-ARG GID=1000
+FROM php:8.4-fpm-alpine AS base
 
-# Instala dependências do sistema e libexif necessária para a extensão exif
-RUN apt-get update && apt-get install -y git unzip libpq-dev libzip-dev libexif-dev
+# Instala as extensões já com as libs de runtime certas (gd com jpeg/webp para as
+# conversões de mídia, pcntl/redis para o Horizon)
+COPY --from=mlocati/php-extension-installer:2 /usr/bin/install-php-extensions /usr/local/bin/
 
-# Instala as extensões PHP (Adicionado 'exif' na lista)
-RUN docker-php-ext-install pdo pdo_pgsql zip pcntl exif && pecl install redis && docker-php-ext-enable redis
+RUN apk add --no-cache nginx supervisor su-exec \
+    && install-php-extensions pdo_pgsql redis zip pcntl exif gd opcache
 
-# Limites de upload (a imagem base usa 2M/8M, menor que o permitido na validação)
-COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-# Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY docker/php/uploads.ini docker/php/opcache.ini "$PHP_INI_DIR/conf.d/"
+COPY docker/php/fpm-pool.conf /usr/local/etc/php-fpm.d/zzz-app.conf
 
-# Cria o usuário "app" espelhando o UID/GID do host.
-# A imagem php-fpm já traz www-data com uid 33; se o UID/GID pedido já
-# existir, apenas reaproveitamos o usuário/grupo existente.
-RUN if ! getent group "${GID}" > /dev/null; then groupadd -g "${GID}" app; fi \
-    && if ! getent passwd "${UID}" > /dev/null; then \
-         useradd -u "${UID}" -g "${GID}" -m -s /bin/bash app; \
-       fi \
-    && mkdir -p /var/www/html /var/www/.composer \
-    && chown -R "${UID}:${GID}" /var/www
-
-# Composer precisa de um HOME gravável para cache/config
-ENV COMPOSER_HOME=/var/www/.composer
-
-# Diretório de trabalho
 WORKDIR /var/www/html
 
-USER ${UID}:${GID}
+
+# Dependências do Composer numa etapa à parte, para a imagem final não levar o
+# composer nem o cache dele
+FROM base AS vendor
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-interaction --no-progress
+
+COPY . .
+
+# Os scripts do composer rodam o package:discover, que gera o bootstrap/cache só
+# com os pacotes de produção
+RUN composer dump-autoload --optimize --no-dev --no-interaction
+
+
+FROM base
+
+COPY --from=vendor /var/www/html /var/www/html
+COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY docker/supervisor/supervisord.conf /etc/supervisord.conf
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint
+
+RUN chmod +x /usr/local/bin/entrypoint \
+    && ln -s /var/www/html/storage/app/public public/storage \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && nginx -t
+
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+    CMD wget -q -O /dev/null http://127.0.0.1/up || exit 1
+
+ENTRYPOINT ["entrypoint"]

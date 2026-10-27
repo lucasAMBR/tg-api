@@ -111,6 +111,18 @@ class PermissionSeeder extends Seeder
             ['name' => 'comment.create', 'guard_name' => 'api'],
             ['name' => 'comment.update', 'guard_name' => 'api'],
             ['name' => 'comment.delete', 'guard_name' => 'api'],
+
+            ['name' => 'follow.view', 'guard_name' => 'api'],
+            ['name' => 'follow.toggle', 'guard_name' => 'api'],
+
+            ['name' => 'freelance_proposal.view', 'guard_name' => 'api'],
+            ['name' => 'freelance_proposal.create', 'guard_name' => 'api'],
+            ['name' => 'freelance_proposal.update', 'guard_name' => 'api'],
+            ['name' => 'freelance_proposal.delete', 'guard_name' => 'api'],
+
+            ['name' => 'freelance_feed.view', 'guard_name' => 'api'],
+            ['name' => 'freelance_feed.create', 'guard_name' => 'api'],
+            ['name' => 'freelance_feed.delete', 'guard_name' => 'api'],
         ]);
 
         foreach($permissions as $permission){

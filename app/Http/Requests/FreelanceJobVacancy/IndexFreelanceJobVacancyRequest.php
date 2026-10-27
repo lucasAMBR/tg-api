@@ -38,7 +38,8 @@ class IndexFreelanceJobVacancyRequest extends FormRequest
                 'nullable',
                 new Enum(SeniorityLevelEnum::class),
             ],
-            'only_mine' => [
+            // Só os freelas para os quais o dev autenticado foi convidado
+            'invited' => [
                 'nullable',
                 'boolean',
             ],
@@ -47,6 +48,6 @@ class IndexFreelanceJobVacancyRequest extends FormRequest
 
     public function prepareForValidation(): void
     {
-        $this->prepareBooleanQueryParams(['only_mine']);
+        $this->prepareBooleanQueryParams(['invited']);
     }
 }

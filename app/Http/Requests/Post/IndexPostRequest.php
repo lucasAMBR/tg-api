@@ -27,6 +27,7 @@ class IndexPostRequest extends FormRequest
         return array_merge($this->paginationRules(), [
             'user_id' => ['nullable', 'uuid', 'exists:users,id'],
             'sort' => ['nullable', 'string', 'in:recent,popular'],
+            'feed' => ['nullable', 'string', 'in:all,following'],
         ]);
     }
 }

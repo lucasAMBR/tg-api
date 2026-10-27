@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Search;
 
+use App\Http\Resources\FreelanceJobVacancy\FreelanceJobVacancyResource;
 use App\Http\Resources\JobVacancy\JobVacancyResource;
 use App\Http\Resources\Profiles\ClientProfile\ClientProfileResource;
 use App\Http\Resources\Profiles\CompanyProfile\CompanyProfileResource;
@@ -37,6 +38,8 @@ class SearchResultResource extends JsonResource
         $clientProfiles = $this->resource['client_profiles'];
         /** @var LengthAwarePaginator $jobVacancies */
         $jobVacancies = $this->resource['job_vacancies'];
+        /** @var LengthAwarePaginator $freelanceJobVacancies */
+        $freelanceJobVacancies = $this->resource['freelance_job_vacancies'];
 
         return [
             'dev_profiles' => [
@@ -55,11 +58,17 @@ class SearchResultResource extends JsonResource
                 'data' => JobVacancyResource::collection($jobVacancies->getCollection()),
                 'pagination' => $this->paginationMeta($jobVacancies),
             ],
+            // Só os abertos, sem o budget para quem não é o dono (o resource decide)
+            'freelance_job_vacancies' => [
+                'data' => FreelanceJobVacancyResource::collection($freelanceJobVacancies->getCollection()),
+                'pagination' => $this->paginationMeta($freelanceJobVacancies),
+            ],
             'pagination' => $this->synchronizedPagination([
                 $devProfiles,
                 $companyProfiles,
                 $clientProfiles,
                 $jobVacancies,
+                $freelanceJobVacancies,
             ]),
         ];
     }

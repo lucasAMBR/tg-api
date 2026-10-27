@@ -4,17 +4,25 @@ namespace App\Services\Recommendation;
 
 use App\Enums\ContractType;
 use App\Enums\EmploymentType;
+use App\Enums\FreelanceJobVacancyStatusEnum;
+use App\Enums\FreelanceProposalStatusEnum;
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\Recommendation\RecommendedDevResource;
+use App\Http\Resources\Recommendation\RecommendedFreelanceDevResource;
+use App\Http\Resources\Recommendation\RecommendedFreelanceJobVacancyResource;
+use App\Http\Resources\Recommendation\RecommendedFreelanceProposalResource;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
+use App\Models\DevProfileEmbedding;
 use App\Models\FreelanceJobVacancy;
 use App\Models\FreelanceJobVacancyEmbedding;
+use App\Models\FreelanceProposal;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyEmbedding;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -53,52 +61,192 @@ class RecommendationService {
         // O binding precisa ir como literal "[1,2,3]": array vira 1536 bindings e desalinha o resto da query
         $vectorLiteral = is_array($vector) ? '[' . implode(',', $vector) . ']' : $vector;
 
-        return $this->recommendDevsByVector(
+        return RecommendedDevResource::collection($this->recommendDevsByVector(
             $vectorLiteral,
             $data,
             fn(Builder $query) => $this->applyRecommendationPreferences($query, $jobVacancy, $companyProfile)
-        );
+        ));
 
     }
 
     /**
-     * Mesma recomendação por similaridade, mas partindo de uma vaga freelance.
-     * Aqui o dono é um perfil de cliente, não de empresa.
+     * Mesma recomendação por similaridade, mas partindo de uma vaga freelance. Aqui o
+     * dono é um perfil de cliente, não de empresa, e entram também os devs que ainda não
+     * orçaram: cada um vem marcado com `has_proposal` e `is_invited`, para o cliente
+     * convidar quem ainda não orçou.
      */
     public function recommendDevsForFreelanceJobVacancy(array $data): AnonymousResourceCollection
     {
 
-        $freelanceJobVacancy = FreelanceJobVacancy::findOrFail($data['freelance_job_vacancy_id']);
+        $freelanceJobVacancy = $this->findClientFreelanceJobVacancy($data['freelance_job_vacancy_id']);
+
+        $vectorLiteral = $this->freelanceJobVacancyVector($freelanceJobVacancy);
+
+        return RecommendedFreelanceDevResource::collection($this->recommendDevsByVector(
+            $vectorLiteral,
+            $data,
+            function(Builder $query) use ($freelanceJobVacancy) {
+                $this->applyFreelanceRecommendationPreferences($query, $freelanceJobVacancy);
+
+                $query->withExists([
+                    'freelanceProposals as has_proposal' => fn(Builder $q) => $q->where('freelance_job_vacancy_id', $freelanceJobVacancy->id),
+                    'freelanceInvitations as is_invited' => fn(Builder $q) => $q->where('freelance_job_vacancy_id', $freelanceJobVacancy->id),
+                ]);
+            }
+        ));
+
+    }
+
+    /**
+     * Ranking dos orçamentos pendentes de um freela, para o cliente dono. O score junta:
+     *
+     * - a aderência do dev ao freela: similaridade de cosseno entre o embedding do perfil
+     *   e o do freela. Dev sem embedding ainda entra, só que pontuando zero aqui;
+     * - a proximidade do preço com o budget do cliente: o menor dividido pelo maior entre
+     *   o total do orçamento e o budget. Cobrar o dobro ou a metade do budget pesa igual (0,5).
+     *
+     * Os pesos de cada parte ficam em config('app.freelance_proposal_ranking').
+     */
+    public function recommendProposalsForFreelanceJobVacancy(array $data): AnonymousResourceCollection
+    {
+
+        $freelanceJobVacancy = $this->findClientFreelanceJobVacancy($data['freelance_job_vacancy_id']);
+
+        $vectorLiteral = $this->freelanceJobVacancyVector($freelanceJobVacancy);
+
+        $limit = $data['limit'] ?? 10;
+        $budget = (string) $freelanceJobVacancy->budget;
+        $similarityWeight = (float) config('app.freelance_proposal_ranking.similarity_weight');
+        $priceWeight = (float) config('app.freelance_proposal_ranking.price_weight');
+
+        $similaritySql = '1 - (dev_profile_embeddings.embedding <=> ?::vector)';
+        $priceScoreSql = 'LEAST(freelance_proposals.total_price, ?::numeric) / NULLIF(GREATEST(freelance_proposals.total_price, ?::numeric), 0)';
+
+        $proposals = FreelanceProposal::query()
+            ->leftJoin('dev_profile_embeddings', 'dev_profile_embeddings.dev_profile_id', '=', 'freelance_proposals.dev_profile_id')
+            ->select('freelance_proposals.*')
+            ->selectRaw("{$similaritySql} AS similarity", [$vectorLiteral])
+            ->selectRaw("({$priceScoreSql})::float8 AS price_score", [$budget, $budget])
+            // O Postgres não aceita alias de coluna dentro de uma expressão, então o score repete as duas partes
+            ->selectRaw(
+                "?::float8 * COALESCE({$similaritySql}, 0) + ?::float8 * COALESCE(({$priceScoreSql})::float8, 0) AS score",
+                [$similarityWeight, $vectorLiteral, $priceWeight, $budget, $budget]
+            )
+            ->where('freelance_proposals.freelance_job_vacancy_id', $freelanceJobVacancy->id)
+            ->where('freelance_proposals.status', FreelanceProposalStatusEnum::PENDING)
+            ->with('devProfile.user')
+            ->orderByDesc('score')
+            ->orderBy('freelance_proposals.created_at')
+            ->limit($limit)
+            ->get();
+
+        return RecommendedFreelanceProposalResource::collection($proposals);
+
+    }
+
+    /**
+     * O inverso da recomendação de devs para um freela: os freelas abertos mais aderentes
+     * ao perfil do dev autenticado, comparando o embedding do perfil com o de cada freela.
+     * Saem os freelas em que o dev já orçou.
+     */
+    public function recommendFreelanceJobVacanciesForDev(array $data): AnonymousResourceCollection
+    {
+
+        /** @var \App\Models\User $authUser */
+        $authUser = Auth::user();
+
+        if(!$authUser->hasRole('dev')) {
+            throw new ApiException("You must be a developer to get freelance recommendations!", 403);
+        }
+
+        $devProfile = $authUser->dev_profile;
+
+        if(!$devProfile) {
+            throw new ApiException("This action needs a existent profile to proceed!", 403);
+        }
+
+        $vector = DevProfileEmbedding::query()
+            ->where('dev_profile_id', $devProfile->id)
+            ->value('embedding');
+
+        if(!$vector) {
+            throw new ApiException("Your profile doesn't have an embedding yet!", 409);
+        }
+
+        // O binding precisa ir como literal "[1,2,3]": array vira 1536 bindings e desalinha o resto da query
+        $vectorLiteral = is_array($vector) ? '[' . implode(',', $vector) . ']' : $vector;
+
+        $limit = $data['limit'] ?? 10;
+        $minSimilarity = $data['min_similarity'] ?? null;
+
+        $freelanceJobVacancies = FreelanceJobVacancy::query()
+            ->join('freelance_job_vacancy_embeddings', 'freelance_job_vacancy_embeddings.freelance_job_vacancy_id', '=', 'freelance_job_vacancies.id')
+            ->selectRaw(
+                'freelance_job_vacancies.*, 1 - (freelance_job_vacancy_embeddings.embedding <=> ?::vector) AS similarity',
+                [$vectorLiteral]
+            )
+            ->where('freelance_job_vacancies.status', FreelanceJobVacancyStatusEnum::OPEN)
+            ->whereDoesntHave('proposals', fn(Builder $query) => $query->where('dev_profile_id', $devProfile->id))
+            ->tap(fn(Builder $query) => $this->applyDevFreelancePreferences($query, $devProfile))
+            ->when(!is_null($minSimilarity), function($query) use ($vectorLiteral, $minSimilarity) {
+                $query->whereRaw(
+                    '1 - (freelance_job_vacancy_embeddings.embedding <=> ?::vector) >= ?',
+                    [$vectorLiteral, $minSimilarity]
+                );
+            })
+            ->with(['languages', 'clientProfile.user'])
+            ->withExists(['invitations as is_invited' => fn(Builder $query) => $query->where('dev_profile_id', $devProfile->id)])
+            // Ordena pela distância crua para o pgvector poder usar índice
+            ->orderByRaw('freelance_job_vacancy_embeddings.embedding <=> ?::vector', [$vectorLiteral])
+            ->limit($limit)
+            ->get();
+
+        return RecommendedFreelanceJobVacancyResource::collection($freelanceJobVacancies);
+
+    }
+
+    /**
+     * Carrega o freela garantindo que ele pertence ao cliente autenticado
+     */
+    private function findClientFreelanceJobVacancy(string $freelanceJobVacancyId): FreelanceJobVacancy
+    {
+
+        $freelanceJobVacancy = FreelanceJobVacancy::findOrFail($freelanceJobVacancyId);
 
         /** @var \App\Models\User $authUser */
         $authUser = Auth::user();
 
         if(!$authUser->hasRole('client')) {
-            throw new ApiException("You must be a client to get recommendations!");
+            throw new ApiException("You must be a client to get recommendations!", 403);
         }
 
-        $clientProfile = ProfileHelper::getUserProfileByRole($authUser);
+        $clientProfile = $authUser->client_profile;
 
         if(!$clientProfile || $freelanceJobVacancy->client_profile_id !== $clientProfile->id) {
-            throw new ApiException("This freelance job vacancy doesn't belong to you!");
+            throw new ApiException("This freelance job vacancy doesn't belong to you!", 403);
         }
+
+        return $freelanceJobVacancy;
+
+    }
+
+    /**
+     * Embedding do freela no literal do pgvector. Ele é gerado em fila, cerca de um
+     * minuto depois de o freela ser criado
+     */
+    private function freelanceJobVacancyVector(FreelanceJobVacancy $freelanceJobVacancy): string
+    {
 
         $vector = FreelanceJobVacancyEmbedding::query()
             ->where('freelance_job_vacancy_id', $freelanceJobVacancy->id)
             ->value('embedding');
 
         if(!$vector) {
-            throw new ApiException("This freelance job vacancy doesn't have an embedding yet!");
+            throw new ApiException("This freelance job vacancy doesn't have an embedding yet!", 409);
         }
 
         // O binding precisa ir como literal "[1,2,3]": array vira 1536 bindings e desalinha o resto da query
-        $vectorLiteral = is_array($vector) ? '[' . implode(',', $vector) . ']' : $vector;
-
-        return $this->recommendDevsByVector(
-            $vectorLiteral,
-            $data,
-            fn(Builder $query) => $this->applyFreelanceRecommendationPreferences($query, $freelanceJobVacancy)
-        );
+        return is_array($vector) ? '[' . implode(',', $vector) . ']' : $vector;
 
     }
 
@@ -106,15 +254,17 @@ class RecommendationService {
      * Busca os devs mais próximos de um vetor de vaga, já no literal do pgvector.
      * `limit` (padrão 10) e `min_similarity` vêm do request; $applyPreferences deixa
      * cada tipo de vaga aplicar os filtros que fazem sentido para ela.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, DevProfile>
      */
-    private function recommendDevsByVector(string $vectorLiteral, array $data, Closure $applyPreferences): AnonymousResourceCollection
+    private function recommendDevsByVector(string $vectorLiteral, array $data, Closure $applyPreferences): EloquentCollection
     {
 
         $limit = $data['limit'] ?? 10;
         $minSimilarity = $data['min_similarity'] ?? null;
 
         // 1 - distância de cosseno (<=>) = similaridade (1 = idêntico)
-        $devs = DevProfile::query()
+        return DevProfile::query()
             ->join('dev_profile_embeddings', 'dev_profile_embeddings.dev_profile_id', '=', 'dev_profiles.id')
             // Devs sem preferência salva caem nos defaults da migration via COALESCE
             ->leftJoin('recommendation_preferences', function(JoinClause $join) {
@@ -137,15 +287,14 @@ class RecommendationService {
             ->limit($limit)
             ->get();
 
-        return RecommendedDevResource::collection($devs);
-
     }
 
     /**
      * Vaga freelance não tem tipo de contrato nem modalidade: é sempre contratação como
      * contractor e sem exigência de presença. Por isso só entram aqui os filtros que
-     * mapeiam sem inventar regra — min_remuneration fica de fora porque o salário da vaga
-     * pode ser por dia ou semana, e distância porque a vaga não exige presença.
+     * mapeiam sem inventar regra — min_remuneration fica de fora porque é um salário mensal
+     * e o freela tem um orçamento pelo serviço inteiro (o preço entra no ranking de
+     * orçamentos), e distância porque a vaga não exige presença.
      */
     private function applyFreelanceRecommendationPreferences(Builder $query, FreelanceJobVacancy $freelanceJobVacancy): void
     {
@@ -156,6 +305,34 @@ class RecommendationService {
 
         $this->filterByBlackListedLanguages($query, $requiredLanguageIds);
         $this->filterByStackFlexibility($query, $requiredLanguageIds);
+    }
+
+    /**
+     * Os mesmos filtros de linguagem da recomendação de devs, olhando do lado do dev: sai o
+     * freela que exige alguma linguagem da blacklist dele e, sem flexibilidade de stack, o
+     * que não pede nenhuma linguagem entre as hard skills dele (freela sem stack exigida
+     * passa). Contrato e modalidade não entram: quem pede freela recomendado já está
+     * procurando freela.
+     */
+    private function applyDevFreelancePreferences(Builder $query, DevProfile $devProfile): void
+    {
+        $preference = $devProfile->recommendation_preference;
+
+        $blackListedLanguageIds = $preference?->blackListedLanguages()->pluck('languages.id') ?? collect();
+
+        if($blackListedLanguageIds->isNotEmpty()) {
+            $query->whereDoesntHave('languages', fn(Builder $q) => $q->whereIn('languages.id', $blackListedLanguageIds));
+        }
+
+        // Sem preferência salva, vale o default da migration (flexível)
+        if($preference?->allow_stack_flexibility === false) {
+            $devLanguageIds = $devProfile->hard_skills()->pluck('language_id');
+
+            $query->where(function(Builder $query) use ($devLanguageIds) {
+                $query->whereDoesntHave('languages')
+                    ->orWhereHas('languages', fn(Builder $q) => $q->whereIn('languages.id', $devLanguageIds));
+            });
+        }
     }
 
     /**

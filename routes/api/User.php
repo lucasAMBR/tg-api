@@ -3,6 +3,8 @@
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
+// Declarada antes das rotas com /{id} para o caminho literal ter precedência.
+Route::get('/popular', [UserController::class, 'indexPopular'])->middleware(['auth:api', 'can:follow.view']);
 Route::patch("/{id}", [UserController::class, 'update'])->middleware('auth:api');
 // O PHP não faz parse de multipart/form-data em PATCH/PUT, então o upload de
 // profile_pic precisa desta variante POST.

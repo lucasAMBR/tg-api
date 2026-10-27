@@ -2,11 +2,13 @@
 
 namespace App\Services\FreelanceJobVacancy;
 
+use App\Enums\FreelanceJobVacancyStatusEnum;
 use App\Exceptions\ApiException;
-use App\Helpers\ProfileHelper;
 use App\Http\Resources\FreelanceJobVacancy\FreelanceJobVacancyCollection;
 use App\Jobs\GenerateFreelanceJobVacancyEmbeddingJob;
 use App\Models\FreelanceJobVacancy;
+use App\Models\User;
+use App\Traits\InteractsWithFreelanceJobVacancies;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +16,11 @@ use Illuminate\Support\Facades\DB;
 
 class FreelanceJobVacancyService
 {
+    use InteractsWithFreelanceJobVacancies;
+
+    /**
+     * Vitrine de freelas: só os abertos, que ainda recebem orçamento
+     */
     public function index(array $data): FreelanceJobVacancyCollection
     {
         $page = $data['page'] ?? 1;
@@ -21,26 +28,77 @@ class FreelanceJobVacancyService
         $search = $data['search'] ?? null;
         $jobType = $data['job_type'] ?? null;
         $seniorityLevel = $data['seniority_level'] ?? null;
-        $onlyMine = $data['only_mine'] ?? false;
+        $onlyInvited = $data['invited'] ?? false;
 
-        $freelanceJobVacancies = FreelanceJobVacancy::query()
-            ->with('languages', 'clientProfile')
-            ->when($search, function (Builder $query, $search) {
-                $query->where(function (Builder $q) use ($search) {
-                    $q->where('title', 'ILIKE', "%{$search}%")
-                        ->orWhere('job_type', 'ILIKE', "%{$search}%")
-                        ->orWhere('seniority_level', 'ILIKE', "%{$search}%")
-                        ->orWhereHas('languages', function (Builder $q) use ($search) {
-                            $q->where('name', 'ILIKE', "%{$search}%");
-                        });
-                });
-            })
+        $freelanceJobVacancies = $this->openVacanciesQuery($search)
             ->when($jobType, fn(Builder $query, $jobType) => $query->where('job_type', $jobType))
             ->when($seniorityLevel, fn(Builder $query, $seniorityLevel) => $query->where('seniority_level', $seniorityLevel))
-            ->when($onlyMine, function (Builder $query) {
-                $query->where('client_profile_id', $this->resolveClientProfile()->id);
+            // Os freelas para os quais o dev autenticado foi convidado a orçar
+            ->when($onlyInvited, function (Builder $query) {
+                $devProfile = $this->resolveDevProfile();
+
+                $query->whereHas('invitations', fn(Builder $q) => $q->where('dev_profile_id', $devProfile->id));
             })
+            ->paginate(
+                $perPage,
+                ['*'],
+                'page',
+                $page
+            );
+
+        return new FreelanceJobVacancyCollection($freelanceJobVacancies);
+    }
+
+    /**
+     * Freelas publicados pelo cliente autenticado, em qualquer status, com quantos
+     * orçamentos cada um recebeu e o contrato dos que já foram fechados
+     */
+    public function indexMyVacancies(array $data): FreelanceJobVacancyCollection
+    {
+        $clientProfile = $this->resolveClientProfile();
+
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 15;
+        $search = $data['search'] ?? null;
+        $status = $data['status'] ?? null;
+
+        $freelanceJobVacancies = $this->query()
+            ->with('acceptedProposal.devProfile.user')
+            ->withCount('proposals')
+            ->where('client_profile_id', $clientProfile->id)
+            ->when($status, fn(Builder $query, $status) => $query->where('status', $status))
+            ->when($search, fn(Builder $query, $search) => $this->applySearch($query, $search))
             ->latest()
+            ->paginate(
+                $perPage,
+                ['*'],
+                'page',
+                $page
+            );
+
+        return new FreelanceJobVacancyCollection($freelanceJobVacancies);
+    }
+
+    /**
+     * Freelas em que o dev autenticado foi contratado: os em andamento primeiro, depois
+     * os concluídos, cada grupo do contrato mais recente para o mais antigo
+     */
+    public function indexMyContracts(array $data): FreelanceJobVacancyCollection
+    {
+        $devProfile = $this->resolveDevProfile();
+
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 15;
+        $search = $data['search'] ?? null;
+        $status = $data['status'] ?? null;
+
+        $freelanceJobVacancies = $this->query()
+            ->with('acceptedProposal.devProfile.user')
+            ->whereHas('acceptedProposal', fn(Builder $query) => $query->where('dev_profile_id', $devProfile->id))
+            ->when($status, fn(Builder $query, $status) => $query->where('status', $status))
+            ->when($search, fn(Builder $query, $search) => $this->applySearch($query, $search))
+            ->orderByRaw('case when status = ? then 0 else 1 end', [FreelanceJobVacancyStatusEnum::IN_PROGRESS->value])
+            ->latest('contracted_at')
             ->paginate(
                 $perPage,
                 ['*'],
@@ -55,55 +113,50 @@ class FreelanceJobVacancyService
     {
         $clientProfile = $this->resolveClientProfile();
 
-        return DB::transaction(function () use ($data, $clientProfile) {
-
-            $languages = $data['languages'] ?? [];
+        $freelanceJobVacancy = DB::transaction(function () use ($data, $clientProfile) {
 
             $freelanceJobVacancy = FreelanceJobVacancy::create([
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'job_type' => $data['job_type'],
-                'salary_type' => $data['salary_type'],
-                'estimated_salary' => $data['estimated_salary'],
+                'budget' => $data['budget'],
                 'seniority_level' => $data['seniority_level'],
                 'specialties' => $data['specialties'],
                 'client_profile_id' => $clientProfile->id
             ]);
 
-            $this->syncLanguages($freelanceJobVacancy, $languages);
+            $this->syncLanguages($freelanceJobVacancy, $data['languages'] ?? []);
 
-            $freelanceJobVacancy->refresh();
             GenerateFreelanceJobVacancyEmbeddingJob::dispatchDebounced($freelanceJobVacancy->id);
 
-            // Retorna ja com as relações carregadas
-            return $freelanceJobVacancy->load('languages', 'clientProfile');
+            return $freelanceJobVacancy;
         });
+
+        return $this->findWithViewerState($freelanceJobVacancy->id);
     }
 
     public function show(array $data)
     {
-        $freelanceJobVacancy = FreelanceJobVacancy::findOrFail($data['id']);
-
-        // load() porque ja carrega a relação sem precisar consultar novamente o banco
-        return $freelanceJobVacancy->load(['languages', 'clientProfile']);
+        return $this->findWithViewerState($data['id']);
     }
 
     public function update(array $data)
     {
-        $freelanceJobVacancy = FreelanceJobVacancy::findOrFail($data['id']);
+        $freelanceJobVacancy = $this->findClientVacancy($data['id']);
 
-        $this->authorizeOwnership($freelanceJobVacancy);
+        if (!$freelanceJobVacancy->acceptsProposals()) {
+            throw new ApiException("Only open freelance job vacancies can be edited!", 422);
+        }
 
         $data = Arr::except($data, ['id']);
 
-        return DB::transaction(function () use ($data, $freelanceJobVacancy) {
+        DB::transaction(function () use ($data, $freelanceJobVacancy) {
 
             $freelanceJobVacancy->update(Arr::only($data, [
                 'title',
                 'description',
                 'job_type',
-                'salary_type',
-                'estimated_salary',
+                'budget',
                 'seniority_level',
                 'specialties',
             ]));
@@ -113,18 +166,23 @@ class FreelanceJobVacancyService
                 $this->syncLanguages($freelanceJobVacancy, $data['languages']);
             }
 
-            $freelanceJobVacancy->refresh();
             GenerateFreelanceJobVacancyEmbeddingJob::dispatchDebounced($freelanceJobVacancy->id);
-
-            return $freelanceJobVacancy->fresh(['languages', 'clientProfile']);
         });
+
+        return $this->findWithViewerState($freelanceJobVacancy->id);
     }
 
+    /**
+     * Só o freela aberto pode ser removido: depois do contrato fechado, ele guarda o
+     * histórico do trabalho no feed
+     */
     public function destroy(array $data)
     {
-        $freelanceJobVacancy = FreelanceJobVacancy::findOrFail($data['id']);
+        $freelanceJobVacancy = $this->findClientVacancy($data['id']);
 
-        $this->authorizeOwnership($freelanceJobVacancy);
+        if (!$freelanceJobVacancy->acceptsProposals()) {
+            throw new ApiException("Only open freelance job vacancies can be removed!", 422);
+        }
 
         return DB::transaction(function () use ($freelanceJobVacancy) {
 
@@ -132,6 +190,104 @@ class FreelanceJobVacancyService
             $freelanceJobVacancy->delete();
 
             return $freelanceJobVacancy;
+        });
+    }
+
+    /**
+     * O cliente encerra o contrato em andamento. O feed continua disponível para consulta
+     */
+    public function complete(array $data)
+    {
+        $freelanceJobVacancy = $this->findClientVacancy($data['id']);
+
+        if ($freelanceJobVacancy->status !== FreelanceJobVacancyStatusEnum::IN_PROGRESS) {
+            throw new ApiException("Only freelance job vacancies in progress can be completed!", 422);
+        }
+
+        DB::transaction(function () use ($freelanceJobVacancy) {
+
+            $freelanceJobVacancy->update([
+                'status' => FreelanceJobVacancyStatusEnum::COMPLETED,
+                'completed_at' => now()
+            ]);
+
+            $freelanceJobVacancy->acceptedProposal?->devProfile?->notifications()->create([
+                'type' => 'freelance_job_vacancy_completed',
+                'title' => 'Freela concluído',
+                'message' => "O cliente marcou o freela {$freelanceJobVacancy->title} como concluído. Obrigado pelo trabalho!",
+                'link' => $this->freelanceJobVacancyLink($freelanceJobVacancy)
+            ]);
+        });
+
+        return $this->findWithViewerState($freelanceJobVacancy->id);
+    }
+
+    /**
+     * Freelas abertos, que ainda recebem orçamento, do mais novo para o mais antigo
+     * e com o estado de quem está vendo. A vitrine e a busca global partem daqui
+     */
+    public function openVacanciesQuery(?string $search = null): Builder
+    {
+        return $this->query()
+            ->where('status', FreelanceJobVacancyStatusEnum::OPEN)
+            ->when($search, fn(Builder $query, $search) => $this->applySearch($query, $search))
+            ->tap(fn(Builder $query) => $this->withViewerState($query))
+            ->latest();
+    }
+
+    /**
+     * Consulta base com o que o resource da vaga sempre exibe
+     */
+    private function query(): Builder
+    {
+        return FreelanceJobVacancy::query()->with(['languages', 'clientProfile.user']);
+    }
+
+    /**
+     * Uma vaga com tudo o que cabe a quem está vendo: o contrato (o resource só mostra
+     * para as duas pontas dele) e o estado de cada lado
+     */
+    private function findWithViewerState(string $freelanceJobVacancyId): FreelanceJobVacancy
+    {
+        return $this->query()
+            ->with('acceptedProposal.devProfile.user')
+            ->tap(fn(Builder $query) => $this->withViewerState($query))
+            ->findOrFail($freelanceJobVacancyId);
+    }
+
+    /**
+     * O que cada lado vê além da vaga: o cliente, quantos orçamentos ela recebeu (o
+     * resource só mostra para o dono); o dev, o orçamento que já enviou e se foi convidado
+     */
+    private function withViewerState(Builder $query): Builder
+    {
+        /** @var User $authUser */
+        $authUser = Auth::user();
+
+        if ($authUser->hasRole('client')) {
+            return $query->withCount('proposals');
+        }
+
+        $devProfileId = $authUser->hasRole('dev') ? $authUser->dev_profile?->id : null;
+
+        if (!$devProfileId) {
+            return $query;
+        }
+
+        return $query
+            ->with(['proposals' => fn($q) => $q->where('dev_profile_id', $devProfileId)])
+            ->withExists(['invitations as is_invited' => fn(Builder $q) => $q->where('dev_profile_id', $devProfileId)]);
+    }
+
+    private function applySearch(Builder $query, string $search): void
+    {
+        $query->where(function (Builder $q) use ($search) {
+            $q->where('title', 'ILIKE', "%{$search}%")
+                ->orWhere('job_type', 'ILIKE', "%{$search}%")
+                ->orWhere('seniority_level', 'ILIKE', "%{$search}%")
+                ->orWhereHas('languages', function (Builder $q) use ($search) {
+                    $q->where('name', 'ILIKE', "%{$search}%");
+                });
         });
     }
 
@@ -146,38 +302,5 @@ class FreelanceJobVacancyService
                 $language['language_id'] => ['language_level' => $language['language_level']]
             ])->all()
         );
-    }
-
-    /**
-     * Só o cliente dono da vaga pode alterá-la ou removê-la.
-     */
-    protected function authorizeOwnership(FreelanceJobVacancy $freelanceJobVacancy): void
-    {
-        $clientProfile = $this->resolveClientProfile();
-
-        if ($freelanceJobVacancy->client_profile_id !== $clientProfile->id) {
-            throw new ApiException("You can only manage your own job vacancies!", 403);
-        }
-    }
-
-    /**
-     * Garante que o usuário autenticado é um cliente com perfil ativo.
-     */
-    protected function resolveClientProfile()
-    {
-        /** @var \App\Models\User $authUser */
-        $authUser = Auth::user();
-
-        if (!$authUser->hasRole('client')) {
-            throw new ApiException("You must be a client for manage a freelance job vacancy", 403);
-        }
-
-        $clientProfile = ProfileHelper::getUserProfileByRole($authUser);
-
-        if (!$clientProfile) {
-            throw new ApiException("You don't have an active profile!");
-        }
-
-        return $clientProfile;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Services\Post;
 
 use App\Exceptions\ApiException;
 use App\Http\Resources\Post\PostCollection;
+use App\Http\Resources\Post\PostParticipantCollection;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use App\Models\User;
@@ -30,11 +31,13 @@ class PostService
         $search = $data['search'] ?? null;
         $userId = $data['user_id'] ?? null;
         $sort = $data['sort'] ?? 'recent';
+        $feed = $data['feed'] ?? 'all';
 
         $posts = $this->query()
             ->when($userId, function (Builder $query, $userId) {
                 $query->where('user_id', $userId);
             })
+            ->when($feed === 'following', fn (Builder $query) => $this->onlyFollowing($query))
             ->when($search, function (Builder $query, $search) {
                 $query->where('content', 'ILIKE', "%{$search}%");
             })
@@ -158,6 +161,53 @@ class PostService
     }
 
     /**
+     * Quem está na conversa dos comentários da postagem: os autores de comentários e respostas,
+     * cada um uma vez, do mais ativo para o menos, com a participação mais recente desempatando.
+     *
+     * Comentários removidos não contam, porque a árvore deixa de expor quem os escreveu, e os de
+     * contas excluídas ficam sem autor. O autor da postagem só aparece se tiver comentado, e aí
+     * vem marcado com is_post_author.
+     */
+    public function participants(array $data): PostParticipantCollection
+    {
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
+
+        $post = Post::findOrFail($data['id']);
+
+        // A participação é agregada antes de juntar com os usuários, para cada um aparecer uma
+        // vez e a paginação contar pessoas, não comentários.
+        $participation = DB::table('comments')
+            ->where('post_id', $post->id)
+            ->whereNull('removed_at')
+            ->whereNotNull('user_id')
+            ->groupBy('user_id')
+            ->selectRaw('user_id, count(*) as total')
+            ->selectRaw('min(created_at) as first_commented_at, max(created_at) as last_commented_at');
+
+        $participants = User::query()
+            ->joinSub($participation, 'participation', 'participation.user_id', '=', 'users.id')
+            ->select('users.*')
+            ->selectRaw('participation.total as comments_count')
+            ->selectRaw('participation.first_commented_at as first_commented_at')
+            ->selectRaw('participation.last_commented_at as last_commented_at')
+            ->selectRaw('case when users.id = ? then 1 else 0 end as is_post_author', [$post->user_id])
+            ->withCasts([
+                'first_commented_at' => 'datetime',
+                'last_commented_at' => 'datetime',
+            ])
+            ->with(User::PROFILE_RELATIONS)
+            ->withFollowState(Auth::id())
+            // O id desempata, para a paginação não embaralhar quem tem a mesma participação.
+            ->orderByDesc('comments_count')
+            ->orderByDesc('last_commented_at')
+            ->orderBy('users.id')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        return new PostParticipantCollection($participants);
+    }
+
+    /**
      * Consulta base de postagens com autor, imagens, contadores e o estado de
      * curtida/favorito do usuário autenticado — tudo que o PostResource expõe.
      */
@@ -212,6 +262,21 @@ class PostService
             )
             ->orderByDesc('popularity_score')
             ->latest();
+    }
+
+    /**
+     * Como a aba "Seguindo" do Twitter: postagens de quem o usuário segue e as dele mesmo,
+     * para que o que ele acabou de publicar apareça no feed que está vendo.
+     */
+    private function onlyFollowing(Builder $query): Builder
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        return $query->where(function (Builder $query) use ($user) {
+            $query->whereIn('user_id', $user->following()->select('users.id'))
+                ->orWhere('user_id', $user->id);
+        });
     }
 
     private function ensureAbility(string $ability, Post $post): void

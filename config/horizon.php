@@ -199,14 +199,24 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => 'redis',
-            'queue' => ['default'],
+            // Toda fila usada por um job (onQueue / $this->queue) precisa estar aqui,
+            // senão o job fica parado no Redis sem nenhum worker escutando
+            'queue' => [
+                'default',
+                'translations',
+                'vacancy-embedding',
+                'profile-embedding',
+                'freelance-vacancy-embedding',
+                'proficiency-tests',
+                'tests-pontuation-calc',
+            ],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 1,
             'maxTime' => 0,
             'maxJobs' => 0,
             'memory' => 128,
-            'tries' => 1,
+            'tries' => 3,
             'timeout' => 60,
             'nice' => 0,
         ],
@@ -223,18 +233,7 @@ return [
 
         'local' => [
             'supervisor-1' => [
-                'connection' => 'redis',
-                'queue' => [
-                    'default', 
-                    'translations',
-                    'profile-embedding',
-                    'freelance-vacancy-embedding',
-                    'proficiency-tests',
-                    'tests-pontuation-calc'
-                ],
-                'balance' => 'auto',
                 'maxProcesses' => 10,
-                'tries' => 3,
             ],
         ],
     ],

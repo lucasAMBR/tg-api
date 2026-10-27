@@ -126,4 +126,14 @@ class DevProfile extends Model implements Translatable
         return $this->morphMany(Notification::class, 'notifiable');
     }
 
+    public function freelanceProposals(): HasMany
+    {
+        return $this->hasMany(FreelanceProposal::class);
+    }
+
+    public function freelanceInvitations(): HasMany
+    {
+        return $this->hasMany(FreelanceInvitation::class);
+    }
+
 }

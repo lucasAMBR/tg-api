@@ -32,6 +32,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trimStrings(except: [$isInterviewSignal]);
         $middleware->convertEmptyStringsToNull(except: [$isInterviewSignal]);
 
+        /**
+         * Em produção a API fica atrás do proxy do Coolify, que termina o HTTPS. Sem
+         * confiar nele o Laravel acha que a requisição veio em http e gera as URLs
+         * absolutas (links de paginação, por exemplo) com o esquema errado
+         */
+        $middleware->trustProxies(at: '*');
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->renderable(function (NotFoundHttpException $e) {

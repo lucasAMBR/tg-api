@@ -10,13 +10,17 @@ use App\Http\Resources\Search\SearchResultResource;
 use App\Models\ClientProfile;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
+use App\Models\FreelanceJobVacancy;
 use App\Models\JobVacancy;
+use App\Services\FreelanceJobVacancy\FreelanceJobVacancyService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class SearchService {
+
+    public function __construct(protected FreelanceJobVacancyService $freelanceJobVacancyService) {}
 
     public function search(array $data): SearchResultResource {
 
@@ -29,6 +33,7 @@ class SearchService {
             'company_profiles' => $this->companyProfilesQuery($search),
             'client_profiles' => $this->clientProfilesQuery($search),
             'job_vacancies' => $this->jobVacanciesQuery($search),
+            'freelance_job_vacancies' => $this->freelanceJobVacanciesQuery($search),
         ];
 
         $results = array_map(
@@ -163,6 +168,22 @@ class SearchService {
                 });
             })
             ->orderByDesc('created_at')
+            ->orderBy('id');
+
+    }
+
+    /**
+     * Freelas abertos, com o mesmo critério e o mesmo estado de quem está vendo da
+     * vitrine (`GET /freelance-job-vacancy`). Quem não tem acesso aos freelas, como
+     * a empresa, recebe o grupo vazio: para ela a vitrine responde 403
+     */
+    private function freelanceJobVacanciesQuery(?string $search): Builder {
+
+        if (!Auth::user()?->can('client_job_vacancy.view')) {
+            return FreelanceJobVacancy::query()->whereRaw('1 = 0');
+        }
+
+        return $this->freelanceJobVacancyService->openVacanciesQuery($search)
             ->orderBy('id');
 
     }

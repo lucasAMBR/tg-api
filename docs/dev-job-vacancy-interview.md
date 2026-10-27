@@ -130,6 +130,10 @@ canal privado no WebSocket, como se conectar diretamente.
   (`BROADCAST_CONNECTION=log` no `.env`). É preciso que o backend suba o Reverb
   (`php artisan reverb:start` + `BROADCAST_CONNECTION=reverb` + variáveis `REVERB_*`) antes da
   call funcionar de ponta a ponta.
+- **Em produção** o WebSocket passa pelo próprio domínio da API: o nginx do container repassa
+  `wss://<domínio da API>/app/...` para o Reverb, que não fica exposto em outra porta. No front,
+  use `VITE_REVERB_HOST=<domínio da API>`, `VITE_REVERB_PORT=443` e `VITE_REVERB_SCHEME=https`.
+  Localmente continua apontando direto para o `reverb:start` (porta 8080 por padrão).
 - **Só STUN público está configurado por enquanto** (sem TURN). Isso funciona bem em redes
   domésticas comuns, mas conexões atrás de NAT simétrico/firewall restritivo (bem comum em rede
   **corporativa**, ou seja, o lado da empresa) podem falhar em estabelecer o P2P direto. Se isso

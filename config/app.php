@@ -138,6 +138,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Freelance Proposal Ranking
+    |--------------------------------------------------------------------------
+    |
+    | Pesos do score que ordena os orçamentos de um freela: a similaridade entre
+    | o embedding do dev e o do freela, e a proximidade do preço do orçamento
+    | com o budget do cliente. Os dois somam 1 para o score ficar entre 0 e 1.
+    |
+    */
+
+    'freelance_proposal_ranking' => [
+        'similarity_weight' => (float) env('FREELANCE_PROPOSAL_SIMILARITY_WEIGHT', 0.6),
+        'price_weight' => (float) env('FREELANCE_PROPOSAL_PRICE_WEIGHT', 0.4),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Proficiency Test Scoring
     |--------------------------------------------------------------------------
     |

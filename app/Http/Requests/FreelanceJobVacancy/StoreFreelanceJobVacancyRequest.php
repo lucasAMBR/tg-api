@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\FreelanceJobVacancy;
 
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\FreelanceJobTypeEnum;
 use App\Enums\HardSkillLevelsEnum;
-use App\Enums\SalaryTypeEnum;
 use App\Enums\SeniorityLevelEnum;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -32,6 +32,7 @@ class StoreFreelanceJobVacancyRequest extends FormRequest
             'title' => [
                 'required',
                 'string',
+                'max:255',
             ],
             'description' => [
                 'required',
@@ -41,22 +42,22 @@ class StoreFreelanceJobVacancyRequest extends FormRequest
                 'required',
                 new Enum(FreelanceJobTypeEnum::class),
             ],
-            'salary_type' => [
-                'required',
-                new Enum(SalaryTypeEnum::class),
-            ],
-            'estimated_salary' => [
+            // Quanto o cliente pretende pagar pelo serviço inteiro; só ele vê
+            'budget' => [
                 'required',
                 'numeric',
-                'min:0',
+                'gt:0',
+                'max:99999999.99',
             ],
             'specialties' => [
                 'required',
                 'array',
+                'min:1',
             ],
             'specialties.*' => [
                 'required',
-                'string',
+                'distinct',
+                new Enum(DevSpecialtyEnum::class),
             ],
             'seniority_level' => [
                 'required',
@@ -99,9 +100,9 @@ class StoreFreelanceJobVacancyRequest extends FormRequest
             'title' => 'Título',
             'description' => 'Descrição',
             'job_type' => 'Tipo de serviço',
-            'salary_type' => 'Tipo de salário',
-            'estimated_salary' => 'Salário estimado',
+            'budget' => 'Orçamento',
             'specialties' => 'Especialidades',
+            'specialties.*' => 'Especialidade',
             'seniority_level' => 'Nível de senioridade',
             'languages' => 'Linguagens',
             'languages.*.language_id' => 'ID da linguagem',

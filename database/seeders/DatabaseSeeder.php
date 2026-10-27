@@ -53,7 +53,9 @@ class DatabaseSeeder extends Seeder
             DevPreferencesSeeder::class,
             CompanyProfilesSeeder::class,
             ClientProfilesSeeder::class,
-            JobVacancySeeder::class
+            JobVacancySeeder::class,
+            PostSeeder::class,
+            FollowSeeder::class
         ]);
     }
 

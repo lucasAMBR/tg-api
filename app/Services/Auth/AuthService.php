@@ -95,6 +95,8 @@ class AuthService
 
         $user->load('media');
 
+        $user->loadCount(['followers', 'following']);
+
         if($user->hasRole('dev')){
             $user->load('dev_profile');
         }

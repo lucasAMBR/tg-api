@@ -31,6 +31,10 @@ class RoleSeeder extends Seeder
             'client_job_vacancy.view',
             'client_job_vacancy.update',
             'client_job_vacancy.delete',
+            'freelance_proposal.view',
+            'freelance_feed.view',
+            'freelance_feed.create',
+            'freelance_feed.delete',
             'dev_profile.view',
             'company_profile.view',
             'employment_history.view',
@@ -51,6 +55,8 @@ class RoleSeeder extends Seeder
             'comment.create',
             'comment.update',
             'comment.delete',
+            'follow.view',
+            'follow.toggle',
         ]);
 
         $companyRole = Role::firstOrCreate([
@@ -92,6 +98,8 @@ class RoleSeeder extends Seeder
             'comment.create',
             'comment.update',
             'comment.delete',
+            'follow.view',
+            'follow.toggle',
         ]);
 
         $devRole = Role::firstOrCreate([
@@ -114,6 +122,13 @@ class RoleSeeder extends Seeder
             'project_history.delete',
             'client_profile.view',
             'client_job_vacancy.view',
+            'freelance_proposal.view',
+            'freelance_proposal.create',
+            'freelance_proposal.update',
+            'freelance_proposal.delete',
+            'freelance_feed.view',
+            'freelance_feed.create',
+            'freelance_feed.delete',
             'company_profile.view',
             'company_project.view',
             'company_soft_skill.view',
@@ -145,6 +160,8 @@ class RoleSeeder extends Seeder
             'comment.create',
             'comment.update',
             'comment.delete',
+            'follow.view',
+            'follow.toggle',
         ]);
     }
 }

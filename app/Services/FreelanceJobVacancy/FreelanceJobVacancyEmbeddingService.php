@@ -57,13 +57,8 @@ class FreelanceJobVacancyEmbeddingService
             $basicData .= "Tipo de Trabalho: {$freelanceJobVacancy->job_type->labelPt()}\n";
         }
 
-        if ($freelanceJobVacancy->estimated_salary) {
-            $salary = "R$ " . number_format((float) $freelanceJobVacancy->estimated_salary, 2, ',', '.');
-
-            $basicData .= $freelanceJobVacancy->salary_type
-                ? "Remuneração Estimada: {$salary} ({$freelanceJobVacancy->salary_type->labelPt()})\n"
-                : "Remuneração Estimada: {$salary}\n";
-        }
+        // O budget fica de fora: é privado do cliente e o preço entra à parte no ranking
+        // de orçamentos, não na aderência do perfil
 
         if ($freelanceJobVacancy->description) {
             $basicData .= "\nDescrição da Vaga:\n{$freelanceJobVacancy->description}\n\n";

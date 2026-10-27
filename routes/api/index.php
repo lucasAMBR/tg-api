@@ -31,6 +31,8 @@ Route::prefix('job-vacancy')->group(base_path('routes/api/JobVacancy.php'));
 
 Route::prefix('freelance-job-vacancy')->group(base_path('routes/api/FreelanceJobVacancy.php'));
 
+Route::prefix('freelance-proposal')->group(base_path('routes/api/FreelanceProposal.php'));
+
 Route::prefix('user')->group(base_path('routes/api/User.php'));
 
 Route::prefix('recommendation-preferences')->group(base_path('routes/api/RecommendationPreferences.php'));
@@ -66,5 +68,7 @@ Route::prefix('post')->group(base_path('routes/api/Post.php'));
 Route::prefix('comment')->group(base_path('routes/api/Comment.php'));
 
 Route::prefix('like')->group(base_path('routes/api/Like.php'));
+
+Route::prefix('follow')->group(base_path('routes/api/Follow.php'));
 
 Broadcast::routes(['middleware' => ['auth:api']]);

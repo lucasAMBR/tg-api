@@ -7,6 +7,7 @@ use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\DeletePostRequest;
 use App\Http\Requests\Post\IndexFavoritePostRequest;
+use App\Http\Requests\Post\IndexPostParticipantsRequest;
 use App\Http\Requests\Post\IndexPostRequest;
 use App\Http\Requests\Post\RemovePostImageRequest;
 use App\Http\Requests\Post\SavePostImagesRequest;
@@ -22,7 +23,7 @@ class PostController extends Controller
 {
     public function __construct(protected PostService $postService){}
 
-    #[Endpoint(operationId: 'indexPost', title: 'Listar feed de postagens', description: '**operationId:** `indexPost` — Feed paginado de postagens, com autor, imagens, contadores de curtidas/comentários/favoritos e se o usuário autenticado curtiu/favoritou. Filtros opcionais por `user_id` e `search` (busca no conteúdo). O parâmetro `sort` define a ordenação: `recent` (padrão) traz das mais recentes para as mais antigas e `popular` traz das com mais engajamento para as com menos, pontuando cada postagem por comentários (peso 3), favoritos (peso 2) e curtidas (peso 1), com a data mais recente como critério de desempate. Em **200**, `data.data[]` segue o schema **Post Resource** (`App\\Http\\Resources\\Post\\PostResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'indexPost', title: 'Listar feed de postagens', description: '**operationId:** `indexPost` — Feed paginado de postagens, com autor, imagens, contadores de curtidas/comentários/favoritos e se o usuário autenticado curtiu/favoritou. Filtros opcionais por `user_id` e `search` (busca no conteúdo). O parâmetro `feed` escolhe a origem: `all` (padrão) traz todas as postagens e `following` traz só as de quem o usuário autenticado segue, mais as dele mesmo. O parâmetro `sort` define a ordenação: `recent` (padrão) traz das mais recentes para as mais antigas e `popular` traz das com mais engajamento para as com menos, pontuando cada postagem por comentários (peso 3), favoritos (peso 2) e curtidas (peso 1), com a data mais recente como critério de desempate. Em **200**, `data.data[]` segue o schema **Post Resource** (`App\\Http\\Resources\\Post\\PostResource`) e `data.pagination` traz os metadados de paginação.')]
     public function index(IndexPostRequest $request): JsonResponse
     {
         try {
@@ -131,6 +132,23 @@ class PostController extends Controller
             $favorite = $this->postService->toggleFavorite($request->validated());
 
             return ApiResponse::success($favorite, "Post favorite updated with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+    }
+
+    #[Endpoint(operationId: 'indexPostParticipants', title: 'Listar participantes da conversa da postagem', description: '**operationId:** `indexPostParticipants` — Lista paginada dos usuários que participam da conversa nos comentários da postagem `{id}`: quem escreveu comentários ou respostas, cada um uma vez, do mais ativo para o menos (a participação mais recente desempata). Comentários removidos não contam, já que a árvore não expõe mais quem os escreveu, e comentários de contas excluídas ficam de fora. O autor da postagem só aparece se tiver comentado, com `is_post_author` true. Postagem excluída ou inexistente retorna **422**. Em **200**, `data.data[]` segue o schema **Post Participant Resource** (`App\\Http\\Resources\\Post\\PostParticipantResource`), com `comments_count`, as datas da primeira e da última participação e `is_followed`/`follows_you` em relação ao usuário autenticado, e `data.pagination` traz os metadados de paginação.')]
+    public function participants(IndexPostParticipantsRequest $request): JsonResponse
+    {
+        try {
+            $participants = $this->postService->participants($request->validated());
+
+            return ApiResponse::success($participants, "Post participants indexed with success!");
         } catch (ApiException $e) {
             /**
              * @status 400

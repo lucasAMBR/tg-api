@@ -101,3 +101,74 @@ function validDevSoftSkillPayload(int $evaluationWeight = 1): array
         })->values()->all(),
     ];
 }
+
+function createClientUserWithProfile(array $profileOverrides = []): array
+{
+    $user = createUserWithRole('client');
+
+    $clientProfile = \App\Models\ClientProfile::create(array_merge([
+        'user_id' => $user->id,
+        'name' => 'Maria Cliente',
+        'bio' => 'Contrato freelas para os projetos da minha loja.',
+        'phone' => '+5531' . fake()->unique()->numerify('9########'),
+        'cpf' => '39053344705',
+        'birthdate' => '1988-03-10',
+    ], $profileOverrides));
+
+    return [$user, $clientProfile];
+}
+
+/**
+ * Dev com telefone único, para criar vários no mesmo teste
+ */
+function createFreelanceDevUser(array $profileOverrides = []): array
+{
+    $user = createUserWithRole('dev');
+
+    $devProfile = \App\Models\DevProfile::factory()->create(array_merge([
+        'user_id' => $user->id,
+    ], $profileOverrides));
+
+    return [$user, $devProfile];
+}
+
+/**
+ * Freela aberto de um tipo que não exige stack, para dispensar as linguagens
+ */
+function createFreelanceJobVacancy(\App\Models\ClientProfile $clientProfile, array $overrides = []): \App\Models\FreelanceJobVacancy
+{
+    return \App\Models\FreelanceJobVacancy::create(array_merge([
+        'title' => 'Landing page em Next.js',
+        'description' => 'Landing page institucional com formulário de contato.',
+        'job_type' => 'design',
+        'budget' => 10000,
+        'seniority_level' => 'mid_level',
+        'specialties' => ['frontend'],
+        'client_profile_id' => $clientProfile->id,
+    ], $overrides));
+}
+
+function createFreelanceProposal(\App\Models\FreelanceJobVacancy $freelanceJobVacancy, \App\Models\DevProfile $devProfile, array $overrides = []): \App\Models\FreelanceProposal
+{
+    return \App\Models\FreelanceProposal::create(array_merge([
+        'freelance_job_vacancy_id' => $freelanceJobVacancy->id,
+        'dev_profile_id' => $devProfile->id,
+        'pricing_type' => 'fixed',
+        'total_price' => 9000,
+    ], $overrides));
+}
+
+/**
+ * Freela com o contrato já fechado com o dev informado
+ */
+function createContractedFreelance(\App\Models\ClientProfile $clientProfile, \App\Models\DevProfile $devProfile, array $overrides = []): \App\Models\FreelanceJobVacancy
+{
+    $freelanceJobVacancy = createFreelanceJobVacancy($clientProfile, array_merge([
+        'status' => 'in_progress',
+        'contracted_at' => now(),
+    ], $overrides));
+
+    createFreelanceProposal($freelanceJobVacancy, $devProfile, ['status' => 'accepted']);
+
+    return $freelanceJobVacancy;
+}

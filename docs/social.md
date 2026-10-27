@@ -95,13 +95,24 @@ export interface Paginated<T> {
 export interface ToggleLike { liked: boolean; likes_count: number }
 export interface ToggleFavorite { favorited: boolean; favorites_count: number }
 
+/** Quem participa da conversa nos comentários de um post. */
+export interface PostParticipant {
+  user: AuthorSummary;
+  comments_count: number;      // comentários e respostas dele neste post, sem os removidos
+  is_post_author: boolean;     // é o autor do post (só aparece se tiver comentado)
+  first_commented_at: string;
+  last_commented_at: string;
+  is_followed: boolean;        // o usuário logado segue este usuário
+  follows_you: boolean;        // este usuário segue o usuário logado
+}
+
 
 ### Endpoints
 Todas as rotas abaixo ficam sob /api.
 
 | Método | Rota | Envia | data da resposta | Quem pode |
 |---|---|---|---|---|
-| GET | /post | query: page, per_page, search, user_id, sort | Paginated<Post> | todos |
+| GET | /post | query: page, per_page, search, user_id, sort, feed (ver [docs/followers.md](followers.md)) | Paginated<Post> | todos |
 | POST | /post | multipart: content (obrigatório, até 5000), images[] | Post (201) | todos |
 | GET | /post/{id} | — | Post | todos |
 | PATCH | /post/{id} | JSON: content | Post | autor |
@@ -110,6 +121,7 @@ Todas as rotas abaixo ficam sob /api.
 | DELETE | /post/{id}/images/{image_id} | — | null | autor |
 | POST | /post/{id}/favorite | — | ToggleFavorite | todos |
 | GET | /post/favorites | query: page, per_page, search | Paginated<Post> | todos |
+| GET | /post/{id}/participants | query: page, per_page | Paginated<PostParticipant> (do mais ativo para o menos) | todos (comment.view) |
 | GET | /comment | query: post_id (obrigatório), page, per_page, search, order (desc é o padrão), order_by | Paginated<Comment> (só raízes, com prévia) | todos |
 | POST | /comment | JSON: post_id, parent_id (opcional), content (até 2000) | Comment (201) | todos |
 | GET | /comment/{id} | — | Comment (com prévia) | todos |
@@ -122,6 +134,8 @@ Todas as rotas abaixo ficam sob /api.
 | GET | /like/comment/{id} | query: page, per_page | Paginated<Like> | todos |
 
 order_by aceita created_at ou updated_at. search ignora maiúsculas, mas não acentos.
+
+GET /post/{id}/participants lista cada pessoa uma vez, mesmo que ela tenha comentado várias vezes, e a paginação conta pessoas, não comentários. A ordem é por comments_count, com a participação mais recente desempatando. Comentários removidos não contam, porque a árvore já não mostra quem os escreveu, e comentários de contas excluídas ficam de fora. Post excluído ou inexistente responde 422, como as outras rotas de post.
 
 sort, só em GET /post, aceita recent ou popular. recent é o padrão e traz as postagens mais novas primeiro. popular traz as com mais engajamento primeiro, pontuando cada postagem por comentários (peso 3), favoritos (peso 2) e curtidas (peso 1); a data mais recente desempata, então postagens sem engajamento continuam em ordem cronológica.
 

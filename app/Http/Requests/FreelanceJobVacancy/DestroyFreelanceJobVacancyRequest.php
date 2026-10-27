@@ -26,7 +26,7 @@ class DestroyFreelanceJobVacancyRequest extends FormRequest
             'id' => [
                 'required',
                 'uuid',
-                'exists:freelance_job_vacancies,id'
+                'exists:freelance_job_vacancies,id,deleted_at,NULL'
             ]
         ];
     }

@@ -7,11 +7,15 @@ use App\Enums\ContractType;
 use App\Enums\DegreeLevelEnum;
 use App\Enums\DevSpecialtyEnum;
 use App\Enums\EmploymentType;
+use App\Enums\FreelanceFeedPostTypeEnum;
 use App\Enums\FreelanceJobTypeEnum;
+use App\Enums\FreelanceJobVacancyStatusEnum;
+use App\Enums\FreelanceProposalPricingTypeEnum;
+use App\Enums\FreelanceProposalStatusEnum;
+use App\Enums\FreelanceReviewStatusEnum;
 use App\Enums\HardSkillLevelsEnum;
 use App\Enums\OperationalSegmentEnum;
 use App\Enums\QuestionCategoryEnum;
-use App\Enums\SalaryTypeEnum;
 use App\Enums\ScreeningQuestionTypeEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Exceptions\ApiException;
@@ -145,11 +149,71 @@ class EnumController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'enumSalaryType', title: 'Listar tipos de remuneração', description: '**operationId:** `enumSalaryType` — Lista os casos do enum `SalaryTypeEnum`, usados na periodicidade do pagamento das vagas freelance. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
-    public function listSalaryType(): JsonResponse
+    #[Endpoint(operationId: 'enumFreelanceJobVacancyStatus', title: 'Listar status de vaga freelance', description: '**operationId:** `enumFreelanceJobVacancyStatus` — Lista os casos do enum `FreelanceJobVacancyStatusEnum`, usados no ciclo da vaga freelance: aberta para orçamentos, em andamento depois do contrato fechado e concluída. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    public function listFreelanceJobVacancyStatus(): JsonResponse
     {
         try {
-            return ApiResponse::success(EnumResource::collection(SalaryTypeEnum::cases()), "salary type listed with success!");
+            return ApiResponse::success(EnumResource::collection(FreelanceJobVacancyStatusEnum::cases()), "freelance job vacancy status listed with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+    }
+
+    #[Endpoint(operationId: 'enumFreelanceProposalStatus', title: 'Listar status de orçamento freelance', description: '**operationId:** `enumFreelanceProposalStatus` — Lista os casos do enum `FreelanceProposalStatusEnum`, usados na situação do orçamento de um dev para um freela. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    public function listFreelanceProposalStatus(): JsonResponse
+    {
+        try {
+            return ApiResponse::success(EnumResource::collection(FreelanceProposalStatusEnum::cases()), "freelance proposal status listed with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+    }
+
+    #[Endpoint(operationId: 'enumFreelanceProposalPricingType', title: 'Listar formas de cobrança de orçamento freelance', description: '**operationId:** `enumFreelanceProposalPricingType` — Lista os casos do enum `FreelanceProposalPricingTypeEnum`, que indicam como o dev cobra no orçamento: preço fechado ou valor por hora com as horas estimadas. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    public function listFreelanceProposalPricingType(): JsonResponse
+    {
+        try {
+            return ApiResponse::success(EnumResource::collection(FreelanceProposalPricingTypeEnum::cases()), "freelance proposal pricing type listed with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+    }
+
+    #[Endpoint(operationId: 'enumFreelanceFeedPostType', title: 'Listar tipos de postagem do feed freelance', description: '**operationId:** `enumFreelanceFeedPostType` — Lista os casos do enum `FreelanceFeedPostTypeEnum`, usados nos tipos de postagem do feed do freela: atualização, entrega e review. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    public function listFreelanceFeedPostType(): JsonResponse
+    {
+        try {
+            return ApiResponse::success(EnumResource::collection(FreelanceFeedPostTypeEnum::cases()), "freelance feed post type listed with success!");
+        } catch (ApiException $e) {
+            /**
+             * @status 400
+             *
+             * @body array{error: true, message: string, data: mixed}
+             */
+            return ApiResponse::error($e->getMessage(), $e->data, $e->getCode());
+        }
+    }
+
+    #[Endpoint(operationId: 'enumFreelanceReviewStatus', title: 'Listar resultados de review freelance', description: '**operationId:** `enumFreelanceReviewStatus` — Lista os casos do enum `FreelanceReviewStatusEnum`, usados no veredito do cliente na review de uma entrega do feed. Em **200**, `data[]` segue o schema **Enum Resource** (`App\\Http\\Resources\\Enum\\EnumResource`), com os campos `value`, `label` e `i18nKey`.')]
+    public function listFreelanceReviewStatus(): JsonResponse
+    {
+        try {
+            return ApiResponse::success(EnumResource::collection(FreelanceReviewStatusEnum::cases()), "freelance review status listed with success!");
         } catch (ApiException $e) {
             /**
              * @status 400

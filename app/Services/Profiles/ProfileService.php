@@ -97,7 +97,7 @@ class ProfileService
     {
         $dev = DevProfile::findOrFail($data['id']);
 
-        $dev->load('user.media');
+        $dev->load(['user' => fn ($query) => $query->withFollowCounts()->withFollowState(Auth::id())]);
 
         return new DevProfileResource($dev);
     }
@@ -106,7 +106,7 @@ class ProfileService
     {
         $company = CompanyProfile::findOrFail($data['id']);
 
-        $company->load('user.media');
+        $company->load(['user' => fn ($query) => $query->withFollowCounts()->withFollowState(Auth::id())]);
 
         return new CompanyProfileResource($company);
     }
@@ -115,7 +115,7 @@ class ProfileService
     {
         $client = ClientProfile::findOrFail($data['id']);
 
-        $client->load('user.media');
+        $client->load(['user' => fn ($query) => $query->withFollowCounts()->withFollowState(Auth::id())]);
 
         return new ClientProfileResource($client);
     }

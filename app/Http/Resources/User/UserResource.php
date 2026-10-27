@@ -42,6 +42,12 @@ class UserResource extends JsonResource
              * sabendo que o usuário leu, e o usuário também deixa de ver a leitura dos outros
              */
             'read_receipts_enabled' => (bool) $this->read_receipts_enabled,
+            // Só nas rotas que carregam os contadores (exibição de perfil e /auth/profile).
+            'followers_count' => $this->whenCounted('followers', fn ($count) => (int) $count),
+            'following_count' => $this->whenCounted('following', fn ($count) => (int) $count),
+            // Só nas rotas que carregam o scope withFollowState, em relação ao usuário autenticado.
+            'is_followed' => $this->whenHas('is_followed', fn ($isFollowed) => (bool) $isFollowed),
+            'follows_you' => $this->whenHas('follows_you', fn ($followsYou) => (bool) $followsYou),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

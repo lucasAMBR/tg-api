@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Traits\HasPermissions;
 use App\Traits\HasUuidV7;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -142,6 +143,46 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public function favoritePosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'favorite_posts')->withTimestamps();
+    }
+
+    /**
+     * Usuários que este usuário segue.
+     */
+    public function following(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id')->withTimestamps();
+    }
+
+    /**
+     * Usuários que seguem este usuário.
+     */
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id')->withTimestamps();
+    }
+
+    /**
+     * Quantos usuários este usuário segue e quantos o seguem, expostos pelo UserResource.
+     */
+    public function scopeWithFollowCounts(Builder $query): void
+    {
+        $query->withCount(['followers', 'following']);
+    }
+
+    /**
+     * A relação de cada usuário com quem está vendo: `is_followed` (o visitante segue o usuário)
+     * e `follows_you` (o usuário segue o visitante).
+     */
+    public function scopeWithFollowState(Builder $query, ?string $viewerId): void
+    {
+        $query->withExists([
+            'followers as is_followed' => function (Builder $query) use ($viewerId) {
+                $query->where('follows.follower_id', $viewerId);
+            },
+            'following as follows_you' => function (Builder $query) use ($viewerId) {
+                $query->where('follows.followed_id', $viewerId);
+            },
+        ]);
     }
 
     public function getJWTIdentifier()
