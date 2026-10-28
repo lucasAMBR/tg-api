@@ -16,6 +16,8 @@ use Illuminate\Http\JsonResponse;
 
 class HardSkillController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(protected HardSkillService $hardSkillService){}
 
     #[Endpoint(operationId: 'indexHardSkill', title: 'Listar hard skills', description: '**operationId:** `indexHardSkill` — Lista paginada das hard skills, ordenada por `created_at` decrescente, com filtros opcionais por `dev_profile_id` e `search` (busca em `skill_level` e no nome da linguagem vinculada). Em **200**, `data.data[]` segue o schema **Hard Skill Resource** (`App\\Http\\Resources\\HardSkill\\HardSkillResource`) e `data.pagination` traz os metadados de paginação.')]

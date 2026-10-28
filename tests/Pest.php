@@ -1,8 +1,12 @@
 <?php
 
+use App\Models\SoftSkill;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
+use Database\Seeders\LanguageSeeder;
+use Database\Seeders\SoftSkillLevelResponseSeeder;
+use Database\Seeders\SoftSkillSeeder;
 use Spatie\Permission\Models\Role;
 use Tymon\JWTAuth\Facades\JWTAuth;
 

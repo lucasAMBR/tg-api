@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\RecommendationPreference;
 
+use App\Models\Language;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRecommendationPreference extends FormRequest
@@ -32,7 +33,7 @@ class UpdateRecommendationPreference extends FormRequest
             'on_site_job_radius' => ['sometimes', 'integer', 'min:10'],
             'hybrid_jobs_radius' => ['sometimes', 'integer', 'min:10'],
             'allow_stack_flexibility' => ['sometimes', 'boolean'],
-            'min_remuneration' => ['sometimes', 'nullable', 'decimal:0,10'],
+            'min_remuneration' => ['sometimes', 'nullable', 'numeric', 'min:0', 'max:10000'],
             'languages_blacklist' => ['sometimes', 'array'],
             'languages_blacklist.*' => ['string', 'exists:languages,id']
         ];
