@@ -14,8 +14,10 @@ class SoftSkill extends Model
 
     protected $fillable = [
         'name',
+        'name_pt',
         'i18n_name_key',
         'description',
+        'description_pt',
         'i18n_description_key',
     ];
 

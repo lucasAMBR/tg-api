@@ -22,10 +22,20 @@ class UpdateCompanyProjectsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:company_projects,id'],
             'title' => ['sometimes', 'string', 'max:255'],
             'description' => ['sometimes', 'string'],
             'languages' => ['sometimes', 'array'],
             'languages.*' => ['sometimes', 'exists:languages,id'],
+            'prod_url' => ['sometimes', 'nullable', 'url', 'max:255'],
+            'github_url' => ['sometimes', 'nullable', 'url', 'max:255'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

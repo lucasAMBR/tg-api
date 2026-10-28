@@ -26,6 +26,8 @@ class StoreCompanyProjectRequest extends FormRequest
             'description' => ['required', 'string'],
             'languages' => ['required', 'array'],
             'languages.*' => ['string', 'exists:languages,id'],
+            'prod_url' => ['nullable', 'url', 'max:255'],
+            'github_url' => ['nullable', 'url', 'max:255'],
         ];
     }
 }

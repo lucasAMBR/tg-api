@@ -123,4 +123,74 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'services' => [
+        'translation' => [
+            'url' => env('TRANSLATION_URL'),
+            'detection_url' => env('TRANSLATION_DETECTION_URL'),
+        ],
+        'embedding' => [
+            'url' => env('OPEN_IA_URL'),
+            'key' => env('OPEN_IA_KEY'),
+            'model' => 'text-embedding-3-small',
+            'debounce_seconds' => env('EMBEDDING_DEBOUNCE_SECONDS', 60),
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Freelance Proposal Ranking
+    |--------------------------------------------------------------------------
+    |
+    | Pesos do score que ordena os orçamentos de um freela: a similaridade entre
+    | o embedding do dev e o do freela, e a proximidade do preço do orçamento
+    | com o budget do cliente. Os dois somam 1 para o score ficar entre 0 e 1.
+    |
+    */
+
+    'freelance_proposal_ranking' => [
+        'similarity_weight' => (float) env('FREELANCE_PROPOSAL_SIMILARITY_WEIGHT', 0.6),
+        'price_weight' => (float) env('FREELANCE_PROPOSAL_PRICE_WEIGHT', 0.4),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Proficiency Test Scoring
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the proficiency test score calculation: hit rate
+    | required to consider mastery on each seniority level, consistency
+    | boost multipliers and the focus/time violation penalties.
+    |
+    */
+
+    'proficiency_test' => [
+        'questions_per_page' => 10,
+
+        'mastery_thresholds' => [
+            'below_level' => 0.7,
+            'declared_level' => 0.6,
+            'above_level' => 0.5,
+        ],
+
+        'consistency_boosts' => [
+            'positive' => 1.15,
+            'negative' => 0.85,
+        ],
+
+        'seniority_adjustment' => [
+            'promote_min_hit_rate' => 0.75,
+            'demote_max_hit_rate' => 0.40,
+        ],
+
+        'alt_tabs' => [
+            'max_per_page' => 1,
+            'penalty_per_excess' => 0.02,
+        ],
+
+        'time' => [
+            'max_ideal_time_ratio' => 1.5,
+            'min_ideal_time_ratio' => 0.5,
+            'violation_penalty' => 0.02,
+        ],
+    ],
 ];

@@ -22,10 +22,20 @@ class UpdateProjectHistoryRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:project_histories,id'],
             'title' => ['sometimes', 'string', 'min:2', 'max:255'],
             'description' => ['sometimes', 'string', 'min:10', 'max:1000'],
             'languages' => ['sometimes', 'array'],
-            'languages.*' => ['sometimes', 'exists:languages,id']
+            'languages.*' => ['sometimes', 'exists:languages,id'],
+            'prod_url' => ['sometimes', 'nullable', 'url', 'max:255'],
+            'github_url' => ['sometimes', 'nullable', 'url', 'max:255'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

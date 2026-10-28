@@ -26,6 +26,7 @@ class UpdateEmploymentHistoryRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:employment_histories,id'],
             'company_name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'company_location' => ['sometimes', 'string', 'min:3', 'max:255'],
             'position_name' => ['sometimes', 'string', 'min:2', 'max:255'],
@@ -37,6 +38,13 @@ class UpdateEmploymentHistoryRequest extends FormRequest
             'start_date' => ['sometimes', 'date', 'date_format:Y-m-d'],
             'end_date' => ['sometimes', 'date', 'date_format:Y-m-d', 'after:start_date', 'required_if:is_current,false'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 
     protected function passedValidation(): void

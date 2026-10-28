@@ -1,0 +1,778 @@
+<?php 
+
+namespace App\Services\DevJobVacancy;
+
+use App\Enums\DevJobVacancyStatusEnum;
+use App\Enums\PortfolioSolicitationStatusEnum;
+use App\Enums\SelectionProcessStageEnum;
+use App\Exceptions\ApiException;
+use App\Helpers\ProfileHelper;
+use App\Http\Resources\DevJobVacancy\DevJobVacancyCollection;
+use App\Http\Resources\DevJobVacancy\DevJobVacancyResource;
+use App\Models\DevJobVacancy;
+use App\Models\DevJobVacancyInterview;
+use App\Models\DevJobVacancyLiveCoding;
+use App\Models\JobVacancy;
+use App\Models\JobVacancyProcessStep;
+use App\Models\LanguageAssessment;
+use App\Models\PortfolioSolicitation;
+use App\Models\ScreeningQuestionnaire;
+use App\Models\TechnicalChallenge;
+use App\Services\Chat\ChatService;
+use App\Services\DevJobVacancyLiveCoding\DevJobVacancyLiveCodingService;
+use App\Services\LanguageAssessment\LanguageAssessmentService;
+use App\Services\ScreeningQuestionnaire\ScreeningQuestionnaireService;
+use App\Services\TechnicalChallenge\TechnicalChallengeService;
+use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class DevJobVacancyService {
+
+    /**
+     * Prazo padrão, em dias, para a entrega do que a próxima etapa pede (o envio do
+     * portfólio, a resposta do questionário de triagem) quando a empresa não informa
+     * uma data na virada da etapa
+     */
+    private const STEP_DUE_DAYS = 7;
+
+    public function __construct(
+        protected ScreeningQuestionnaireService $screeningQuestionnaireService,
+        protected TechnicalChallengeService $technicalChallengeService,
+        protected DevJobVacancyLiveCodingService $devJobVacancyLiveCodingService,
+        protected LanguageAssessmentService $languageAssessmentService,
+        protected ChatService $chatService
+    ) {}
+
+    public function apply(array $data): DevJobVacancyResource {
+
+        $authUser = Auth::user();
+
+        // Verifica a role
+        if(!$authUser->hasRole('dev')) {
+            throw new ApiException("You can't apply for this vacancy!");
+        }
+
+        // Carrega o perfil do usuário
+        $devProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        if (!$devProfile) {
+            throw new ApiException("Developer profile not found!");
+        }
+
+        $jobVacancy = JobVacancy::findOrFail($data['job_vacancy_id']);
+
+        // Só aceita candidaturas enquanto as inscrições estiverem abertas
+        if(!$jobVacancy->acceptsApplications()) {
+            throw new ApiException('This vacancy is not accepting applications anymore!');
+        }
+
+        $vacancy = DevJobVacancy::where('dev_profile_id', $devProfile->id)
+            ->where('job_vacancy_id', $jobVacancy->id)
+            ->exists();
+            
+        // Valida se o usuário ja esta inscrito nessa vaga
+        if($vacancy) {
+            throw new ApiException('Developer already applied for this vacancy!');
+        }
+
+        return DB::transaction(function () use ($devProfile, $jobVacancy) {
+
+            $application = DevJobVacancy::create([
+                'dev_profile_id' => $devProfile->id,
+                'job_vacancy_id' => $jobVacancy->id,
+                'status' => DevJobVacancyStatusEnum::IN_PROGRESS,
+                // A candidatura entra no mesmo passo em que a vaga se encontra
+                'process_step' => $jobVacancy->process_step,
+            ]);
+
+            $application->refresh();
+            $application->load(['jobVacancy', 'devProfile']);
+
+            return new DevJobVacancyResource($application);
+
+        });
+
+    }
+
+    public function indexApplies(array $data): DevJobVacancyCollection {
+
+        $authUser = Auth::user();
+
+        if(!$authUser->hasRole('company')) {
+            throw new ApiException("You can't index applies for this vacancy!");
+        }
+
+        $companyProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        $page = $data['page'] ?? 1;
+        $per_page = $data['per_page'] ?? 10;
+        $search = $data['search'] ?? '';
+        $status = $data['status'] ?? null;
+        $jobVacancyId = $data['job_vacancy_id'] ?? null;
+
+        $applies = DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
+        ->whereHas('jobVacancy', function($query) use ($companyProfile) {
+            $query->where('company_profile_id', $companyProfile->id);
+        })
+        ->when($status, function($query) use ($status) {
+            $query->where('status', $status);
+        })
+        // Restringe as candidaturas a uma única vaga da empresa
+        ->when($jobVacancyId, function($query) use ($jobVacancyId) {
+            $query->where('job_vacancy_id', $jobVacancyId);
+        })
+        ->when($search, function($query) use ($search) {
+            $query->where(function($q) use ($search) {
+                $q->whereHas('devProfile', function($devQuery) use ($search) {
+                    $devQuery->where('name', 'ILIKE', "%{$search}%");
+                })
+                ->orWhereHas('jobVacancy', function($companyQuery) use ($search) {
+                    $companyQuery->where('title', 'ILIKE', "%{$search}%");
+                });
+            });
+        })->paginate(
+            $per_page,
+            ['*'],
+            'page',
+            $page
+        );
+
+        return new DevJobVacancyCollection($applies);
+
+    }
+
+    /**
+     * Lista as candidaturas do desenvolvedor autenticado
+     */
+    public function indexMyApplies(array $data): DevJobVacancyCollection {
+
+        $authUser = Auth::user();
+
+        if(!$authUser->hasRole('dev')) {
+            throw new ApiException("You can't index your applies!");
+        }
+
+        $devProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        $page = $data['page'] ?? 1;
+        $per_page = $data['per_page'] ?? 10;
+        $search = $data['search'] ?? '';
+        $status = $data['status'] ?? null;
+
+        // As candidaturas podem estar em etapas diferentes, então carrega os dados de todas
+        $applies = DevJobVacancy::query()->with(array_merge(['jobVacancy.companyProfile'], $this->stepRelations()))
+        ->where('dev_profile_id', $devProfile->id)
+        ->when($status, function($query) use ($status) {
+            $query->where('status', $status);
+        })
+        ->when($search, function($query) use ($search) {
+            $query->whereHas('jobVacancy', function($vacancyQuery) use ($search) {
+                $vacancyQuery->where('title', 'ILIKE', "%{$search}%")
+                ->orWhereHas('companyProfile', function($companyQuery) use ($search) {
+                    $companyQuery->where('name', 'ILIKE', "%{$search}%");
+                });
+            });
+        })
+        ->latest()
+        ->paginate(
+            $per_page,
+            ['*'],
+            'page',
+            $page
+        );
+
+        return new DevJobVacancyCollection($applies);
+
+    }
+
+    /**
+     * Lista as candidaturas em andamento que estão paradas em um passo do processo seletivo
+     */
+    public function indexStepApplies(array $data): AnonymousResourceCollection {
+
+        $jobVacancy = $this->getCompanyJobVacancy($data['job_vacancy_id']);
+
+        $search = $data['search'] ?? '';
+        $processStep = $data['process_step'] ?? SelectionProcessStageEnum::RESUME_SCREENING->value;
+
+        // Só os dados da etapa consultada, ex.: o envio do portfólio na análise de portfólio
+        $relations = array_merge(['jobVacancy', 'devProfile'], $this->stepRelations($processStep));
+
+        // A empresa avalia as perguntas de triagem pelas respostas, então elas vêm junto
+        if($processStep === SelectionProcessStageEnum::SCREENING_QUESTIONS->value) {
+            $relations[] = 'screeningQuestionnaire.answers.question';
+            $relations[] = 'screeningQuestionnaire.answers.options';
+        }
+
+        $applies = DevJobVacancy::query()->with($relations)
+        ->where('job_vacancy_id', $jobVacancy->id)
+        ->where('status', DevJobVacancyStatusEnum::IN_PROGRESS)
+        ->where('process_step', $processStep)
+        ->when($search, function($query) use ($search) {
+            $query->whereHas('devProfile', function($devQuery) use ($search) {
+                $devQuery->where('name', 'ILIKE', "%{$search}%");
+            });
+        })
+        ->latest()
+        ->get();
+
+        return DevJobVacancyResource::collection($applies);
+
+    }
+
+    /**
+     * Retorna as candidaturas aprovadas em um passo do processo seletivo e as recusadas
+     * nesse mesmo passo.
+     *
+     * Aprovado no passo é quem seguiu adiante: as candidaturas que já estão em um passo
+     * posterior e as que chegaram ao fim do processo com o status `approved`
+     *
+     * @return array{approved: DevJobVacancyResource[], rejected_in_step: DevJobVacancyResource[]}
+     */
+    public function stepResults(array $data): array {
+
+        $jobVacancy = $this->getCompanyJobVacancy($data['job_vacancy_id']);
+
+        $processStep = $data['process_step'] ?? SelectionProcessStageEnum::RESUME_SCREENING->value;
+
+        $laterSteps = $this->getStepsAfter($jobVacancy, $processStep);
+
+        $applies = DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
+            ->where('job_vacancy_id', $jobVacancy->id)
+            ->where(function($query) use ($processStep, $laterSteps) {
+                $query->where('status', DevJobVacancyStatusEnum::APPROVED)
+                    // Ainda em andamento, mas já em um passo posterior ao consultado
+                    ->when($laterSteps !== [], function($approvedQuery) use ($laterSteps) {
+                        $approvedQuery->orWhere(function($inProgressQuery) use ($laterSteps) {
+                            $inProgressQuery->where('status', DevJobVacancyStatusEnum::IN_PROGRESS)
+                                ->whereIn('process_step', $laterSteps);
+                        });
+                    })
+                    ->orWhere(function($rejectedQuery) use ($processStep) {
+                        $rejectedQuery->where('status', DevJobVacancyStatusEnum::REJECTED)
+                            ->where('process_step', $processStep);
+                    });
+            })
+            ->latest()
+            ->get();
+
+        [$rejected, $approved] = $applies->partition(
+            fn(DevJobVacancy $apply) => $apply->status === DevJobVacancyStatusEnum::REJECTED
+        );
+
+        return [
+            'approved' => DevJobVacancyResource::collection($approved->values()),
+            'rejected_in_step' => DevJobVacancyResource::collection($rejected->values())
+        ];
+
+    }
+
+    /**
+     * Relações com os dados próprios de cada etapa do processo seletivo. Sem passo
+     * informado devolve todas, para acompanhar candidaturas em etapas diferentes.
+     *
+     * A espera de uma etapa carrega os mesmos dados dela: é justamente onde a empresa
+     * prepara o que falta para a etapa começar (ex.: escrever o exercício do live
+     * coding de cada candidatura parada em `awaiting_live_coding`)
+     *
+     * NOTA: cada nova etapa que passar a ter dados próprios entra nesse mapa
+     *
+     * @return array<int, string>
+     */
+    private function stepRelations(?string $processStep = null): array {
+
+        $relations = [
+            SelectionProcessStageEnum::SCREENING_QUESTIONS->value => 'screeningQuestionnaire',
+            SelectionProcessStageEnum::PORTFOLIO_REVIEW->value => 'portfolioSolicitation',
+            SelectionProcessStageEnum::INTERVIEW->value => 'interview',
+            SelectionProcessStageEnum::TECHNICAL_CHALLENGE->value => 'technicalChallenge',
+            SelectionProcessStageEnum::LIVE_CODING->value => 'liveCoding',
+            SelectionProcessStageEnum::LANGUAGE_ASSESSMENT->value => 'languageAssessment'
+        ];
+
+        if($processStep === null) {
+            return array_values($relations);
+        }
+
+        $stage = SelectionProcessStageEnum::tryFrom($processStep)?->startedStage()->value;
+
+        return isset($relations[$stage]) ? [$relations[$stage]] : [];
+
+    }
+
+    /**
+     * Passos configurados na vaga que vêm depois do passo informado
+     *
+     * @return array<int, string>
+     */
+    private function getStepsAfter(JobVacancy $jobVacancy, string $processStep): array {
+
+        $steps = $jobVacancy->processSteps()->get()->pluck('step')->all();
+
+        $currentIndex = array_search($processStep, $steps, true);
+
+        // Passo que não faz parte do processo seletivo da vaga não tem passos posteriores
+        if($currentIndex === false) {
+            return [];
+        }
+
+        return array_values(array_slice($steps, $currentIndex + 1));
+
+    }
+
+    /**
+     * Avança as candidaturas da etapa atual da vaga: as informadas em `apply_ids`
+     * são aprovadas na etapa e seguem para a próxima, e todas as demais candidaturas
+     * em andamento naquela etapa são recusadas.
+     *
+     * Quando a próxima etapa exige algo preparado pela empresa que ainda não existe,
+     * as aprovadas param na espera dessa etapa (`awaiting_*`) em vez de entrarem nela.
+     * É o caso das perguntas de triagem sem questionário cadastrado, do desafio
+     * técnico sem desafio cadastrado, do live coding sem o exercício publicado e da
+     * avaliação de idioma sem a prova cadastrada: as candidaturas ficam na espera da
+     * etapa (`awaiting_*`) até a empresa cadastrar o que falta.
+     *
+     * NOTA: por enquanto o avanço é puramente manual, decidido pela empresa. Novas
+     * regras de avanço serão implementadas conforme cada etapa do processo seletivo
+     * for melhor desenvolvida (ex.: exigir a correção do teste de proficiência nas
+     * perguntas de triagem, entrevista realizada, desafio técnico entregue etc.).
+     *
+     * @return array{
+     *     process_step: string|null,
+     *     approved: DevJobVacancyResource[],
+     *     rejected: DevJobVacancyResource[]
+     * }
+     */
+    public function advanceStep(array $data): array {
+
+        $jobVacancy = $this->getCompanyJobVacancy($data['job_vacancy_id']);
+
+        // O processo seletivo só começa depois que as inscrições são encerradas
+        if($jobVacancy->acceptsApplications()) {
+            throw new ApiException("You need to close the inscriptions before advancing the selection process!");
+        }
+
+        $currentStep = $jobVacancy->process_step;
+
+        // Etapa que ainda não começou não tem o que avançar: o processo só segue depois
+        // que a empresa prepara o que falta (ex.: cadastrar o questionário de triagem)
+        if($currentStep?->isAwaiting()) {
+            throw new ApiException(
+                "The current step of this vacancy has not started yet!",
+                400,
+                ['process_step' => $currentStep->value]
+            );
+        }
+
+        $nextStep = $this->getNextProcessStep($jobVacancy);
+
+        // A etapa de perguntas de triagem só começa com o questionário cadastrado
+        $screeningQuestionnaire = $nextStep === SelectionProcessStageEnum::SCREENING_QUESTIONS
+            ? $this->screeningQuestionnaireService->getVacancyQuestionnaire($jobVacancy)
+            : null;
+
+        // A etapa de desafio técnico só começa com o desafio cadastrado
+        $technicalChallenge = $nextStep === SelectionProcessStageEnum::TECHNICAL_CHALLENGE
+            ? $this->technicalChallengeService->getVacancyChallenge($jobVacancy)
+            : null;
+
+        // A etapa de avaliação de idioma só começa com a prova cadastrada
+        $languageAssessment = $nextStep === SelectionProcessStageEnum::LANGUAGE_ASSESSMENT
+            ? $this->languageAssessmentService->getVacancyAssessment($jobVacancy)
+            : null;
+
+        $applies = $jobVacancy->applications()
+            ->with(['jobVacancy', 'devProfile'])
+            ->where('status', DevJobVacancyStatusEnum::IN_PROGRESS)
+            ->where('process_step', $currentStep)
+            ->get();
+
+        if($applies->isEmpty()) {
+            throw new ApiException("There are no applications in progress in the current step of this vacancy!");
+        }
+
+        $approvedIds = array_values(array_unique($data['apply_ids']));
+
+        // Os ids enviados precisam ser candidaturas em andamento na etapa atual da vaga
+        $unknownIds = array_diff($approvedIds, $applies->pluck('id')->all());
+
+        if($unknownIds !== []) {
+            throw new ApiException(
+                "Some of the informed applications are not in progress in the current step of this vacancy!",
+                400,
+                ['apply_ids' => array_values($unknownIds)]
+            );
+        }
+
+        [$approved, $rejected] = $applies->partition(
+            fn(DevJobVacancy $apply) => in_array($apply->id, $approvedIds, true)
+        );
+
+        // O live coding só começa com o exercício de cada aprovado publicado. Diferente
+        // das outras etapas o pré-requisito é por candidatura, então precisa dos
+        // aprovados em mãos — e no primeiro avanço nunca está pronto, porque os
+        // registros de live coding só nascem aqui dentro, sem enunciado
+        $liveCodingExercisesPublished = $nextStep === SelectionProcessStageEnum::LIVE_CODING
+            && $this->devJobVacancyLiveCodingService->exercisesArePublished($approved);
+
+        // Sem o que a etapa exige, as aprovadas ficam aguardando a empresa preparar o
+        // que falta em vez de entrarem na etapa
+        $startedStep = $this->stepIsMissingRequirement($nextStep, $screeningQuestionnaire, $technicalChallenge, $liveCodingExercisesPublished, $languageAssessment)
+            ? $nextStep->awaitingStage()
+            : $nextStep;
+
+        // Prazo de entrega usado quando a próxima etapa pede algo do dev: o envio do
+        // portfólio ou a resposta do questionário de triagem
+        $dueDate = isset($data['due_date'])
+            ? Carbon::parse($data['due_date'])
+            : now()->addDays(self::STEP_DUE_DAYS);
+
+        return DB::transaction(function() use ($jobVacancy, $approved, $rejected, $currentStep, $nextStep, $startedStep, $screeningQuestionnaire, $technicalChallenge, $languageAssessment, $dueDate) {
+
+            // A recusa mantém o passo em que aconteceu
+            if($rejected->isNotEmpty()) {
+                DevJobVacancy::whereIn('id', $rejected->pluck('id'))
+                    ->update(['status' => DevJobVacancyStatusEnum::REJECTED->value]);
+            }
+
+            if($approved->isNotEmpty()) {
+                DevJobVacancy::whereIn('id', $approved->pluck('id'))->update(
+                    // Sem próxima etapa a candidatura chega ao fim do processo aprovada
+                    $startedStep
+                        ? ['process_step' => $startedStep->value]
+                        : ['status' => DevJobVacancyStatusEnum::APPROVED->value]
+                );
+            }
+
+            if($startedStep) {
+                $jobVacancy->update(['process_step' => $startedStep->value]);
+            }
+
+            $this->notifyStepAdvance($jobVacancy, $approved, $rejected, $currentStep, $nextStep);
+
+            // No fim do processo a empresa já manda uma mensagem no chat para cada
+            // aprovado, avisando que vai entrar em contato para a contratação
+            if(!$nextStep) {
+                $this->sendHiringMessages($jobVacancy, $approved);
+            }
+
+            // As perguntas de triagem começam abrindo o questionário da vaga para cada
+            // aprovado responder até o prazo informado
+            if($screeningQuestionnaire) {
+                $this->screeningQuestionnaireService->createDevQuestionnaires($jobVacancy, $approved, $dueDate);
+            }
+
+            // O desafio técnico começa abrindo a entrega do desafio da vaga para cada
+            // aprovado resolver até o prazo definido pela empresa no enunciado
+            if($technicalChallenge) {
+                $this->technicalChallengeService->createDevChallenges($jobVacancy, $approved, $dueDate);
+            }
+
+            // A avaliação de idioma começa abrindo a prova da vaga para cada aprovado
+            // responder até o prazo definido pela empresa no formulário
+            if($languageAssessment) {
+                $this->languageAssessmentService->createDevAssessments($jobVacancy, $approved, $dueDate);
+            }
+
+            // A análise de portfólio começa com a solicitação do portfólio de cada aprovado
+            if($nextStep === SelectionProcessStageEnum::PORTFOLIO_REVIEW) {
+                $this->requestPortfolios($jobVacancy, $approved, $dueDate);
+            }
+
+            // A etapa de entrevista começa com a criação do registro de entrevista de
+            // cada aprovado, que depois será usado pra negociar o horário e realizar a call
+            if($nextStep === SelectionProcessStageEnum::INTERVIEW) {
+                $this->createInterviews($jobVacancy, $approved);
+            }
+
+            // O live coding segue o mesmo desenho da entrevista: o registro de cada
+            // aprovado nasce aqui e depois é usado pra publicar o exercício, negociar
+            // o horário e realizar a call. Os registros são criados mesmo quando a
+            // etapa para na espera — é neles que a empresa escreve o enunciado que
+            // destrava o `awaiting_live_coding`
+            if($nextStep === SelectionProcessStageEnum::LIVE_CODING) {
+                $this->createLiveCodings($jobVacancy, $approved);
+            }
+
+            return [
+                'process_step' => $startedStep?->value,
+                'approved' => DevJobVacancyResource::collection(
+                    DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
+                        ->whereIn('id', $approved->pluck('id'))
+                        ->get()
+                ),
+                'rejected' => DevJobVacancyResource::collection(
+                    DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
+                        ->whereIn('id', $rejected->pluck('id'))
+                        ->get()
+                )
+            ];
+
+        });
+
+    }
+
+    /**
+     * Abre uma solicitação de portfólio para cada candidatura que entrou na etapa de
+     * análise de portfólio e avisa o desenvolvedor do prazo de envio
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $approved
+     */
+    private function requestPortfolios(JobVacancy $jobVacancy, Collection $approved, Carbon $dueDate): void {
+
+        foreach($approved as $application) {
+
+            // Uma única solicitação por candidatura, mesmo que a etapa seja reprocessada
+            PortfolioSolicitation::firstOrCreate(
+                ['dev_job_vacancy_id' => $application->id],
+                [
+                    'dev_profile_id' => $application->dev_profile_id,
+                    'status' => PortfolioSolicitationStatusEnum::PENDING,
+                    'due_date' => $dueDate
+                ]
+            );
+
+            $application->devProfile?->notifications()->create([
+                'type' => 'portfolio_solicitation_created',
+                'title' => 'Solicitação de portfólio',
+                'message' => "A empresa está solicitando o seu portfólio para a etapa de análise de portfólio da vaga {$jobVacancy->title}. Envie o link até {$dueDate->format('d/m/Y')}!",
+                'link' => env('APP_URL') . '/jobs'
+            ]);
+
+        }
+
+    }
+
+    /**
+     * Cria o registro de entrevista de cada candidatura que avançou para a etapa de
+     * entrevista, com um título automático, sem horário definido ainda. É esse
+     * registro que vai ser usado para negociar o horário com o dev e, depois,
+     * realizar a call
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $approved
+     */
+    private function createInterviews(JobVacancy $jobVacancy, Collection $approved): void {
+
+        $companyName = $jobVacancy->companyProfile?->name;
+
+        foreach($approved as $application) {
+
+            // Um único registro de entrevista por candidatura, mesmo que a etapa seja reprocessada
+            DevJobVacancyInterview::firstOrCreate(
+                ['dev_job_vacancy_id' => $application->id],
+                [
+                    'job_vacancy_id' => $jobVacancy->id,
+                    'title' => "Entrevista - {$application->devProfile?->name} e {$companyName} - {$jobVacancy->title}"
+                ]
+            );
+
+        }
+
+    }
+
+    /**
+     * Cria o registro de live coding de cada candidatura que avançou para a etapa de
+     * live coding, com um título automático, sem exercício e sem horário definidos
+     * ainda. É esse registro que vai ser usado para publicar o enunciado, negociar o
+     * horário com o dev e, depois, realizar a call
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $approved
+     */
+    private function createLiveCodings(JobVacancy $jobVacancy, Collection $approved): void {
+
+        $companyName = $jobVacancy->companyProfile?->name;
+
+        foreach($approved as $application) {
+
+            // Um único registro de live coding por candidatura, mesmo que a etapa seja reprocessada
+            DevJobVacancyLiveCoding::firstOrCreate(
+                ['dev_job_vacancy_id' => $application->id],
+                [
+                    'job_vacancy_id' => $jobVacancy->id,
+                    'title' => "Live coding - {$application->devProfile?->name} e {$companyName} - {$jobVacancy->title}"
+                ]
+            );
+
+        }
+
+    }
+
+    /**
+     * Avisa cada desenvolvedor sobre o resultado da etapa: os aprovados recebem a
+     * próxima etapa que vai se iniciar (ou a aprovação final, quando não há próxima)
+     * e os eliminados são avisados de que não seguem no processo seletivo
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $approved
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $rejected
+     */
+    private function notifyStepAdvance(
+        JobVacancy $jobVacancy,
+        Collection $approved,
+        Collection $rejected,
+        ?SelectionProcessStageEnum $currentStep,
+        ?SelectionProcessStageEnum $nextStep
+    ): void {
+
+        $link = env('APP_URL') . "/job-vacancy/{$jobVacancy->id}";
+        $currentStepLabel = $currentStep?->labelPt();
+
+        foreach($approved as $application) {
+
+            $message = $nextStep
+                ? "Parabéns! Você foi aprovado na etapa de {$currentStepLabel} da vaga {$jobVacancy->title} e em breve a etapa de {$nextStep->labelPt()} vai se iniciar!"
+                : "Parabéns! Você foi aprovado na etapa de {$currentStepLabel} e concluiu o processo seletivo da vaga {$jobVacancy->title}!";
+
+            $application->devProfile?->notifications()->create([
+                'type' => $nextStep ? 'job_vacancy_step_approved' : 'job_vacancy_process_approved',
+                'title' => $nextStep ? 'Aprovado na etapa' : 'Aprovado no processo seletivo',
+                'message' => $message,
+                'link' => $link
+            ]);
+
+        }
+
+        foreach($rejected as $application) {
+
+            $application->devProfile?->notifications()->create([
+                'type' => 'job_vacancy_step_rejected',
+                'title' => 'Processo seletivo encerrado',
+                'message' => "Infelizmente você não prosseguiu no processo seletivo da vaga {$jobVacancy->title} na etapa de {$currentStepLabel}. Agradecemos a sua participação!",
+                'link' => $link
+            ]);
+
+        }
+
+    }
+
+    /**
+     * Envia, em nome da empresa, a mensagem automática no chat de cada desenvolvedor
+     * aprovado no processo seletivo
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $approved
+     */
+    private function sendHiringMessages(JobVacancy $jobVacancy, Collection $approved): void {
+
+        $companyUserId = Auth::id();
+
+        foreach($approved as $application) {
+
+            $devProfile = $application->devProfile;
+
+            if(!$devProfile) {
+                continue;
+            }
+
+            $this->chatService->sendAutomaticMessage(
+                $companyUserId,
+                $devProfile->user_id,
+                "Olá, {$devProfile->name}! Parabéns pela aprovação no processo seletivo da vaga {$jobVacancy->title}! Em breve entraremos em contato para alinhar a documentação e os próximos passos da sua contratação."
+            );
+
+        }
+
+    }
+
+    /**
+     * Indica se a próxima etapa exige algo preparado pela empresa que ainda não existe.
+     * Nesse caso as candidaturas aprovadas param na espera da etapa (`awaiting_*`) até
+     * o cadastro ser feito: é o caso das perguntas de triagem sem questionário, do
+     * desafio técnico sem desafio, do live coding sem o exercício de cada aprovado e
+     * da avaliação de idioma sem a prova
+     */
+    private function stepIsMissingRequirement(
+        ?SelectionProcessStageEnum $nextStep,
+        ?ScreeningQuestionnaire $screeningQuestionnaire,
+        ?TechnicalChallenge $technicalChallenge,
+        bool $liveCodingExercisesPublished,
+        ?LanguageAssessment $languageAssessment
+    ): bool {
+
+        return match ($nextStep) {
+            SelectionProcessStageEnum::SCREENING_QUESTIONS => !$screeningQuestionnaire,
+            SelectionProcessStageEnum::TECHNICAL_CHALLENGE => !$technicalChallenge,
+            SelectionProcessStageEnum::LIVE_CODING => !$liveCodingExercisesPublished,
+            SelectionProcessStageEnum::LANGUAGE_ASSESSMENT => !$languageAssessment,
+            default => false
+        };
+
+    }
+
+    /**
+     * Próxima etapa configurada no processo seletivo da vaga, ou null quando a
+     * etapa atual é a última
+     */
+    private function getNextProcessStep(JobVacancy $jobVacancy): ?SelectionProcessStageEnum {
+
+        $steps = $jobVacancy->processSteps()->get();
+
+        $currentIndex = $steps->search(
+            fn(JobVacancyProcessStep $step) => $step->step === $jobVacancy->process_step?->value
+        );
+
+        if($currentIndex === false) {
+            throw new ApiException("The current step of this vacancy is not configured in its selection process!");
+        }
+
+        $nextStep = $steps->get($currentIndex + 1);
+
+        return $nextStep ? SelectionProcessStageEnum::from($nextStep->step) : null;
+
+    }
+
+    /**
+     * Garante que a vaga pertence ao perfil de empresa autenticado
+     */
+    private function getCompanyJobVacancy(string $jobVacancyId): JobVacancy {
+
+        $authUser = Auth::user();
+
+        if(!$authUser->hasRole('company')) {
+            throw new ApiException("You can't index applies for this vacancy!");
+        }
+
+        $companyProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        $jobVacancy = JobVacancy::query()
+            ->where('id', $jobVacancyId)
+            ->where('company_profile_id', $companyProfile->id)
+            ->first();
+
+        if(!$jobVacancy) {
+            throw new ApiException("This vacancy does not belong to your company!", 403);
+        }
+
+        return $jobVacancy;
+
+    }
+
+    public function reviewApply(array $data): DevJobVacancyResource {
+
+        $authUser = Auth::user();
+        $companyProfile = ProfileHelper::getUserProfileByRole($authUser);
+
+        $apply = DevJobVacancy::query()->with(['jobVacancy', 'devProfile'])
+            ->where('id', $data['id'])
+            ->whereHas('jobVacancy', function($query) use ($companyProfile) {
+                $query->where('company_profile_id', $companyProfile->id);
+            })->first();
+
+        if(!$apply) {
+            throw new ApiException("This apply does not belong to your company!", 403);
+        }
+
+        return DB::transaction(function() use ($apply, $data) {
+
+            // Só altera o que foi enviado, permitindo limpar o feedback com null
+            $apply->update(Arr::only($data, ['status', 'feedback']));
+
+            return new DevJobVacancyResource($apply);
+
+        });
+
+    }
+
+}

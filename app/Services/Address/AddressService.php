@@ -6,8 +6,10 @@ use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\Addresses\AddressResource;
 use App\Models\Address;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 
 class AddressService
@@ -40,8 +42,14 @@ class AddressService
         });
     }
 
-    public function update(array $data, Address $address): AddressResource
+    public function update(array $data): AddressResource
     {
+        $address = Address::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $address);
+
+        $data = Arr::except($data, ['id']);
+
         if(!empty($data['cep'])){
             $new_address_data = $this->searchAddressInApi($data['cep']);
 
@@ -64,11 +72,22 @@ class AddressService
     }
 
 
-    public function delete(Address $address): void
+    public function delete(array $data): void
     {
+        $address = Address::findOrFail($data['id']);
+
+        $this->ensureOwnership('delete', $address);
+
         DB::transaction(function () use ($address) {
             $address->delete();
         });
+    }
+
+    private function ensureOwnership(string $ability, Address $address): void
+    {
+        if (Gate::denies($ability, $address)) {
+            throw new ApiException('This address does not belong to your profile!', 403);
+        }
     }
 
     public function showUserAddress(): array

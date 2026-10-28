@@ -23,6 +23,11 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => [
+                'required',
+                'uuid',
+                'exists:users,id'
+            ],
             'email' => [
                 'sometimes',
                 'email',
@@ -64,6 +69,18 @@ class UpdateUserRequest extends FormRequest
                 'mimes:jpeg,jpg,png,webp',
                 'max:10000'
             ],
+            // Confirmação de leitura do chat (ver ChatMessage::readAtFor)
+            'read_receipts_enabled' => [
+                'sometimes',
+                'boolean'
+            ],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

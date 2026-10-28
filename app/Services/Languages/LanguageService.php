@@ -2,11 +2,14 @@
 
 namespace App\Services\Languages;
 
+use App\Exceptions\ApiException;
 use App\Http\Resources\Language\LanguageCollection;
 use App\Http\Resources\Language\LanguageResource;
 use App\Models\Language;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class LanguageService {
 
@@ -42,8 +45,14 @@ class LanguageService {
         });
     }
 
-    public function update(Language $language, array $data)
+    public function update(array $data)
     {
+        $language = Language::findOrFail($data['id']);
+
+        $this->ensureAuthorized('update', $language);
+
+        $data = Arr::except($data, ['id']);
+
         return DB::transaction(function () use ($data, $language) {
             $language->update($data);
 
@@ -51,15 +60,23 @@ class LanguageService {
         });
     }
 
-    public function delete(Language $language)
+    public function delete(array $data)
     {
+        $language = Language::findOrFail($data['id']);
+
+        $this->ensureAuthorized('delete', $language);
+
         DB::transaction(function () use ($language) {
             $language->delete();
         });
     }
 
-    public function approveLanguage(Language $language)
+    public function approveLanguage(array $data)
     {
+        $language = Language::findOrFail($data['id']);
+
+        $this->ensureAuthorized('approve', $language);
+
         return DB::transaction(function () use ($language) {
             $language->update([
                 'is_approved' => true
@@ -67,5 +84,12 @@ class LanguageService {
 
             return new LanguageResource($language);
         });
+    }
+
+    private function ensureAuthorized(string $ability, Language $language): void
+    {
+        if (Gate::denies($ability, $language)) {
+            throw new ApiException('You are not allowed to manage languages!', 403);
+        }
     }
 }

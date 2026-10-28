@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Traits\HasPermissions;
 use App\Traits\HasUuidV7;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,6 +28,12 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     protected $keyType = 'string';
 
     /**
+     * Perfis usados pelo UserSimpleResource para exibir o nome do autor.
+     * Carregue junto com o usuário para evitar N+1 em listagens.
+     */
+    public const PROFILE_RELATIONS = ['dev_profile', 'company_profile', 'client_profile', 'admin_profile'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -34,7 +41,16 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     protected $fillable = [
         'email',
         'admin_active_profile',
-        'password'
+        'password',
+        'is_blocked',
+        'read_receipts_enabled'
+    ];
+
+    /**
+     * Mesmo default da coluna, para o model recém-criado (ainda sem refresh) já ter o valor
+     */
+    protected $attributes = [
+        'read_receipts_enabled' => true,
     ];
 
     protected $appends = ['profile_pic'];
@@ -61,6 +77,8 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_blocked' => 'boolean',
+            'read_receipts_enabled' => 'boolean',
         ];
     }
 
@@ -79,7 +97,10 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             ->quality(80);
     }
 
-    public function getProfilePicAttribute()
+    /**
+     * @return array{id: int, original_url: string, thumb_url: string}|null
+     */
+    public function getProfilePicAttribute(): ?array
     {
         $media = $this->getFirstMedia('profile_pic');
 
@@ -88,8 +109,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         }
 
         return [
-            'id' => $media->id,
-            'url' => $media->getUrl(),
+            'id'           => (int) $media->id,
+            'original_url' => (string) $media->getUrl(),
+            'thumb_url'    => (string) $media->getUrl('thumb'),
         ];
     }
 
@@ -106,6 +128,61 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public function client_profile(): HasOne
     {
         return $this->hasOne(ClientProfile::class);
+    }
+
+    public function admin_profile(): HasOne
+    {
+        return $this->hasOne(AdminProfile::class);
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function favoritePosts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'favorite_posts')->withTimestamps();
+    }
+
+    /**
+     * Usuários que este usuário segue.
+     */
+    public function following(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id')->withTimestamps();
+    }
+
+    /**
+     * Usuários que seguem este usuário.
+     */
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id')->withTimestamps();
+    }
+
+    /**
+     * Quantos usuários este usuário segue e quantos o seguem, expostos pelo UserResource.
+     */
+    public function scopeWithFollowCounts(Builder $query): void
+    {
+        $query->withCount(['followers', 'following']);
+    }
+
+    /**
+     * A relação de cada usuário com quem está vendo: `is_followed` (o visitante segue o usuário)
+     * e `follows_you` (o usuário segue o visitante).
+     */
+    public function scopeWithFollowState(Builder $query, ?string $viewerId): void
+    {
+        $query->withExists([
+            'followers as is_followed' => function (Builder $query) use ($viewerId) {
+                $query->where('follows.follower_id', $viewerId);
+            },
+            'following as follows_you' => function (Builder $query) use ($viewerId) {
+                $query->where('follows.followed_id', $viewerId);
+            },
+        ]);
     }
 
     public function getJWTIdentifier()

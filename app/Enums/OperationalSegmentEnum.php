@@ -39,6 +39,24 @@ enum OperationalSegmentEnum: string
         };
     }
 
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::E_COMMERCE => 'E-commerce',
+            self::FINTECH => 'Fintech',
+            self::HEALTHCARE => 'Saúde e HealthTech',
+            self::EDTECH => 'EdTech (Educação)',
+            self::LOGISTICS => 'Logística e Cadeia de Suprimentos',
+            self::CYBERSECURITY => 'Cibersegurança',
+            self::GAME_DEV => 'Desenvolvimento de Jogos',
+            self::CLOUD_COMPUTING => 'Cloud Computing / SaaS',
+            self::ARTIFICIAL_INTELLIGENCE => 'IA / Machine Learning',
+            self::SOFTWARE_HOUSE => 'Software House / Agência',
+            self::RETAIL => 'Varejo',
+            self::BANKING => 'Bancos e Serviços Financeiros',
+        };
+    }
+
     public function i18nKey() {
         return match($this){
             self::E_COMMERCE => "enum.operational_segment.e_commerce",

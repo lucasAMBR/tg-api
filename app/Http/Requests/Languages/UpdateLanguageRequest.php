@@ -22,7 +22,15 @@ class UpdateLanguageRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:languages,id'],
             'name' => ['required', 'string', 'min:1', 'max:255']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AdminProfile;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,7 +24,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             LanguageSeeder::class,
             SoftSkillSeeder::class,
-            SoftSkillLevelResponseSeeder::class
+            SoftSkillLevelResponseSeeder::class,
+            QuestionSeeder::class
         ]);
 
         $this->createAdminIfNotExists(
@@ -45,9 +47,15 @@ class DatabaseSeeder extends Seeder
             'client@example.com',
             'client'
         );
-        
+
         $this->call([
-            DevPreferencesSeeder::class
+            DevProfilesSeeder::class,
+            DevPreferencesSeeder::class,
+            CompanyProfilesSeeder::class,
+            ClientProfilesSeeder::class,
+            JobVacancySeeder::class,
+            PostSeeder::class,
+            FollowSeeder::class
         ]);
     }
 
@@ -84,5 +92,10 @@ class DatabaseSeeder extends Seeder
         if (!$user->hasRole($role)) {
             $user->assignRole($role);
         }
+
+        AdminProfile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['name' => 'Admin User']
+        );
     }
 }

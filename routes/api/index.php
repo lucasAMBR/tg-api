@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(base_path('routes/api/Auth.php'));
@@ -18,8 +19,6 @@ Route::prefix('company-project')->group(base_path('routes/api/CompanyProjects.ph
 
 Route::prefix('academic-background')->group(base_path('routes/api/AcademicBackground.php'));
 
-Route::prefix('embedding')->group(base_path('routes/api/Embeddings.php'));
-
 Route::prefix('additional-course')->group(base_path('routes/api/AdditionalCourse.php'));
 
 Route::prefix('hard-skill')->group(base_path('routes/api/HardSkill.php'));
@@ -30,6 +29,46 @@ Route::prefix('enum')->group(base_path('routes/api/Enums.php'));
 
 Route::prefix('job-vacancy')->group(base_path('routes/api/JobVacancy.php'));
 
+Route::prefix('freelance-job-vacancy')->group(base_path('routes/api/FreelanceJobVacancy.php'));
+
+Route::prefix('freelance-proposal')->group(base_path('routes/api/FreelanceProposal.php'));
+
 Route::prefix('user')->group(base_path('routes/api/User.php'));
 
 Route::prefix('recommendation-preferences')->group(base_path('routes/api/RecommendationPreferences.php'));
+
+Route::prefix('dev-vacancy')->group(base_path('routes/api/DevJobVacancy.php'));
+
+Route::prefix('portfolio-solicitation')->group(base_path('routes/api/PortfolioSolicitation.php'));
+
+Route::prefix('dev-vacancy-interview')->group(base_path('routes/api/DevJobVacancyInterview.php'));
+
+Route::prefix('dev-vacancy-live-coding')->group(base_path('routes/api/DevJobVacancyLiveCoding.php'));
+
+Route::prefix('language-assessment')->group(base_path('routes/api/LanguageAssessment.php'));
+
+Route::prefix('screening-questionnaire')->group(base_path('routes/api/ScreeningQuestionnaire.php'));
+
+Route::prefix('technical-challenge')->group(base_path('routes/api/TechnicalChallenge.php'));
+
+Route::prefix('question')->group(base_path('routes/api/Question.php'));
+
+Route::prefix('proficiency-test')->group(base_path('routes/api/ProficiencyTest.php'));
+
+Route::prefix('notification')->group(base_path('routes/api/Notification.php'));
+
+Route::prefix('chat')->group(base_path('routes/api/Chat.php'));
+
+Route::prefix('search')->group(base_path('routes/api/Search.php'));
+
+Route::prefix('recommendation')->group(base_path('routes/api/Recommendation.php'));
+
+Route::prefix('post')->group(base_path('routes/api/Post.php'));
+
+Route::prefix('comment')->group(base_path('routes/api/Comment.php'));
+
+Route::prefix('like')->group(base_path('routes/api/Like.php'));
+
+Route::prefix('follow')->group(base_path('routes/api/Follow.php'));
+
+Broadcast::routes(['middleware' => ['auth:api']]);

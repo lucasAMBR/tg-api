@@ -11,7 +11,7 @@ enum ContractType: string
 
     case CLT = "clt";
     case CONTRACTOR = "contractor";
-    case INTERNSHIP = "intership";
+    case INTERNSHIP = "internship";
 
     public function i18nKey() {
         return match($this){
@@ -27,6 +27,15 @@ enum ContractType: string
             self::CLT => "Clt",
             self::CONTRACTOR => "Contractor",
             self::INTERNSHIP => "Internship",
+        };
+    }
+
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::CLT => 'CLT',
+            self::CONTRACTOR => 'PJ',
+            self::INTERNSHIP => 'Estágio',
         };
     }
 }

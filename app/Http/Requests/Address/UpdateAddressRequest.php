@@ -22,9 +22,17 @@ class UpdateAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:addresses,id'],
             'cep' => ['sometimes', 'string', 'min:8', 'max:8'],
             'number' => ['sometimes', 'string', 'min:1', 'max:15'],
             'complement' => ['sometimes', 'string'],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

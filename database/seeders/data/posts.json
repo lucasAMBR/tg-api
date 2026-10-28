@@ -1,0 +1,1436 @@
+[
+  {
+    "user_email": "rafael.moreira@example.com",
+    "hours_ago": 3,
+    "engagement": "high",
+    "content": "Depois de 9 anos com Laravel, a dica que mais repito para quem chega no time: antes de culpar o framework pela lentidão, abra o Debugbar e conte as queries.\n\nEssa semana uma tela de relatório fazia 1.240 consultas por request. Um `with()` bem colocado e dois índices compostos depois, caiu para 6 e o tempo de resposta foi de 4s para 180ms.\n\nN+1 não é bug exótico, é o padrão quando ninguém está olhando.",
+    "comments": [
+      {
+        "user_email": "camila.duarte@example.com",
+        "minutes_after": 14,
+        "content": "Debugbar salvou minha vida mais vezes do que consigo contar. Uso também o `Model::preventLazyLoading()` em ambiente local, aí o N+1 já estoura exceção na hora.",
+        "replies": [
+          {
+            "user_email": "rafael.moreira@example.com",
+            "minutes_after": 31,
+            "content": "Boa demais, Camila! O preventLazyLoading devia vir ligado por padrão em todo projeto novo.",
+            "replies": [
+              {
+                "user_email": "rodrigo.bastos@example.com",
+                "minutes_after": 52,
+                "content": "Não conhecia esse preventLazyLoading, vou ligar hoje mesmo no projeto aqui. Valeu!"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "user_email": "rodrigo.bastos@example.com",
+        "minutes_after": 22,
+        "content": "1.240 queries 😱 Como vocês descobriram qual tela estava assim? Monitoramento ou alguém reclamou?",
+        "replies": [
+          {
+            "user_email": "rafael.moreira@example.com",
+            "minutes_after": 40,
+            "content": "Reclamação do cliente, infelizmente rs. Depois disso colocamos alerta de tempo de resposta por rota, aí aparece antes de virar ticket."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@codelab.example.com",
+        "minutes_after": 65,
+        "content": "Post para fixar na parede de toda squad. Aqui na CodeLab isso virou item obrigatório do checklist de code review."
+      },
+      {
+        "user_email": "pedro.lima@example.com",
+        "minutes_after": 90,
+        "content": "Salvando para estudar. Os índices compostos vocês criaram olhando o EXPLAIN?",
+        "replies": [
+          {
+            "user_email": "rafael.moreira@example.com",
+            "minutes_after": 118,
+            "content": "Isso, EXPLAIN ANALYZE em cima das queries que mais apareciam no log. Sem medir é chute."
+          }
+        ]
+      },
+      {
+        "user_email": "natalia.siqueira@example.com",
+        "minutes_after": 140,
+        "content": "Mesma coisa no Entity Framework: Include esquecido e lá se vão mil queries. O problema é universal 😅"
+      }
+    ]
+  },
+  {
+    "user_email": "rafael.moreira@example.com",
+    "hours_ago": 196,
+    "engagement": "medium",
+    "content": "Experimento que deu certo: tiramos o processamento de webhooks de dentro da aplicação Laravel e colocamos num worker pequeno em Go lendo da mesma fila.\n\nA API continua em PHP (e continua ótima), mas o consumo de memória do worker caiu para um décimo e paramos de ter jobs presos em pico. Ferramenta certa pro problema certo, sem guerra de linguagem.",
+    "comments": [
+      {
+        "user_email": "fernanda.alencar@example.com",
+        "minutes_after": 45,
+        "content": "Go para worker de fila é casamento perfeito. Vocês usaram alguma lib para consumir ou foi no braço?",
+        "replies": [
+          {
+            "user_email": "rafael.moreira@example.com",
+            "minutes_after": 80,
+            "content": "Cliente oficial do Redis e um pool de goroutines simples. Menos de 400 linhas no total."
+          }
+        ]
+      },
+      {
+        "user_email": "thiago.nakamura@example.com",
+        "minutes_after": 300,
+        "content": "Gostei do \"sem guerra de linguagem\". Arquitetura poliglota funciona bem quando a fronteira é uma fila."
+      }
+    ]
+  },
+  {
+    "user_email": "camila.duarte@example.com",
+    "hours_ago": 27,
+    "engagement": "medium",
+    "content": "Terminamos a migração do sistema das clínicas de Vue 2 para Vue 3 com Composition API. Foram quatro meses, módulo por módulo, sem congelar entrega.\n\nO que mais ajudou: começar pelos componentes de formulário, que eram os mais reutilizados, e criar composables para as regras de agenda. Hoje a recepção abre a agenda do dia em metade do tempo.",
+    "comments": [
+      {
+        "user_email": "isabela.rocha@example.com",
+        "minutes_after": 60,
+        "content": "Composables mudaram a forma como eu penso em Vue! Vocês usaram Pinia junto ou ficou só com composables?",
+        "replies": [
+          {
+            "user_email": "camila.duarte@example.com",
+            "minutes_after": 95,
+            "content": "Pinia para o estado global (usuário logado, clínica selecionada) e composables para regra de tela. Funcionou muito bem."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@vitalcare.example.com",
+        "minutes_after": 400,
+        "content": "Sistema de clínica abrindo a agenda na metade do tempo faz muita diferença na recepção. Parabéns pela migração!"
+      }
+    ]
+  },
+  {
+    "user_email": "thiago.nakamura@example.com",
+    "hours_ago": 9,
+    "engagement": "medium",
+    "content": "Se você publica eventos no Kafka direto de dentro da transação do banco, uma hora vai ter evento de pedido que nunca existiu ou pedido que nunca virou evento.\n\nTransactional outbox resolve isso: grava o evento numa tabela na mesma transação e um relay publica depois. Não é glamouroso, mas foi o que acabou com as inconsistências entre os nossos serviços de cobrança e estoque.",
+    "comments": [
+      {
+        "user_email": "marcelo.ferraz@example.com",
+        "minutes_after": 35,
+        "content": "Outbox é daqueles padrões que todo mundo deveria conhecer antes de colocar Kafka em produção. Vocês usam CDC para o relay ou polling?",
+        "replies": [
+          {
+            "user_email": "thiago.nakamura@example.com",
+            "minutes_after": 70,
+            "content": "Começamos com polling a cada 500ms e está aguentando bem. CDC com Debezium está no roadmap para quando o volume pedir.",
+            "replies": [
+              {
+                "user_email": "marcelo.ferraz@example.com",
+                "minutes_after": 110,
+                "content": "Polling é subestimado. Simples de operar e resolve a maioria dos casos."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "user_email": "patricia.nogueira@example.com",
+        "minutes_after": 200,
+        "content": "Passamos exatamente por isso nas integrações com marketplace: pedido confirmado lá e não aqui. Outbox resolveu."
+      }
+    ]
+  },
+  {
+    "user_email": "thiago.nakamura@example.com",
+    "hours_ago": 310,
+    "engagement": "medium",
+    "content": "Seis meses escrevendo serviços novos em Kotlin em vez de Java, no mesmo ecossistema Spring Boot. Resumo honesto:\n\n- null safety evitou uma categoria inteira de bug em produção\n- data classes e sealed classes deixaram o domínio bem mais legível\n- o tempo de build ficou um pouco maior\n- a curva para o time foi de umas três semanas\n\nVoltaria para Java puro? Para serviço novo, não.",
+    "comments": [
+      {
+        "user_email": "patricia.nogueira@example.com",
+        "minutes_after": 120,
+        "content": "Assino embaixo, principalmente das sealed classes. Modelar estado de domínio com elas é outro nível."
+      },
+      {
+        "user_email": "marcelo.ferraz@example.com",
+        "minutes_after": 400,
+        "content": "Três semanas de curva para o time é bem realista. Aqui foi parecido, e o ganho de legibilidade pagou rápido."
+      },
+      {
+        "user_email": "juliana.antunes@example.com",
+        "minutes_after": 900,
+        "content": "Vindo do TypeScript, o null safety do Kotlin parece muito natural. Dá vontade de experimentar."
+      }
+    ]
+  },
+  {
+    "user_email": "bianca.ferreira@example.com",
+    "hours_ago": 15,
+    "engagement": "high",
+    "content": "Acessibilidade não é etapa final de QA. No design system que mantenho, todo componente novo só entra se:\n\n1. funciona 100% por teclado\n2. tem foco visível\n3. passa no contraste mínimo AA\n4. foi testado com leitor de tela\n\nParece burocracia até você ver um usuário cego concluindo uma compra sozinho pela primeira vez no seu produto.",
+    "comments": [
+      {
+        "user_email": "isabela.rocha@example.com",
+        "minutes_after": 20,
+        "content": "Esse checklist é ouro. Posso usar no meu time? Ainda estou aprendendo a testar com leitor de tela.",
+        "replies": [
+          {
+            "user_email": "bianca.ferreira@example.com",
+            "minutes_after": 48,
+            "content": "Claro, Isabela! Começa pelo NVDA no Windows ou VoiceOver no Mac, navegando só pelo teclado. Em uma tarde você já pega o jeito."
+          }
+        ]
+      },
+      {
+        "user_email": "vinicius.tavares@example.com",
+        "minutes_after": 75,
+        "content": "Foco visível é o que mais vejo sendo removido com `outline: none` por questão estética. Dói.",
+        "replies": [
+          {
+            "user_email": "bianca.ferreira@example.com",
+            "minutes_after": 110,
+            "content": "O clássico! Dá para estilizar o foco bonito com `:focus-visible` sem matar a acessibilidade."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@casanova.example.com",
+        "minutes_after": 200,
+        "content": "Nosso time de e-commerce vai adotar esse checklist. Acessibilidade também é conversão."
+      },
+      {
+        "user_email": "juliana.antunes@example.com",
+        "minutes_after": 340,
+        "content": "Nas aplicações corporativas em que trabalho, formulário sem label correto é o campeão de problema. Ótimo post!"
+      },
+      {
+        "user_email": "marina.costa@example.com",
+        "minutes_after": 600,
+        "content": "No mobile vale o mesmo: TalkBack e VoiceOver deveriam fazer parte de todo teste de release."
+      }
+    ]
+  },
+  {
+    "user_email": "lucas.prado@example.com",
+    "hours_ago": 5,
+    "engagement": "high",
+    "content": "Hoje meu primeiro PR grande foi aprovado e foi para produção! Era a refatoração do fluxo de cadastro que eu vinha estudando há semanas.\n\nRecebi 23 comentários no code review e no começo bateu aquela síndrome do impostor. Mas cada comentário me ensinou alguma coisa. Obrigado ao time pela paciência com o júnior aqui 🙏",
+    "comments": [
+      {
+        "user_email": "bianca.ferreira@example.com",
+        "minutes_after": 12,
+        "content": "Parabéns, Lucas! 23 comentários significa que o time se importa com você e com o código. Isso é ótimo sinal.",
+        "replies": [
+          {
+            "user_email": "lucas.prado@example.com",
+            "minutes_after": 30,
+            "content": "Obrigado, Bianca! Vendo por esse lado fica bem mais leve 😄"
+          }
+        ]
+      },
+      {
+        "user_email": "rodrigo.bastos@example.com",
+        "minutes_after": 25,
+        "content": "Te entendo demais. Meu primeiro PR teve mais comentário que linha de código rs. Parabéns!"
+      },
+      {
+        "user_email": "eduardo.campos@example.com",
+        "minutes_after": 60,
+        "content": "Code review é onde mais se aprende no começo de carreira. Continua perguntando bastante."
+      },
+      {
+        "user_email": "pedro.lima@example.com",
+        "minutes_after": 95,
+        "content": "Inspirador! Ainda estou procurando estágio e posts assim dão um gás.",
+        "replies": [
+          {
+            "user_email": "lucas.prado@example.com",
+            "minutes_after": 130,
+            "content": "Vai dar certo, Pedro! Destaca no currículo aquele projeto de extensão que você comentou, isso conta muito."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@codelab.example.com",
+        "minutes_after": 180,
+        "content": "Parabéns! Síndrome do impostor no início é comum. O importante é o que você fez: aprender com cada comentário."
+      }
+    ]
+  },
+  {
+    "user_email": "lucas.prado@example.com",
+    "hours_ago": 150,
+    "engagement": "medium",
+    "content": "Pergunta para os mais experientes: estou migrando um projeto pessoal de JavaScript para TypeScript e travei em tipar respostas de API que mudam de formato.\n\nVocês preferem validar em runtime com alguma lib de schema ou confiar nos tipos e tratar o erro quando der? Aceito indicação de material também.",
+    "comments": [
+      {
+        "user_email": "bianca.ferreira@example.com",
+        "minutes_after": 40,
+        "content": "Para resposta de API externa, valido em runtime com Zod. O tipo sai do schema, então não tem como divergir.",
+        "replies": [
+          {
+            "user_email": "lucas.prado@example.com",
+            "minutes_after": 70,
+            "content": "Não conhecia a ideia de gerar o tipo a partir do schema. Vou testar, valeu!"
+          }
+        ]
+      },
+      {
+        "user_email": "vinicius.tavares@example.com",
+        "minutes_after": 90,
+        "content": "Vai de Zod também. E se a API for sua, vale gerar os tipos a partir do OpenAPI."
+      },
+      {
+        "user_email": "marina.costa@example.com",
+        "minutes_after": 300,
+        "content": "No React Native uso a mesma abordagem. A resposta mudou de formato? Cai num erro tratado em vez de crash na mão do usuário."
+      }
+    ]
+  },
+  {
+    "user_email": "amanda.vasconcelos@example.com",
+    "hours_ago": 44,
+    "engagement": "medium",
+    "content": "Regra de ouro para pipeline de dados: toda etapa precisa poder rodar duas vezes sem estragar nada.\n\nA gente aprendeu isso do jeito difícil, quando um reprocessamento duplicou três dias de faturamento no dashboard da diretoria. Hoje cada carga usa chave natural com upsert e particionamento por data. Reprocessar virou rotina, não incidente.",
+    "comments": [
+      {
+        "user_email": "larissa.monteiro@example.com",
+        "minutes_after": 50,
+        "content": "Três dias de faturamento duplicado no dashboard da diretoria é o pesadelo de qualquer time de dados 😅",
+        "replies": [
+          {
+            "user_email": "amanda.vasconcelos@example.com",
+            "minutes_after": 85,
+            "content": "Foi uma semana longa, Larissa. Mas pelo menos virou o melhor argumento para priorizar idempotência."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@sinapse.example.com",
+        "minutes_after": 300,
+        "content": "Upsert com chave natural deveria ser padrão. Aqui também reprocessamos tudo sem medo."
+      },
+      {
+        "user_email": "beatriz.carvalho@example.com",
+        "minutes_after": 900,
+        "content": "Isso vale muito para pesquisa também. Reprocessar uma coleta de dados sem duplicar é essencial."
+      }
+    ]
+  },
+  {
+    "user_email": "diego.salgado@example.com",
+    "hours_ago": 62,
+    "engagement": "medium",
+    "content": "Integrar com sistema de transportadora é aceitar que a API do outro lado vai cair na pior hora.\n\nNo nosso ASP.NET Core, toda chamada externa passa por retry com backoff exponencial, circuit breaker e timeout curto. Quando o parceiro cai, o rastreio mostra o último status conhecido em vez de derrubar a tela inteira. O usuário nem percebe.",
+    "comments": [
+      {
+        "user_email": "natalia.siqueira@example.com",
+        "minutes_after": 40,
+        "content": "Polly é indispensável no ecossistema .NET. Vocês já usam a versão nova com resilience pipelines?",
+        "replies": [
+          {
+            "user_email": "diego.salgado@example.com",
+            "minutes_after": 75,
+            "content": "Migramos ano passado para o Microsoft.Extensions.Resilience. A configuração ficou bem mais limpa."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@rotamax.example.com",
+        "minutes_after": 200,
+        "content": "Integrar com transportadora é exatamente isso. Último status conhecido é a melhor experiência que dá para oferecer quando o parceiro cai."
+      }
+    ]
+  },
+  {
+    "user_email": "juliana.antunes@example.com",
+    "hours_ago": 33,
+    "engagement": "medium",
+    "content": "Para quem trabalha com Angular e formulário pesado: entender a diferença entre switchMap, mergeMap e concatMap muda a vida.\n\nTínhamos um campo de busca de CNPJ que às vezes mostrava o resultado da digitação anterior. Era mergeMap deixando requisições antigas chegarem depois. Troquei por switchMap e o bug que \"acontecia às vezes\" sumiu.",
+    "comments": [
+      {
+        "user_email": "bianca.ferreira@example.com",
+        "minutes_after": 45,
+        "content": "Bug que \"acontece às vezes\" quase sempre é condição de corrida. Ótimo exemplo!"
+      },
+      {
+        "user_email": "natalia.siqueira@example.com",
+        "minutes_after": 120,
+        "content": "Salvando para mostrar para o time. A diferença entre esses operadores é das coisas que mais confundem quem chega no Angular.",
+        "replies": [
+          {
+            "user_email": "juliana.antunes@example.com",
+            "minutes_after": 160,
+            "content": "Total, Natália! Eu mesma demorei para entender. Desenhar o marble diagram ajuda muito."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "pedro.lima@example.com",
+    "hours_ago": 20,
+    "engagement": "medium",
+    "content": "Estou no sexto período de Engenharia de Software e procurando meu primeiro estágio em desenvolvimento web!\n\nNo projeto de extensão da faculdade, desenvolvi com mais dois colegas um sistema em Laravel para uma ONG controlar doações de alimentos. Já está sendo usado de verdade. Se alguém souber de vaga ou quiser trocar uma ideia, me chama!",
+    "comments": [
+      {
+        "user_email": "contato@codelab.example.com",
+        "minutes_after": 30,
+        "content": "Pedro, acabamos de abrir o nosso programa de estágio com Laravel e Vue.js! Dá uma olhada no nosso perfil e se inscreve.",
+        "replies": [
+          {
+            "user_email": "pedro.lima@example.com",
+            "minutes_after": 55,
+            "content": "Que coincidência boa! Já vou me inscrever, muito obrigado!"
+          }
+        ]
+      },
+      {
+        "user_email": "rafael.moreira@example.com",
+        "minutes_after": 90,
+        "content": "Projeto em uso real por uma ONG vale mais que muito curso. Coloca isso em destaque no currículo."
+      },
+      {
+        "user_email": "rodrigo.bastos@example.com",
+        "minutes_after": 240,
+        "content": "Boa sorte, Pedro! Comecei exatamente assim com Laravel."
+      }
+    ]
+  },
+  {
+    "user_email": "pedro.lima@example.com",
+    "hours_ago": 400,
+    "engagement": "low",
+    "content": "Primeira vez que fiz deploy de um projeto meu sozinho. Configurei servidor, banco, domínio e HTTPS seguindo documentação e muito fórum.\n\nQuebrou três vezes antes de funcionar, mas agora entendo muito melhor o que acontece depois do `git push`.",
+    "comments": [
+      {
+        "user_email": "lucas.prado@example.com",
+        "minutes_after": 120,
+        "content": "Quebrar três vezes antes de funcionar é praticamente o rito de passagem do primeiro deploy 😂"
+      }
+    ]
+  },
+  {
+    "user_email": "marina.costa@example.com",
+    "hours_ago": 72,
+    "engagement": "medium",
+    "content": "Flutter ou React Native? Depois de publicar apps nas duas tecnologias, minha resposta é: depende do time que você já tem.\n\nTime vindo de web com React? React Native reaproveita muito conhecimento. Quer controle total de UI e performance consistente de animação? Flutter. O que realmente define o sucesso do app é estratégia offline, tratamento de rede ruim e tamanho do bundle, não o framework.",
+    "comments": [
+      {
+        "user_email": "lucas.prado@example.com",
+        "minutes_after": 60,
+        "content": "Ótima análise! Como venho do React, faz sentido eu começar pelo React Native então?",
+        "replies": [
+          {
+            "user_email": "marina.costa@example.com",
+            "minutes_after": 100,
+            "content": "Faz total sentido, Lucas. Você já vai chegar entendendo componentes, estado e hooks."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@casanova.example.com",
+        "minutes_after": 240,
+        "content": "Escolhemos Flutter para o app das lojas justamente pela consistência de UI nos tablets. E o offline pesou muito."
+      },
+      {
+        "user_email": "isabela.rocha@example.com",
+        "minutes_after": 500,
+        "content": "Esse ponto do offline e da rede ruim ninguém fala nos tutoriais."
+      }
+    ]
+  },
+  {
+    "user_email": "gustavo.ribeiro@example.com",
+    "hours_ago": 120,
+    "engagement": "high",
+    "content": "Mais de vinte anos de COBOL e ainda escuto que é \"tecnologia morta\". Enquanto isso, boa parte das transações bancárias do país passa por rotinas batch rodando em mainframe toda madrugada.\n\nCódigo legado é código que deu certo por tempo suficiente para virar legado. Merece respeito e, principalmente, documentação.",
+    "comments": [
+      {
+        "user_email": "contato@bancoorion.example.com",
+        "minutes_after": 30,
+        "content": "Falou tudo, Gustavo. Nossas rotinas de crédito em COBOL rodam toda madrugada há décadas sem falhar. Respeito total.",
+        "replies": [
+          {
+            "user_email": "gustavo.ribeiro@example.com",
+            "minutes_after": 60,
+            "content": "Obrigado! E quem acha simples deveria ver o nível de rigor de um batch bancário."
+          }
+        ]
+      },
+      {
+        "user_email": "marcelo.ferraz@example.com",
+        "minutes_after": 80,
+        "content": "\"Código legado é código que deu certo\" vai para minha coleção de frases."
+      },
+      {
+        "user_email": "andre.figueiredo@example.com",
+        "minutes_after": 200,
+        "content": "Assino embaixo. O Gustavo está ajudando a integrar nosso ERP de quinze anos com o e-commerce, e o sistema antigo está se saindo muito bem.",
+        "replies": [
+          {
+            "user_email": "gustavo.ribeiro@example.com",
+            "minutes_after": 260,
+            "content": "Obrigado, André! O projeto está andando muito bem."
+          }
+        ]
+      },
+      {
+        "user_email": "pedro.lima@example.com",
+        "minutes_after": 400,
+        "content": "Na faculdade quase não se fala de COBOL. Vale a pena estudar hoje?",
+        "replies": [
+          {
+            "user_email": "gustavo.ribeiro@example.com",
+            "minutes_after": 460,
+            "content": "Vale, Pedro. Pouca gente nova entrando e muita demanda em banco e governo. É um nicho bem pago."
+          }
+        ]
+      },
+      {
+        "user_email": "thiago.nakamura@example.com",
+        "minutes_after": 700,
+        "content": "Documentação é a chave. Legado sem documentação é que vira problema."
+      }
+    ]
+  },
+  {
+    "user_email": "gustavo.ribeiro@example.com",
+    "hours_ago": 520,
+    "engagement": "medium",
+    "content": "Sobre migrar sistema Delphi para stack moderna: reescrever tudo do zero quase nunca dá certo.\n\nO que funcionou nos projetos que conduzi foi o estrangulamento gradual. Expor as regras antigas por uma camada de serviço, mover tela por tela para a nova aplicação e desligar o módulo antigo só quando ninguém mais usa. Demora mais no papel, mas termina.",
+    "comments": [
+      {
+        "user_email": "marcelo.ferraz@example.com",
+        "minutes_after": 90,
+        "content": "Strangler fig é o único padrão de migração que vi funcionar em sistema grande. Reescrita big bang quase sempre vira projeto eterno."
+      },
+      {
+        "user_email": "natalia.siqueira@example.com",
+        "minutes_after": 400,
+        "content": "Passei por uma reescrita do zero que durou três anos e foi cancelada. Concordo 100%."
+      }
+    ]
+  },
+  {
+    "user_email": "fernanda.alencar@example.com",
+    "hours_ago": 11,
+    "engagement": "high",
+    "content": "Reescrevemos em Rust o componente que faz o roteamento de requisições da plataforma interna. O resto continua em Go.\n\nO p99 de latência caiu de 38ms para 6ms e acabaram as pausas de GC no horário de pico. Mas fica o aviso: só valeu porque medimos antes e sabíamos exatamente onde estava o gargalo. Rust não é atalho para performance sem profiling.",
+    "comments": [
+      {
+        "user_email": "marcelo.ferraz@example.com",
+        "minutes_after": 20,
+        "content": "38ms para 6ms no p99 é impressionante. E o aviso do final é a parte mais importante do post."
+      },
+      {
+        "user_email": "thiago.nakamura@example.com",
+        "minutes_after": 45,
+        "content": "Qual foi o maior desafio do time com Rust? Curva do borrow checker?",
+        "replies": [
+          {
+            "user_email": "fernanda.alencar@example.com",
+            "minutes_after": 80,
+            "content": "Borrow checker nas primeiras semanas, depois foi tranquilo. O mais difícil foi integrar com o ferramental de observabilidade, que era todo em Go.",
+            "replies": [
+              {
+                "user_email": "thiago.nakamura@example.com",
+                "minutes_after": 120,
+                "content": "Faz sentido. Tracing ainda é onde o ecossistema Go está na frente."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "user_email": "contato@altocloud.example.com",
+        "minutes_after": 150,
+        "content": "Belo trabalho! Nosso time de plataforma está avaliando Rust para o proxy de borda e esse relato ajuda muito."
+      },
+      {
+        "user_email": "contato@fortishield.example.com",
+        "minutes_after": 260,
+        "content": "E de quebra ganha segurança de memória. Para componente que fica na borda isso pesa muito."
+      },
+      {
+        "user_email": "amanda.vasconcelos@example.com",
+        "minutes_after": 400,
+        "content": "Medir antes de reescrever deveria ser lei. Parabéns pelo resultado!"
+      }
+    ]
+  },
+  {
+    "user_email": "fernanda.alencar@example.com",
+    "hours_ago": 240,
+    "engagement": "medium",
+    "content": "Error budget mudou a relação do nosso time de plataforma com os times de produto.\n\nAntes era briga entre \"precisamos lançar\" e \"precisamos estabilidade\". Agora o SLO é 99,9%, e enquanto sobra orçamento de erro, todo mundo lança. Quando acaba, a prioridade vira confiabilidade. Uma regra combinada antes vale mais que dez reuniões durante o incidente.",
+    "comments": [
+      {
+        "user_email": "contato@altocloud.example.com",
+        "minutes_after": 60,
+        "content": "Error budget é o melhor acordo entre produto e plataforma que existe. Usamos o mesmo modelo aqui."
+      },
+      {
+        "user_email": "marcelo.ferraz@example.com",
+        "minutes_after": 180,
+        "content": "\"Uma regra combinada antes vale mais que dez reuniões durante o incidente.\" Perfeito."
+      }
+    ]
+  },
+  {
+    "user_email": "rodrigo.bastos@example.com",
+    "hours_ago": 50,
+    "engagement": "medium",
+    "content": "Erro de júnior que cometi e compartilho para ninguém repetir: coloquei o envio de e-mail de cobrança dentro do request, sem fila.\n\nNo dia de fechamento, o servidor SMTP ficou lento e o sistema inteiro travou junto. Hoje tudo que fala com serviço externo vai para um job em fila com retry. Laravel deixa isso muito simples, eu é que não sabia.",
+    "comments": [
+      {
+        "user_email": "rafael.moreira@example.com",
+        "minutes_after": 30,
+        "content": "Erro que todo mundo comete uma vez. O importante é ter aprendido e compartilhado. Parabéns pela humildade, Rodrigo.",
+        "replies": [
+          {
+            "user_email": "rodrigo.bastos@example.com",
+            "minutes_after": 55,
+            "content": "Valeu, Rafael! Agora tudo que fala com serviço externo vai para a fila, lição aprendida 😅"
+          }
+        ]
+      },
+      {
+        "user_email": "camila.duarte@example.com",
+        "minutes_after": 100,
+        "content": "E configurar `tries` e `backoff` no job faz toda diferença quando o serviço externo oscila."
+      },
+      {
+        "user_email": "pedro.lima@example.com",
+        "minutes_after": 600,
+        "content": "Anotado para não cometer o mesmo erro! Obrigado por compartilhar."
+      }
+    ]
+  },
+  {
+    "user_email": "larissa.monteiro@example.com",
+    "hours_ago": 88,
+    "engagement": "medium",
+    "content": "Entregamos a correção automática de exercícios de programação na plataforma de EAD! O aluno envia o código, ele roda num container isolado e o resultado volta em segundos com feedback por caso de teste.\n\nBackend em Django com fila de execução e frontend em React mostrando o progresso em tempo real. O tempo médio de resposta para o aluno caiu de dois dias para 8 segundos.",
+    "comments": [
+      {
+        "user_email": "contato@lumeneducacao.example.com",
+        "minutes_after": 40,
+        "content": "Correção automática com feedback rápido muda completamente o engajamento dos alunos. Parabéns pela entrega!"
+      },
+      {
+        "user_email": "amanda.vasconcelos@example.com",
+        "minutes_after": 200,
+        "content": "Como vocês isolam os containers? Limite de CPU e rede desligada?",
+        "replies": [
+          {
+            "user_email": "larissa.monteiro@example.com",
+            "minutes_after": 240,
+            "content": "Isso! Sem rede, com limite de CPU, memória e tempo de execução. E o container é descartado a cada submissão."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@fortishield.example.com",
+        "minutes_after": 500,
+        "content": "Execução de código de terceiros isolada do jeito certo. Bom ver isso bem feito."
+      }
+    ]
+  },
+  {
+    "user_email": "vinicius.tavares@example.com",
+    "hours_ago": 39,
+    "engagement": "medium",
+    "content": "Landing page lenta é dinheiro jogado fora. Num projeto recente com Next.js:\n\n- imagens com tamanho certo e lazy loading\n- fontes carregadas sem bloquear a renderização\n- scripts de terceiros só depois da interação\n\nO LCP foi de 4,1s para 1,3s e a conversão do formulário subiu 18% sem mudar uma palavra do texto.",
+    "comments": [
+      {
+        "user_email": "juliana.rocha@example.com",
+        "minutes_after": 25,
+        "content": "Vinícius, esse é exatamente o tipo de resultado que meus clientes precisam. Te mandei mensagem!",
+        "replies": [
+          {
+            "user_email": "vinicius.tavares@example.com",
+            "minutes_after": 60,
+            "content": "Recebi, Juliana! Já te respondo por lá."
+          }
+        ]
+      },
+      {
+        "user_email": "bianca.ferreira@example.com",
+        "minutes_after": 150,
+        "content": "Scripts de terceiros são os maiores vilões. Bom ver números reais de conversão."
+      }
+    ]
+  },
+  {
+    "user_email": "patricia.nogueira@example.com",
+    "hours_ago": 101,
+    "engagement": "medium",
+    "content": "Modelar o status de um pedido de marketplace com sealed class em Kotlin foi a melhor decisão do trimestre.\n\nCada estado carrega só os dados que fazem sentido para ele, e o compilador reclama se algum `when` esquece de tratar um caso novo. Quando o marketplace adicionou o status \"em disputa\", o próprio build mostrou os 11 lugares que precisavam mudar.",
+    "comments": [
+      {
+        "user_email": "thiago.nakamura@example.com",
+        "minutes_after": 50,
+        "content": "O compilador apontando os 11 lugares é o melhor argumento a favor de tipagem forte que existe."
+      },
+      {
+        "user_email": "diego.salgado@example.com",
+        "minutes_after": 300,
+        "content": "No C# a gente tem chegado perto disso com records e pattern matching. Bom exemplo!"
+      }
+    ]
+  },
+  {
+    "user_email": "eduardo.campos@example.com",
+    "hours_ago": 140,
+    "engagement": "high",
+    "content": "Opinião impopular: a maioria dos produtos que vi quebrados em microsserviços estaria melhor como um monólito bem organizado.\n\nCom Rails, um time de cinco pessoas consegue sustentar um produto inteiro com deploy único, transação de verdade e zero latência de rede entre módulos. Separe em serviços quando a dor aparecer, não porque está na moda.",
+    "comments": [
+      {
+        "user_email": "marcelo.ferraz@example.com",
+        "minutes_after": 25,
+        "content": "Concordo em parte. Monólito modular é ótimo, mas quando dez times mexem no mesmo deploy a coordenação vira gargalo.",
+        "replies": [
+          {
+            "user_email": "eduardo.campos@example.com",
+            "minutes_after": 50,
+            "content": "Justo, Marcelo. Mas aí a dor apareceu, que é exatamente o meu ponto. O problema é separar com cinco pessoas.",
+            "replies": [
+              {
+                "user_email": "marcelo.ferraz@example.com",
+                "minutes_after": 80,
+                "content": "Nisso concordamos totalmente. A fronteira dos serviços deveria seguir a dos times.",
+                "replies": [
+                  {
+                    "user_email": "thiago.nakamura@example.com",
+                    "minutes_after": 120,
+                    "content": "Lei de Conway na prática. A arquitetura acaba copiando o organograma de qualquer jeito.",
+                    "replies": [
+                      {
+                        "user_email": "eduardo.campos@example.com",
+                        "minutes_after": 150,
+                        "content": "Exatamente. Melhor aceitar isso conscientemente do que lutar contra."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "user_email": "fernanda.alencar@example.com",
+            "minutes_after": 95,
+            "content": "E monólito bem feito ainda é muito mais fácil de operar. Menos coisa para monitorar, menos coisa para cair."
+          }
+        ]
+      },
+      {
+        "user_email": "thiago.nakamura@example.com",
+        "minutes_after": 40,
+        "content": "Opinião não tão impopular assim entre quem já mantém microsserviço em produção 😅"
+      },
+      {
+        "user_email": "lucas.prado@example.com",
+        "minutes_after": 200,
+        "content": "Pergunta de júnior: como saber quando a dor apareceu de verdade?",
+        "replies": [
+          {
+            "user_email": "eduardo.campos@example.com",
+            "minutes_after": 240,
+            "content": "Boa pergunta! Quando deploys de partes diferentes começam a travar um ao outro com frequência, ou quando uma parte precisa escalar muito mais que o resto."
+          },
+          {
+            "user_email": "marcelo.ferraz@example.com",
+            "minutes_after": 260,
+            "content": "E quando times diferentes vivem pisando no código um do outro. Isso aparece rápido nas retros."
+          },
+          {
+            "user_email": "fernanda.alencar@example.com",
+            "minutes_after": 300,
+            "content": "Eu acrescentaria: quando o tempo de build e de testes começa a atrasar todo mundo."
+          },
+          {
+            "user_email": "rafael.moreira@example.com",
+            "minutes_after": 330,
+            "content": "E quando o banco vira gargalo para módulos que não deveriam competir pelo mesmo recurso."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@codelab.example.com",
+        "minutes_after": 500,
+        "content": "Na software house vemos muito cliente chegando com dez microsserviços e dois desenvolvedores. Um monólito resolveria tudo."
+      },
+      {
+        "user_email": "vinicius.tavares@example.com",
+        "minutes_after": 700,
+        "content": "Microsserviço é coisa de quem não sabe organizar código.",
+        "removed_minutes_after": 820,
+        "replies": [
+          {
+            "user_email": "eduardo.campos@example.com",
+            "minutes_after": 760,
+            "content": "Também não é assim, rs. Microsserviço tem seu lugar, só não deveria ser o ponto de partida."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "isabela.rocha@example.com",
+    "hours_ago": 7,
+    "engagement": "high",
+    "content": "Um ano atrás eu trabalhava com design gráfico. Hoje fechei meu primeiro semestre como desenvolvedora frontend!\n\nO que mais me surpreendeu foi o quanto a bagagem de design ajuda: hierarquia visual, espaçamento e consistência eu já tinha no olho. O que mais me desafiou foi estado e reatividade. Svelte tem sido um ótimo professor nisso.",
+    "comments": [
+      {
+        "user_email": "bianca.ferreira@example.com",
+        "minutes_after": 15,
+        "content": "Que trajetória incrível, Isabela! Designer que vira dev frontend tem uma vantagem enorme.",
+        "replies": [
+          {
+            "user_email": "isabela.rocha@example.com",
+            "minutes_after": 40,
+            "content": "Obrigada, Bianca! Seus posts sobre acessibilidade me ajudam muito, inclusive."
+          }
+        ]
+      },
+      {
+        "user_email": "camila.duarte@example.com",
+        "minutes_after": 50,
+        "content": "Svelte é ótimo para aprender reatividade sem tanta cerimônia. Parabéns pelo primeiro semestre!"
+      },
+      {
+        "user_email": "vinicius.tavares@example.com",
+        "minutes_after": 90,
+        "content": "Olho de designer faz falta em muito time de frontend. Bem-vinda à área!"
+      },
+      {
+        "user_email": "contato@pixelforge.example.com",
+        "minutes_after": 150,
+        "content": "Bagagem de design é muito valorizada em estúdio de jogos também. Sucesso na nova carreira!"
+      },
+      {
+        "user_email": "lucas.prado@example.com",
+        "minutes_after": 200,
+        "content": "Também vim de transição de carreira, pelo bootcamp. É um caminho difícil e muito recompensador. Parabéns!"
+      },
+      {
+        "user_email": "marina.tavares@example.com",
+        "minutes_after": 300,
+        "content": "Profissional que entende de design e de código é exatamente o que procuro nos meus projetos. Vou acompanhar seu trabalho!"
+      }
+    ]
+  },
+  {
+    "user_email": "marcelo.ferraz@example.com",
+    "hours_ago": 180,
+    "engagement": "medium",
+    "content": "Se o seu time toma decisão técnica importante e daqui a um ano ninguém lembra o porquê, comece a escrever ADRs.\n\nUm Architecture Decision Record é só um documento curto: contexto, decisão, alternativas consideradas e consequências. Temos mais de 60 no repositório e é o primeiro material que entregamos para quem entra no time.",
+    "comments": [
+      {
+        "user_email": "fernanda.alencar@example.com",
+        "minutes_after": 60,
+        "content": "ADR mudou a qualidade das discussões técnicas aqui. Registrar as alternativas consideradas evita muita conversa repetida."
+      },
+      {
+        "user_email": "eduardo.campos@example.com",
+        "minutes_after": 200,
+        "content": "E é ótimo para onboarding. A pessoa nova entende não só o que foi decidido, mas o porquê."
+      },
+      {
+        "user_email": "rafael.moreira@example.com",
+        "minutes_after": 400,
+        "content": "Vocês usam algum template específico ou formato livre?",
+        "replies": [
+          {
+            "user_email": "marcelo.ferraz@example.com",
+            "minutes_after": 450,
+            "content": "Usamos o template do Michael Nygard, bem enxuto. O segredo é ser curto para que as pessoas realmente escrevam."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "natalia.siqueira@example.com",
+    "hours_ago": 230,
+    "engagement": "medium",
+    "content": "Desenvolver para chão de fábrica tem um desafio que pouca gente comenta: a interface precisa funcionar com luva, tela suja e internet instável.\n\nNo último painel industrial que entregamos com ASP.NET Core e Angular, botões ficaram enormes, os dados chegam por SignalR e a tela continua mostrando o último estado quando a conexão cai. Usabilidade de verdade é no contexto do usuário.",
+    "comments": [
+      {
+        "user_email": "diego.salgado@example.com",
+        "minutes_after": 90,
+        "content": "SignalR com fallback para o último estado é a combinação ideal para esse cenário. Ótimo trabalho!"
+      },
+      {
+        "user_email": "bianca.ferreira@example.com",
+        "minutes_after": 300,
+        "content": "Usabilidade no contexto do usuário é tudo. Interface para usar de luva é um requisito que eu nunca tinha considerado!"
+      }
+    ]
+  },
+  {
+    "user_email": "bianca.ferreira@example.com",
+    "hours_ago": 600,
+    "engagement": "medium",
+    "content": "Design tokens bem definidos são o que permitiu entregar o tema escuro em duas semanas, em vez de dois meses.\n\nNenhum componente usa cor fixa, só tokens semânticos como `surface`, `text-muted` e `border-subtle`. Para o tema novo, bastou redefinir os valores. Quem paga a disciplina no começo colhe a velocidade depois.",
+    "comments": [
+      {
+        "user_email": "isabela.rocha@example.com",
+        "minutes_after": 120,
+        "content": "Tokens semânticos são algo que trouxe do design e que fez muito sentido no código também."
+      },
+      {
+        "user_email": "vinicius.tavares@example.com",
+        "minutes_after": 400,
+        "content": "Duas semanas para o tema escuro é inveja pura. Aqui cada componente tinha cor fixa 😅"
+      }
+    ]
+  },
+  {
+    "user_email": "contato@nexopay.example.com",
+    "hours_ago": 18,
+    "engagement": "high",
+    "content": "Estamos contratando! A NexoPay procura pessoa desenvolvedora backend sênior com PHP e Laravel para o time de conciliação financeira.\n\nAqui você vai trabalhar com mais de 3 milhões de transações por mês, filas de alto volume e integrações com adquirentes. Modelo remoto, com encontros trimestrais presenciais. Confira a vaga no nosso perfil.",
+    "comments": [
+      {
+        "user_email": "rafael.moreira@example.com",
+        "minutes_after": 30,
+        "content": "Vaga muito interessante! Já mandei minha candidatura.",
+        "replies": [
+          {
+            "user_email": "contato@nexopay.example.com",
+            "minutes_after": 60,
+            "content": "Recebemos, Rafael! Nosso time de recrutamento entra em contato essa semana."
+          }
+        ]
+      },
+      {
+        "user_email": "thiago.nakamura@example.com",
+        "minutes_after": 120,
+        "content": "Encontros trimestrais presenciais é um ótimo equilíbrio. Sucesso na contratação!"
+      },
+      {
+        "user_email": "rodrigo.bastos@example.com",
+        "minutes_after": 200,
+        "content": "Tem previsão de vaga júnior também?",
+        "replies": [
+          {
+            "user_email": "contato@nexopay.example.com",
+            "minutes_after": 260,
+            "content": "Ainda este ano, Rodrigo! Fica de olho no nosso perfil que vamos divulgar por aqui."
+          }
+        ]
+      },
+      {
+        "user_email": "camila.duarte@example.com",
+        "minutes_after": 500,
+        "content": "Conciliação financeira com esse volume deve ter desafios bem interessantes."
+      }
+    ]
+  },
+  {
+    "user_email": "contato@nexopay.example.com",
+    "hours_ago": 450,
+    "engagement": "medium",
+    "content": "Balanço da Black Friday: pico de 1.900 transações por segundo e zero minutos de indisponibilidade.\n\nO trabalho começou três meses antes, com testes de carga semanais, limites de conexão revisados e um plano de degradação para cada integração externa. Orgulho enorme do time de engenharia.",
+    "comments": [
+      {
+        "user_email": "fernanda.alencar@example.com",
+        "minutes_after": 90,
+        "content": "Zero minutos de indisponibilidade com 1.900 transações por segundo. Parabéns ao time!"
+      },
+      {
+        "user_email": "rafael.moreira@example.com",
+        "minutes_after": 300,
+        "content": "Plano de degradação por integração é o que diferencia time maduro. Belo trabalho."
+      }
+    ]
+  },
+  {
+    "user_email": "contato@vitalcare.example.com",
+    "hours_ago": 96,
+    "engagement": "medium",
+    "content": "Prontuário eletrônico exige um cuidado que vai além do código. Na VitalCare, todo acesso a dado de paciente é registrado, todo campo sensível é criptografado e as integrações entre clínicas seguem o padrão HL7 FHIR.\n\nLGPD não é obstáculo para inovar em saúde. É o que faz o paciente confiar no seu produto.",
+    "comments": [
+      {
+        "user_email": "camila.duarte@example.com",
+        "minutes_after": 50,
+        "content": "Trabalho com sistema de clínicas e assino embaixo. Log de acesso a dado de paciente salva em qualquer auditoria."
+      },
+      {
+        "user_email": "eduardo.pontes@example.com",
+        "minutes_after": 200,
+        "content": "Como dono de clínica, é exatamente isso que me dá segurança para escolher um fornecedor."
+      }
+    ]
+  },
+  {
+    "user_email": "contato@lumeneducacao.example.com",
+    "hours_ago": 58,
+    "engagement": "medium",
+    "content": "Lançamos a nova trilha de Desenvolvimento Web com Python na plataforma Lumen! São 12 módulos com exercícios corrigidos automaticamente e projetos práticos avaliados por mentores.\n\nE seguimos com vaga aberta para desenvolvedores Django e Vue.js que queiram construir educação técnica acessível com a gente.",
+    "comments": [
+      {
+        "user_email": "larissa.monteiro@example.com",
+        "minutes_after": 30,
+        "content": "Que trilha linda! A correção automática dos exercícios vai fazer toda a diferença."
+      },
+      {
+        "user_email": "pedro.lima@example.com",
+        "minutes_after": 300,
+        "content": "Tem algum desconto para estudante universitário?",
+        "replies": [
+          {
+            "user_email": "contato@lumeneducacao.example.com",
+            "minutes_after": 360,
+            "content": "Temos sim, Pedro! 50% para estudantes com matrícula ativa. Os detalhes estão no nosso site."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "contato@rotamax.example.com",
+    "hours_ago": 135,
+    "engagement": "low",
+    "content": "Nossa torre de controle agora recebe a posição de mais de 8 mil caminhões a cada 15 segundos.\n\nO serviço de ingestão em Go processa os eventos de rastreamento, calcula desvio de rota e avisa o operador antes do atraso virar reclamação do cliente. Logística em tempo real é engenharia de dados com prazo de entrega.",
+    "comments": [
+      {
+        "user_email": "diego.salgado@example.com",
+        "minutes_after": 150,
+        "content": "8 mil caminhões a cada 15 segundos é bastante evento. Vocês usam qual banco para série temporal?",
+        "replies": [
+          {
+            "user_email": "contato@rotamax.example.com",
+            "minutes_after": 220,
+            "content": "TimescaleDB em cima do Postgres, Diego. Tem dado conta muito bem até aqui."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "contato@fortishield.example.com",
+    "hours_ago": 24,
+    "engagement": "high",
+    "content": "Alerta do nosso SOC: no último mês, 7 em cada 10 incidentes que atendemos começaram com credencial vazada em repositório ou senha reutilizada.\n\nTrês ações simples que evitam a maioria dos casos:\n1. MFA obrigatório em tudo\n2. varredura de segredos no pipeline de CI\n3. rotação periódica de chaves de API\n\nSegurança começa no básico bem feito.",
+    "comments": [
+      {
+        "user_email": "fernanda.alencar@example.com",
+        "minutes_after": 30,
+        "content": "Varredura de segredos no CI devia ser padrão em todo repositório. Barato e evita desastre."
+      },
+      {
+        "user_email": "rafael.moreira@example.com",
+        "minutes_after": 70,
+        "content": "Já vi chave de produção em repositório público ser usada por um bot em menos de 10 minutos.",
+        "replies": [
+          {
+            "user_email": "contato@fortishield.example.com",
+            "minutes_after": 100,
+            "content": "Exatamente, Rafael. Esses bots varrem repositórios públicos em tempo real. Revogar a chave é a primeira coisa a fazer."
+          }
+        ]
+      },
+      {
+        "user_email": "contato@bancoorion.example.com",
+        "minutes_after": 200,
+        "content": "MFA obrigatório em tudo é inegociável no setor bancário. Ótimas recomendações."
+      },
+      {
+        "user_email": "ricardo.almeida@example.com",
+        "minutes_after": 400,
+        "content": "Mesmo não sendo da área de tecnologia, vou ativar o MFA no escritório. Obrigado pelas dicas!"
+      },
+      {
+        "user_email": "marcelo.ferraz@example.com",
+        "minutes_after": 600,
+        "content": "Segurança começa no básico bem feito. Perfeito."
+      }
+    ]
+  },
+  {
+    "user_email": "contato@pixelforge.example.com",
+    "hours_ago": 78,
+    "engagement": "medium",
+    "content": "Nosso novo jogo narrativo entrou em acesso antecipado no PC! Foram dois anos de desenvolvimento, motor próprio em C++ e ferramentas de roteiro em C# feitas pelo time para os escritores trabalharem sem depender da programação.\n\nObrigado a todos que testaram as versões iniciais e mandaram feedback.",
+    "comments": [
+      {
+        "user_email": "isabela.rocha@example.com",
+        "minutes_after": 60,
+        "content": "A direção de arte do trailer está linda! Já coloquei na lista de desejos."
+      },
+      {
+        "user_email": "natalia.siqueira@example.com",
+        "minutes_after": 300,
+        "content": "Motor próprio em C++ é coragem. Parabéns pelo lançamento!",
+        "replies": [
+          {
+            "user_email": "contato@pixelforge.example.com",
+            "minutes_after": 350,
+            "content": "Obrigado, Natália! Foi o que nos deu controle total sobre o sistema de diálogos."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "contato@altocloud.example.com",
+    "hours_ago": 160,
+    "engagement": "medium",
+    "content": "Um deploy na plataforma da AltoCloud leva em média 4 minutos, do merge até o tráfego chegando na nova versão em três regiões.\n\nPor trás disso: build cacheado, rollout progressivo e rollback automático se a taxa de erro subir. Nosso trabalho é fazer os times de produto esquecerem que existe infraestrutura.",
+    "comments": [
+      {
+        "user_email": "fernanda.alencar@example.com",
+        "minutes_after": 50,
+        "content": "Rollback automático pela taxa de erro é o que dá confiança para fazer deploy em sexta-feira 😄"
+      },
+      {
+        "user_email": "thiago.nakamura@example.com",
+        "minutes_after": 300,
+        "content": "4 minutos do merge até produção é excelente. Qual a estratégia de rollout?",
+        "replies": [
+          {
+            "user_email": "contato@altocloud.example.com",
+            "minutes_after": 350,
+            "content": "Canary com 5%, 25% e 100%, avançando automaticamente se as métricas estiverem saudáveis."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "contato@sinapse.example.com",
+    "hours_ago": 66,
+    "engagement": "medium",
+    "content": "Busca semântica em documento jurídico tem um detalhe que muda tudo: o termo exato importa.\n\nNa Sinapse AI combinamos busca vetorial com busca lexical tradicional e reordenamos os resultados com um modelo especializado. Só embeddings não basta quando o advogado procura um número de processo ou um artigo específico de lei.",
+    "comments": [
+      {
+        "user_email": "amanda.vasconcelos@example.com",
+        "minutes_after": 40,
+        "content": "Busca híbrida é o caminho. Embeddings sozinhos erram feio em identificadores exatos."
+      },
+      {
+        "user_email": "camila.nogueira@example.com",
+        "minutes_after": 200,
+        "content": "Como advogada, confirmo: número de processo e artigo de lei precisam ser encontrados exatamente."
+      },
+      {
+        "user_email": "larissa.monteiro@example.com",
+        "minutes_after": 500,
+        "content": "Qual modelo vocês usam para o reranking?",
+        "replies": [
+          {
+            "user_email": "contato@sinapse.example.com",
+            "minutes_after": 560,
+            "content": "Um cross-encoder treinado com documentos jurídicos em português. Fez muita diferença na precisão."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "contato@codelab.example.com",
+    "hours_ago": 30,
+    "engagement": "high",
+    "content": "Abrimos o programa de estágio da CodeLab Software House! São 6 vagas para estudantes de cursos de tecnologia que queiram trabalhar com PHP, Laravel e Vue.js em projetos reais de clientes.\n\nCada estagiário entra numa squad com mentor dedicado e plano de desenvolvimento. Inscrições abertas até o fim do mês.",
+    "comments": [
+      {
+        "user_email": "lucas.prado@example.com",
+        "minutes_after": 60,
+        "content": "Mentor dedicado faz toda a diferença no começo. Recomendo para quem está começando!"
+      },
+      {
+        "user_email": "rodrigo.bastos@example.com",
+        "minutes_after": 120,
+        "content": "Programa de estágio com plano de desenvolvimento é raro. Parabéns pela iniciativa, CodeLab!"
+      },
+      {
+        "user_email": "isabela.rocha@example.com",
+        "minutes_after": 300,
+        "content": "Aceita estudantes em transição de carreira também?",
+        "replies": [
+          {
+            "user_email": "contato@codelab.example.com",
+            "minutes_after": 350,
+            "content": "Aceita sim, Isabela! O requisito é estar matriculado em algum curso de tecnologia, seja graduação ou técnico."
+          }
+        ]
+      },
+      {
+        "user_email": "pedro.lima@example.com",
+        "minutes_after": 700,
+        "content": "Me inscrevi! Obrigado pela indicação lá no meu post 🙌"
+      },
+      {
+        "user_email": "gustavo.medeiros@example.com",
+        "minutes_after": 900,
+        "content": "Investir em estagiário é investir no futuro do time. Ótima iniciativa."
+      }
+    ]
+  },
+  {
+    "user_email": "contato@mercadovivo.example.com",
+    "hours_ago": 210,
+    "engagement": "low",
+    "content": "Hoje passamos de 2.500 pequenos produtores vendendo no MercadoVivo! Do queijo artesanal de Minas ao café especial do Espírito Santo.\n\nNo lado da tecnologia, o desafio do momento é a busca: catálogo cresce todo dia, os produtores descrevem os produtos do seu jeito e o cliente precisa achar o que quer na primeira página.",
+    "comments": [
+      {
+        "user_email": "contato@nexopay.example.com",
+        "minutes_after": 300,
+        "content": "Parabéns pela marca! Muito bom ver tecnologia apoiando pequenos produtores."
+      }
+    ]
+  },
+  {
+    "user_email": "contato@bancoorion.example.com",
+    "hours_ago": 340,
+    "engagement": "medium",
+    "content": "No Banco Órion, modernizar não significa desligar o mainframe amanhã. As rotinas de crédito em COBOL continuam rodando, enquanto novas funcionalidades nascem em Java com Spring Boot e conversam com o legado por uma camada de integração auditada.\n\nEstamos buscando profissionais que transitem entre os dois mundos. Experiência com legado é diferencial aqui.",
+    "comments": [
+      {
+        "user_email": "gustavo.ribeiro@example.com",
+        "minutes_after": 60,
+        "content": "Finalmente uma empresa que valoriza experiência com legado! Mandei mensagem.",
+        "replies": [
+          {
+            "user_email": "contato@bancoorion.example.com",
+            "minutes_after": 120,
+            "content": "Recebemos, Gustavo! Seu perfil tem tudo a ver com o que buscamos."
+          }
+        ]
+      },
+      {
+        "user_email": "thiago.nakamura@example.com",
+        "minutes_after": 400,
+        "content": "Camada de integração auditada é essencial nesse cenário. Arquitetura bem pensada."
+      }
+    ]
+  },
+  {
+    "user_email": "contato@casanova.example.com",
+    "hours_ago": 270,
+    "engagement": "low",
+    "content": "Nossos vendedores agora consultam o estoque de todas as 60 lojas e do centro de distribuição direto do tablet, pelo app em Flutter integrado ao ERP.\n\nResultado no primeiro trimestre: 22% menos vendas perdidas por falta de produto na loja física. Omnichannel é isso, o cliente não deveria precisar saber de onde vem o sofá.",
+    "comments": [
+      {
+        "user_email": "marina.costa@example.com",
+        "minutes_after": 200,
+        "content": "Flutter em tablet para vendedor é um caso de uso perfeito. Parabéns pelo resultado!"
+      }
+    ]
+  },
+  {
+    "user_email": "marina.tavares@example.com",
+    "hours_ago": 13,
+    "engagement": "medium",
+    "content": "Procuro uma dupla front-end e back-end para um ciclo de quatro meses num produto de agendamento para prestadores de serviço.\n\nStack preferencial: React no front e Laravel ou Node no back. Acompanhamento semanal de entrega e contrato por projeto. Quem tiver interesse, me chama aqui com portfólio.",
+    "comments": [
+      {
+        "user_email": "camila.duarte@example.com",
+        "minutes_after": 40,
+        "content": "Oi, Marina! Trabalho com Laravel e Vue, mas tenho experiência com React também. Te mandei mensagem com portfólio."
+      },
+      {
+        "user_email": "lucas.prado@example.com",
+        "minutes_after": 120,
+        "content": "Tenho interesse! Sou fullstack júnior com Node e React. Posso te mandar meu portfólio?",
+        "replies": [
+          {
+            "user_email": "marina.tavares@example.com",
+            "minutes_after": 200,
+            "content": "Pode sim, Lucas! Manda por mensagem que eu dou uma olhada."
+          }
+        ]
+      },
+      {
+        "user_email": "eduardo.campos@example.com",
+        "minutes_after": 400,
+        "content": "Acompanhamento semanal de entrega é o que faz projeto sob demanda dar certo. Boa sorte na busca!"
+      }
+    ]
+  },
+  {
+    "user_email": "eduardo.pontes@example.com",
+    "hours_ago": 110,
+    "engagement": "low",
+    "content": "Quero agradecer publicamente ao desenvolvedor que reestruturou o sistema de agendamento das nossas três clínicas.\n\nAlém de funcionar, ele deixou um manual com prints para a recepção e explicou cada mudança numa linguagem que a equipe entendeu. Para quem não é da área, isso vale tanto quanto o código.",
+    "comments": [
+      {
+        "user_email": "camila.duarte@example.com",
+        "minutes_after": 60,
+        "content": "Que bonito ver um cliente reconhecendo isso publicamente. Documentação muitas vezes é o trabalho invisível."
+      },
+      {
+        "user_email": "gustavo.medeiros@example.com",
+        "minutes_after": 300,
+        "content": "Comunicação com equipe não técnica é a habilidade mais subestimada de um desenvolvedor."
+      }
+    ]
+  },
+  {
+    "user_email": "juliana.rocha@example.com",
+    "hours_ago": 48,
+    "engagement": "low",
+    "content": "Tenho demanda recorrente de landing pages com formulário integrado ao CRM dos meus clientes de marketing digital. Em média, duas a três por mês.\n\nBusco desenvolvedor frontend que entregue rápido, com página leve e boa nota de performance. Pagamento por entrega e prioridade para quem já tiver exemplos publicados.",
+    "comments": [
+      {
+        "user_email": "vinicius.tavares@example.com",
+        "minutes_after": 60,
+        "content": "Oi, Juliana! Trabalho exatamente com landing pages em Next.js focadas em performance. Posso te mandar alguns exemplos?",
+        "replies": [
+          {
+            "user_email": "juliana.rocha@example.com",
+            "minutes_after": 120,
+            "content": "Pode sim! Manda por mensagem 😊"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "ricardo.almeida@example.com",
+    "hours_ago": 175,
+    "engagement": "low",
+    "content": "Nosso escritório de contabilidade ainda recebe documentos dos clientes por e-mail e WhatsApp. Chegou a hora de mudar isso.\n\nEstou procurando quem possa construir um portal simples onde o cliente envia notas e comprovantes, acompanha as obrigações do mês e recebe as guias de pagamento. Alguém já fez algo parecido?",
+    "comments": [
+      {
+        "user_email": "natalia.siqueira@example.com",
+        "minutes_after": 100,
+        "content": "Já desenvolvi um portal parecido para um escritório de advocacia: upload de documentos, status e notificações. Te mando mensagem!"
+      },
+      {
+        "user_email": "camila.nogueira@example.com",
+        "minutes_after": 300,
+        "content": "Tenho um sistema para escritórios jurídicos e muitas dessas funcionalidades se parecem. Posso te contar o que funcionou para nós."
+      }
+    ]
+  },
+  {
+    "user_email": "patricia.lemos@example.com",
+    "hours_ago": 84,
+    "engagement": "medium",
+    "content": "Validamos o MVP da nossa startup de bem-estar em seis semanas, com uma desenvolvedora freelancer e um protótipo bem enxuto.\n\nAprendizado principal: cortar funcionalidade dói, mas foi o que nos permitiu colocar o produto na mão de usuários reais rápido. Metade do que achávamos essencial ninguém usou.",
+    "comments": [
+      {
+        "user_email": "gustavo.medeiros@example.com",
+        "minutes_after": 50,
+        "content": "Cortar escopo é a habilidade mais valiosa de um fundador. Parabéns pela validação!"
+      },
+      {
+        "user_email": "eduardo.campos@example.com",
+        "minutes_after": 200,
+        "content": "\"Metade do que achávamos essencial ninguém usou\" é a história de quase todo MVP 😄"
+      },
+      {
+        "user_email": "marina.tavares@example.com",
+        "minutes_after": 400,
+        "content": "Seis semanas é um ótimo prazo. Qual foi a stack?",
+        "replies": [
+          {
+            "user_email": "patricia.lemos@example.com",
+            "minutes_after": 460,
+            "content": "Flutter no app e um backend bem simples com Firebase. O objetivo era só validar rápido."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "andre.figueiredo@example.com",
+    "hours_ago": 260,
+    "engagement": "medium",
+    "content": "Desafio na distribuidora: integrar nosso ERP antigo, que roda há quinze anos, com o e-commerce que lançamos ano passado. Hoje o estoque do site é atualizado manualmente duas vezes por dia.\n\nBusco profissional com experiência em sistemas legados e integração. Não quero trocar o ERP, quero que ele converse com o resto.",
+    "comments": [
+      {
+        "user_email": "gustavo.ribeiro@example.com",
+        "minutes_after": 40,
+        "content": "André, tenho anos de experiência integrando ERPs legados com sistemas novos. Não precisa trocar nada: dá para expor os dados por uma camada de serviço. Te mandei mensagem.",
+        "replies": [
+          {
+            "user_email": "andre.figueiredo@example.com",
+            "minutes_after": 100,
+            "content": "Ótimo, Gustavo! Vou te responder por lá."
+          }
+        ]
+      },
+      {
+        "user_email": "diego.salgado@example.com",
+        "minutes_after": 300,
+        "content": "Já fiz integração de ERP legado com e-commerce usando fila de eventos. Estoque em tempo quase real evita muita venda cancelada."
+      }
+    ]
+  },
+  {
+    "user_email": "camila.nogueira@example.com",
+    "hours_ago": 360,
+    "engagement": "low",
+    "content": "Lançamos a nova versão do nosso sistema de gestão de prazos processuais, agora com alerta por e-mail e calendário compartilhado entre os advogados do escritório.\n\nComo advogada que virou dona de produto, aprendi que a melhor funcionalidade é a que evita o prazo perdido, não a mais bonita.",
+    "comments": [
+      {
+        "user_email": "ricardo.almeida@example.com",
+        "minutes_after": 200,
+        "content": "Alerta de prazo por e-mail é o tipo de funcionalidade que vale ouro em escritório. Parabéns!"
+      }
+    ]
+  },
+  {
+    "user_email": "fernando.brito@example.com",
+    "hours_ago": 205,
+    "engagement": "low",
+    "content": "Temporada de eventos de fim de ano chegando e preciso de reforço no time de desenvolvimento.\n\nO projeto é o app de credenciamento com leitura de QR Code e venda de ingressos, que precisa aguentar milhares de acessos na abertura dos portões. Trabalho por temporada, de novembro a fevereiro.",
+    "comments": [
+      {
+        "user_email": "marina.costa@example.com",
+        "minutes_after": 100,
+        "content": "Já trabalhei com app de eventos que precisava ler QR Code offline na portaria. Tenho interesse!",
+        "replies": [
+          {
+            "user_email": "fernando.brito@example.com",
+            "minutes_after": 180,
+            "content": "Marina, o offline é exatamente o que mais me preocupa. Vou te chamar por mensagem!"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "user_email": "beatriz.carvalho@example.com",
+    "hours_ago": 290,
+    "engagement": "low",
+    "content": "Para o novo projeto de pesquisa do laboratório, precisamos de uma ferramenta para aplicar questionários em campo, inclusive sem internet, e sincronizar depois.\n\nOs dados vão para análise em Python, então ajuda muito quem tiver familiaridade com o ecossistema científico. Projeto financiado por edital, com prazo de oito meses.",
+    "comments": [
+      {
+        "user_email": "amanda.vasconcelos@example.com",
+        "minutes_after": 150,
+        "content": "Python com pandas na análise e um app offline-first na coleta funciona muito bem. Tenho interesse no projeto!"
+      }
+    ]
+  },
+  {
+    "user_email": "gustavo.medeiros@example.com",
+    "hours_ago": 480,
+    "engagement": "medium",
+    "content": "Conselho para desenvolvedores que atendem pequenos negócios: o dono da padaria não quer saber de arquitetura, ele quer saber se o pedido chega certo.\n\nOs freelancers que mais indico para as empresas que apoio são os que explicam em linguagem simples, entregam em partes e avisam antes quando algo vai atrasar.",
+    "comments": [
+      {
+        "user_email": "patricia.lemos@example.com",
+        "minutes_after": 60,
+        "content": "Concordo demais. Entregar em partes foi o que eu mais valorizei nos freelancers com quem trabalhei."
+      },
+      {
+        "user_email": "rodrigo.bastos@example.com",
+        "minutes_after": 300,
+        "content": "Avisar antes quando algo vai atrasar parece óbvio, mas faz toda diferença na confiança. Ótimo conselho."
+      },
+      {
+        "user_email": "eduardo.pontes@example.com",
+        "minutes_after": 700,
+        "content": "Exatamente o que eu penso como cliente."
+      }
+    ]
+  }
+]

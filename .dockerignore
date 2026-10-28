@@ -1,0 +1,40 @@
+# Segredos e config local: em produção as variáveis vêm do Coolify
+.env
+.env.*
+
+.git
+.github
+.claude
+.idea
+.vscode
+.zed
+.fleet
+.cursorrules
+CLAUDE.md
+
+# Instaladas/geradas dentro da imagem
+vendor
+node_modules
+public/build
+public/hot
+public/storage
+bootstrap/cache/*.php
+
+# Uploads, logs e caches locais (as pastas são recriadas pelo entrypoint)
+storage/app/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/testing
+storage/framework/views/*
+storage/logs/*
+storage/pail
+
+tests
+docs
+examples
+phpunit.xml
+.phpunit.cache
+.phpunit.result.cache
+Dockerfile*
+docker-compose*.yml
+compose*.yml

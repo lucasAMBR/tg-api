@@ -5,6 +5,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -15,9 +16,28 @@ return Application::configure(basePath: dirname(__DIR__))
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api/index.php',
         commands: __DIR__.'/../routes/console.php',
+        channels: __DIR__.'/../routes/channels.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+
+        /**
+         * A sinalização WebRTC carrega SDP e ICE candidates gerados pelo browser,
+         * que o backend só repassa sem interpretar. O trim padrão do Laravel come o
+         * `\r\n` final do SDP e o outro peer não consegue mais desserializar, então
+         * essa rota passa sem nenhuma transformação do payload
+         */
+        $isInterviewSignal = fn (Request $request) => $request->is('api/dev-vacancy-interview/*/signal');
+
+        $middleware->trimStrings(except: [$isInterviewSignal]);
+        $middleware->convertEmptyStringsToNull(except: [$isInterviewSignal]);
+
+        /**
+         * Em produção a API fica atrás do proxy do Coolify, que termina o HTTPS. Sem
+         * confiar nele o Laravel acha que a requisição veio em http e gera as URLs
+         * absolutas (links de paginação, por exemplo) com o esquema errado
+         */
+        $middleware->trustProxies(at: '*');
 
     })
     ->withExceptions(function (Exceptions $exceptions): void {

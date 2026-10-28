@@ -67,6 +67,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'company_project.update', 'guard_name' => 'api'],
             ['name' => 'company_project.delete', 'guard_name' => 'api'],
 
+            ['name' => 'client_job_vacancy.create', 'guard_name' => 'api'],
+            ['name' => 'client_job_vacancy.view', 'guard_name' => 'api'],
+            ['name' => 'client_job_vacancy.delete', 'guard_name' => 'api'],
+            ['name' => 'client_job_vacancy.update', 'guard_name' => 'api'],
+
             ['name' => 'client_profile.view', 'guard_name' => 'api'],
             ['name' => 'client_profile.create', 'guard_name' => 'api'],
             ['name' => 'client_profile.update', 'guard_name' => 'api'],
@@ -80,7 +85,44 @@ class PermissionSeeder extends Seeder
             ['name' => 'language.create', 'guard_name' => 'api'],
             ['name' => 'language.update', 'guard_name' => 'api'],
             ['name' => 'language.delete', 'guard_name' => 'api'],
-            ['name' => 'language.approve', 'guard_name' => 'api']
+            ['name' => 'language.approve', 'guard_name' => 'api'],
+
+            ['name' => 'question.view', 'guard_name' => 'api'],
+            ['name' => 'question.create', 'guard_name' => 'api'],
+            ['name' => 'question.update', 'guard_name' => 'api'],
+            ['name' => 'question.delete', 'guard_name' => 'api'],
+            ['name' => 'question_response.create', 'guard_name' => 'api'],
+            ['name' => 'question_response.delete', 'guard_name' => 'api'],
+
+            ['name' => 'proficiency_test.solicitate', 'guard_name' => 'api'],
+            ['name' => 'proficiency_test.view', 'guard_name' => 'api'],
+            ['name' => 'proficiency_test.submit', 'guard_name' => 'api'],
+
+            ['name' => 'administration.dashboard', 'guard_name' => 'api'],
+
+            ['name' => 'user.block', 'guard_name' => 'api'],
+
+            ['name' => 'post.view', 'guard_name' => 'api'],
+            ['name' => 'post.create', 'guard_name' => 'api'],
+            ['name' => 'post.update', 'guard_name' => 'api'],
+            ['name' => 'post.delete', 'guard_name' => 'api'],
+
+            ['name' => 'comment.view', 'guard_name' => 'api'],
+            ['name' => 'comment.create', 'guard_name' => 'api'],
+            ['name' => 'comment.update', 'guard_name' => 'api'],
+            ['name' => 'comment.delete', 'guard_name' => 'api'],
+
+            ['name' => 'follow.view', 'guard_name' => 'api'],
+            ['name' => 'follow.toggle', 'guard_name' => 'api'],
+
+            ['name' => 'freelance_proposal.view', 'guard_name' => 'api'],
+            ['name' => 'freelance_proposal.create', 'guard_name' => 'api'],
+            ['name' => 'freelance_proposal.update', 'guard_name' => 'api'],
+            ['name' => 'freelance_proposal.delete', 'guard_name' => 'api'],
+
+            ['name' => 'freelance_feed.view', 'guard_name' => 'api'],
+            ['name' => 'freelance_feed.create', 'guard_name' => 'api'],
+            ['name' => 'freelance_feed.delete', 'guard_name' => 'api'],
         ]);
 
         foreach($permissions as $permission){

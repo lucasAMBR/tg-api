@@ -41,6 +41,25 @@ class Language extends Model
         ->withPivot('language_level');
     }
 
+    public function freelanceJobVacancies(): BelongsToMany {
+        return $this->belongsToMany(FreelanceJobVacancy::class,
+            'freelance_job_vacancy_languages',
+            'language_id',
+            'freelance_job_vacancy_id'
+        )
+        ->using(FreelanceJobVacancyLanguage::class)
+        ->withPivot('language_level')
+        ->withTimestamps();
+    }
+
+    public function jobVacanciesDesirable(): BelongsToMany {
+        return $this->belongsToMany(JobVacancy::class,
+            'job_vacancy_languages_desirables',
+            'job_vacancy_id',
+            'languages_id'
+        );
+    }
+
     public function company_profiles(): BelongsToMany
     {
         return $this->belongsToMany(CompanyProfile::class);

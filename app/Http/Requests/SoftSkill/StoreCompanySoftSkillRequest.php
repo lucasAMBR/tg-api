@@ -22,14 +22,21 @@ class StoreCompanySoftSkillRequest extends FormRequest
      */
     public function rules(): array
     {
-        // dd('para aq');
         return [
 
+            'company_profile_id' => ['required', 'uuid', 'exists:company_profiles,id'],
             // Passa um array de soft skill com os IDs das soft skills
             'soft_skills' => ['required', 'array'],
             // Dentro do array de soft skill eu passo o ID das soft skills
             'soft_skills.*' => ['string', 'exists:soft_skills,id']
 
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'company_profile_id' => $this->route('company_profile_id')
+        ]);
     }
 }

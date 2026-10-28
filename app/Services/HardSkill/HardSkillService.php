@@ -6,8 +6,10 @@ use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\HardSkill\HardSkillCollection;
 use App\Http\Resources\HardSkill\HardSkillResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
 use App\Models\HardSkill;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -42,8 +44,10 @@ class HardSkillService
         return new HardSkillCollection($hardSkills);
     }
 
-    public function show(HardSkill $hardSkill)
+    public function show(array $data)
     {
+        $hardSkill = HardSkill::findOrFail($data['id']);
+
         return new HardSkillResource($hardSkill);
     }
 
@@ -64,25 +68,37 @@ class HardSkillService
                 'dev_profile_id' => $devProfile->id
             ]);
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($hardSkill->dev_profile_id);
+
             return new HardSkillResource($hardSkill);
         });
     }
 
-    public function update(HardSkill $hardSkill, array $data): HardSkillResource
+    public function update(array $data): HardSkillResource
     {
+        $hardSkill = HardSkill::findOrFail($data['id']);
+
+        $data = Arr::except($data, ['id']);
+
         return DB::transaction(function () use ($data, $hardSkill): HardSkillResource {
             $hardSkill->update($data);
 
             $hardSkill->refresh();
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($hardSkill->dev_profile_id);
+
             return new HardSkillResource($hardSkill);
         });
     }
 
-    public function delete(HardSkill $hardSkill): void
+    public function delete(array $data): void
     {
+        $hardSkill = HardSkill::findOrFail($data['id']);
+
         DB::transaction(function () use ($hardSkill): void {
             $hardSkill->delete();
+
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($hardSkill->dev_profile_id);
         });
     }
 }

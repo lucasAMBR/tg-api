@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Profiles\DevProfiles;
 
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Rules\Cellphone;
 use App\Rules\Cpf;
@@ -26,12 +27,21 @@ class UpdateDevProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'uuid', 'exists:dev_profiles,id'],
             'cpf' => ['sometimes', new Cpf],
             'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'bio' => ['sometimes', 'string'],
             'phone' => ['sometimes', new Cellphone],
             'birthdate' => ['sometimes', 'date', 'date_format:Y-m-d'],
             'seniority_level' => ['sometimes', Rule::enum(SeniorityLevelEnum::class)],
+            'specialty' => ['sometimes', Rule::enum(DevSpecialtyEnum::class)],
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id')
+        ]);
     }
 }

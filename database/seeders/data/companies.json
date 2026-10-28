@@ -1,0 +1,451 @@
+[
+  {
+    "email": "contato@nexopay.example.com",
+    "profile": {
+      "name": "NexoPay Tecnologia",
+      "bio": "Fintech de meios de pagamento fundada em 2016, responsável por processar mais de 3 milhões de transações mensais para marketplaces e plataformas SaaS. O time de engenharia é organizado em squads de produto, com forte cultura de code review, testes automatizados e observabilidade. O core bancário roda em PHP/Laravel com filas em Redis e PostgreSQL particionado.",
+      "phone": "+5531900000201",
+      "founding_date": "2016-03-14",
+      "operational_segment": "fintech",
+      "score": 910
+    },
+    "address": {
+      "cep": "30140-071",
+      "address_type": "commercial",
+      "street": "Rua Pernambuco",
+      "street_complete_name": "Rua Pernambuco, Savassi",
+      "district": "Savassi",
+      "city": "Belo Horizonte",
+      "state": "MG",
+      "latitude": -19.9386,
+      "longitude": -43.9317,
+      "number": "1400",
+      "complement": "8º andar"
+    },
+    "languages": ["php", "laravel", "typescript", "react", "python"],
+    "soft_skills": ["Accountability", "Problem Solving", "Communication"],
+    "projects": [
+      {
+        "title": "Motor de Conciliação Bancária",
+        "description": "Plataforma interna que importa arquivos CNAB, concilia lançamentos com pedidos e expõe relatórios financeiros via API. Processa 500 mil linhas por rodada usando filas e particionamento de tabelas.",
+        "languages": ["php", "laravel"]
+      },
+      {
+        "title": "Checkout Transparente",
+        "description": "SDK e API de checkout embarcado com tokenização de cartões, antifraude integrado e webhooks assinados, usado por mais de 200 lojistas.",
+        "languages": ["typescript", "react"]
+      }
+    ]
+  },
+  {
+    "email": "contato@vitalcare.example.com",
+    "profile": {
+      "name": "VitalCare HealthTech",
+      "bio": "HealthTech que desenvolve prontuário eletrônico e telemedicina para clínicas de médio porte. Opera sob requisitos rígidos de LGPD e HL7/FHIR, com auditoria completa de acesso a dados sensíveis. A engenharia trabalha em modelo remoto-first com pareamento diário e entregas contínuas.",
+      "phone": "+5511900000202",
+      "founding_date": "2018-08-02",
+      "operational_segment": "healthcare",
+      "score": 760
+    },
+    "address": {
+      "cep": "04538-133",
+      "address_type": "commercial",
+      "street": "Avenida Brigadeiro Faria Lima",
+      "street_complete_name": "Avenida Brigadeiro Faria Lima, Itaim Bibi",
+      "district": "Itaim Bibi",
+      "city": "São Paulo",
+      "state": "SP",
+      "latitude": -23.5852,
+      "longitude": -46.6819,
+      "number": "3477",
+      "complement": "Torre B, 12º andar"
+    },
+    "languages": ["java", "spring-boot", "angular", "typescript"],
+    "soft_skills": ["Teamwork", "Emotional Intelligence", "Critical Thinking"],
+    "projects": [
+      {
+        "title": "Prontuário Eletrônico Unificado",
+        "description": "Sistema de prontuário com histórico clínico versionado, integração FHIR com laboratórios e trilha de auditoria imutável de todo acesso a dado sensível.",
+        "languages": ["java", "spring-boot"]
+      },
+      {
+        "title": "Portal de Teleconsulta",
+        "description": "Aplicação web de videoconsulta com sala de espera virtual, prescrição digital assinada e agenda sincronizada com o prontuário.",
+        "languages": ["angular", "typescript"]
+      }
+    ]
+  },
+  {
+    "email": "contato@lumeneducacao.example.com",
+    "profile": {
+      "name": "Lumen Educação",
+      "bio": "EdTech focada em ensino técnico a distância, com trilhas adaptativas e correção automática de exercícios de programação. A plataforma atende cerca de 120 mil alunos ativos e prioriza acessibilidade e desempenho em conexões lentas.",
+      "phone": "+5548900000203",
+      "founding_date": "2019-01-21",
+      "operational_segment": "edtech",
+      "score": 640
+    },
+    "address": {
+      "cep": "88015-020",
+      "address_type": "commercial",
+      "street": "Avenida Beira-Mar Norte",
+      "street_complete_name": "Avenida Beira-Mar Norte, Centro",
+      "district": "Centro",
+      "city": "Florianópolis",
+      "state": "SC",
+      "latitude": -27.5875,
+      "longitude": -48.5487,
+      "number": "2100"
+    },
+    "languages": ["python", "django", "vue-js", "tailwind-css"],
+    "soft_skills": ["Communication", "Adaptability", "Time Management"],
+    "projects": [
+      {
+        "title": "Trilhas Adaptativas",
+        "description": "Motor de recomendação de conteúdo que ajusta a sequência de aulas conforme o desempenho do aluno nos exercícios, reduzindo evasão em turmas iniciantes.",
+        "languages": ["python", "django"]
+      },
+      {
+        "title": "Corretor Automático de Código",
+        "description": "Serviço que executa submissões dos alunos em containers isolados, roda baterias de testes e devolve feedback textual em poucos segundos.",
+        "languages": ["python"]
+      }
+    ]
+  },
+  {
+    "email": "contato@rotamax.example.com",
+    "profile": {
+      "name": "RotaMax Logística Digital",
+      "bio": "Empresa de tecnologia para transporte rodoviário de cargas, com roteirização, rastreamento em tempo real e torre de controle. Integra mais de 40 transportadoras e processa telemetria de milhares de veículos por minuto usando streaming de eventos.",
+      "phone": "+5541900000204",
+      "founding_date": "2015-06-30",
+      "operational_segment": "logistics",
+      "score": 700
+    },
+    "address": {
+      "cep": "80420-090",
+      "address_type": "commercial",
+      "street": "Rua Comendador Araújo",
+      "street_complete_name": "Rua Comendador Araújo, Centro",
+      "district": "Centro",
+      "city": "Curitiba",
+      "state": "PR",
+      "latitude": -25.4372,
+      "longitude": -49.2769,
+      "number": "731"
+    },
+    "languages": ["go", "python", "react", "typescript"],
+    "soft_skills": ["Problem Solving", "Accountability", "Teamwork"],
+    "projects": [
+      {
+        "title": "Torre de Controle Logística",
+        "description": "Painel operacional em tempo real que consolida telemetria, desvios de rota e previsões de atraso, com alertas automáticos para o time de operações.",
+        "languages": ["go", "react"]
+      },
+      {
+        "title": "Roteirizador de Cargas",
+        "description": "Serviço de otimização de rotas com restrições de janela de entrega, peso e tipo de veículo, usado no planejamento diário das transportadoras parceiras.",
+        "languages": ["python"]
+      }
+    ]
+  },
+  {
+    "email": "contato@fortishield.example.com",
+    "profile": {
+      "name": "FortiShield Segurança",
+      "bio": "Consultoria e produto de cibersegurança com atuação em pentest, resposta a incidentes e monitoramento contínuo. Mantém um SOC próprio 24x7 e desenvolve ferramentas internas de detecção baseadas em correlação de logs. Exige maturidade em processos seguros de desenvolvimento.",
+      "phone": "+5551900000205",
+      "founding_date": "2014-11-05",
+      "operational_segment": "cybersecurity",
+      "score": 830
+    },
+    "address": {
+      "cep": "90570-020",
+      "address_type": "commercial",
+      "street": "Avenida Carlos Gomes",
+      "street_complete_name": "Avenida Carlos Gomes, Auxiliadora",
+      "district": "Auxiliadora",
+      "city": "Porto Alegre",
+      "state": "RS",
+      "latitude": -30.0246,
+      "longitude": -51.1996,
+      "number": "1155",
+      "complement": "Conjunto 402"
+    },
+    "languages": ["rust", "go", "python", "c"],
+    "soft_skills": ["Critical Thinking", "Accountability", "Conflict Resolution"],
+    "projects": [
+      {
+        "title": "Plataforma de Correlação de Logs",
+        "description": "Pipeline de ingestão e correlação de eventos de segurança com regras customizáveis, deduplicação de alertas e integração com o fluxo de resposta a incidentes.",
+        "languages": ["rust", "go"]
+      },
+      {
+        "title": "Scanner de Superfície de Ataque",
+        "description": "Ferramenta interna de descoberta contínua de ativos expostos, com priorização de vulnerabilidades por criticidade de negócio.",
+        "languages": ["python"]
+      }
+    ]
+  },
+  {
+    "email": "contato@pixelforge.example.com",
+    "profile": {
+      "name": "PixelForge Games",
+      "bio": "Estúdio independente de jogos com títulos publicados para PC e consoles, focado em jogos narrativos e simuladores. O time combina programação de gameplay, ferramentas internas para level design e portabilidade multiplataforma. Cultura de protótipo rápido e playtests semanais.",
+      "phone": "+5521900000206",
+      "founding_date": "2017-09-12",
+      "operational_segment": "game_dev",
+      "score": 580
+    },
+    "address": {
+      "cep": "22071-060",
+      "address_type": "commercial",
+      "street": "Avenida Nossa Senhora de Copacabana",
+      "street_complete_name": "Avenida Nossa Senhora de Copacabana, Copacabana",
+      "district": "Copacabana",
+      "city": "Rio de Janeiro",
+      "state": "RJ",
+      "latitude": -22.9711,
+      "longitude": -43.1848,
+      "number": "980"
+    },
+    "languages": ["cpp", "csharp", "c"],
+    "soft_skills": ["Adaptability", "Teamwork", "Communication"],
+    "projects": [
+      {
+        "title": "Engine de Diálogos Ramificados",
+        "description": "Ferramenta interna que permite aos roteiristas montar árvores de diálogo com condições de estado do jogo, exportadas direto para a build sem intervenção da programação.",
+        "languages": ["csharp"]
+      },
+      {
+        "title": "Camada de Portabilidade Multiplataforma",
+        "description": "Abstração de entrada, áudio e salvamento que permitiu publicar o mesmo código-base em PC e dois consoles com poucas semanas de ajuste.",
+        "languages": ["cpp", "c"]
+      }
+    ]
+  },
+  {
+    "email": "contato@altocloud.example.com",
+    "profile": {
+      "name": "AltoCloud Plataformas",
+      "bio": "Empresa de infraestrutura como serviço que oferece plataforma interna de deploy para times de produto. Opera clusters Kubernetes multi-região, com foco em confiabilidade, custo por serviço e autoatendimento dos desenvolvedores. Adota SRE, on-call rotativo e postmortems sem culpa.",
+      "phone": "+5511900000207",
+      "founding_date": "2020-02-18",
+      "operational_segment": "cloud_computing",
+      "score": 790
+    },
+    "address": {
+      "cep": "01452-000",
+      "address_type": "commercial",
+      "street": "Rua Jerônimo da Veiga",
+      "street_complete_name": "Rua Jerônimo da Veiga, Jardim Europa",
+      "district": "Jardim Europa",
+      "city": "São Paulo",
+      "state": "SP",
+      "latitude": -23.5859,
+      "longitude": -46.6744,
+      "number": "384"
+    },
+    "languages": ["go", "typescript", "react", "python"],
+    "soft_skills": ["Problem Solving", "Accountability", "Time Management"],
+    "projects": [
+      {
+        "title": "Plataforma Interna de Deploy",
+        "description": "Portal e CLI que padronizam pipelines, rollout progressivo e rollback automático, reduzindo o tempo médio entre commit e produção de horas para minutos.",
+        "languages": ["go", "typescript"]
+      },
+      {
+        "title": "Observatório de Custos",
+        "description": "Serviço que atribui custo de nuvem por time e por serviço, com alertas de desvio orçamentário e recomendações de redimensionamento.",
+        "languages": ["python", "react"]
+      }
+    ]
+  },
+  {
+    "email": "contato@sinapse.example.com",
+    "profile": {
+      "name": "Sinapse AI Labs",
+      "bio": "Empresa de inteligência artificial aplicada, com produtos de busca semântica, sumarização e classificação de documentos para os setores jurídico e financeiro. Trabalha com modelos de linguagem, bancos vetoriais e avaliação contínua de qualidade de resposta.",
+      "phone": "+5531900000208",
+      "founding_date": "2021-05-10",
+      "operational_segment": "artificial_intelligence",
+      "score": 850
+    },
+    "address": {
+      "cep": "30130-005",
+      "address_type": "commercial",
+      "street": "Avenida Afonso Pena",
+      "street_complete_name": "Avenida Afonso Pena, Centro",
+      "district": "Centro",
+      "city": "Belo Horizonte",
+      "state": "MG",
+      "latitude": -19.9227,
+      "longitude": -43.9375,
+      "number": "1270",
+      "complement": "Sala 1502"
+    },
+    "languages": ["python", "flask", "typescript", "next-js"],
+    "soft_skills": ["Critical Thinking", "Communication", "Adaptability"],
+    "projects": [
+      {
+        "title": "Busca Semântica Jurídica",
+        "description": "Mecanismo de busca sobre acervos de processos que combina embeddings, filtros estruturados e reordenação por relevância, com citação da fonte em cada resposta.",
+        "languages": ["python", "flask"]
+      },
+      {
+        "title": "Console de Avaliação de Modelos",
+        "description": "Painel interno para comparar versões de prompts e modelos em conjuntos de teste rotulados, acompanhando custo, latência e taxa de acerto.",
+        "languages": ["typescript", "next-js"]
+      }
+    ]
+  },
+  {
+    "email": "contato@codelab.example.com",
+    "profile": {
+      "name": "CodeLab Software House",
+      "bio": "Fábrica de software que entrega projetos sob demanda para clientes de varejo, indústria e serviços. Atua com squads alocados, do descobrimento à sustentação, e mantém um conjunto de starters internos para acelerar o início de novos projetos. Ambiente com alta rotatividade de stacks e contato direto com o cliente.",
+      "phone": "+5519900000209",
+      "founding_date": "2013-04-08",
+      "operational_segment": "software_house",
+      "score": 520
+    },
+    "address": {
+      "cep": "13015-904",
+      "address_type": "commercial",
+      "street": "Avenida Francisco Glicério",
+      "street_complete_name": "Avenida Francisco Glicério, Centro",
+      "district": "Centro",
+      "city": "Campinas",
+      "state": "SP",
+      "latitude": -22.9056,
+      "longitude": -47.0608,
+      "number": "1250"
+    },
+    "languages": ["php", "laravel", "java-script", "vue-js", "bootstrap"],
+    "soft_skills": ["Communication", "Time Management", "Adaptability"],
+    "projects": [
+      {
+        "title": "Starter Kit Multi-tenant",
+        "description": "Base de projeto com autenticação, controle de permissões por papel e separação de dados por cliente, reaproveitada em mais de dez contratos.",
+        "languages": ["php", "laravel"]
+      },
+      {
+        "title": "Portal do Cliente",
+        "description": "Aplicação web de acompanhamento de chamados e entregas, com painel de horas contratadas e histórico de aprovações.",
+        "languages": ["vue-js", "java-script"]
+      }
+    ]
+  },
+  {
+    "email": "contato@mercadovivo.example.com",
+    "profile": {
+      "name": "MercadoVivo Comércio Digital",
+      "bio": "Marketplace de produtos regionais que conecta pequenos produtores a consumidores finais. A operação exige catálogo de alto volume, busca eficiente, gestão de estoque distribuída e picos sazonais de tráfego durante campanhas promocionais.",
+      "phone": "+5581900000210",
+      "founding_date": "2019-10-25",
+      "operational_segment": "e_commerce",
+      "score": 610
+    },
+    "address": {
+      "cep": "51020-000",
+      "address_type": "commercial",
+      "street": "Avenida Conselheiro Aguiar",
+      "street_complete_name": "Avenida Conselheiro Aguiar, Boa Viagem",
+      "district": "Boa Viagem",
+      "city": "Recife",
+      "state": "PE",
+      "latitude": -8.1189,
+      "longitude": -34.8964,
+      "number": "1560"
+    },
+    "languages": ["php", "laravel", "react", "next-js", "tailwind-css"],
+    "soft_skills": ["Teamwork", "Problem Solving", "Time Management"],
+    "projects": [
+      {
+        "title": "Catálogo e Busca Facetada",
+        "description": "Indexação do catálogo com filtros por categoria, região e disponibilidade, sustentando picos de tráfego em campanhas sem degradar o tempo de resposta.",
+        "languages": ["php", "laravel"]
+      },
+      {
+        "title": "Aplicativo do Produtor",
+        "description": "Interface responsiva para o pequeno produtor cadastrar produtos, acompanhar pedidos e emitir etiquetas de envio pelo celular.",
+        "languages": ["next-js", "react", "tailwind-css"]
+      }
+    ]
+  },
+  {
+    "email": "contato@bancoorion.example.com",
+    "profile": {
+      "name": "Banco Órion",
+      "bio": "Banco digital de médio porte com carteira de crédito para pequenas e médias empresas. Ambiente altamente regulado, com auditoria, rastreabilidade de transações e janelas de mudança controladas. A engenharia moderniza gradualmente sistemas legados mantendo integração com o core bancário.",
+      "phone": "+5511900000211",
+      "founding_date": "2011-07-19",
+      "operational_segment": "banking",
+      "score": 880
+    },
+    "address": {
+      "cep": "01310-100",
+      "address_type": "commercial",
+      "street": "Avenida Paulista",
+      "street_complete_name": "Avenida Paulista, Bela Vista",
+      "district": "Bela Vista",
+      "city": "São Paulo",
+      "state": "SP",
+      "latitude": -23.5614,
+      "longitude": -46.6559,
+      "number": "1842",
+      "complement": "22º andar"
+    },
+    "languages": ["java", "spring-boot", "cobol", "angular", "typescript"],
+    "soft_skills": ["Accountability", "Critical Thinking", "Leadership"],
+    "projects": [
+      {
+        "title": "Esteira de Crédito PJ",
+        "description": "Fluxo automatizado de análise de crédito com motor de regras, integração a bureaus e trilha completa de decisão para auditoria regulatória.",
+        "languages": ["java", "spring-boot"]
+      },
+      {
+        "title": "Modernização do Core Legado",
+        "description": "Encapsulamento progressivo de rotinas COBOL em serviços com contrato estável, permitindo migrar módulos sem interromper o processamento noturno.",
+        "languages": ["cobol", "java"]
+      }
+    ]
+  },
+  {
+    "email": "contato@casanova.example.com",
+    "profile": {
+      "name": "CasaNova Varejo",
+      "bio": "Rede varejista de móveis e decoração com 60 lojas físicas e operação omnichannel. O time de tecnologia cuida do ERP, da integração entre estoque de loja e site, e das ferramentas de força de vendas usadas diariamente pelos vendedores no salão.",
+      "phone": "+5562900000212",
+      "founding_date": "2009-03-03",
+      "operational_segment": "retail",
+      "score": 470
+    },
+    "address": {
+      "cep": "74110-010",
+      "address_type": "commercial",
+      "street": "Avenida Tocantins",
+      "street_complete_name": "Avenida Tocantins, Setor Central",
+      "district": "Setor Central",
+      "city": "Goiânia",
+      "state": "GO",
+      "latitude": -16.6799,
+      "longitude": -49.2553,
+      "number": "410"
+    },
+    "languages": ["csharp", "aspnet-core", "java-script", "flutter"],
+    "soft_skills": ["Teamwork", "Emotional Intelligence", "Time Management"],
+    "projects": [
+      {
+        "title": "Integração Estoque Loja-Site",
+        "description": "Sincronização quase em tempo real do estoque das 60 lojas com o e-commerce, permitindo venda com retirada em loja e reduzindo cancelamentos por falta de produto.",
+        "languages": ["csharp", "aspnet-core"]
+      },
+      {
+        "title": "App de Força de Vendas",
+        "description": "Aplicativo usado pelos vendedores no salão para simular financiamento, consultar disponibilidade e fechar pedidos sem passar pelo caixa.",
+        "languages": ["flutter"]
+      }
+    ]
+  }
+]

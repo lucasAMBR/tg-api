@@ -1,0 +1,3180 @@
+{
+    "error": false,
+    "message": "Proficiency test questions retrieved with success",
+    "data": [
+        [
+            {
+                "id": "019f2b4b-13f0-7012-ae14-5f4c11373762",
+                "question": "Quais afirmativas sobre a estrutura de dados pilha (stack) estão corretas?",
+                "question_pt": "Quais afirmativas sobre a estrutura de dados pilha (stack) estão corretas?",
+                "question_en": "What statements about the stack data structure are correct?",
+                "translation_status": "translated",
+                "difficulty_level": 3,
+                "language_id": null,
+                "category": "programming_logic",
+                "ideal_time_to_solve": 90,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-13f4-73be-b561-de61043ed74c",
+                        "question_id": "019f2b4b-13f0-7012-ae14-5f4c11373762",
+                        "response": "A operação de inserção ocorre tipicamente no topo",
+                        "response_pt": "A operação de inserção ocorre tipicamente no topo",
+                        "response_en": "Insert operation typically occurs at the top",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-13f7-710c-bcaf-e9fa3b561636",
+                        "question_id": "019f2b4b-13f0-7012-ae14-5f4c11373762",
+                        "response": "Só pode armazenar valores numéricos",
+                        "response_pt": "Só pode armazenar valores numéricos",
+                        "response_en": "Can only store numeric values",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-13f2-7328-9f11-3bdd8d7c7363",
+                        "question_id": "019f2b4b-13f0-7012-ae14-5f4c11373762",
+                        "response": "Segue o princípio LIFO (último a entrar, primeiro a sair)",
+                        "response_pt": "Segue o princípio LIFO (último a entrar, primeiro a sair)",
+                        "response_en": "Follow the LIFO principle (last to enter, first to leave)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-13f5-715e-b7eb-a18024f6934f",
+                        "question_id": "019f2b4b-13f0-7012-ae14-5f4c11373762",
+                        "response": "Segue o princípio FIFO (primeiro a entrar, primeiro a sair)",
+                        "response_pt": "Segue o princípio FIFO (primeiro a entrar, primeiro a sair)",
+                        "response_en": "Follow the FIFO principle (first in, first out)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-13e6-703f-be64-5aa41851b768",
+                "question": "Quantas vezes o corpo do loop será executado no pseudocódigo abaixo?",
+                "question_pt": "Quantas vezes o corpo do loop será executado no pseudocódigo abaixo?",
+                "question_en": "How many times will the loop body run in the pseudocode below?",
+                "translation_status": "translated",
+                "difficulty_level": 3,
+                "language_id": null,
+                "category": "programming_logic",
+                "ideal_time_to_solve": 90,
+                "code_snippet": {
+                    "code": "contador = 0\nenquanto contador < 5 faça\n    contador = contador + 1\nfim enquanto\n",
+                    "language": "pseudocode"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-13e8-722a-a096-c3e2fbb63746",
+                        "question_id": "019f2b4b-13e6-703f-be64-5aa41851b768",
+                        "response": "5 vezes",
+                        "response_pt": "5 vezes",
+                        "response_en": "5 times",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-13ea-73bd-ae73-e21fdb3dd330",
+                        "question_id": "019f2b4b-13e6-703f-be64-5aa41851b768",
+                        "response": "4 vezes",
+                        "response_pt": "4 vezes",
+                        "response_en": "4 times",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-13eb-7353-899c-ab041011f3fd",
+                        "question_id": "019f2b4b-13e6-703f-be64-5aa41851b768",
+                        "response": "6 vezes",
+                        "response_pt": "6 vezes",
+                        "response_en": "6 times",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-13ed-717e-abe5-c75051542236",
+                        "question_id": "019f2b4b-13e6-703f-be64-5aa41851b768",
+                        "response": "Infinitas vezes",
+                        "response_pt": "Infinitas vezes",
+                        "response_en": "Infinite times",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1432-7211-aa77-62e679d8d020",
+                "question": "Em um grafo não direcionado sem pesos, qual algoritmo encontra o caminho mais curto em número de arestas a partir de um vértice origem?",
+                "question_pt": "Em um grafo não direcionado sem pesos, qual algoritmo encontra o caminho mais curto em número de arestas a partir de um vértice origem?",
+                "question_en": "In an undirected graph without weights, what algorithm finds the shortest path in number of edges from a vertex origin?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "programming_logic",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1435-70c6-a9c5-ee84039f06f9",
+                        "question_id": "019f2b4b-1432-7211-aa77-62e679d8d020",
+                        "response": "Busca em profundidade (DFS)",
+                        "response_pt": "Busca em profundidade (DFS)",
+                        "response_en": "Deep Search (DFS)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1437-7038-a9ea-ed35ba331f64",
+                        "question_id": "019f2b4b-1432-7211-aa77-62e679d8d020",
+                        "response": "Ordenação por bolha",
+                        "response_pt": "Ordenação por bolha",
+                        "response_en": "Blister sorting",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1433-70b3-84a1-ec748726a05d",
+                        "question_id": "019f2b4b-1432-7211-aa77-62e679d8d020",
+                        "response": "Busca em largura (BFS)",
+                        "response_pt": "Busca em largura (BFS)",
+                        "response_en": "Wide Search (BFS)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1438-7355-8d7d-5cc40d356624",
+                        "question_id": "019f2b4b-1432-7211-aa77-62e679d8d020",
+                        "response": "Busca binária",
+                        "response_pt": "Busca binária",
+                        "response_en": "Binary Search",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1428-712d-b14a-4ab11f06437a",
+                "question": "Qual será o valor retornado pela função abaixo quando chamada com `n = 4`?",
+                "question_pt": "Qual será o valor retornado pela função abaixo quando chamada com `n = 4`?",
+                "question_en": "What will be the value returned by the function below when called with `n = 4`?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "programming_logic",
+                "ideal_time_to_solve": 120,
+                "code_snippet": {
+                    "code": "função fatorial(n):\n    se n <= 1 então\n        retornar 1\n    senão\n        retornar n * fatorial(n - 1)\n    fim se\n",
+                    "language": "pseudocode"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-142a-70d5-8daa-d38f362ccab9",
+                        "question_id": "019f2b4b-1428-712d-b14a-4ab11f06437a",
+                        "response": "24",
+                        "response_pt": "24",
+                        "response_en": "24",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-142c-7237-9f11-a93a783fac9d",
+                        "question_id": "019f2b4b-1428-712d-b14a-4ab11f06437a",
+                        "response": "12",
+                        "response_pt": "12",
+                        "response_en": "12",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-142d-7313-ae4b-bd23bbe019c6",
+                        "question_id": "019f2b4b-1428-712d-b14a-4ab11f06437a",
+                        "response": "16",
+                        "response_pt": "16",
+                        "response_en": "16",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-142f-7354-bec5-3fae891a93e3",
+                        "question_id": "019f2b4b-1428-712d-b14a-4ab11f06437a",
+                        "response": "4",
+                        "response_pt": "4",
+                        "response_en": "4",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-145a-7076-b3ab-0d3388f76700",
+                "question": "Em programação dinâmica, qual propriedade um problema deve apresentar para que a abordagem seja eficaz?",
+                "question_pt": "Em programação dinâmica, qual propriedade um problema deve apresentar para que a abordagem seja eficaz?",
+                "question_en": "In dynamic programming, what property should a problem present for the approach to be effective?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": null,
+                "category": "programming_logic",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-145c-72de-8082-afa6ab8e762e",
+                        "question_id": "019f2b4b-145a-7076-b3ab-0d3388f76700",
+                        "response": "Subproblemas sobrepostos e estrutura de subproblemas ótimos",
+                        "response_pt": "Subproblemas sobrepostos e estrutura de subproblemas ótimos",
+                        "response_en": "Superimposed sub-problems and optimal sub-problem structure",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1460-7259-aef1-e806ca4bd57f",
+                        "question_id": "019f2b4b-145a-7076-b3ab-0d3388f76700",
+                        "response": "Impossibilidade de usar memoização ou tabulação",
+                        "response_pt": "Impossibilidade de usar memoização ou tabulação",
+                        "response_en": "Unable to use memo or tab",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1461-7094-98e9-0700c45f2354",
+                        "question_id": "019f2b4b-145a-7076-b3ab-0d3388f76700",
+                        "response": "Grafo necessariamente cíclico e direcionado",
+                        "response_pt": "Grafo necessariamente cíclico e direcionado",
+                        "response_en": "Required cyclical and directed graph",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-145e-738e-bf74-88b3b437cac2",
+                        "question_id": "019f2b4b-145a-7076-b3ab-0d3388f76700",
+                        "response": "Apenas entrada de tamanho fixo igual a 10",
+                        "response_pt": "Apenas entrada de tamanho fixo igual a 10",
+                        "response_en": "Fixed size only equal to 10",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-14f0-710b-8f0c-9a92ca102bd6",
+                "question": "Comparando os trechos abaixo, qual deles viola mais claramente o uso de números mágicos?",
+                "question_pt": "Comparando os trechos abaixo, qual deles viola mais claramente o uso de números mágicos?",
+                "question_en": "By comparing the excerpts below, which of them more clearly violates the use of magic numbers?",
+                "translation_status": "translated",
+                "difficulty_level": 3,
+                "language_id": null,
+                "category": "clean_code",
+                "ideal_time_to_solve": 90,
+                "code_snippet": {
+                    "code": "// Opção A\nSEGUNDOS_POR_DIA = 86400\nexpiracao = agora + SEGUNDOS_POR_DIA\n\n// Opção B\nexpiracao = agora + 86400\n",
+                    "language": "pseudocode"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-14f4-7147-8171-7babfe93b298",
+                        "question_id": "019f2b4b-14f0-710b-8f0c-9a92ca102bd6",
+                        "response": "Opção A, pois nomear o valor em uma constante já é considerado número mágico",
+                        "response_pt": "Opção A, pois nomear o valor em uma constante já é considerado número mágico",
+                        "response_en": "Option A, since naming the value in a constant is already considered a magic number",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-14f7-72cd-80b4-6ea0bc047aeb",
+                        "question_id": "019f2b4b-14f0-710b-8f0c-9a92ca102bd6",
+                        "response": "Nenhuma viola, pois números literais são sempre permitidos",
+                        "response_pt": "Nenhuma viola, pois números literais são sempre permitidos",
+                        "response_en": "No violation, because literal numbers are always allowed",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-14f2-71f9-8f4f-ddddcf52a9c3",
+                        "question_id": "019f2b4b-14f0-710b-8f0c-9a92ca102bd6",
+                        "response": "Opção B, pois usa o literal 86400 diretamente, sem expressar a intenção por trás do valor",
+                        "response_pt": "Opção B, pois usa o literal 86400 diretamente, sem expressar a intenção por trás do valor",
+                        "response_en": "Option B, because it uses the literal 86400 directly, without expressing the intention behind the value",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-14f5-72f9-8206-bb3e43140c52",
+                        "question_id": "019f2b4b-14f0-710b-8f0c-9a92ca102bd6",
+                        "response": "Ambas violam igualmente, já que utilizam o valor 86400",
+                        "response_pt": "Ambas violam igualmente, já que utilizam o valor 86400",
+                        "response_en": "Both are also in breach, since they use the value 86400",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-14e6-70db-9662-85401bfb1f1a",
+                "question": "O que o princípio DRY (Don't Repeat Yourself) recomenda?",
+                "question_pt": "O que o princípio DRY (Don't Repeat Yourself) recomenda?",
+                "question_en": "What does the DRY principle recommend?",
+                "translation_status": "translated",
+                "difficulty_level": 4,
+                "language_id": null,
+                "category": "clean_code",
+                "ideal_time_to_solve": 90,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-14e8-73d1-b93c-1efb086c7ba0",
+                        "question_id": "019f2b4b-14e6-70db-9662-85401bfb1f1a",
+                        "response": "Eliminar duplicação de conhecimento e lógica, centralizando em um único lugar",
+                        "response_pt": "Eliminar duplicação de conhecimento e lógica, centralizando em um único lugar",
+                        "response_en": "Eliminate duplication of knowledge and logic, centralizing in a single place",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-14ea-7398-8a78-a08b7b72f25b",
+                        "question_id": "019f2b4b-14e6-70db-9662-85401bfb1f1a",
+                        "response": "Nunca reutilizar código entre módulos diferentes",
+                        "response_pt": "Nunca reutilizar código entre módulos diferentes",
+                        "response_en": "Never reuse code between different modules",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-14ed-709d-923c-13c539984a42",
+                        "question_id": "019f2b4b-14e6-70db-9662-85401bfb1f1a",
+                        "response": "Criar uma classe utilitária gigante com todas as funções do sistema",
+                        "response_pt": "Criar uma classe utilitária gigante com todas as funções do sistema",
+                        "response_en": "Create a giant utility class with all system functions",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-14eb-72d6-94a3-eeff66872f30",
+                        "question_id": "019f2b4b-14e6-70db-9662-85401bfb1f1a",
+                        "response": "Copiar e colar trechos idênticos para ganhar velocidade",
+                        "response_pt": "Copiar e colar trechos idênticos para ganhar velocidade",
+                        "response_en": "Copy and paste identical snippets to gain speed",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-150d-7332-aebb-fb213dd17ebb",
+                "question": "Quais são exemplos de code smells relacionados a acoplamento e coesão?",
+                "question_pt": "Quais são exemplos de code smells relacionados a acoplamento e coesão?",
+                "question_en": "What are examples of code sizes related to coupling and cohesion?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "clean_code",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1513-7111-83aa-986edff5ef04",
+                        "question_id": "019f2b4b-150d-7332-aebb-fb213dd17ebb",
+                        "response": "Métodos pequenos com nomes expressivos e coesão alta",
+                        "response_pt": "Métodos pequenos com nomes expressivos e coesão alta",
+                        "response_en": "Small methods with expressive names and high cohesion",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1514-71f4-bcc4-56446cf2269a",
+                        "question_id": "019f2b4b-150d-7332-aebb-fb213dd17ebb",
+                        "response": "Injeção de dependência para reduzir acoplamento",
+                        "response_pt": "Injeção de dependência para reduzir acoplamento",
+                        "response_en": "Dependency injection to reduce coupling",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-150f-70ad-8958-af1bd9b98c00",
+                        "question_id": "019f2b4b-150d-7332-aebb-fb213dd17ebb",
+                        "response": "Classe Deus (God Object) com muitas responsabilidades",
+                        "response_pt": "Classe Deus (God Object) com muitas responsabilidades",
+                        "response_en": "God class (God Object) with many responsibilities",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1511-705e-bad3-a45dfae60bcb",
+                        "question_id": "019f2b4b-150d-7332-aebb-fb213dd17ebb",
+                        "response": "Feature Envy, quando um método usa mais dados de outra classe que da própria",
+                        "response_pt": "Feature Envy, quando um método usa mais dados de outra classe que da própria",
+                        "response_en": "Feature Envy, when a method uses more data from another class than from its own",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1503-73d7-8224-e29b3ac6aead",
+                "question": "O que o Princípio da Responsabilidade Única (SRP) estabelece?",
+                "question_pt": "O que o Princípio da Responsabilidade Única (SRP) estabelece?",
+                "question_en": "What does the Principle of Single Responsibility (SRP) establish?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "clean_code",
+                "ideal_time_to_solve": 120,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1505-7102-a2a4-f9f0b6a6e0bb",
+                        "question_id": "019f2b4b-1503-73d7-8224-e29b3ac6aead",
+                        "response": "Uma classe ou módulo deve ter apenas um motivo para mudar",
+                        "response_pt": "Uma classe ou módulo deve ter apenas um motivo para mudar",
+                        "response_en": "A class or module must have only one reason to change",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1509-700a-a0fe-1f34b9194211",
+                        "question_id": "019f2b4b-1503-73d7-8224-e29b3ac6aead",
+                        "response": "Funções não podem chamar outras funções",
+                        "response_pt": "Funções não podem chamar outras funções",
+                        "response_en": "Functions cannot call other functions",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-150a-726d-9f1f-2982a511f03e",
+                        "question_id": "019f2b4b-1503-73d7-8224-e29b3ac6aead",
+                        "response": "Todo método deve ter exatamente uma linha de código",
+                        "response_pt": "Todo método deve ter exatamente uma linha de código",
+                        "response_en": "Every method must have exactly one line of code",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1507-72c6-8f89-c33afcda2999",
+                        "question_id": "019f2b4b-1503-73d7-8224-e29b3ac6aead",
+                        "response": "Cada projeto deve ter apenas um desenvolvedor",
+                        "response_pt": "Cada projeto deve ter apenas um desenvolvedor",
+                        "response_en": "Each project must have only one developer",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1517-7152-8d79-a9014d45973e",
+                "question": "Por que retornar `null` com frequência pode ser problemático em APIs internas?",
+                "question_pt": "Por que retornar `null` com frequência pode ser problemático em APIs internas?",
+                "question_en": "Why can returning 'null' often be problematic in internal APIs?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "clean_code",
+                "ideal_time_to_solve": 120,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-151b-7282-a70c-b79c715d1106",
+                        "question_id": "019f2b4b-1517-7152-8d79-a9014d45973e",
+                        "response": "Porque `null` sempre consome mais memória que objetos vazios",
+                        "response_pt": "Porque `null` sempre consome mais memória que objetos vazios",
+                        "response_en": "Because 'null' always consumes more memory than empty objects",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-151d-70b8-87b3-7389e9dc7102",
+                        "question_id": "019f2b4b-1517-7152-8d79-a9014d45973e",
+                        "response": "Porque linguagens modernas não suportam valores nulos",
+                        "response_pt": "Porque linguagens modernas não suportam valores nulos",
+                        "response_en": "Because modern languages do not support null values",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1519-73db-a8f7-1eb38e261d9f",
+                        "question_id": "019f2b4b-1517-7152-8d79-a9014d45973e",
+                        "response": "Força verificações repetidas e aumenta o risco de NullPointerException ou equivalentes",
+                        "response_pt": "Força verificações repetidas e aumenta o risco de NullPointerException ou equivalentes",
+                        "response_en": "Forces repeated checks and increases the risk of NullPointerException or equivalent",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-151e-715b-bd6c-35a3767630bf",
+                        "question_id": "019f2b4b-1517-7152-8d79-a9014d45973e",
+                        "response": "Porque Clean Code exige que todo método retorne uma coleção",
+                        "response_pt": "Porque Clean Code exige que todo método retorne uma coleção",
+                        "response_en": "Because Clean Code requires every method to return a collection",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "id": "019f2b4b-1522-7372-9bfc-009c6c79a528",
+                "question": "Qual refatoração é mais adequada quando duas classes compartilham lógica idêntica em vários métodos?",
+                "question_pt": "Qual refatoração é mais adequada quando duas classes compartilham lógica idêntica em vários métodos?",
+                "question_en": "What refactoring is most appropriate when two classes share identical logic in various methods?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "clean_code",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1524-724c-a205-7da401d52b43",
+                        "question_id": "019f2b4b-1522-7372-9bfc-009c6c79a528",
+                        "response": "Extrair a lógica comum para uma função, classe base ou componente reutilizável",
+                        "response_pt": "Extrair a lógica comum para uma função, classe base ou componente reutilizável",
+                        "response_en": "Extract common logic for a reusable function, base class or component",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1527-72c3-a700-cff479741e62",
+                        "question_id": "019f2b4b-1522-7372-9bfc-009c6c79a528",
+                        "response": "Aumentar o acoplamento fazendo uma classe acessar campos privados da outra",
+                        "response_pt": "Aumentar o acoplamento fazendo uma classe acessar campos privados da outra",
+                        "response_en": "Increase coupling by making one class access private fields of the other",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1525-73de-8657-a1bcf5bc9346",
+                        "question_id": "019f2b4b-1522-7372-9bfc-009c6c79a528",
+                        "response": "Copiar novamente o código para manter as classes independentes",
+                        "response_pt": "Copiar novamente o código para manter as classes independentes",
+                        "response_en": "Re-copy code to keep the classes independent",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1528-711f-9228-ada7162bef7e",
+                        "question_id": "019f2b4b-1522-7372-9bfc-009c6c79a528",
+                        "response": "Ignorar a duplicação até virar débito técnico crítico",
+                        "response_pt": "Ignorar a duplicação até virar débito técnico crítico",
+                        "response_en": "Ignore duplication until it becomes critical technical debit",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1535-732b-a39f-ede23ef904ec",
+                "question": "O que o princípio Open/Closed (OCP) do SOLID defende?",
+                "question_pt": "O que o princípio Open/Closed (OCP) do SOLID defende?",
+                "question_en": "What is the SOLID Open/Closed principle?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": null,
+                "category": "clean_code",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1538-72d7-9dd9-3a3f8b1f0e1f",
+                        "question_id": "019f2b4b-1535-732b-a39f-ede23ef904ec",
+                        "response": "Arquivos devem permanecer abertos durante toda a execução do programa",
+                        "response_pt": "Arquivos devem permanecer abertos durante toda a execução do programa",
+                        "response_en": "Files must remain open throughout the program execution",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-153b-71ee-afee-23d7411a880b",
+                        "question_id": "019f2b4b-1535-732b-a39f-ede23ef904ec",
+                        "response": "Toda classe deve ser marcada como `final` ou `sealed`",
+                        "response_pt": "Toda classe deve ser marcada como `final` ou `sealed`",
+                        "response_en": "Every class must be marked ‘final’ or ‘sealed’",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1536-712f-80e5-6d9191658178",
+                        "question_id": "019f2b4b-1535-732b-a39f-ede23ef904ec",
+                        "response": "Entidades devem estar abertas para extensão, mas fechadas para modificação",
+                        "response_pt": "Entidades devem estar abertas para extensão, mas fechadas para modificação",
+                        "response_en": "Entities must be open for extension but closed for modification",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1539-720c-8178-4db27531c626",
+                        "question_id": "019f2b4b-1535-732b-a39f-ede23ef904ec",
+                        "response": "Código legado nunca pode ser alterado",
+                        "response_pt": "Código legado nunca pode ser alterado",
+                        "response_en": "Legacy code can never be changed",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-156b-708e-8c05-7bcc1f72ea4a",
+                "question": "O que caracteriza um teste unitário de qualidade segundo práticas de Clean Code?",
+                "question_pt": "O que caracteriza um teste unitário de qualidade segundo práticas de Clean Code?",
+                "question_en": "What characterizes a unit quality test according to Clean Code practices?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": null,
+                "category": "clean_code",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-156e-70fe-828d-7dab0cdb0766",
+                        "question_id": "019f2b4b-156b-708e-8c05-7bcc1f72ea4a",
+                        "response": "Depende de banco de dados e rede para validar uma função pura",
+                        "response_pt": "Depende de banco de dados e rede para validar uma função pura",
+                        "response_en": "Depends on database and network to validate a pure function",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-156f-7225-ba98-c6995ae9b253",
+                        "question_id": "019f2b4b-156b-708e-8c05-7bcc1f72ea4a",
+                        "response": "Testa várias unidades ao mesmo tempo para ser mais eficiente",
+                        "response_pt": "Testa várias unidades ao mesmo tempo para ser mais eficiente",
+                        "response_en": "Test multiple units at the same time to be more efficient",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-156c-7177-8d92-7af4d779c1d4",
+                        "question_id": "019f2b4b-156b-708e-8c05-7bcc1f72ea4a",
+                        "response": "Rápido, independente, repetível e com asserções claras (padrão FIRST)",
+                        "response_pt": "Rápido, independente, repetível e com asserções claras (padrão FIRST)",
+                        "response_en": "Fast, independent, repeatable and with clear assertions (FIRST standard)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1570-723c-ac88-38f80e144172",
+                        "question_id": "019f2b4b-156b-708e-8c05-7bcc1f72ea4a",
+                        "response": "Não precisa de nome descritivo, pois o código fala por si",
+                        "response_pt": "Não precisa de nome descritivo, pois o código fala por si",
+                        "response_en": "You don't need a descriptive name, because the code speaks for itself",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1fde-7361-a8ff-a77ae10076b5",
+                "question": "O que é o princípio do menor privilégio aplicado a contas e serviços no backend?",
+                "question_pt": "O que é o princípio do menor privilégio aplicado a contas e serviços no backend?",
+                "question_en": "What is the principle of the lowest privilege applied to accounts and services in the backend?",
+                "translation_status": "translated",
+                "difficulty_level": 4,
+                "language_id": null,
+                "category": "security_backend",
+                "ideal_time_to_solve": 120,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1fe0-707b-8094-b8323d3591a1",
+                        "question_id": "019f2b4b-1fde-7361-a8ff-a77ae10076b5",
+                        "response": "Dar acesso de administrador a tudo para evitar bloqueios",
+                        "response_pt": "Dar acesso de administrador a tudo para evitar bloqueios",
+                        "response_en": "Give administrator access to everything to avoid locks",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fe2-7313-9602-f3d5e6d2942c",
+                        "question_id": "019f2b4b-1fde-7361-a8ff-a77ae10076b5",
+                        "response": "Remover toda autenticação interna entre serviços",
+                        "response_pt": "Remover toda autenticação interna entre serviços",
+                        "response_en": "Remove all internal authentication between services",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fdf-70fe-b65e-16da8de43c38",
+                        "question_id": "019f2b4b-1fde-7361-a8ff-a77ae10076b5",
+                        "response": "Conceder a cada conta/serviço apenas as permissões estritamente necessárias para sua função",
+                        "response_pt": "Conceder a cada conta/serviço apenas as permissões estritamente necessárias para sua função",
+                        "response_en": "Grant to each account/service only the strictly necessary permissions for your function",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fe1-7051-b4dd-d6f5a23d8b28",
+                        "question_id": "019f2b4b-1fde-7361-a8ff-a77ae10076b5",
+                        "response": "Compartilhar a mesma credencial entre todos os serviços",
+                        "response_pt": "Compartilhar a mesma credencial entre todos os serviços",
+                        "response_en": "Share the same credentials among all services",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1fc6-72cd-9d47-c68cf8863a98",
+                "question": "Qual a forma correta de prevenir SQL Injection no trecho abaixo?",
+                "question_pt": "Qual a forma correta de prevenir SQL Injection no trecho abaixo?",
+                "question_en": "What is the correct way to prevent SQL Injection in the passage below?",
+                "translation_status": "translated",
+                "difficulty_level": 3,
+                "language_id": null,
+                "category": "security_backend",
+                "ideal_time_to_solve": 90,
+                "code_snippet": {
+                    "code": "-- entrada do usuario concatenada diretamente\nSELECT * FROM users WHERE email = '\" + input + \"';\n",
+                    "language": "sql"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1fc7-73b1-860e-ae36b7930733",
+                        "question_id": "019f2b4b-1fc6-72cd-9d47-c68cf8863a98",
+                        "response": "Usar queries parametrizadas / prepared statements em vez de concatenar a entrada",
+                        "response_pt": "Utilizar queries parametrizadas / prepared statements em vez de concatenar a entrada",
+                        "response_en": "Use parametered / prepared statements instead of focusing on input",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fc9-70c3-aabd-fb30a9d27180",
+                        "question_id": "019f2b4b-1fc6-72cd-9d47-c68cf8863a98",
+                        "response": "Converter a query inteira para maiúsculas",
+                        "response_pt": "Converter a query inteira para maiúsculas",
+                        "response_en": "Convert entire query to capital letters",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fca-713d-bf41-cd0c68a1396b",
+                        "question_id": "019f2b4b-1fc6-72cd-9d47-c68cf8863a98",
+                        "response": "Confiar que o usuário só enviará valores válidos",
+                        "response_pt": "Confiar que o usuário só enviará valores válidos",
+                        "response_en": "Trust that the user will only send valid values",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fc8-7249-ad60-f65dac6e7672",
+                        "question_id": "019f2b4b-1fc6-72cd-9d47-c68cf8863a98",
+                        "response": "Apenas remover os espaços da entrada do usuário",
+                        "response_pt": "Apenas remover os espaços da entrada do usuário",
+                        "response_en": "Only remove spaces from user input",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1ffb-73a4-8fcd-ad3634ad0501",
+                "question": "Por que validar/sanitizar dados na desserialização de payloads pode evitar vulnerabilidades graves?",
+                "question_pt": "Por que validar/sanitizar dados na desserialização de payloads pode evitar vulnerabilidades graves?",
+                "question_en": "Why can validating/sanitizing data in payload deserialization avoid severe vulnerabilities?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "security_backend",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1ffe-7186-974f-f414e45d71b8",
+                        "question_id": "019f2b4b-1ffb-73a4-8fcd-ad3634ad0501",
+                        "response": "Porque a desserialização sempre deixa a aplicação mais lenta",
+                        "response_pt": "Porque a desserialização sempre deixa a aplicação mais lenta",
+                        "response_en": "Because deserialization always slows down the application",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-2000-7165-8125-3e2eaf99250e",
+                        "question_id": "019f2b4b-1ffb-73a4-8fcd-ad3634ad0501",
+                        "response": "Não há risco, desde que o payload venha por HTTPS",
+                        "response_pt": "Não há risco, desde que o payload venha por HTTPS",
+                        "response_en": "There is no risk as long as payload comes via HTTPS",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1ffc-70b6-a212-1d1c0bddce6b",
+                        "question_id": "019f2b4b-1ffb-73a4-8fcd-ad3634ad0501",
+                        "response": "Desserialização insegura de dados não confiáveis pode levar a execução de código ou manipulação de objetos internos",
+                        "response_pt": "Desserialização insegura de dados não confiáveis pode levar a execução de código ou manipulação de objetos internos",
+                        "response_en": "Untrustworthy data deserialization can lead to code execution or manipulation of internal objects",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fff-706d-9c8b-07211a6576f3",
+                        "question_id": "019f2b4b-1ffb-73a4-8fcd-ad3634ad0501",
+                        "response": "Porque JSON não pode ser convertido em objeto",
+                        "response_pt": "Porque JSON não pode ser convertido em objeto",
+                        "response_en": "Because JSON cannot be converted into object",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1fe9-732b-ba55-bdbe475fac0c",
+                "question": "O que é uma vulnerabilidade do tipo IDOR (Insecure Direct Object Reference)?",
+                "question_pt": "O que é uma vulnerabilidade do tipo IDOR (Insecure Direct Object Reference)?",
+                "question_en": "What is an IDOR (Insecure Direct Object Reference) type vulnerability?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "security_backend",
+                "ideal_time_to_solve": 150,
+                "code_snippet": {
+                    "code": "GET /api/invoices/1024\nAuthorization: Bearer <token-do-usuario-A>\n",
+                    "language": "http"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1fec-7192-9a49-c3a6bd56a4fb",
+                        "question_id": "019f2b4b-1fe9-732b-ba55-bdbe475fac0c",
+                        "response": "Um erro de cache que retorna dados antigos",
+                        "response_pt": "Um erro de cache que retorna dados antigos",
+                        "response_en": "A cache error that returns old data",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fee-73d8-b10b-ee27be50dcc6",
+                        "question_id": "019f2b4b-1fe9-732b-ba55-bdbe475fac0c",
+                        "response": "Uma falha que só ocorre em endpoints POST",
+                        "response_pt": "Uma falha que só ocorre em endpoints POST",
+                        "response_en": "A failure that only occurs in POST endpoints",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1feb-7370-97d8-5a73c50e6bbe",
+                        "question_id": "019f2b4b-1fe9-732b-ba55-bdbe475fac0c",
+                        "response": "Acessar recursos de outro usuário apenas trocando o id, por falta de verificação de autorização no objeto",
+                        "response_pt": "Acessar recursos de outro usuário apenas trocando o id, por falta de verificação de autorização no objeto",
+                        "response_en": "Access other user's resources by just exchanging id, for lack of authorization verification on the object",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fef-72f3-9f6a-292cb422f000",
+                        "question_id": "019f2b4b-1fe9-732b-ba55-bdbe475fac0c",
+                        "response": "Um problema exclusivo de bancos NoSQL",
+                        "response_pt": "Um problema exclusivo de bancos NoSQL",
+                        "response_en": "Um exclusive NOSQL bank problem",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1fe4-71ca-886a-beed941d2db2",
+                "question": "Quais cuidados são importantes ao trabalhar com tokens JWT em uma API?",
+                "question_pt": "Quais cuidados são importantes ao trabalhar com tokens JWT em uma API?",
+                "question_en": "What care is important when working with JWT tokens in an API?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "security_backend",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1fe5-732f-b49c-592f3e37456f",
+                        "question_id": "019f2b4b-1fe4-71ca-886a-beed941d2db2",
+                        "response": "Validar assinatura e expiração, e usar tempo de vida curto",
+                        "response_pt": "Validar assinatura e expiração, e usar tempo de vida curto",
+                        "response_en": "Validate signature and expiration, and use short lifetime",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fe7-7151-9372-d1eda2e3abd1",
+                        "question_id": "019f2b4b-1fe4-71ca-886a-beed941d2db2",
+                        "response": "Aceitar tokens com algoritmo `none` para simplificar",
+                        "response_pt": "Aceitar tokens com algoritmo `none` para simplificar",
+                        "response_en": "Accept tokens with one algorithm to simplify",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fe7-7151-9372-d1eda355c6c8",
+                        "question_id": "019f2b4b-1fe4-71ca-886a-beed941d2db2",
+                        "response": "Usar tokens eternos para evitar renovação",
+                        "response_pt": "Usar tokens eternos para evitar renovação",
+                        "response_en": "Use eternal tokens to avoid renewal",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1fe6-73ee-aa3c-e9b4d034712f",
+                        "question_id": "019f2b4b-1fe4-71ca-886a-beed941d2db2",
+                        "response": "Não colocar dados sensíveis no payload (o JWT é apenas codificado, não cifrado)",
+                        "response_pt": "Não colocar dados sensíveis no payload (o JWT é apenas codificado, não cifrado)",
+                        "response_en": "Do not place sensitive data on payload (JWT is only encoded, not encrypted)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-2003-7053-8eec-75dab363d48a",
+                "question": "Qual a importância de registrar logs de auditoria para ações sensíveis no backend?",
+                "question_pt": "Qual a importância de registrar logs de auditoria para ações sensíveis no backend?",
+                "question_en": "What is the importance of registering audit logs for sensitive backend actions?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "security_backend",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-2007-7030-a93b-2ef6daf8a06a",
+                        "question_id": "019f2b4b-2003-7053-8eec-75dab363d48a",
+                        "response": "Serve apenas para aumentar o uso de disco",
+                        "response_pt": "Serve apenas para aumentar o uso de disco",
+                        "response_en": "Only serves to increase disk usage",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-2008-70ad-9844-c5f649f6c2b9",
+                        "question_id": "019f2b4b-2003-7053-8eec-75dab363d48a",
+                        "response": "Substitui completamente a necessidade de autorização",
+                        "response_pt": "Substitui completamente a necessidade de autorização",
+                        "response_en": "Completely replaces the need for authorisation",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-2005-7094-86d5-8221db8e5868",
+                        "question_id": "019f2b4b-2003-7053-8eec-75dab363d48a",
+                        "response": "Permite rastreabilidade e investigação de incidentes, registrando quem fez o quê e quando",
+                        "response_pt": "Permite rastreabilidade e investigação de incidentes, registrando quem fez o quê e quando",
+                        "response_en": "Allows traceability and investigation of incidents, recording who did what and when",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-200a-7277-8317-5d800a2347e6",
+                        "question_id": "019f2b4b-2003-7053-8eec-75dab363d48a",
+                        "response": "Deve incluir senhas e tokens em texto puro para completude",
+                        "response_pt": "Deve incluir senhas e tokens em texto puro para completude",
+                        "response_en": "Must include passwords and pure text tokens for completeness",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-200d-7181-97f0-6bdd483db1de",
+                "question": "Qual a diferença entre access token e refresh token em um fluxo de autenticação?",
+                "question_pt": "Qual a diferença entre access token e refresh token em um fluxo de autenticação?",
+                "question_en": "What is the difference between access token and refresh token in an authentication stream?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": null,
+                "category": "security_backend",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-2010-7278-a434-787278893c3f",
+                        "question_id": "019f2b4b-200d-7181-97f0-6bdd483db1de",
+                        "response": "São idênticos, mudando apenas o nome",
+                        "response_pt": "São idênticos, mudando apenas o nome",
+                        "response_en": "They're identical, changing only the name",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-2011-73c3-ae76-feaf3477362e",
+                        "question_id": "019f2b4b-200d-7181-97f0-6bdd483db1de",
+                        "response": "O refresh token deve ter vida curta e o access token vida longa",
+                        "response_pt": "O atualizar token deve ter vida curta e o acesso token vida longa",
+                        "response_en": "O refresh token deve ter vida curta e o access token vida longa",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-2013-738d-a89d-d78527528144",
+                        "question_id": "019f2b4b-200d-7181-97f0-6bdd483db1de",
+                        "response": "Ambos devem ser eternos para evitar logins repetidos",
+                        "response_pt": "Ambos devem ser eternos para evitar logins repetidos",
+                        "response_en": "Both must be eternal to avoid repeated logins",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-200f-7156-8697-3847c3f1b56e",
+                        "question_id": "019f2b4b-200d-7181-97f0-6bdd483db1de",
+                        "response": "O access token tem vida curta para acessar recursos; o refresh token, de vida mais longa e bem guardado, obtém novos access tokens",
+                        "response_pt": "O access token tem vida curta para acessar recursos; o refresh token, de vida mais longa e bem guardado, obtém novos access tokens",
+                        "response_en": "Access token has a short life to access resources; the longer-lived, well-kept refresh token gets new access tokens",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "id": "019f2b4b-2028-71b1-93bc-7cef2cae241b",
+                "question": "Quais práticas fortalecem a segurança de uma cadeia de dependências (supply chain) no backend?",
+                "question_pt": "Quais práticas fortalecem a segurança de uma cadeia de dependências (supply chain) no backend?",
+                "question_en": "What practices strengthen the security of a chain of dependencies (supply chain) in the backend?",
+                "translation_status": "translated",
+                "difficulty_level": 8,
+                "language_id": null,
+                "category": "security_backend",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-202b-7347-a17f-99f620523fbb",
+                        "question_id": "019f2b4b-2028-71b1-93bc-7cef2cae241b",
+                        "response": "Verificar integridade/assinatura de pacotes e gerar SBOM",
+                        "response_pt": "Verificar integridade/assinatura de pacotes e gerar SBOM",
+                        "response_en": "Check package integrity/signature and generate SBOM",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-202c-73f1-9f39-7402a49e07a5",
+                        "question_id": "019f2b4b-2028-71b1-93bc-7cef2cae241b",
+                        "response": "Instalar qualquer pacote sem revisar origem ou manutenção",
+                        "response_pt": "Instalar qualquer pacote sem revisar origem ou manutenção",
+                        "response_en": "Install any package without reviewing source or maintenance",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-202a-73ed-9f56-dfd7e6fe19a4",
+                        "question_id": "019f2b4b-2028-71b1-93bc-7cef2cae241b",
+                        "response": "Fixar versões (lockfile) e escanear dependências por vulnerabilidades",
+                        "response_pt": "Fixar versões (lockfile) e escanear dependências por vulnerabilidades",
+                        "response_en": "Fix versions (lockfile) and scan dependencies for vulnerabilities",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-202d-7330-8861-2c8c9e486aba",
+                        "question_id": "019f2b4b-2028-71b1-93bc-7cef2cae241b",
+                        "response": "Usar sempre a versão mais recente sem fixar nem testar",
+                        "response_pt": "Usar sempre a versão mais recente sem fixar nem testar",
+                        "response_en": "Always use the latest version without fixing or testing",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-15ce-73a8-97c4-c7f8a8da59de",
+                "question": "Em SQL, qual JOIN retorna somente registros com correspondência em ambas as tabelas?",
+                "question_pt": "Em SQL, qual JOIN retorna somente registros com correspondência em ambas as tabelas?",
+                "question_en": "In SQL, which JOIN returns only records matching both tables?",
+                "translation_status": "translated",
+                "difficulty_level": 3,
+                "language_id": null,
+                "category": "backend_data_handling",
+                "ideal_time_to_solve": 90,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-15cf-73a3-b333-c8855ae952bd",
+                        "question_id": "019f2b4b-15ce-73a8-97c4-c7f8a8da59de",
+                        "response": "INNER JOIN",
+                        "response_pt": "AJUNTO INTERNO",
+                        "response_en": "INNER JOIN",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-15d1-73a4-aea4-8797957da8a2",
+                        "question_id": "019f2b4b-15ce-73a8-97c4-c7f8a8da59de",
+                        "response": "LEFT JOIN",
+                        "response_pt": "AJUDA ESQUERDA",
+                        "response_en": "LEFT JOIN",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-15d3-71e9-8946-a7b6ebe3f63d",
+                        "question_id": "019f2b4b-15ce-73a8-97c4-c7f8a8da59de",
+                        "response": "RIGHT JOIN",
+                        "response_pt": "AJUNTA CORRETA",
+                        "response_en": "RIGHT JOIN",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-15d4-701a-b9f0-5a8753c23fde",
+                        "question_id": "019f2b4b-15ce-73a8-97c4-c7f8a8da59de",
+                        "response": "FULL JOIN",
+                        "response_pt": "AJUNTA CHEIA",
+                        "response_en": "FULL JOIN",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-15e9-7341-a156-81545ae7f3fe",
+                "question": "Quais estratégias ajudam a evitar duplicidade de dados em operações de criação?",
+                "question_pt": "Quais estratégias ajudam a evitar duplicidade de dados em operações de criação?",
+                "question_en": "What strategies help to avoid duplicity of data in creation operations?",
+                "translation_status": "translated",
+                "difficulty_level": 4,
+                "language_id": null,
+                "category": "backend_data_handling",
+                "ideal_time_to_solve": 120,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-15ec-71e9-b032-612eb966c305",
+                        "question_id": "019f2b4b-15e9-7341-a156-81545ae7f3fe",
+                        "response": "Validação de negócio antes do insert",
+                        "response_pt": "Validação de negócio antes do insert",
+                        "response_en": "Business validation before insert",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-15ed-7399-b61c-cec7de1bb741",
+                        "question_id": "019f2b4b-15e9-7341-a156-81545ae7f3fe",
+                        "response": "Confiar em retries sem idempotência",
+                        "response_pt": "Confiar em retries sem idempotência",
+                        "response_en": "Trust in retreats without idempotence",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-15eb-7134-a0c7-8ab0fde7aff8",
+                        "question_id": "019f2b4b-15e9-7341-a156-81545ae7f3fe",
+                        "response": "Constraints de unicidade no banco",
+                        "response_pt": "Constraints de unicidade no banco",
+                        "response_en": "Single seat constraints",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-15ee-7099-ab3d-eadb7147f14a",
+                        "question_id": "019f2b4b-15e9-7341-a156-81545ae7f3fe",
+                        "response": "Remover validação de entrada para reduzir latência",
+                        "response_pt": "Remover validação de entrada para reduzir latência",
+                        "response_en": "Remove input validation to reduce latency",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1623-71bf-82b4-aa1d2607d7c9",
+                "question": "Ao armazenar JSON no banco, qual cuidado é importante para manutenção futura?",
+                "question_pt": "Ao armazenar JSON no banco, qual cuidado é importante para manutenção futura?",
+                "question_en": "When storing JSON in the bank, what care is important for future maintenance?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "backend_data_handling",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1626-7251-803e-19a620e053e9",
+                        "question_id": "019f2b4b-1623-71bf-82b4-aa1d2607d7c9",
+                        "response": "Tratar JSON como texto opaco sem padrão",
+                        "response_pt": "Tratar JSON como texto opaco sem padrão",
+                        "response_en": "Treat JSON as non-standard opaque text",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1627-714b-b0ae-08e691b6ee9a",
+                        "question_id": "019f2b4b-1623-71bf-82b4-aa1d2607d7c9",
+                        "response": "Desnormalizar tudo sem critério",
+                        "response_pt": "Desnormalizar tudo sem critério",
+                        "response_en": "Denormalize everything without criterion",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1625-7013-98a8-2c99ed4e5bb7",
+                        "question_id": "019f2b4b-1623-71bf-82b4-aa1d2607d7c9",
+                        "response": "Definir schema esperado e validar estrutura dos campos",
+                        "response_pt": "Definir schema esperado e validar estrutura dos campos",
+                        "response_en": "Set expected schema and validate field structure",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1629-72ee-98eb-41d3eb1dce2d",
+                        "question_id": "019f2b4b-1623-71bf-82b4-aa1d2607d7c9",
+                        "response": "Remover índices em caminhos consultados",
+                        "response_pt": "Remover índices em caminhos consultados",
+                        "response_en": "Remove indexes on paths consulted",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-15fe-7360-8dbd-bcd788cb5f82",
+                "question": "Quando faz sentido encapsular múltiplas operações de escrita em uma transação?",
+                "question_pt": "Quando faz sentido encapsular múltiplas operações de escrita em uma transação?",
+                "question_en": "When does it make sense to encapsulate multiple writing operations in a transaction?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "backend_data_handling",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1601-73ec-be0f-af8ad867e3f2",
+                        "question_id": "019f2b4b-15fe-7360-8dbd-bcd788cb5f82",
+                        "response": "Apenas em consultas de leitura simples",
+                        "response_pt": "Apenas em consultas de leitura simples",
+                        "response_en": "Only in simple reading queries",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1604-70dc-9c52-7414ccaa79f3",
+                        "question_id": "019f2b4b-15fe-7360-8dbd-bcd788cb5f82",
+                        "response": "Somente em banco NoSQL sem suporte transacional",
+                        "response_pt": "Somente em banco NoSQL sem suporte transacional",
+                        "response_en": "Somente em banco NoSQL sem suporte transacional",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1600-71ae-9cdb-4abba755a29a",
+                        "question_id": "019f2b4b-15fe-7360-8dbd-bcd788cb5f82",
+                        "response": "Quando todas as etapas devem ser aplicadas juntas ou nenhuma delas",
+                        "response_pt": "Quando todas as etapas devem ser aplicadas juntas ou nenhuma delas",
+                        "response_en": "When all steps must be applied together or none of them",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1602-737a-86d8-c5f77b980af6",
+                        "question_id": "019f2b4b-15fe-7360-8dbd-bcd788cb5f82",
+                        "response": "Nunca, transações são sempre desnecessárias",
+                        "response_pt": "Nunca, transações são sempre desnecessárias",
+                        "response_en": "Never, transactions are always unnecessary",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-161a-7072-9c9b-af3e144789e2",
+                "question": "Quais práticas melhoram processamento de dados em jobs assíncronos?",
+                "question_pt": "Quais práticas melhoram processamento de dados em jobs assíncronos?",
+                "question_en": "What practices improve data processing in asynchronous jobs?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "backend_data_handling",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-161b-733d-a1a5-a583990990a6",
+                        "question_id": "019f2b4b-161a-7072-9c9b-af3e144789e2",
+                        "response": "Idempotência no consumidor",
+                        "response_pt": "Idempotência no consumidor",
+                        "response_en": "Consumer Impotence",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-161d-737d-866d-6f437c7d8fe3",
+                        "question_id": "019f2b4b-161a-7072-9c9b-af3e144789e2",
+                        "response": "Retry com backoff e limite",
+                        "response_pt": "Repetir com backoff e limite",
+                        "response_en": "Retry com backoff e limite",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1620-7284-8316-b5af29b32d59",
+                        "question_id": "019f2b4b-161a-7072-9c9b-af3e144789e2",
+                        "response": "Ignorar DLQ e falhas permanentes",
+                        "response_pt": "Ignorar DLQ e falhas permanentes",
+                        "response_en": "Ignore DLQ and permanent failures",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-161e-71f6-a330-e1da7b8abaf6",
+                        "question_id": "019f2b4b-161a-7072-9c9b-af3e144789e2",
+                        "response": "Reprocessar sem chave de deduplicação",
+                        "response_pt": "Reprocessar sem chave de deduplicação",
+                        "response_en": "Reprocess without deduplication key",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-163f-71f0-af74-d3c2b712dbb6",
+                "question": "No design de APIs de dados, quais práticas favorecem idempotência em operações de escrita?",
+                "question_pt": "No design de APIs de dados, quais práticas favorecem idempotência em operações de escrita?",
+                "question_en": "In the design of data APIs, what practices favor idempotence in writing operations?",
+                "translation_status": "translated",
+                "difficulty_level": 8,
+                "language_id": null,
+                "category": "backend_data_handling",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1641-71c0-a7e7-23c825796f15",
+                        "question_id": "019f2b4b-163f-71f0-af74-d3c2b712dbb6",
+                        "response": "Uso de chave de idempotência por requisição",
+                        "response_pt": "Uso de chave de idempotência por requisição",
+                        "response_en": "Use of idempotency key by request",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1646-7161-a51a-57406c64f6b0",
+                        "question_id": "019f2b4b-163f-71f0-af74-d3c2b712dbb6",
+                        "response": "Misturar efeitos colaterais sem controle transacional",
+                        "response_pt": "Misturar efeitos colaterais sem controle transacional",
+                        "response_en": "Mix side effects without transactional control",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1643-7200-96da-b068a9016fc8",
+                        "question_id": "019f2b4b-163f-71f0-af74-d3c2b712dbb6",
+                        "response": "Verificação de operação já processada",
+                        "response_pt": "Verificação de operação já processada",
+                        "response_en": "Operation check already processed",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1644-737f-95da-774791901d03",
+                        "question_id": "019f2b4b-163f-71f0-af74-d3c2b712dbb6",
+                        "response": "Criar recurso novo a cada retry sem validação",
+                        "response_pt": "Criar recurso novo a cada retry sem validação",
+                        "response_en": "Create new resource for each retry without validation",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1648-73a9-9934-579410761e42",
+                "question": "Qual estratégia é mais adequada para migração de esquema com downtime mínimo?",
+                "question_pt": "Qual estratégia é mais adequada para migração de esquema com downtime mínimo?",
+                "question_en": "Which strategy is best suited for scheme migration with minimal downtime?",
+                "translation_status": "translated",
+                "difficulty_level": 8,
+                "language_id": null,
+                "category": "backend_data_handling",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-164c-72bc-b141-a9bfe7dd0a89",
+                        "question_id": "019f2b4b-1648-73a9-9934-579410761e42",
+                        "response": "Aplicar quebra de contrato em produção sem compatibilidade",
+                        "response_pt": "Aplicar quebra de contrato em produção sem compatibilidade",
+                        "response_en": "Apply contract breach in production without compatibility",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-164f-71f8-827c-ecd02b1a9fd8",
+                        "question_id": "019f2b4b-1648-73a9-9934-579410761e42",
+                        "response": "Pular testes de migração em staging",
+                        "response_pt": "Pular testes de migração em staging",
+                        "response_en": "Skip migration tests on staging",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-164a-719d-96fb-82d189e3775f",
+                        "question_id": "019f2b4b-1648-73a9-9934-579410761e42",
+                        "response": "Migração em etapas compatíveis (expandir, migrar dados, contrair)",
+                        "response_pt": "Migração em etapas compatíveis (expandir, migrar dados, contrair)",
+                        "response_en": "Migration in compatible steps (expand, migrate data, contract)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-164d-709e-815c-8e1d1ecbf31e",
+                        "question_id": "019f2b4b-1648-73a9-9934-579410761e42",
+                        "response": "Recriar todas as tabelas diretamente em horário de pico",
+                        "response_pt": "Recriar todas as tabelas diretamente em horário de pico",
+                        "response_en": "Recreate all tables directly at peak time",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1eed-72c5-ad56-ea865f304385",
+                "question": "No Dockerfile abaixo, qual a função da instrução `EXPOSE`?",
+                "question_pt": "No Dockerfile abaixo, qual a função da instrução `EXPOSE`?",
+                "question_en": "In the Dockerfile below, what is the function of the 'EXPOSE' instruction?",
+                "translation_status": "translated",
+                "difficulty_level": 3,
+                "language_id": null,
+                "category": "devops",
+                "ideal_time_to_solve": 90,
+                "code_snippet": {
+                    "code": "FROM node:20\nWORKDIR /app\nCOPY . .\nEXPOSE 3000\nCMD [\"node\", \"server.js\"]\n",
+                    "language": "dockerfile"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1ef0-709f-ad56-cdd6ccb03af1",
+                        "question_id": "019f2b4b-1eed-72c5-ad56-ea865f304385",
+                        "response": "Publica automaticamente a porta no host, dispensando `-p`",
+                        "response_pt": "Publica automaticamente a porta no host, dispensando `-p`",
+                        "response_en": "Automatically post the door on the host, dispensing `-p`",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1ef3-710a-812f-1d84067a5d8b",
+                        "question_id": "019f2b4b-1eed-72c5-ad56-ea865f304385",
+                        "response": "Define a variável de ambiente PORT",
+                        "response_pt": "Define a variável de ambiente PORT",
+                        "response_en": "Sets the PORT environment variable",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1eef-7068-a187-453a5f0b276a",
+                        "question_id": "019f2b4b-1eed-72c5-ad56-ea865f304385",
+                        "response": "Documenta qual porta o container escuta; não publica a porta no host por si só",
+                        "response_pt": "Documenta qual porta o container escuta; não publica a porta no host por si só",
+                        "response_en": "Documents which door the container listens; does not publish the door in the host by itself",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1ef1-737d-a039-727cdd48bf0c",
+                        "question_id": "019f2b4b-1eed-72c5-ad56-ea865f304385",
+                        "response": "Abre a porta no firewall do sistema operacional",
+                        "response_pt": "Abre a porta não firewall do sistema operacional",
+                        "response_en": "Open to port no firewall do operating system",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1efe-73e1-a238-df71065e6adb",
+                "question": "Quais práticas ajudam a reduzir o tamanho de uma imagem Docker?",
+                "question_pt": "Quais práticas ajudam a reduzir o tamanho de uma imagem Docker?",
+                "question_en": "What practices help reduce the size of a Docker image?",
+                "translation_status": "translated",
+                "difficulty_level": 4,
+                "language_id": null,
+                "category": "devops",
+                "ideal_time_to_solve": 120,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1f02-7020-895d-3fe697bbf19b",
+                        "question_id": "019f2b4b-1efe-73e1-a238-df71065e6adb",
+                        "response": "Instalar todas as ferramentas de build na imagem final",
+                        "response_pt": "Instalar todas as ferramentas de build na imagem final",
+                        "response_en": "Install all build tools in the final image",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1eff-7065-9f18-5b59078e3ad4",
+                        "question_id": "019f2b4b-1efe-73e1-a238-df71065e6adb",
+                        "response": "Usar multi-stage build para separar build de runtime",
+                        "response_pt": "Usar multi-stage build para separar build de runtime",
+                        "response_en": "Usar multi-stage build para separar build de runtime",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f01-7234-b0d6-e048d1e38c61",
+                        "question_id": "019f2b4b-1efe-73e1-a238-df71065e6adb",
+                        "response": "Usar imagens base enxutas (ex.: alpine/slim) e `.dockerignore`",
+                        "response_pt": "Usar imagens base enxutas (ex.: alpine/slim) e `.dockerignore`",
+                        "response_en": "Use lean base images (e.g. Alpine/slim) and `.dockerignore`",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f03-72c3-bccd-57eabf402a06",
+                        "question_id": "019f2b4b-1efe-73e1-a238-df71065e6adb",
+                        "response": "Copiar todo o diretório, incluindo `node_modules` e artefatos locais",
+                        "response_pt": "Copiar todo o diretório, incluindo `node_modules` e artefatos locais",
+                        "response_en": "Copy all directory including `node modules` and local artifacts",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "id": "019f2b4b-1f17-72e0-aa40-d7c31746720d",
+                "question": "No Docker, qual a diferença entre um volume e o sistema de arquivos do container?",
+                "question_pt": "No Docker, qual a diferença entre um volume e o sistema de arquivos do container?",
+                "question_en": "In Docker, what's the difference between a volume and the container file system?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "devops",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1f1a-7225-a47c-c76ec236c554",
+                        "question_id": "019f2b4b-1f17-72e0-aa40-d7c31746720d",
+                        "response": "Ambos são apagados sempre que o container reinicia",
+                        "response_pt": "Ambos são apagados sempre que o container reinicia",
+                        "response_en": "Both are deleted whenever the container restarts",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f1c-7176-a370-18df36ba9201",
+                        "question_id": "019f2b4b-1f17-72e0-aa40-d7c31746720d",
+                        "response": "O volume é mais rápido porque fica só na RAM",
+                        "response_pt": "O volume é mais rápido porque fica só na RAM",
+                        "response_en": "The volume is faster because it is only in RAM",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f1d-71e0-b55d-17d815ad64ae",
+                        "question_id": "019f2b4b-1f17-72e0-aa40-d7c31746720d",
+                        "response": "Não há diferença prática entre os dois",
+                        "response_pt": "Não há diferença prática entre os dois",
+                        "response_en": "There is no practical difference between the two",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f19-733f-acea-6765cbd16b7d",
+                        "question_id": "019f2b4b-1f17-72e0-aa40-d7c31746720d",
+                        "response": "O volume persiste dados fora do ciclo de vida do container; o filesystem do container é efêmero e some ao removê-lo",
+                        "response_pt": "O volume persiste dados fora do ciclo de vida do container; o filesystem do container é efêmero e some ao removê-lo",
+                        "response_en": "Volume persists data outside the container life cycle; container filesystem is ephemeral and disappears when removing it",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1f2b-7234-b5f3-50bdfbe7000a",
+                "question": "Quais práticas melhoram a segurança de imagens e containers em produção?",
+                "question_pt": "Quais práticas melhoram a segurança de imagens e containers em produção?",
+                "question_en": "What practices improve the security of images and containers in production?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "devops",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1f2f-70cf-8751-532ff2f1d09d",
+                        "question_id": "019f2b4b-1f2b-7234-b5f3-50bdfbe7000a",
+                        "response": "Escanear imagens em busca de vulnerabilidades (ex.: Trivy)",
+                        "response_pt": "Escanear imagens em busca de vulnerabilidades (ex.: Trivy)",
+                        "response_en": "Scan images for vulnerabilities (e.g. Trivy)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f30-727c-b0e4-c8e0f0eb9083",
+                        "question_id": "019f2b4b-1f2b-7234-b5f3-50bdfbe7000a",
+                        "response": "Embutir segredos diretamente na imagem para facilitar",
+                        "response_pt": "Embutir segredos diretamente na imagem para facilitar",
+                        "response_en": "Embed secrets directly into the image to facilitate",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f2d-72cb-8a1c-104a9f21ad90",
+                        "question_id": "019f2b4b-1f2b-7234-b5f3-50bdfbe7000a",
+                        "response": "Rodar o processo como usuário não-root dentro do container",
+                        "response_pt": "Rodar o processo como usuário não-root dentro do container",
+                        "response_en": "Rotate the process as a non-root user inside the container",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f32-7074-8ff3-fff487e64b0e",
+                        "question_id": "019f2b4b-1f2b-7234-b5f3-50bdfbe7000a",
+                        "response": "Usar sempre a tag `latest` sem fixar versões",
+                        "response_pt": "Usar sempre a tag `latest` sem fixar versões",
+                        "response_en": "Always use the 'latest' tag without fixing versions",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1f41-7129-abfe-8f2ab6b88950",
+                "question": "O que caracteriza Infraestrutura como Código (IaC), por exemplo com Terraform?",
+                "question_pt": "O que caracteriza Infraestrutura como Código (IaC), por exemplo com Terraform?",
+                "question_en": "What characterizes Infrastructure as Code (IaC), for example with Terraform?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "devops",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1f44-7077-b25c-ca98533ee8f8",
+                        "question_id": "019f2b4b-1f41-7129-abfe-8f2ab6b88950",
+                        "response": "Configurar servidores manualmente via interface gráfica",
+                        "response_pt": "Configurar servidores manualmente via interface gráfica",
+                        "response_en": "Configure servers manually via graphical interface",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f46-721b-ac37-dfa591c5b9c8",
+                        "question_id": "019f2b4b-1f41-7129-abfe-8f2ab6b88950",
+                        "response": "Escrever a aplicação em linguagem de baixo nível",
+                        "response_pt": "Escrever a aplicação em linguagem de baixo nível",
+                        "response_en": "Write application in low-level language",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f42-7358-a52e-c23a2d1d0732",
+                        "question_id": "019f2b4b-1f41-7129-abfe-8f2ab6b88950",
+                        "response": "Definir e versionar a infraestrutura de forma declarativa, permitindo provisionamento reproduzível",
+                        "response_pt": "Definir e versionar a infraestrutura de forma declarativa, permitindo provisionamento reproduzível",
+                        "response_en": "Declaratively define and reverse the infrastructure, allowing reproducible provisioning",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f47-727e-aa63-c034aaa921bc",
+                        "question_id": "019f2b4b-1f41-7129-abfe-8f2ab6b88950",
+                        "response": "Acessar cada servidor por SSH e instalar pacotes à mão",
+                        "response_pt": "Acessar cada servidor por SSH e instalar pacotes à mão",
+                        "response_en": "Access each server by SSH and install packages by hand",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1f36-719c-859f-cdd770fa22ae",
+                "question": "Na cloud, qual a principal diferença entre escalabilidade vertical e horizontal?",
+                "question_pt": "Na cloud, qual a principal diferença entre escalabilidade vertical e horizontal?",
+                "question_en": "In the cloud, what is the main difference between vertical and horizontal scalability?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "devops",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1f3a-7328-a3bc-862c57e35ffc",
+                        "question_id": "019f2b4b-1f36-719c-859f-cdd770fa22ae",
+                        "response": "Vertical adiciona mais máquinas; horizontal aumenta a CPU de uma máquina",
+                        "response_pt": "Vertical adiciona mais máquinas; horizontal aumenta a CPU de uma máquina",
+                        "response_en": "Vertical adds more machines; horizontal increases the CPU of a machine",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f3c-7137-b597-bf4f3b1861f4",
+                        "question_id": "019f2b4b-1f36-719c-859f-cdd770fa22ae",
+                        "response": "São termos equivalentes",
+                        "response_pt": "São termos equivalentes",
+                        "response_en": "These are equivalent terms",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f3d-7203-84f8-cd0775b5285f",
+                        "question_id": "019f2b4b-1f36-719c-859f-cdd770fa22ae",
+                        "response": "Horizontal só é possível em servidores físicos",
+                        "response_pt": "Horizontal só é possível em servidores físicos",
+                        "response_en": "Horizontal is only possible on physical servers",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f38-7015-8d66-b6c37588e4df",
+                        "question_id": "019f2b4b-1f36-719c-859f-cdd770fa22ae",
+                        "response": "Vertical aumenta os recursos de uma instância; horizontal adiciona mais instâncias",
+                        "response_pt": "Vertical aumenta os recursos de uma instância; horizontal adiciona mais instâncias",
+                        "response_en": "Vertical increases the resources of an instance; horizontal adds more instances",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1f62-7157-b426-53a28b3d8ee1",
+                "question": "No Kubernetes, qual a diferença entre liveness probe e readiness probe?",
+                "question_pt": "No Kubernetes, qual a diferença entre liveness probe e readiness probe?",
+                "question_en": "In Kubernetes, what's the difference between liveness probe and readiness probe?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": null,
+                "category": "devops",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1f67-72b9-b177-e93c9d4beb07",
+                        "question_id": "019f2b4b-1f62-7157-b426-53a28b3d8ee1",
+                        "response": "São idênticas, apenas com nomes diferentes",
+                        "response_pt": "São idênticas, apenas com nomes diferentes",
+                        "response_en": "They're identical, only with different names",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f68-72ae-98dc-b1f7d153e701",
+                        "question_id": "019f2b4b-1f62-7157-b426-53a28b3d8ee1",
+                        "response": "Readiness reinicia o Pod e liveness controla o tráfego",
+                        "response_pt": "Readiness reinicia o Pod e liveness controla o tráfego",
+                        "response_en": "Readiness restarts Pod and Liveness controls traffic",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f69-700f-a450-4256edea6130",
+                        "question_id": "019f2b4b-1f62-7157-b426-53a28b3d8ee1",
+                        "response": "Ambas servem apenas para coletar logs",
+                        "response_pt": "Ambas servem apenas para coletar logs",
+                        "response_en": "Both serve only to collect logs",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f65-71af-94a6-d7f691280a58",
+                        "question_id": "019f2b4b-1f62-7157-b426-53a28b3d8ee1",
+                        "response": "Liveness verifica se o container deve ser reiniciado; readiness verifica se ele está pronto para receber tráfego",
+                        "response_pt": "Liveness verifica se o container deve ser reiniciado; readiness verifica se ele está pronto para receber tráfego",
+                        "response_en": "Liveness checks if the container should be restarted; readinss checks if it is ready to receive traffic",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1f4b-72a0-b3ce-42b90a67e254",
+                "question": "No Kubernetes, qual a função de um Deployment?",
+                "question_pt": null,
+                "question_en": null,
+                "translation_status": "error",
+                "difficulty_level": 7,
+                "language_id": null,
+                "category": "devops",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1f4f-7386-be4f-f259dd7e8252",
+                        "question_id": "019f2b4b-1f4b-72a0-b3ce-42b90a67e254",
+                        "response": "Armazenar segredos criptografados do cluster",
+                        "response_pt": "Armazenar segredos criptografados do cluster",
+                        "response_en": "Store encrypted cluster secrets",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f50-7373-931f-b9af1282c73e",
+                        "question_id": "019f2b4b-1f4b-72a0-b3ce-42b90a67e254",
+                        "response": "Expor um endereço de rede fixo para o cluster",
+                        "response_pt": "Expor um endereço de rede fixo para o cluster",
+                        "response_en": "Display a fixed network address to the cluster",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f52-7287-86b8-7c533d9cfc6c",
+                        "question_id": "019f2b4b-1f4b-72a0-b3ce-42b90a67e254",
+                        "response": "Definir políticas de rede entre namespaces",
+                        "response_pt": "Definir políticas de rede entre namespaces",
+                        "response_en": "Set network policies between namesspaces",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1f4d-73d5-a00a-9332d611800f",
+                        "question_id": "019f2b4b-1f4b-72a0-b3ce-42b90a67e254",
+                        "response": "Gerenciar réplicas de Pods de forma declarativa, com rollout e rollback controlados",
+                        "response_pt": "Gerenciar réplicas de Pods de forma declarativa, com rolout e rollback controlados",
+                        "response_en": "Manage Podes replicas declaratively, com rollout e rollback controlled",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1b54-709a-8113-7c4f5e48f0b6",
+                "question": "Sobre arrow functions e o `this` em JavaScript, qual afirmação está correta?",
+                "question_pt": "Sobre arrow functions e o `this` em JavaScript, qual afirmação está correta?",
+                "question_en": "About arrow functions and 'this' in JavaScript, what statement is correct?",
+                "translation_status": "translated",
+                "difficulty_level": 4,
+                "language_id": null,
+                "category": "frontend_fundamentals",
+                "ideal_time_to_solve": 120,
+                "code_snippet": {
+                    "code": "const contador = {\n  valor: 0,\n  iniciar() {\n    setInterval(() => { this.valor++; }, 1000);\n  }\n};\n",
+                    "language": "javascript"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1b58-73fd-817b-6c83eaf0d1fb",
+                        "question_id": "019f2b4b-1b54-709a-8113-7c4f5e48f0b6",
+                        "response": "Arrow functions sempre criam um novo `this` ao serem chamadas",
+                        "response_pt": "Arrow functions sempre criam um novo `this` ao serem chamadas",
+                        "response_en": "Arrow functions always create a new 'this' when called",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b5a-735d-b8e4-27e451e8af7a",
+                        "question_id": "019f2b4b-1b54-709a-8113-7c4f5e48f0b6",
+                        "response": "Arrow functions não podem ser atribuídas a constantes",
+                        "response_pt": "Arrow functions não podem ser atribuídas a constantes",
+                        "response_en": "Arrow functions cannot be assigned to constants",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b56-7161-872e-7819df5a44d9",
+                        "question_id": "019f2b4b-1b54-709a-8113-7c4f5e48f0b6",
+                        "response": "Arrow functions não possuem `this` próprio e herdam o `this` do escopo léxico onde foram definidas",
+                        "response_pt": "Arrow functions não possuem `this` próprio e herdam o `this` do escopo léxico onde foram definidas",
+                        "response_en": "Arrow functions do not have 'this' itself and inherit 'this' from the lexicon scope where they have been defined",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b59-709c-bb17-fa455bed18e5",
+                        "question_id": "019f2b4b-1b54-709a-8113-7c4f5e48f0b6",
+                        "response": "O `this` de uma arrow function aponta sempre para o objeto global",
+                        "response_pt": "O `this` de uma arrow function aponta sempre para o objeto global",
+                        "response_en": "The `this' of an arrow function always points to the global object",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1b25-7074-8184-716a0f217403",
+                "question": "No box model padrão (`content-box`), o que a propriedade `padding` representa?",
+                "question_pt": "No box model padrão (`content-box`), o que a propriedade `padding` representa?",
+                "question_en": "In the standard box model (`content-box`), what does the `padding' property represent?",
+                "translation_status": "translated",
+                "difficulty_level": 3,
+                "language_id": null,
+                "category": "frontend_fundamentals",
+                "ideal_time_to_solve": 90,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1b2a-7160-9608-bcd16d4fe6dd",
+                        "question_id": "019f2b4b-1b25-7074-8184-716a0f217403",
+                        "response": "A espessura da borda do elemento",
+                        "response_pt": "A espessura da borda do elemento",
+                        "response_en": "The thickness of the edge of the element",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b26-73cb-82ef-b3a6a7629b8a",
+                        "question_id": "019f2b4b-1b25-7074-8184-716a0f217403",
+                        "response": "O espaçamento interno entre o conteúdo e a borda do elemento",
+                        "response_pt": "O espaçamento interno entre o conteúdo e a borda do elemento",
+                        "response_en": "Internal spacing between the content and edge of the element",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b28-7123-a27c-05825477307c",
+                        "question_id": "019f2b4b-1b25-7074-8184-716a0f217403",
+                        "response": "O espaçamento externo entre o elemento e seus vizinhos",
+                        "response_pt": "O espaçamento externo entre o elemento e seus vizinhos",
+                        "response_en": "The external spacing between the element and its neighbors",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b2b-7178-afe7-0a5f3380eb04",
+                        "question_id": "019f2b4b-1b25-7074-8184-716a0f217403",
+                        "response": "A largura total do elemento incluindo a margem",
+                        "response_pt": "A largura total do elemento incluindo a margem",
+                        "response_en": "The total width of the element including margin",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1b95-710e-bd3a-97b7d66b7a58",
+                "question": "Qual técnica adia a execução de uma função até que o usuário pare de disparar o evento por um intervalo (ex.: parar de digitar)?",
+                "question_pt": "Qual técnica adia a execução de uma função até que o usuário pare de disparar o evento por um intervalo (ex.: parar de digitar)?",
+                "question_en": "What technique postpones performing a function until the user stops shooting the event for an interval (e.g. stop typing)?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "frontend_fundamentals",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1b97-71e6-8407-bb335236d106",
+                        "question_id": "019f2b4b-1b95-710e-bd3a-97b7d66b7a58",
+                        "response": "Debounce",
+                        "response_pt": "Denunciar",
+                        "response_en": "Debounce",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b99-71b5-9b07-da708af6d6c4",
+                        "question_id": "019f2b4b-1b95-710e-bd3a-97b7d66b7a58",
+                        "response": "Throttle",
+                        "response_pt": "Aceleração",
+                        "response_en": "Throttle",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b9a-70d6-93df-c22985810246",
+                        "question_id": "019f2b4b-1b95-710e-bd3a-97b7d66b7a58",
+                        "response": "Polling",
+                        "response_pt": "Polação",
+                        "response_en": "Polling",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b9c-7281-953b-1808b5d06d2c",
+                        "question_id": "019f2b4b-1b95-710e-bd3a-97b7d66b7a58",
+                        "response": "Retry com backoff",
+                        "response_pt": "Repetir com backoff",
+                        "response_en": "Retry com backoff",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1b9f-719b-8270-660265c831cf",
+                "question": "No trecho com `async/await` abaixo, qual afirmação sobre o tratamento de erros está correta?",
+                "question_pt": "No trecho com `async/await` abaixo, qual afirmação sobre o tratamento de erros está correta?",
+                "question_en": "In the excerpt with `async/await' below, what statement about the treatment of errors is correct?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": null,
+                "category": "frontend_fundamentals",
+                "ideal_time_to_solve": 150,
+                "code_snippet": {
+                    "code": "async function carregar() {\n  try {\n    const res = await fetch(\"/api/dados\");\n    return await res.json();\n  } catch (err) {\n    console.error(err);\n  }\n}\n",
+                    "language": "javascript"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1ba2-7066-8ae3-09c9b91b85de",
+                        "question_id": "019f2b4b-1b9f-719b-8270-660265c831cf",
+                        "response": "Erros de um `await` não podem ser capturados com try/catch",
+                        "response_pt": "Erros de um `await` não podem ser capturados com try/catch",
+                        "response_en": "Errors of an await cannot be captured with try/catch",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1ba5-7146-a245-376334e8501a",
+                        "question_id": "019f2b4b-1b9f-719b-8270-660265c831cf",
+                        "response": "É obrigatório usar `.then()` em vez de `await` para tratar erros",
+                        "response_pt": "É obrigatório usar `.then()` em vez de `await` para tratar erros",
+                        "response_en": "It is mandatory to use `.then()` instead of `await` to treat errors",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1ba1-701e-8566-ff21652a2dc4",
+                        "question_id": "019f2b4b-1b9f-719b-8270-660265c831cf",
+                        "response": "O `catch` captura erros de rede do `fetch` e também falhas ao fazer o parse do JSON",
+                        "response_pt": "O `catch` captura erros de rede do `fetch` e também falhas ao fazer o parse do JSON",
+                        "response_en": "‘catch’ captures network errors from ‘fetch’ and also crashes while doing JSO parse N",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1ba4-72dd-ac52-5bff86e34552",
+                        "question_id": "019f2b4b-1b9f-719b-8270-660265c831cf",
+                        "response": "O `fetch` rejeita automaticamente a Promise em respostas com status 404/500",
+                        "response_pt": "O `fetch` rejeita automaticamente a Promise em respostas com status 404/500",
+                        "response_en": "'fetch' automatically rejects Promise in 404/500 status responses",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "id": "019f2b4b-1b6f-7168-b03e-2853e2676d6a",
+                "question": "Qual valor é impresso pelo código abaixo, que utiliza closure?",
+                "question_pt": "Qual valor é impresso pelo código abaixo, que utiliza closure?",
+                "question_en": "What value is printed by the code below, which uses closure?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "frontend_fundamentals",
+                "ideal_time_to_solve": 150,
+                "code_snippet": {
+                    "code": "function criarContador() {\n  let count = 0;\n  return () => ++count;\n}\n\nconst c = criarContador();\nc();\nconsole.log(c());\n",
+                    "language": "javascript"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1b70-731e-95bd-305872780b0e",
+                        "question_id": "019f2b4b-1b6f-7168-b03e-2853e2676d6a",
+                        "response": "2",
+                        "response_pt": "2",
+                        "response_en": "2",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b72-727f-ad3b-799d5cf231dc",
+                        "question_id": "019f2b4b-1b6f-7168-b03e-2853e2676d6a",
+                        "response": "1",
+                        "response_pt": "1",
+                        "response_en": "1",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b73-721b-a91b-7207c0421342",
+                        "question_id": "019f2b4b-1b6f-7168-b03e-2853e2676d6a",
+                        "response": "0",
+                        "response_pt": "0",
+                        "response_en": "0",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b75-7237-88f4-b292c48cec40",
+                        "question_id": "019f2b4b-1b6f-7168-b03e-2853e2676d6a",
+                        "response": "undefined",
+                        "response_pt": "indefinido",
+                        "response_en": "undefined",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1b78-71e4-8ec0-dfa564bcf728",
+                "question": "No event loop do JavaScript, qual callback executa primeiro quando ambos estão prontos?",
+                "question_pt": "No event loop do JavaScript, qual callback executa primeiro quando ambos estão prontos?",
+                "question_en": "In the JavaScript event loop, which callback runs first when both are ready?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": null,
+                "category": "frontend_fundamentals",
+                "ideal_time_to_solve": 150,
+                "code_snippet": {
+                    "code": "setTimeout(() => console.log(\"timeout\"), 0);\nPromise.resolve().then(() => console.log(\"promise\"));\n",
+                    "language": "javascript"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1b7b-729b-9407-47117aebec11",
+                        "question_id": "019f2b4b-1b78-71e4-8ec0-dfa564bcf728",
+                        "response": "\"timeout\", pois `setTimeout(0)` tem prioridade sobre Promises",
+                        "response_pt": "\"timeout\", pois `setTimeout(0)` tem prioridade sobre Promises",
+                        "response_en": "\"timeout\", as `setTimeout(0)` takes priority over Promises",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b7d-70fd-a0a3-37ee224ea3af",
+                        "question_id": "019f2b4b-1b78-71e4-8ec0-dfa564bcf728",
+                        "response": "A ordem é aleatória a cada execução",
+                        "response_pt": "A ordem é aleatória a cada execução",
+                        "response_en": "The order is random at each run",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b7a-71db-9904-23feabb5a805",
+                        "question_id": "019f2b4b-1b78-71e4-8ec0-dfa564bcf728",
+                        "response": "\"promise\", pois microtasks são processadas antes das macrotasks (setTimeout)",
+                        "response_pt": "\"promessa\", pois microtarefas são processadas antes das macrotarefas (setTimeout)",
+                        "response_en": "\"promise\", pois microtasks são processadas antes das macrotasks (setTimeout)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1b7e-72c1-a773-96f091206eec",
+                        "question_id": "019f2b4b-1b78-71e4-8ec0-dfa564bcf728",
+                        "response": "Ambos executam exatamente ao mesmo tempo",
+                        "response_pt": "Ambos executam exatamente ao mesmo tempo",
+                        "response_en": "Both run at exactly the same time",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1bef-73bc-aed1-bac85a18b1ec",
+                "question": "Quais práticas melhoram a acessibilidade (WCAG/ARIA) de uma aplicação web?",
+                "question_pt": "Quais práticas melhoram a acessibilidade (WCAG/ARIA) de uma aplicação web?",
+                "question_en": "What practices improve the accessibility (WCAG/ARIA) of a web application?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": null,
+                "category": "frontend_fundamentals",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1bf1-730c-8f38-f3a430ffef12",
+                        "question_id": "019f2b4b-1bef-73bc-aed1-bac85a18b1ec",
+                        "response": "Usar HTML semântico e atributos ARIA apenas quando o elemento nativo não basta",
+                        "response_pt": "Usar HTML semântico e atributos ARIA apenas quando o elemento nativo não basta",
+                        "response_en": "Use semantic HTML and attributes ARIA only when the native element is not enough",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1bf4-7388-8653-6b10a0bc4f14",
+                        "question_id": "019f2b4b-1bef-73bc-aed1-bac85a18b1ec",
+                        "response": "Usar `<div>` clicável sem `role` nem suporte a teclado",
+                        "response_pt": "Usar `<div>` clicável sem `role` nem suporte a teclado",
+                        "response_en": "Use '<div>` clickable without 'roll' or keyboard support",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1bf3-73dd-b78e-635403fc65dc",
+                        "question_id": "019f2b4b-1bef-73bc-aed1-bac85a18b1ec",
+                        "response": "Garantir navegação por teclado e contraste de cores adequado",
+                        "response_pt": "Garantir navegação por teclado e contraste de cores adequado",
+                        "response_en": "Ensure proper keyboard navigation and color contrast",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1bf6-70f2-a315-35109bdb50e6",
+                        "question_id": "019f2b4b-1bef-73bc-aed1-bac85a18b1ec",
+                        "response": "Remover o indicador visual de foco para um visual mais limpo",
+                        "response_pt": "Remover o indicador visual de foco para um visual mais limpo",
+                        "response_en": "Remove the focus visual indicator for a cleaner look",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1be5-7186-99d4-038d2133a1ee",
+                "question": "Quais são trade-offs reais ao adotar uma arquitetura de microfrontends?",
+                "question_pt": "Quais são trade-offs reais ao adotar uma arquitetura de microfrontends?",
+                "question_en": "What are real trade-offs when adopting a microfrontend architecture?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": null,
+                "category": "frontend_fundamentals",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1be7-71e5-b10a-aa048c36b8db",
+                        "question_id": "019f2b4b-1be5-7186-99d4-038d2133a1ee",
+                        "response": "Permitem deploy e evolução independentes por time/domínio",
+                        "response_pt": "Permitem deploy e evolução independentes por time/domínio",
+                        "response_en": "Allow deploy and independent evolution by team/domain",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1bea-71c1-beb6-659ad7c9486a",
+                        "question_id": "019f2b4b-1be5-7186-99d4-038d2133a1ee",
+                        "response": "Eliminam qualquer custo de coordenação entre equipes",
+                        "response_pt": "Eliminam qualquer custo de coordenação entre equipes",
+                        "response_en": "Eliminate any cost of coordination between teams",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1be9-70e5-b835-504504f3f486",
+                        "question_id": "019f2b4b-1be5-7186-99d4-038d2133a1ee",
+                        "response": "Aumentam a complexidade de integração e o risco de duplicação de dependências",
+                        "response_pt": "Aumentam a complexidade de integração e o risco de duplicação de dependências",
+                        "response_en": "Increase integration complexity and the risk of duplication of dependencies",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1beb-7253-bf8d-859ccfaca139",
+                        "question_id": "019f2b4b-1be5-7186-99d4-038d2133a1ee",
+                        "response": "Sempre reduzem o tamanho final do bundle entregue ao usuário",
+                        "response_pt": "Sempre reduzem o tamanho final do bundle entregue ao usuário",
+                        "response_en": "Always reduce the final size of the bundle delivered to the user",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1d3e-70da-a4b2-b7b53b056d07",
+                "question": "Quais são formas corretas de renderização condicional dentro do JSX?",
+                "question_pt": "Quais são formas corretas de renderização condicional dentro do JSX?",
+                "question_en": "What are the correct forms of conditional rendering within JSX?",
+                "translation_status": "translated",
+                "difficulty_level": 4,
+                "language_id": "019f2b4b-10b2-7114-a936-4e44e74b81d1",
+                "category": "frontend_react",
+                "ideal_time_to_solve": 120,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1d40-7370-9810-0358d6f57b08",
+                        "question_id": "019f2b4b-1d3e-70da-a4b2-b7b53b056d07",
+                        "response": "Operador ternário: `cond ? <A /> : <B />`",
+                        "response_pt": "Operador ternário: `cond ? <A /> : <B />`",
+                        "response_en": "Ternary operator: `cond ? <A /> : <B />`",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d42-700d-8e65-460aa64892c1",
+                        "question_id": "019f2b4b-1d3e-70da-a4b2-b7b53b056d07",
+                        "response": "Curto-circuito: `cond && <A />`",
+                        "response_pt": "Curto-circuito: `cond && <A />`",
+                        "response_en": "Short circuit: `cond && <A />`",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d43-7292-a22f-d18c927b0203",
+                        "question_id": "019f2b4b-1d3e-70da-a4b2-b7b53b056d07",
+                        "response": "Usar uma declaração `if` solta entre as tags JSX retornadas",
+                        "response_pt": "Usar uma declaração `if` solta entre as tags JSX retornadas",
+                        "response_en": "Use ‘if’ declaration drop between returned JSX tags",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d45-71ab-8250-89e5fdee6efa",
+                        "question_id": "019f2b4b-1d3e-70da-a4b2-b7b53b056d07",
+                        "response": "Usar um laço `for` no meio do JSX para decidir a condição",
+                        "response_pt": "Usar um laço `for` no meio do JSX para decidir a condição",
+                        "response_en": "Use a for loop in the middle of JSX to decide the condition",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1d2d-70e5-b41d-ffa38672bf70",
+                "question": "Qual problema existe na atualização de estado deste componente?",
+                "question_pt": "Qual problema existe na atualização de estado deste componente?",
+                "question_en": "What is the problem in the status update of this component?",
+                "translation_status": "translated",
+                "difficulty_level": 4,
+                "language_id": "019f2b4b-10b2-7114-a936-4e44e74b81d1",
+                "category": "frontend_react",
+                "ideal_time_to_solve": 120,
+                "code_snippet": {
+                    "code": "const [items, setItems] = useState([]);\n\nconst add = (item) => {\n  items.push(item);\n  setItems(items);\n};\n",
+                    "language": "jsx"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1d33-732e-afda-7d3416ee55dc",
+                        "question_id": "019f2b4b-1d2d-70e5-b41d-ffa38672bf70",
+                        "response": "`useState` não pode armazenar arrays",
+                        "response_pt": "`useState` não pode armazenar arrays",
+                        "response_en": "'useState' cannot store arrays",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d30-7054-80c5-a2bb9891aa35",
+                        "question_id": "019f2b4b-1d2d-70e5-b41d-ffa38672bf70",
+                        "response": "O código não compila porque `push` não existe em arrays",
+                        "response_pt": "O código não compila porque `push` não existe em arrays",
+                        "response_en": "Code does not compile because 'push' does not exist in arrays",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d32-71e1-839b-0d2a2226cb9d",
+                        "question_id": "019f2b4b-1d2d-70e5-b41d-ffa38672bf70",
+                        "response": "É a forma recomendada e mais performática de atualizar estado",
+                        "response_pt": "É a forma recomendada e mais performática de atualizar estado",
+                        "response_en": "It is the recommended and most performative way to update status",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d2f-7206-a4c8-12b9adebb63f",
+                        "question_id": "019f2b4b-1d2d-70e5-b41d-ffa38672bf70",
+                        "response": "Mutar o array e reusar a mesma referência impede o React de detectar a mudança; deve-se criar um novo array (ex.: `setItems([...items, item])`)",
+                        "response_pt": "Mutar o array e reusar a mesma referência impede o React de detectar a mudança; deve-se criar um novo array (ex.: `setItems([...items, item])`)",
+                        "response_en": "Mutating the array and reusing the same reference prevents the React from detecting the change; a new array should be created (e.g. `setItems([...items, item])`)",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1d62-716f-8b03-16786c8f4189",
+                "question": "Por que usar o índice do array como `key` pode causar bugs na lista abaixo?",
+                "question_pt": "Por que usar o índice do array como `key` pode causar bugs na lista abaixo?",
+                "question_en": "Why use the array index as `key' can cause bugs in the list below?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": "019f2b4b-10b2-7114-a936-4e44e74b81d1",
+                "category": "frontend_react",
+                "ideal_time_to_solve": 150,
+                "code_snippet": {
+                    "code": "{items.map((item, index) => (\n  <Row key={index} value={item} />\n))}\n",
+                    "language": "jsx"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1d65-7279-a7c1-0edd0249a4d0",
+                        "question_id": "019f2b4b-1d62-716f-8b03-16786c8f4189",
+                        "response": "O índice como key sempre melhora a performance e nunca causa problemas",
+                        "response_pt": "O índice como key sempre melhora a performance e nunca causa problemas",
+                        "response_en": "The index as key always improves performance and never causes problems",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d66-737c-891a-d9484975045d",
+                        "question_id": "019f2b4b-1d62-716f-8b03-16786c8f4189",
+                        "response": "React proíbe o uso de `map` para renderizar listas",
+                        "response_pt": "React proíbe o uso de `map` para renderizar listas",
+                        "response_en": "React prohibits the use of 'map' to render lists",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d67-71db-aa12-4b8a1483caf3",
+                        "question_id": "019f2b4b-1d62-716f-8b03-16786c8f4189",
+                        "response": "Keys numéricas não são permitidas pelo React",
+                        "response_pt": "Keys numéricas não são permitidas pelo React",
+                        "response_en": "Numeric keys are not allowed by React",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d63-73f2-b972-530c72a0adb9",
+                        "question_id": "019f2b4b-1d62-716f-8b03-16786c8f4189",
+                        "response": "Em listas que reordenam, inserem ou removem itens, o índice como key pode associar estado/DOM ao item errado",
+                        "response_pt": "Em listas que reordenam, inserem ou removem itens, o índice como key pode associar estado/DOM ao item errado",
+                        "response_en": "In lists that reorder, insert or remove items, the index as key can associate status/DOM with the wrong item",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1d5a-7151-8925-216b9bd2c752",
+                "question": "Quando faz sentido criar um custom hook em React?",
+                "question_pt": "Quando faz sentido criar um custom hook em React?",
+                "question_en": "When does it make sense to create a custom hook in React?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": "019f2b4b-10b2-7114-a936-4e44e74b81d1",
+                "category": "frontend_react",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1d5d-7362-a29d-b7fa3763758a",
+                        "question_id": "019f2b4b-1d5a-7151-8925-216b9bd2c752",
+                        "response": "Apenas para renderizar JSX mais bonito",
+                        "response_pt": "Apenas para renderizar JSX mais bonito",
+                        "response_en": "Just to render JSX more beautiful",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d5e-7328-9545-68e6a282b748",
+                        "question_id": "019f2b4b-1d5a-7151-8925-216b9bd2c752",
+                        "response": "Para substituir o uso de componentes",
+                        "response_pt": "Para substituir o uso de componentes",
+                        "response_en": "To replace the use of components",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d5b-71c6-afa7-432ba1596607",
+                        "question_id": "019f2b4b-1d5a-7151-8925-216b9bd2c752",
+                        "response": "Para extrair e reutilizar lógica com estado/efeitos entre múltiplos componentes",
+                        "response_pt": "Para extrair e reutilizar lógica com estado/efeitos entre múltiplos componentes",
+                        "response_en": "To extract and reuse logic with state/effects between multiple components",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d5f-70d2-96cb-3b143c224fe5",
+                        "question_id": "019f2b4b-1d5a-7151-8925-216b9bd2c752",
+                        "response": "Sempre que um componente tiver mais de uma prop",
+                        "response_pt": "Sempre que um componente tiver mais de uma prop",
+                        "response_en": "Where a component has more than one prop",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1d6a-72f4-bdf0-504e87cfa93f",
+                "question": "Quais práticas ajudam a evitar re-renderizações desnecessárias em React?",
+                "question_pt": "Quais práticas ajudam a evitar re-renderizações desnecessárias em React?",
+                "question_en": "Which practices help avoid unnecessary re-rendering in React?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": "019f2b4b-10b2-7114-a936-4e44e74b81d1",
+                "category": "frontend_react",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1d6d-72b4-9431-805068f6f3ce",
+                        "question_id": "019f2b4b-1d6a-72f4-bdf0-504e87cfa93f",
+                        "response": "Estabilizar props de objeto/função com `useMemo`/`useCallback`",
+                        "response_pt": "Estabilizar props de objeto/função com `useMemo`/`useCallback`",
+                        "response_en": "Stabilize object/function props with `useMemo`/`useCallback`",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d6f-7022-8cbd-6c18a8c17f09",
+                        "question_id": "019f2b4b-1d6a-72f4-bdf0-504e87cfa93f",
+                        "response": "Colocar todo o estado da aplicação em um único contexto que muda a cada interação",
+                        "response_pt": "Colocar todo o estado da aplicação em um único contexto que muda a cada interação",
+                        "response_en": "Place the entire state of the application in a single context that changes each interaction",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d6c-7370-a3f2-4f4cf8a523a4",
+                        "question_id": "019f2b4b-1d6a-72f4-bdf0-504e87cfa93f",
+                        "response": "Usar `React.memo` em componentes puros que recebem as mesmas props",
+                        "response_pt": "Usar `React.memo` em componentes puros que recebem as mesmas props",
+                        "response_en": "Use 'React.memo' in pure components receiving the same props",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d6e-7245-8060-8fcbe1e5c95d",
+                        "question_id": "019f2b4b-1d6a-72f4-bdf0-504e87cfa93f",
+                        "response": "Recriar objetos e funções inline a cada render sem necessidade",
+                        "response_pt": "Recriar objetos e funções inline a cada render sem necessidade",
+                        "response_en": "Recreate inline objects and functions at each render without need",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1d51-705e-b37d-6d9e18265c9f",
+                "question": "Quais usos de `useMemo` e `useCallback` são adequados?",
+                "question_pt": "Quais usos de `useMemo` e `useCallback` são adequados?",
+                "question_en": "Which uses of 'useMemo' and 'useCallback' are appropriate?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": "019f2b4b-10b2-7114-a936-4e44e74b81d1",
+                "category": "frontend_react",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1d53-73d0-83f0-03bb72f66e8c",
+                        "question_id": "019f2b4b-1d51-705e-b37d-6d9e18265c9f",
+                        "response": "Memoizar cálculos custosos com `useMemo`",
+                        "response_pt": "Memoizar cálculos custosos com `useMemo`",
+                        "response_en": "Memoize costly calculations with `useMemo'",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d55-72bc-8f88-3b6560fea9f6",
+                        "question_id": "019f2b4b-1d51-705e-b37d-6d9e18265c9f",
+                        "response": "Envolver toda função e valor por padrão, sem medir necessidade",
+                        "response_pt": "Envolver toda função e valor por padrão, sem medir necessidade",
+                        "response_en": "Involve all function and value by default without measuring need",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d57-70c4-ad23-32078d311318",
+                        "question_id": "019f2b4b-1d51-705e-b37d-6d9e18265c9f",
+                        "response": "Substituir o gerenciamento de estado da aplicação",
+                        "response_pt": "Substituir o gerenciamento de estado da aplicação",
+                        "response_en": "Replace application status management",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d54-728e-84bc-bf95cbc639cf",
+                        "question_id": "019f2b4b-1d51-705e-b37d-6d9e18265c9f",
+                        "response": "Estabilizar a referência de funções passadas a filhos memoizados com `useCallback`",
+                        "response_pt": "Estabilizar a referência de funções passadas a filhos memoizados com `useCallback`",
+                        "response_en": "Stabilize the reference of functions passed to children memoised with 'useCallback'",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "id": "019f2b4b-1d8c-720c-85eb-277d667b4932",
+                "question": "Quais técnicas otimizam a performance de uma aplicação React de grande porte?",
+                "question_pt": "Quais técnicas otimizam a performance de uma aplicação React de grande porte?",
+                "question_en": "Which techniques optimize the performance of a large React application?",
+                "translation_status": "translated",
+                "difficulty_level": 8,
+                "language_id": "019f2b4b-10b2-7114-a936-4e44e74b81d1",
+                "category": "frontend_react",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1d8d-72a3-ab72-1511ae8065d8",
+                        "question_id": "019f2b4b-1d8c-720c-85eb-277d667b4932",
+                        "response": "Code splitting com `React.lazy` e `Suspense`",
+                        "response_pt": "Divisão de código com `React.lazy` e `Suspense'",
+                        "response_en": "Code splitting com `React.lazy` e `Suspense`",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d90-7281-8546-33301a877645",
+                        "question_id": "019f2b4b-1d8c-720c-85eb-277d667b4932",
+                        "response": "Renderizar listas enormes inteiras no DOM de uma só vez",
+                        "response_pt": "Renderizar listas enormes inteiras no DOM de uma só vez",
+                        "response_en": "Render entire huge lists in the DOM at once",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d8e-72de-92fc-bbfbb1b00570",
+                        "question_id": "019f2b4b-1d8c-720c-85eb-277d667b4932",
+                        "response": "Virtualização (windowing) de listas muito longas",
+                        "response_pt": "Virtualização (windowing) de listas muito longas",
+                        "response_en": "Windowing of very long lists",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d91-72b7-ae71-f39bb9d41b98",
+                        "question_id": "019f2b4b-1d8c-720c-85eb-277d667b4932",
+                        "response": "Manter um único provider global que re-renderiza toda a árvore a cada mudança",
+                        "response_pt": "Manter um único provider global que re-renderiza toda a árvore a cada mudança",
+                        "response_en": "Maintain a single global provider that re-renders the entire tree at every change",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1d72-7231-9646-227d91b93ab0",
+                "question": "Qual problema o Context API pode causar se usado para estado que muda com muita frequência?",
+                "question_pt": "Qual problema o Context API pode causar se usado para estado que muda com muita frequência?",
+                "question_en": "What problem can Context API cause if used for state that changes too often?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": "019f2b4b-10b2-7114-a936-4e44e74b81d1",
+                "category": "frontend_react",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1d75-7126-9e98-ba4582fc72df",
+                        "question_id": "019f2b4b-1d72-7231-9646-227d91b93ab0",
+                        "response": "Impede o uso de qualquer outro hook na árvore",
+                        "response_pt": "Impede o uso de qualquer outro hook na árvore",
+                        "response_en": "Prevents the use of any other hook in the tree",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d76-72a5-b9b8-0089388d6ee1",
+                        "question_id": "019f2b4b-1d72-7231-9646-227d91b93ab0",
+                        "response": "Bloqueia a renderização no servidor obrigatoriamente",
+                        "response_pt": "Bloqueia a renderização no servidor obrigatoriamente",
+                        "response_en": "Blocks rendering on server mandatory",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d74-7294-b1ba-a80a8fc07d6d",
+                        "question_id": "019f2b4b-1d72-7231-9646-227d91b93ab0",
+                        "response": "Re-renderiza todos os componentes consumidores a cada mudança de valor, podendo degradar a performance",
+                        "response_pt": "Re-renderiza todos os componentes consumidores a cada mudança de valor, podendo degradar a performance",
+                        "response_en": "Re-renders all consumer components to each value change and may degrade performance",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1d78-70bf-b1c6-8c5508abe736",
+                        "question_id": "019f2b4b-1d72-7231-9646-227d91b93ab0",
+                        "response": "Faz o componente perder o estado a cada render",
+                        "response_pt": "Faz o componente perder o estado a cada render",
+                        "response_en": "Makes the component lose state every render",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-17b0-7065-bb8e-aa03a76af1d7",
+                "question": "Quais práticas ajudam a evitar N+1 queries no Laravel?",
+                "question_pt": "Quais práticas ajudam a evitar N+1 queries no Laravel?",
+                "question_en": "What practices help to avoid N+1 issues in Laravel?",
+                "translation_status": "translated",
+                "difficulty_level": 3,
+                "language_id": "019f2b4b-106f-7327-8564-e3daf1dfd6d5",
+                "category": "backend_php_laravel",
+                "ideal_time_to_solve": 90,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-17b3-729f-a783-8b6e82944a45",
+                        "question_id": "019f2b4b-17b0-7065-bb8e-aa03a76af1d7",
+                        "response": "Carregar relacionamentos necessários em lote",
+                        "response_pt": "Carregar relacionamentos necessários em lote",
+                        "response_en": "Load required relationships in batch",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17b6-72c0-96bf-f034cdacc59a",
+                        "question_id": "019f2b4b-17b0-7065-bb8e-aa03a76af1d7",
+                        "response": "Ignorar análise de queries em desenvolvimento",
+                        "response_pt": "Ignorar análise de queries em desenvolvimento",
+                        "response_en": "Ignore analysis of developing Queries",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17b2-733e-ace1-b5da9da219eb",
+                        "question_id": "019f2b4b-17b0-7065-bb8e-aa03a76af1d7",
+                        "response": "Usar eager loading com `with()`",
+                        "response_pt": "Usar ansioso carregando com `with()`",
+                        "response_en": "Usar eager loading com `with()`",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17b4-73d9-9da4-f992753e407f",
+                        "question_id": "019f2b4b-17b0-7065-bb8e-aa03a76af1d7",
+                        "response": "Acessar relacionamento dentro de loop sem preload",
+                        "response_pt": "Acessar relacionamento dentro de loop sem preload",
+                        "response_en": "Access relationship within loop without preload",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-17b8-7152-a8b0-ef6f0c3c07c1",
+                "question": "Qual problema existe neste trecho de update em massa?",
+                "question_pt": "Qual problema existe neste trecho de update em massa?",
+                "question_en": "What problem is there in this mass update snippet?",
+                "translation_status": "translated",
+                "difficulty_level": 4,
+                "language_id": "019f2b4b-106f-7327-8564-e3daf1dfd6d5",
+                "category": "backend_php_laravel",
+                "ideal_time_to_solve": 120,
+                "code_snippet": {
+                    "code": "User::query()->update($request->all());\n",
+                    "language": "php"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "junior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-17be-7225-a183-5eeed9fe35a9",
+                        "question_id": "019f2b4b-17b8-7152-a8b0-ef6f0c3c07c1",
+                        "response": "Só funciona com SQLite",
+                        "response_pt": "Só funciona com SQLite",
+                        "response_en": "So works with SQLite",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17bc-71b2-bc72-da367e0091f0",
+                        "question_id": "019f2b4b-17b8-7152-a8b0-ef6f0c3c07c1",
+                        "response": "Não atualiza nenhum registro por padrão",
+                        "response_pt": "Não atualiza nenhum registro por padrão",
+                        "response_en": "Do not update any record by default",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17bd-70ee-ad39-252d3a2b2818",
+                        "question_id": "019f2b4b-17b8-7152-a8b0-ef6f0c3c07c1",
+                        "response": "É a forma mais segura sempre",
+                        "response_pt": "É a forma mais segura sempre",
+                        "response_en": "It's the safest way ever",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17ba-71ad-b034-c0d06c2779a7",
+                        "question_id": "019f2b4b-17b8-7152-a8b0-ef6f0c3c07c1",
+                        "response": "Risco de mass assignment e atualização indevida de campos sensíveis",
+                        "response_pt": "Risco de mass assignment e atualização indevida de campos sensíveis",
+                        "response_en": "Risk of mass assignment and improper updating of sensitive fields",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-17e3-71b2-a6fb-4ef3d6e47de7",
+                "question": "No código abaixo, qual problema de concorrência pode ocorrer?",
+                "question_pt": "No código abaixo, qual problema de concorrência pode ocorrer?",
+                "question_en": "In the code below, what competition problem can occur?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": "019f2b4b-106f-7327-8564-e3daf1dfd6d5",
+                "category": "backend_php_laravel",
+                "ideal_time_to_solve": 150,
+                "code_snippet": {
+                    "code": "$product = Product::find($id);\n$product->stock = $product->stock - 1;\n$product->save();\n",
+                    "language": "php"
+                },
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-17e6-7172-aeaa-1694fcadb416",
+                        "question_id": "019f2b4b-17e3-71b2-a6fb-4ef3d6e47de7",
+                        "response": "Erro de sintaxe obrigatório",
+                        "response_pt": "Erro de sintaxe obrigatório",
+                        "response_en": "Required syntax error",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17e7-7272-9cd1-9ea27653e5aa",
+                        "question_id": "019f2b4b-17e3-71b2-a6fb-4ef3d6e47de7",
+                        "response": "Overflow de inteiro em qualquer cenário",
+                        "response_pt": "Overflow de inteiro em qualquer cenário",
+                        "response_en": "Overflow of integer in any scenario",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17e5-72d9-a5a4-bf124014a461",
+                        "question_id": "019f2b4b-17e3-71b2-a6fb-4ef3d6e47de7",
+                        "response": "Lost update em acessos concorrentes sem lock/controle otimista",
+                        "response_pt": "Lost update em acessos concorrentes sem lock/controle otimista",
+                        "response_en": "Lost update on competing accesses without optimist lock/control",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17e8-719d-890b-3a75a7ffeddf",
+                        "question_id": "019f2b4b-17e3-71b2-a6fb-4ef3d6e47de7",
+                        "response": "O Eloquent já evita totalmente esse problema automaticamente",
+                        "response_pt": "O Eloquent já evita totalmente esse problema automaticamente",
+                        "response_en": "Eloquent already completely avoids this problem automatically",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-17d2-710c-a7d0-4809d69b10dd",
+                "question": "Quando utilizar transações no Laravel com `DB::transaction()`?",
+                "question_pt": "Quando utilizar transações no Laravel com `DB::transaction()`?",
+                "question_en": "When to use transactions in Laravel with `DB::transaction()`?",
+                "translation_status": "translated",
+                "difficulty_level": 5,
+                "language_id": "019f2b4b-106f-7327-8564-e3daf1dfd6d5",
+                "category": "backend_php_laravel",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-17d5-7051-a3a4-556dbe239e72",
+                        "question_id": "019f2b4b-17d2-710c-a7d0-4809d69b10dd",
+                        "response": "Somente em consultas de leitura simples",
+                        "response_pt": "Somente em consultas de leitura simples",
+                        "response_en": "Only in simple reading queries",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17d8-7323-8861-fc4505bac648",
+                        "question_id": "019f2b4b-17d2-710c-a7d0-4809d69b10dd",
+                        "response": "Apenas para cache Redis",
+                        "response_pt": "Apenas para cache Redis",
+                        "response_en": "Redis cache only",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17d4-733d-909f-5dbadbe28ddc",
+                        "question_id": "019f2b4b-17d2-710c-a7d0-4809d69b10dd",
+                        "response": "Quando múltiplas escritas devem ser atômicas",
+                        "response_pt": "Quando múltiplas escritas devem ser atômicas",
+                        "response_en": "When multiple writings must be atomic",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17d6-70ac-834c-367cf50b457d",
+                        "question_id": "019f2b4b-17d2-710c-a7d0-4809d69b10dd",
+                        "response": "Nunca, pois transações não são suportadas",
+                        "response_pt": "Nunca, pois transações não são suportadas",
+                        "response_en": "Never, because transactions are not supported",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-17f4-7095-bcdf-c5b33357abaf",
+                "question": "Quando faz sentido usar Jobs/Queues no Laravel?",
+                "question_pt": "Quando faz sentido usar Jobs/Queues no Laravel?",
+                "question_en": "When does it make sense to use Jobs/Queues on Laravel?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": "019f2b4b-106f-7327-8564-e3daf1dfd6d5",
+                "category": "backend_php_laravel",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-17f6-7133-aa42-06aa6663a2e6",
+                        "question_id": "019f2b4b-17f4-7095-bcdf-c5b33357abaf",
+                        "response": "Para substituir qualquer validação síncrona de entrada",
+                        "response_pt": "Para substituir qualquer validação síncrona de entrada",
+                        "response_en": "To replace any input synchronous validation",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17f7-708a-9e0e-0853439b14c3",
+                        "question_id": "019f2b4b-17f4-7095-bcdf-c5b33357abaf",
+                        "response": "Somente para endpoints GET",
+                        "response_pt": "Somente para endpoints GET",
+                        "response_en": "Somente para endpoints GET",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17f5-70e9-a60c-c8f20936b1b6",
+                        "question_id": "019f2b4b-17f4-7095-bcdf-c5b33357abaf",
+                        "response": "Para tarefas demoradas que não precisam bloquear a resposta HTTP",
+                        "response_pt": "Para tarefas demoradas que não precisam bloquear a resposta HTTP",
+                        "response_en": "For time-consuming tasks that do not need to block HTTP response",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17f9-7335-9a26-e3dcd501aa95",
+                        "question_id": "019f2b4b-17f4-7095-bcdf-c5b33357abaf",
+                        "response": "Apenas quando não existir fila configurada",
+                        "response_pt": "Apenas quando não existir fila configurada",
+                        "response_en": "Only when there is no queue configured",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-17ec-70d6-92e4-8349b7700eb5",
+                "question": "Quais estratégias de cache no Laravel são adequadas para endpoints de leitura?",
+                "question_pt": "Quais estratégias de cache no Laravel são adequadas para endpoints de leitura?",
+                "question_en": "What cache strategies in Laravel are suitable for reading endpoints?",
+                "translation_status": "translated",
+                "difficulty_level": 6,
+                "language_id": "019f2b4b-106f-7327-8564-e3daf1dfd6d5",
+                "category": "backend_php_laravel",
+                "ideal_time_to_solve": 150,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "mid_level",
+                "responses": [
+                    {
+                        "id": "019f2b4b-17ed-71cd-9a0b-1de3bcb68bab",
+                        "question_id": "019f2b4b-17ec-70d6-92e4-8349b7700eb5",
+                        "response": "Definir TTL e estratégia de invalidação",
+                        "response_pt": "Definir TTL e estratégia de invalidação",
+                        "response_en": "Set TTL and Invalidation Strategy",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17ee-726c-b8df-501605062e8c",
+                        "question_id": "019f2b4b-17ec-70d6-92e4-8349b7700eb5",
+                        "response": "Cachear resultados de consultas caras e estáveis",
+                        "response_pt": "Cachear resultados de consultas caras e estáveis",
+                        "response_en": "Cache expensive and stable consultation results",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17f1-712c-963d-692a54eec796",
+                        "question_id": "019f2b4b-17ec-70d6-92e4-8349b7700eb5",
+                        "response": "Armazenar credenciais sensíveis sem criptografia em cache",
+                        "response_pt": "Armazenar credenciais sensíveis sem criptografia em cache",
+                        "response_en": "Store sensitive credentials without cache encryption",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-17f0-7169-8c39-3542cd931b35",
+                        "question_id": "019f2b4b-17ec-70d6-92e4-8349b7700eb5",
+                        "response": "Cachear para sempre sem considerar atualização de dados",
+                        "response_pt": "Cachear para sempre sem considerar atualização de dados",
+                        "response_en": "Cache forever without considering data update",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1822-71b3-ae29-8f7e72407c6d",
+                "question": "Como lidar com idempotência em endpoints de criação no Laravel?",
+                "question_pt": "Como lidar com idempotência em endpoints de criação no Laravel?",
+                "question_en": "How to deal with idempotence in creation endpoints on Laravel?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": "019f2b4b-106f-7327-8564-e3daf1dfd6d5",
+                "category": "backend_php_laravel",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": false,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1824-70c4-9a1c-85613e95dcb5",
+                        "question_id": "019f2b4b-1822-71b3-ae29-8f7e72407c6d",
+                        "response": "Usar chave de idempotência e checar operação já processada",
+                        "response_pt": "Usar chave de idempotência e checar operação já processada",
+                        "response_en": "Use idempotence key and check already processed operation",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1826-71fd-af3d-9e0738bedcca",
+                        "question_id": "019f2b4b-1822-71b3-ae29-8f7e72407c6d",
+                        "response": "Aceitar retries criando registros duplicados",
+                        "response_pt": "Aceitar retries criando registros duplicados",
+                        "response_en": "Accept retractions creating duplicate records",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1829-73ea-99a1-77a493cd43e3",
+                        "question_id": "019f2b4b-1822-71b3-ae29-8f7e72407c6d",
+                        "response": "Desabilitar constraints de unicidade",
+                        "response_pt": "Desabilitar constraints de unicidade",
+                        "response_en": "Disable uniqueness constraints",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1827-7085-b92d-3bfc7e2c902d",
+                        "question_id": "019f2b4b-1822-71b3-ae29-8f7e72407c6d",
+                        "response": "Confiar apenas em timeout do cliente",
+                        "response_pt": "Confiar apenas em timeout do cliente",
+                        "response_en": "Trust only customer timeout",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            },
+            {
+                "id": "019f2b4b-1804-73b3-b981-5f9079cd061f",
+                "question": "Quais práticas tornam APIs Laravel mais robustas em autenticação/autorização?",
+                "question_pt": "Quais práticas tornam APIs Laravel mais robustas em autenticação/autorização?",
+                "question_en": "Which practices make Laravel APIs more robust in authentication/authorization?",
+                "translation_status": "translated",
+                "difficulty_level": 7,
+                "language_id": "019f2b4b-106f-7327-8564-e3daf1dfd6d5",
+                "category": "backend_php_laravel",
+                "ideal_time_to_solve": 180,
+                "code_snippet": null,
+                "is_multiple_choice": true,
+                "seniority_level": "senior",
+                "responses": [
+                    {
+                        "id": "019f2b4b-1806-7317-b722-5ad52ce0137b",
+                        "question_id": "019f2b4b-1804-73b3-b981-5f9079cd061f",
+                        "response": "Policies/Gates para regras de acesso",
+                        "response_pt": "Policies/Gates para regras de acesso",
+                        "response_en": "Police/Gates for access rules",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1809-722c-ae24-624f37a15aa0",
+                        "question_id": "019f2b4b-1804-73b3-b981-5f9079cd061f",
+                        "response": "Checar permissão somente no frontend",
+                        "response_pt": "Checar permissão somente no frontend",
+                        "response_en": "Check permission only on frontend",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-180b-718f-8121-58ef88964eb6",
+                        "question_id": "019f2b4b-1804-73b3-b981-5f9079cd061f",
+                        "response": "Expor tokens em logs de produção",
+                        "response_pt": "Expor tokens em logs de produção",
+                        "response_en": "Export tokens in production logs",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    },
+                    {
+                        "id": "019f2b4b-1807-739a-8921-1fa1aabca4d7",
+                        "question_id": "019f2b4b-1804-73b3-b981-5f9079cd061f",
+                        "response": "Middleware de autenticação nas rotas",
+                        "response_pt": "Middleware de autenticação nas rotas",
+                        "response_en": "Route authentication middleware",
+                        "translation_status": "translated",
+                        "code_snippet": null
+                    }
+                ]
+            }
+        ]
+    ]
+}

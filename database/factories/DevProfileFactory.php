@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\DevSpecialtyEnum;
 use App\Enums\SeniorityLevelEnum;
 use App\Models\DevProfile;
 use App\Models\User;
@@ -25,6 +26,7 @@ class DevProfileFactory extends Factory
             'phone' => '+5531'.fake()->unique()->numerify('9########'),
             'birthdate' => '1990-01-15',
             'seniority_level' => SeniorityLevelEnum::JUNIOR->value,
+            'specialty' => DevSpecialtyEnum::BACKEND->value,
             'open_to_relocation' => false,
             'open_to_work' => true,
             'score' => 0,

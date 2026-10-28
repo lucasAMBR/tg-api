@@ -1,0 +1,225 @@
+[
+  {
+    "email": "marina.tavares@example.com",
+    "profile": {
+      "name": "Marina Tavares",
+      "bio": "Product owner autônoma que contrata squads sob demanda para tocar produtos digitais de clientes do setor de serviços. Costuma contratar duplas de front-end e back-end para ciclos de três a seis meses, com acompanhamento semanal de entrega.",
+      "birthdate": "1988-02-17",
+      "phone": "+5531900000301",
+      "score": 640
+    },
+    "address": {
+      "cep": "30112-000",
+      "address_type": "residential",
+      "street": "Rua da Bahia",
+      "street_complete_name": "Rua da Bahia, Lourdes",
+      "district": "Lourdes",
+      "city": "Belo Horizonte",
+      "state": "MG",
+      "latitude": -19.9309,
+      "longitude": -43.9412,
+      "number": "1580"
+    }
+  },
+  {
+    "email": "eduardo.pontes@example.com",
+    "profile": {
+      "name": "Eduardo Pontes",
+      "bio": "Dono de uma rede de três clínicas odontológicas em busca de desenvolvedores para manter e evoluir o sistema de agendamento interno. Prioriza profissionais que saibam conversar com equipe não técnica e documentar o que entregam.",
+      "birthdate": "1979-11-03",
+      "phone": "+5511900000302",
+      "score": 480
+    },
+    "address": {
+      "cep": "05409-002",
+      "address_type": "commercial",
+      "street": "Rua Teodoro Sampaio",
+      "street_complete_name": "Rua Teodoro Sampaio, Pinheiros",
+      "district": "Pinheiros",
+      "city": "São Paulo",
+      "state": "SP",
+      "latitude": -23.5573,
+      "longitude": -46.6885,
+      "number": "1020",
+      "complement": "Sala 51"
+    }
+  },
+  {
+    "email": "juliana.rocha@example.com",
+    "profile": {
+      "name": "Juliana Rocha",
+      "bio": "Consultora de marketing digital que terceiriza o desenvolvimento de landing pages, integrações com CRM e automações para os clientes da sua carteira. Trabalha com escopo fechado e prazos curtos, normalmente de duas a quatro semanas por projeto.",
+      "birthdate": "1993-06-25",
+      "phone": "+5541900000303",
+      "score": 720
+    },
+    "address": {
+      "cep": "80530-000",
+      "address_type": "residential",
+      "street": "Rua Mateus Leme",
+      "street_complete_name": "Rua Mateus Leme, São Francisco",
+      "district": "São Francisco",
+      "city": "Curitiba",
+      "state": "PR",
+      "latitude": -25.4166,
+      "longitude": -49.2823,
+      "number": "445"
+    }
+  },
+  {
+    "email": "ricardo.almeida@example.com",
+    "profile": {
+      "name": "Ricardo Almeida",
+      "bio": "Sócio de um escritório de contabilidade que está digitalizando o atendimento aos clientes. Procura desenvolvedores para construir um portal de envio de documentos e integração com sistemas fiscais, com exigência forte de sigilo e conformidade.",
+      "birthdate": "1975-04-09",
+      "phone": "+5551900000304",
+      "score": 390
+    },
+    "address": {
+      "cep": "90430-001",
+      "address_type": "commercial",
+      "street": "Rua Vasco da Gama",
+      "street_complete_name": "Rua Vasco da Gama, Bom Fim",
+      "district": "Bom Fim",
+      "city": "Porto Alegre",
+      "state": "RS",
+      "latitude": -30.0289,
+      "longitude": -51.2064,
+      "number": "620"
+    }
+  },
+  {
+    "email": "patricia.lemos@example.com",
+    "profile": {
+      "name": "Patrícia Lemos",
+      "bio": "Fundadora de uma startup em estágio inicial no setor de bem-estar. Contrata desenvolvedores freelancers para validar hipóteses com protótipos funcionais antes de montar time fixo. Valoriza autonomia e comunicação frequente.",
+      "birthdate": "1991-09-14",
+      "phone": "+5548900000305",
+      "score": 560
+    },
+    "address": {
+      "cep": "88010-400",
+      "address_type": "residential",
+      "street": "Rua Felipe Schmidt",
+      "street_complete_name": "Rua Felipe Schmidt, Centro",
+      "district": "Centro",
+      "city": "Florianópolis",
+      "state": "SC",
+      "latitude": -27.5954,
+      "longitude": -48.5480,
+      "number": "310",
+      "complement": "Apto 902"
+    }
+  },
+  {
+    "email": "andre.figueiredo@example.com",
+    "profile": {
+      "name": "André Figueiredo",
+      "bio": "Gestor de uma distribuidora de materiais de construção que precisa integrar o ERP legado com o e-commerce próprio. Busca profissionais com experiência em integrações e migração de dados, disponíveis para reuniões presenciais eventuais.",
+      "birthdate": "1983-01-28",
+      "phone": "+5562900000306",
+      "score": 430
+    },
+    "address": {
+      "cep": "74175-120",
+      "address_type": "commercial",
+      "street": "Avenida T-63",
+      "street_complete_name": "Avenida T-63, Setor Bueno",
+      "district": "Setor Bueno",
+      "city": "Goiânia",
+      "state": "GO",
+      "latitude": -16.7050,
+      "longitude": -49.2760,
+      "number": "1215"
+    }
+  },
+  {
+    "email": "camila.nogueira@example.com",
+    "profile": {
+      "name": "Camila Nogueira",
+      "bio": "Advogada que mantém um produto próprio de gestão de prazos processuais para pequenos escritórios. Contrata desenvolvimento por demanda para novas funcionalidades e sustentação, com contratos recorrentes de horas mensais.",
+      "birthdate": "1986-07-06",
+      "phone": "+5521900000307",
+      "score": 670
+    },
+    "address": {
+      "cep": "22410-003",
+      "address_type": "commercial",
+      "street": "Rua Visconde de Pirajá",
+      "street_complete_name": "Rua Visconde de Pirajá, Ipanema",
+      "district": "Ipanema",
+      "city": "Rio de Janeiro",
+      "state": "RJ",
+      "latitude": -22.9847,
+      "longitude": -43.2015,
+      "number": "550",
+      "complement": "Sala 1204"
+    }
+  },
+  {
+    "email": "fernando.brito@example.com",
+    "profile": {
+      "name": "Fernando Brito",
+      "bio": "Produtor de eventos que contrata desenvolvimento de aplicativos de credenciamento e venda de ingressos para cada temporada. Projetos são sazonais, com picos de trabalho concentrados nos meses que antecedem os eventos.",
+      "birthdate": "1990-12-11",
+      "phone": "+5581900000308",
+      "score": 510
+    },
+    "address": {
+      "cep": "52011-000",
+      "address_type": "residential",
+      "street": "Rua da Hora",
+      "street_complete_name": "Rua da Hora, Espinheiro",
+      "district": "Espinheiro",
+      "city": "Recife",
+      "state": "PE",
+      "latitude": -8.0398,
+      "longitude": -34.8977,
+      "number": "265"
+    }
+  },
+  {
+    "email": "beatriz.carvalho@example.com",
+    "profile": {
+      "name": "Beatriz Carvalho",
+      "bio": "Pesquisadora acadêmica que contrata desenvolvedores para construir ferramentas de coleta e análise de dados usadas em projetos de pesquisa financiados. Precisa de código reproduzível e bem documentado, com entrega de relatórios técnicos.",
+      "birthdate": "1984-03-22",
+      "phone": "+5519900000309",
+      "score": 600
+    },
+    "address": {
+      "cep": "13083-970",
+      "address_type": "commercial",
+      "street": "Rua Cora Coralina",
+      "street_complete_name": "Rua Cora Coralina, Cidade Universitária",
+      "district": "Cidade Universitária",
+      "city": "Campinas",
+      "state": "SP",
+      "latitude": -22.8172,
+      "longitude": -47.0694,
+      "number": "100"
+    }
+  },
+  {
+    "email": "gustavo.medeiros@example.com",
+    "profile": {
+      "name": "Gustavo Medeiros",
+      "bio": "Investidor anjo que apoia pequenos negócios locais e financia o desenvolvimento dos seus primeiros produtos digitais. Contrata times pequenos para tirar ideias do papel em ciclos curtos, priorizando entrega rápida sobre perfeição técnica.",
+      "birthdate": "1972-05-30",
+      "phone": "+5511900000310",
+      "score": 820
+    },
+    "address": {
+      "cep": "01452-002",
+      "address_type": "residential",
+      "street": "Rua Groenlândia",
+      "street_complete_name": "Rua Groenlândia, Jardim América",
+      "district": "Jardim América",
+      "city": "São Paulo",
+      "state": "SP",
+      "latitude": -23.5721,
+      "longitude": -46.6738,
+      "number": "890"
+    }
+  }
+]

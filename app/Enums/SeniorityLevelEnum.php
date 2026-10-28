@@ -35,6 +35,28 @@ enum SeniorityLevelEnum: string
         };
     }
 
+    public function labelPt(): string
+    {
+        return match ($this) {
+            self::INTERN => 'Estagiário',
+            self::JUNIOR => 'Júnior',
+            self::MID_LEVEL => 'Pleno',
+            self::SENIOR => 'Sênior',
+            self::STAFF => 'Staff',
+        };
+    }
+
+    public function hierarchyLevel(): int
+    {
+        return match ($this) {
+            self::INTERN => 1,
+            self::JUNIOR => 2,
+            self::MID_LEVEL => 3,
+            self::SENIOR => 4,
+            self::STAFF => 5,
+        };
+    }
+
     public static function softSkillsPointLimit(): array
     {
         return [

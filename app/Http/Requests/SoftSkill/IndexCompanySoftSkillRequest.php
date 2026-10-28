@@ -22,7 +22,14 @@ class IndexCompanySoftSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_id' => ['nullable', 'string', 'exists:company_profiles,id']
+            'company_profile_id' => ['required', 'uuid', 'exists:company_profiles,id']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'company_profile_id' => $this->route('company_profile_id')
+        ]);
     }
 }

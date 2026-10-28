@@ -6,6 +6,8 @@ use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\ProjectHistory\ProjectHistoryCollection;
 use App\Http\Resources\ProjectHistory\ProjectHistoryResource;
+use App\Jobs\GenerateDevProfileEmbeddingJob;
+use App\Jobs\TranslateContentJob;
 use App\Models\ProjectHistory;
 use App\Models\ProjectHistoryImage;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,11 +15,12 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use SebastianBergmann\CodeCoverage\Report\Xml\Project;
+use Illuminate\Support\Facades\Gate;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProjectHistoryService
 {
+
     public function index(array $data){
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
@@ -51,47 +54,78 @@ class ProjectHistoryService
         $profile = ProfileHelper::getUserProfileByRole($authUser);
 
         return DB::transaction(function () use ($data, $profile) {
+
             $projectHistory = ProjectHistory::create([
                 'title' => $data['title'],
                 'description' => $data['description'],
-                'dev_profile_id' => $profile->id
+                'dev_profile_id' => $profile->id,
+                'prod_url' => $data['prod_url'] ?? null,
+                'github_url' => $data['github_url'] ?? null,
             ]);
 
             $projectHistory->languages()->sync($data['languages']);
 
             $projectHistory->load(['languages']);
 
+            TranslateContentJob::dispatch($projectHistory);
+
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($projectHistory->dev_profile_id);
+
             return new ProjectHistoryResource($projectHistory);
         });
     }
 
-    public function show(ProjectHistory $projectHistory){
+    public function show(array $data){
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
         return new ProjectHistoryResource($projectHistory);
     }
 
-    public function update(ProjectHistory $projectHistory, array $data): ProjectHistoryResource
+    public function update(array $data): ProjectHistoryResource
     {
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $projectHistory);
+
+        $data = Arr::except($data, ['id']);
+
         return DB::transaction(function () use ($projectHistory, $data) {
             $projectHistory->update($data);
+
+            if (isset($data['title']) || isset($data['description'])) {
+                TranslateContentJob::dispatch($projectHistory);
+            }
 
             if(isset($data['languages'])){
                 $projectHistory->languages()->sync($data['languages']);
             }
 
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($projectHistory->dev_profile_id);
+
             return new ProjectHistoryResource($projectHistory);
         });
     }
 
-    public function delete(ProjectHistory $projectHistory): void
+    public function delete(array $data): void
     {
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('delete', $projectHistory);
+
         DB::transaction(function () use ($projectHistory) {
             $projectHistory->delete();
+
+            GenerateDevProfileEmbeddingJob::dispatchDebounced($projectHistory->dev_profile_id);
         });
     }
 
-    public function saveImagesInProject(ProjectHistory $projectHistory, array $images): ProjectHistoryResource
+    public function saveImagesInProject(array $data): ProjectHistoryResource
     {
-        $images = Arr::flatten($images);
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $projectHistory);
+
+        $images = Arr::flatten($data['images']);
 
         foreach($images as $image){
             if($image instanceof UploadedFile){
@@ -103,9 +137,13 @@ class ProjectHistoryService
         return new ProjectHistoryResource($projectHistory);
     }
 
-    public function removeImageFromProject(ProjectHistory $projectHistory, int $mediaId):void
+    public function removeImageFromProject(array $data):void
     {
-        $media = Media::findOrFail($mediaId);
+        $projectHistory = ProjectHistory::findOrFail($data['id']);
+
+        $this->ensureOwnership('update', $projectHistory);
+
+        $media = Media::findOrFail($data['image_id']);
 
         if($projectHistory->id != $media->model_id){
             throw new ApiException("This image doesn't belong to this project galery!");
@@ -113,4 +151,12 @@ class ProjectHistoryService
 
         $media->delete();
     }
+
+    private function ensureOwnership(string $ability, ProjectHistory $projectHistory): void
+    {
+        if (Gate::denies($ability, $projectHistory)) {
+            throw new ApiException('This project does not belong to your profile!', 403);
+        }
+    }
+
 }

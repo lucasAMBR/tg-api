@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests\JobVacancy;
 
+use App\Enums\JobVacancyStatusEnum;
+use App\Enums\SeniorityLevelEnum;
 use App\Traits\IndexRequestTrait;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class IndexJobVacancyRequest extends FormRequest
 {
@@ -28,7 +31,9 @@ class IndexJobVacancyRequest extends FormRequest
     {
 
         return array_merge($this->paginationRules(), [
-
+            'company_profile_id' => ['nullable', 'string', 'exists:company_profiles,id'],
+            'seniority_level' => ['nullable', new Enum(SeniorityLevelEnum::class)],
+            'status' => ['nullable', new Enum(JobVacancyStatusEnum::class)]
         ]);
 
     }

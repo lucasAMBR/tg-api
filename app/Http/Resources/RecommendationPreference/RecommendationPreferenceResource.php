@@ -3,7 +3,6 @@
 namespace App\Http\Resources\RecommendationPreference;
 
 use App\Http\Resources\Language\LanguageResource;
-use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,10 +25,8 @@ class RecommendationPreferenceResource extends JsonResource
             'on_site_job_radius' => $this->on_site_job_radius,
             'hybrid_jobs_radius' => $this->hybrid_jobs_radius,
             'allow_stack_flexibility' => $this->allow_stack_flexibility,
-            'min_remuneration' => (float) $this->min_remuneration,
-            'blackListedLanguages' => $this->whenLoaded('blackListedLanguages', function () {
-                return LanguageResource::collection($this->blackListedLanguages);
-            }),
+            'min_remuneration' => $this->min_remuneration === null ? null : (float) $this->min_remuneration,
+            'blackListedLanguages' => LanguageResource::collection($this->blackListedLanguages),
             'dev_profile_id' => $this->dev_profile_id
         ];
     }

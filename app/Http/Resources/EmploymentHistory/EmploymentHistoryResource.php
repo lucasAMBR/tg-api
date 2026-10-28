@@ -5,6 +5,7 @@ namespace App\Http\Resources\EmploymentHistory;
 use App\Enums\ContractType;
 use App\Enums\EmploymentType;
 use App\Enums\SeniorityLevelEnum;
+use App\Enums\TranslationStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +23,8 @@ class EmploymentHistoryResource extends JsonResource
             'company_name' => $this->company_name,
             'company_location' => $this->company_location,
             'position_name' => $this->position_name,
+            'position_name_pt' => $this->position_name_pt,
+            'position_name_en' => $this->position_name_en,
             'employment_type' => $this->employment_type,
             'employment_type_label' => EmploymentType::labelFromValue($this->employment_type),
             'contract_type' => $this->contract_type,
@@ -29,6 +32,10 @@ class EmploymentHistoryResource extends JsonResource
             'seniority_level' => $this->seniority_level,
             'seniority_level_label' => SeniorityLevelEnum::labelFromValue($this->seniority_level),
             'actuation_details' => $this->actuation_details,
+            'actuation_details_pt' => $this->actuation_details_pt,
+            'actuation_details_en' => $this->actuation_details_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'is_current' => $this->is_current,
