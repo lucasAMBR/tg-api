@@ -21,16 +21,34 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
         /**
          * A sinalização WebRTC carrega SDP e ICE candidates gerados pelo browser,
          * que o backend só repassa sem interpretar. O trim padrão do Laravel come o
          * `\r\n` final do SDP e o outro peer não consegue mais desserializar, então
+<<<<<<< Updated upstream
          * essa rota passa sem nenhuma transformação do payload
          */
         $isInterviewSignal = fn (Request $request) => $request->is('api/dev-vacancy-interview/*/signal');
 
         $middleware->trimStrings(except: [$isInterviewSignal]);
         $middleware->convertEmptyStringsToNull(except: [$isInterviewSignal]);
+=======
+         * as rotas de sinal (entrevista e live coding) passam sem nenhuma
+         * transformação do payload
+         */
+        $isCallSignal = fn (Request $request) => $request->is(
+            'api/dev-vacancy-interview/*/signal',
+            'api/dev-vacancy-live-coding/*/signal',
+        );
+
+        $middleware->trimStrings(except: [$isCallSignal]);
+        $middleware->convertEmptyStringsToNull(except: [$isCallSignal]);
+>>>>>>> Stashed changes
 
         /**
          * Em produção a API fica atrás do proxy do Coolify, que termina o HTTPS. Sem
@@ -39,6 +57,10 @@ return Application::configure(basePath: dirname(__DIR__))
          */
         $middleware->trustProxies(at: '*');
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->renderable(function (NotFoundHttpException $e) {
