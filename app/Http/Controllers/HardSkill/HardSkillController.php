@@ -16,11 +16,9 @@ use Illuminate\Http\JsonResponse;
 
 class HardSkillController extends Controller
 {
-    use AuthorizesRequests;
-
     public function __construct(protected HardSkillService $hardSkillService){}
 
-    #[Endpoint(operationId: 'indexHardSkill', title: 'Listar hard skills', description: '**operationId:** `indexHardSkill` — Lista paginada das hard skills, ordenada por `created_at` decrescente, com filtros opcionais por `dev_profile_id` e `search` (busca em `skill_level` e no nome da linguagem vinculada). Em **200**, `data.data[]` segue o schema **Hard Skill Resource** (`App\\Http\\Resources\\HardSkill\\HardSkillResource`) e `data.pagination` traz os metadados de paginação.')]
+    #[Endpoint(operationId: 'indexHardSkill', title: 'Listar hard skills', description: '**operationId:** `indexHardSkill` — Lista paginada das hard skills, ordenada por `created_at` decrescente, com filtros opcionais por `dev_profile_id` e `search` (busca em `skill_level` e no nome da linguagem vinculada). Em **200**, `data[]` segue o schema **Hard Skill Resource** (`App\\Http\\Resources\\HardSkill\\HardSkillResource`); a resposta não traz metadados de paginação.')]
     public function index(IndexHardSkillRequest $request): JsonResponse
     {
         try {
@@ -71,7 +69,7 @@ class HardSkillController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'updateHardSkill', title: 'Atualizar hard skill', description: '**operationId:** `updateHardSkill` — Atualiza uma hard skill existente e dispara a regeração do embedding do perfil. Em **200**, `data` segue o schema **Hard Skill Resource** (`App\\Http\\Resources\\HardSkill\\HardSkillResource`).')]
+    #[Endpoint(operationId: 'updateHardSkill', title: 'Atualizar hard skill', description: '**operationId:** `updateHardSkill` — Atualiza uma hard skill existente. Requer que o registro pertença ao perfil autenticado (`HardSkillPolicy::update`). Dispara a regeração do embedding do perfil. Em **200**, `data` segue o schema **Hard Skill Resource** (`App\\Http\\Resources\\HardSkill\\HardSkillResource`).')]
     public function update(UpdateHardSkillRequest $request): JsonResponse
     {
         try {
@@ -88,7 +86,7 @@ class HardSkillController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'deleteHardSkill', title: 'Remover hard skill', description: '**operationId:** `deleteHardSkill` — Remove uma hard skill e dispara a regeração do embedding do perfil. Em **200**, `data` é `null`.')]
+    #[Endpoint(operationId: 'deleteHardSkill', title: 'Remover hard skill', description: '**operationId:** `deleteHardSkill` — Remove uma hard skill. Requer que o registro pertença ao perfil autenticado (`HardSkillPolicy::delete`). Também dispara a regeração do embedding do perfil. Em **200**, `data` é `null`.')]
     public function delete(DeleteHardSkillRequest $request): JsonResponse
     {
         try {

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class HardSkillService
 {
@@ -78,6 +79,8 @@ class HardSkillService
     {
         $hardSkill = HardSkill::findOrFail($data['id']);
 
+        $this->ensureOwnership('update', $hardSkill);
+
         $data = Arr::except($data, ['id']);
 
         return DB::transaction(function () use ($data, $hardSkill): HardSkillResource {
@@ -95,10 +98,19 @@ class HardSkillService
     {
         $hardSkill = HardSkill::findOrFail($data['id']);
 
+        $this->ensureOwnership('delete', $hardSkill);
+
         DB::transaction(function () use ($hardSkill): void {
             $hardSkill->delete();
 
             GenerateDevProfileEmbeddingJob::dispatchDebounced($hardSkill->dev_profile_id);
         });
+    }
+
+    private function ensureOwnership(string $ability, HardSkill $hardSkill): void
+    {
+        if (Gate::denies($ability, $hardSkill)) {
+            throw new ApiException('This hard skill does not belong to your profile!', 403);
+        }
     }
 }
