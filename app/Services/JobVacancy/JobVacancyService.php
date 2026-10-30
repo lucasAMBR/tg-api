@@ -10,6 +10,7 @@ use App\Helpers\ProfileHelper;
 use App\Jobs\GenerateJobVacancyEmbeddingJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\JobVacancy;
+use App\Models\JobVacancyProcessStep;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -109,12 +110,9 @@ class JobVacancyService {
             
             $jobVacancy->desirableLanguage()->sync($data['languages_desirable']);
 
-            // Etapas do processo seletivo da vaga
+            // Etapas do processo seletivo da vaga, sempre começando pela triagem de currículos
             $jobVacancy->processSteps()->createMany(
-                collect($data['process_steps'])->map(fn(array $processStep) => [
-                    'step' => $processStep['step'],
-                    'order' => $processStep['order']
-                ])->all()
+                JobVacancyProcessStep::withResumeScreeningFirst($data['process_steps'])
             );
 
             $jobVacancy->refresh();
