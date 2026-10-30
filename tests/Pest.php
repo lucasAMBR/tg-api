@@ -84,6 +84,48 @@ function validEmploymentHistoryPayload(array $overrides = []): array
     ], $overrides);
 }
 
+function seedLanguagesCatalog(): void
+{
+    (new LanguageSeeder)->run();
+}
+
+function createDevUserWithRecommendationPreference(): array
+{
+    [$user, $devProfile] = createDevUserWithProfile();
+
+    \App\Models\RecommendationPreference::create([
+        'dev_profile_id' => $devProfile->id,
+    ]);
+
+    return [$user, $devProfile];
+}
+
+function validHardSkillPayload(?string $languageId = null, array $overrides = []): array
+{
+    $languageId ??= \App\Models\Language::query()->value('id');
+
+    return array_merge([
+        'language_id' => $languageId,
+        'skill_level' => 'intermediate',
+    ], $overrides);
+}
+
+function validRecommendationPreferencePayload(array $overrides = []): array
+{
+    return array_merge([
+        'allow_clt' => true,
+        'allow_contractor' => true,
+        'allow_internship' => false,
+        'allow_on_site' => true,
+        'allow_hybrid' => true,
+        'allow_remote' => true,
+        'on_site_job_radius' => 20,
+        'hybrid_jobs_radius' => 40,
+        'allow_stack_flexibility' => true,
+        'min_remuneration' => 5000,
+    ], $overrides);
+}
+
 function seedSoftSkills(): void
 {
     (new \Database\Seeders\SoftSkillSeeder)->run();

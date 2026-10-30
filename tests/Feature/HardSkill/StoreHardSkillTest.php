@@ -6,6 +6,9 @@ use App\Models\Language;
 use App\Services\HardSkill\HardSkillService;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertNotSoftDeleted;
+use function Pest\Laravel\deleteJson;
+use function Pest\Laravel\getJson;
 use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
 
@@ -96,7 +99,7 @@ describe('POST /api/hard-skill', function () {
 describe('PATCH /api/hard-skill/{hardSkill}', function () {
     it('rejects when a dev tries to update another dev hard skill', function () {
         [, $ownerProfile] = createDevUserWithProfile();
-        [$otherUser] = createDevUserWithProfile();
+        [$otherUser] = createDevUserWithProfile(['cpf' => '11144477735', 'phone' => '+5531988887777']);
 
         $language = Language::first();
 
@@ -115,12 +118,89 @@ describe('PATCH /api/hard-skill/{hardSkill}', function () {
             ->assertForbidden()
             ->assertJson([
                 'error' => true,
-                'message' => 'Acesso negado.',
+                'message' => 'This hard skill does not belong to your profile!',
             ]);
 
         assertDatabaseHas('hard_skills', [
             'id' => $hardSkill->id,
             'skill_level' => $hardSkill->skill_level,
         ]);
+    });
+
+    it('allows a dev to update their own hard skill', function () {
+        [$user, $devProfile] = createDevUserWithProfile();
+
+        $hardSkill = HardSkill::factory()->create([
+            'dev_profile_id' => $devProfile->id,
+            'language_id' => Language::first()->id,
+        ]);
+
+        $response = patchJson(
+            "/api/hard-skill/{$hardSkill->id}",
+            ['skill_level' => HardSkillLevelsEnum::EXPERT->value],
+            actingAsApi($user)
+        );
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('data.skill_level', HardSkillLevelsEnum::EXPERT->value);
+    });
+});
+
+describe('GET /api/hard-skill', function () {
+    it('lists only the hard skills of the given dev profile', function () {
+        [$viewer] = createDevUserWithProfile();
+        [, $ownerProfile] = createDevUserWithProfile(['cpf' => '11144477735', 'phone' => '+5531988887777']);
+        [, $otherProfile] = createDevUserWithProfile(['cpf' => '39053344705', 'phone' => '+5531977776666']);
+
+        [$firstLanguage, $secondLanguage] = Language::limit(2)->get();
+
+        $ownerSkill = HardSkill::factory()->create([
+            'dev_profile_id' => $ownerProfile->id,
+            'language_id' => $firstLanguage->id,
+        ]);
+
+        HardSkill::factory()->create([
+            'dev_profile_id' => $otherProfile->id,
+            'language_id' => $secondLanguage->id,
+        ]);
+
+        $response = getJson(
+            "/api/hard-skill?dev_profile_id={$ownerProfile->id}",
+            actingAsApi($viewer)
+        );
+
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $ownerSkill->id)
+            ->assertJsonPath('data.0.language.id', $firstLanguage->id);
+    });
+});
+
+describe('DELETE /api/hard-skill/{hardSkill}', function () {
+    it('rejects when a dev tries to delete another dev hard skill', function () {
+        [, $ownerProfile] = createDevUserWithProfile();
+        [$otherUser] = createDevUserWithProfile(['cpf' => '11144477735', 'phone' => '+5531988887777']);
+
+        $hardSkill = HardSkill::factory()->create([
+            'dev_profile_id' => $ownerProfile->id,
+            'language_id' => Language::first()->id,
+        ]);
+
+        $response = deleteJson(
+            "/api/hard-skill/{$hardSkill->id}",
+            [],
+            actingAsApi($otherUser)
+        );
+
+        $response
+            ->assertForbidden()
+            ->assertJson([
+                'error' => true,
+                'message' => 'This hard skill does not belong to your profile!',
+            ]);
+
+        assertNotSoftDeleted('hard_skills', ['id' => $hardSkill->id]);
     });
 });
