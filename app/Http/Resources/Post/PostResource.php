@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Post;
 
+use App\Enums\TranslationStatusEnum;
 use App\Http\Resources\User\UserSimpleResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,6 +19,10 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
+            'content_pt' => $this->content_pt,
+            'content_en' => $this->content_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'user_id' => $this->user_id,
             'author' => $this->whenLoaded('user', function () {
                 return new UserSimpleResource($this->user);

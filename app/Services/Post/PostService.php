@@ -2,10 +2,13 @@
 
 namespace App\Services\Post;
 
+use App\Enums\TranslationStatusEnum;
 use App\Exceptions\ApiException;
 use App\Http\Resources\Post\PostCollection;
 use App\Http\Resources\Post\PostParticipantCollection;
 use App\Http\Resources\Post\PostResource;
+use App\Jobs\RecalculateProfileScoreJob;
+use App\Jobs\TranslateContentJob;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,9 +41,7 @@ class PostService
                 $query->where('user_id', $userId);
             })
             ->when($feed === 'following', fn (Builder $query) => $this->onlyFollowing($query))
-            ->when($search, function (Builder $query, $search) {
-                $query->where('content', 'ILIKE', "%{$search}%");
-            })
+            ->when($search, fn (Builder $query, $search) => $this->searchContent($query, $search))
             ->when(
                 $sort === 'popular',
                 fn (Builder $query) => $this->orderByPopularity($query),
@@ -61,9 +62,7 @@ class PostService
             ->whereHas('favoritedByUsers', function (Builder $query) {
                 $query->where('users.id', Auth::id());
             })
-            ->when($search, function (Builder $query, $search) {
-                $query->where('content', 'ILIKE', "%{$search}%");
-            })
+            ->when($search, fn (Builder $query, $search) => $this->searchContent($query, $search))
             ->latest()
             ->paginate($perPage, ['*'], 'page', $page);
 
@@ -90,6 +89,9 @@ class PostService
             return $post;
         });
 
+        // Fora da transação, para a fila não pegar a postagem antes do commit.
+        TranslateContentJob::dispatch($post);
+
         return new PostResource($this->query()->find($post->id));
     }
 
@@ -99,7 +101,20 @@ class PostService
 
         $this->ensureAbility('update', $post);
 
-        $post->update(['content' => $data['content']]);
+        // O texto só volta para a fila de tradução quando muda de fato. As traduções antigas
+        // saem junto, para o texto anterior não aparecer enquanto a nova não chega.
+        $contentChanged = $post->content !== $data['content'];
+
+        if ($contentChanged) {
+            $post->update([
+                'content' => $data['content'],
+                'content_pt' => null,
+                'content_en' => null,
+                'translation_status' => TranslationStatusEnum::PENDING->value,
+            ]);
+
+            TranslateContentJob::dispatch($post);
+        }
 
         return new PostResource($this->query()->find($post->id));
     }
@@ -111,6 +126,8 @@ class PostService
         $this->ensureAbility('delete', $post);
 
         $post->delete();
+
+        RecalculateProfileScoreJob::dispatchForUser($post->user_id);
     }
 
     public function saveImages(array $data): PostResource
@@ -153,6 +170,9 @@ class PostService
         $post = Post::findOrFail($data['id']);
 
         $changes = $post->favoritedByUsers()->toggle([Auth::id()]);
+
+        // Quem ganha pontos com o favorito é o autor da postagem
+        RecalculateProfileScoreJob::dispatchForUser($post->user_id);
 
         return [
             'favorited' => $changes['attached'] !== [],
@@ -231,6 +251,19 @@ class PostService
                     $query->where('users.id', $userId);
                 },
             ]);
+    }
+
+    /**
+     * Busca no texto original e nas traduções, porque o front exibe a postagem no idioma de
+     * quem está lendo e a busca precisa achar o texto que aparece na tela.
+     */
+    private function searchContent(Builder $query, string $search): Builder
+    {
+        return $query->where(function (Builder $query) use ($search) {
+            $query->where('content', 'ILIKE', "%{$search}%")
+                ->orWhere('content_pt', 'ILIKE', "%{$search}%")
+                ->orWhere('content_en', 'ILIKE', "%{$search}%");
+        });
     }
 
     /**

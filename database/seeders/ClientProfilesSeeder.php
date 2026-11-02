@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Hash;
  * Popula 10 clientes (contratantes) com bio e endereço, a partir de
  * database/seeders/data/clients.json.
  *
- * Os perfis variam em tipo de contratação (freelance pontual, horas recorrentes, projeto sazonal)
- * e em score, para dar variedade à listagem de clientes.
+ * Os perfis variam em tipo de contratação (freelance pontual, horas recorrentes, projeto sazonal),
+ * para dar variedade à listagem de clientes. O score não vem daqui: o DatabaseSeeder o calcula no
+ * fim, a partir do que os outros seeders criaram.
  */
 class ClientProfilesSeeder extends Seeder
 {

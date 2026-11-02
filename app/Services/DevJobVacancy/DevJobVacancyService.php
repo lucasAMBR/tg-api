@@ -9,6 +9,7 @@ use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Http\Resources\DevJobVacancy\DevJobVacancyCollection;
 use App\Http\Resources\DevJobVacancy\DevJobVacancyResource;
+use App\Jobs\RecalculateProfileScoreJob;
 use App\Models\DevJobVacancy;
 use App\Models\DevJobVacancyInterview;
 use App\Models\DevJobVacancyLiveCoding;
@@ -498,6 +499,10 @@ class DevJobVacancyService {
                 $this->createLiveCodings($jobVacancy, $approved);
             }
 
+            // A empresa concluiu uma etapa e cada aprovado passou por ela. Os recusados ficam
+            // na etapa em que estavam, então o score deles não muda
+            $this->recalculateProfileScores($jobVacancy, $approved);
+
             return [
                 'process_step' => $startedStep?->value,
                 'approved' => DevJobVacancyResource::collection(
@@ -702,6 +707,25 @@ class DevJobVacancyService {
     }
 
     /**
+     * Recalcula o score da empresa dona da vaga e dos devs das candidaturas informadas
+     *
+     * @param \Illuminate\Support\Collection<int, \App\Models\DevJobVacancy> $applications
+     */
+    private function recalculateProfileScores(JobVacancy $jobVacancy, Collection $applications): void {
+
+        if($jobVacancy->companyProfile) {
+            RecalculateProfileScoreJob::dispatch($jobVacancy->companyProfile);
+        }
+
+        foreach($applications as $application) {
+            if($application->devProfile) {
+                RecalculateProfileScoreJob::dispatch($application->devProfile);
+            }
+        }
+
+    }
+
+    /**
      * Próxima etapa configurada no processo seletivo da vaga, ou null quando a
      * etapa atual é a última
      */
@@ -768,6 +792,12 @@ class DevJobVacancyService {
 
             // Só altera o que foi enviado, permitindo limpar o feedback com null
             $apply->update(Arr::only($data, ['status', 'feedback']));
+
+            // Aprovar ou recusar à mão também conta: para o dev, como fim do processo, e para a
+            // empresa, como conclusão da última etapa quando ninguém mais fica em andamento nela
+            if(array_key_exists('status', $data)) {
+                $this->recalculateProfileScores($apply->jobVacancy, collect([$apply]));
+            }
 
             return new DevJobVacancyResource($apply);
 

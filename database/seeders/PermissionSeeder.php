@@ -99,6 +99,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'proficiency_test.submit', 'guard_name' => 'api'],
 
             ['name' => 'administration.dashboard', 'guard_name' => 'api'],
+            ['name' => 'company.dashboard', 'guard_name' => 'api'],
 
             ['name' => 'user.block', 'guard_name' => 'api'],
 

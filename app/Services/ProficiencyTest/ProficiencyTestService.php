@@ -18,6 +18,7 @@ use App\Models\ProficiencyTest;
 use App\Models\ProficiencyTestResponse;
 use App\Models\ProficiencyTestVisualization;
 use App\Models\Question;
+use App\Services\ProfileScore\ProfileScoreService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,8 @@ use Illuminate\Support\Facades\Log;
 
 class ProficiencyTestService
 {
+
+    public function __construct(protected ProfileScoreService $profileScoreService) {}
 
     private $frontendBaseCategories = [
         'programming_logic',
@@ -248,7 +251,6 @@ class ProficiencyTestService
         $evaluatedSeniorityLevel = $this->handleSeniorityAdjustment($proficiencyTest->seniority_level, $mastery, $totalHitRate);
 
         $profileScoreAwarded = $this->handleProfileScoreGrade($score, (int) $proficiencyTest->max_score);
-        $previousProfileScoreAwarded = $this->getPreviousProfileScoreAwarded($proficiencyTest);
 
         Log::channel('proficiency_test')->info('Proficiency test score calculated', [
             'proficiency_test_id' => $proficiencyTest->id,
@@ -265,7 +267,6 @@ class ProficiencyTestService
             'final_score' => $score,
             'evaluated_seniority_level' => $evaluatedSeniorityLevel,
             'profile_score_awarded' => $profileScoreAwarded,
-            'previous_profile_score_awarded' => $previousProfileScoreAwarded,
         ]);
 
         $proficiencyTest->update([
@@ -279,8 +280,10 @@ class ProficiencyTestService
         $devProfile->update([
             'seniority_level' => $evaluatedSeniorityLevel,
             'seniority_tested' => true,
-            'score' => max(0, ($devProfile->score ?? 0) - $previousProfileScoreAwarded + $profileScoreAwarded),
         ]);
+
+        // A nota do teste entra no score do perfil, na fonte dos testes de proficiência
+        $this->profileScoreService->recalculate($devProfile);
 
         $this->notifyScoreResult($proficiencyTest, $proficiencyTest->seniority_level, $evaluatedSeniorityLevel);
 
@@ -289,21 +292,13 @@ class ProficiencyTestService
 
     private function handleProfileScoreGrade(int $score, int $maxScore): int
     {
+        $maxGrade = ProficiencyTest::MAX_PROFILE_SCORE_AWARDED;
+
         if ($maxScore <= 0) {
             return 1;
         }
 
-        return max(1, min(10, (int) round(($score / $maxScore) * 10)));
-    }
-
-    private function getPreviousProfileScoreAwarded(ProficiencyTest $proficiencyTest): int
-    {
-        return (int) ProficiencyTest::where('dev_profile_id', $proficiencyTest->dev_profile_id)
-            ->where('id', '!=', $proficiencyTest->id)
-            ->where('status', ProficiencyTestStatusEnum::COMPLETED->value)
-            ->whereNotNull('profile_score_awarded')
-            ->latest('solicitation_date')
-            ->value('profile_score_awarded');
+        return max(1, min($maxGrade, (int) round(($score / $maxScore) * $maxGrade)));
     }
 
     private function notifyScoreResult(ProficiencyTest $proficiencyTest, string $declaredLevel, string $evaluatedLevel): void

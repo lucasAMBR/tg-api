@@ -27,6 +27,7 @@ Se o front já tem telas da versão anterior do módulo, ajuste ou remova o que 
 | `dev_profile` dos devs recomendados era o perfil completo | Agora é o perfil público, e cada item ganha `has_proposal` e `is_invited` |
 | Erros esperados da recomendação vinham com status 500 | 403 (permissão) e 409 (embedding ainda não gerado) |
 | Vaga removida respondia 400 "Rota não encontrada." | Responde 422 (id inválido) |
+| Devs recomendados vinham ordenados só pela `similarity` | Vêm ordenados pelo campo novo `ranking_score`: a `similarity` com até 10% a mais pelo score de credibilidade do dev ([docs/profile-score.md](profile-score.md)) |
 
 ## Como trabalhar
 
@@ -231,6 +232,7 @@ export interface FreelanceFeedPost {
 
 export interface RecommendedFreelanceDev {
   similarity: number;
+  ranking_score: number;               // similarity com o boost do score do dev; é a ordem da lista
   has_proposal: boolean;               // já enviou orçamento para este freela
   is_invited: boolean;                 // o cliente já o convidou
   dev_profile: FreelanceDevSummary;
@@ -352,14 +354,14 @@ Campos do multipart:
 | Método | Rota | Envia | `data` da resposta | Quem |
 |---|---|---|---|---|
 | GET | /recommendation/freelance-job-vacancy | query: limit (1 a 50, padrão 10), min_similarity (0 a 1) | `RecommendedFreelance[]`, do mais aderente para o menos | dev |
-| GET | /recommendation/freelance-job-vacancy/{id}/devs | query: limit, min_similarity | `RecommendedFreelanceDev[]`, do mais aderente para o menos | client dono |
+| GET | /recommendation/freelance-job-vacancy/{id}/devs | query: limit, min_similarity | `RecommendedFreelanceDev[]`, do maior `ranking_score` para o menor | client dono |
 | GET | /recommendation/freelance-job-vacancy/{id}/proposals | query: limit (1 a 50, padrão 10) | `RankedFreelanceProposal[]`, do maior `score` para o menor | client dono |
 
 - **Freelas para o dev**: freelas abertos cujo embedding é mais próximo do perfil dele. Saem:
   - os freelas em que ele já orçou;
   - os que exigem alguma linguagem da blacklist dele;
   - quando ele não aceita flexibilidade de stack, os que não pedem nenhuma linguagem que ele domina.
-- **Devs para o freela**: os perfis mais próximos do freela, tenham orçado ou não, filtrados pelas preferências de recomendação de cada dev.
+- **Devs para o freela**: os perfis mais próximos do freela, tenham orçado ou não, filtrados pelas preferências de recomendação de cada dev. A ordem é pela `ranking_score = similarity × (1 + 0,10 × score / 100)`: dev com score 100 ganha 10% a mais. `min_similarity` corta pela `similarity`.
 - **Ranking de orçamentos**: só os orçamentos `pending`. O `score` soma 60% da `similarity` (perfil do dev × freela) e 40% do `price_score`.
   - O `price_score` é o menor dividido pelo maior entre o `total_price` e o `budget`. Cobrar o dobro ou a metade do budget dá 0,5, e o preço exato dá 1.
   - Dev cujo perfil ainda não foi analisado entra só pelo preço, com `similarity: null`.
@@ -487,8 +489,10 @@ export function proposalPriceLabel(p: FreelanceProposal): string {
   - enquanto isso, a visão "Todos" funciona normalmente.
 
 ### Devs recomendados e convite (cliente dono)
+- Mantenha a ordem da API, que vem por `ranking_score`: um dev com aderência um pouco menor e score alto pode vir antes. Não reordene pela `similarity`.
 - Cada item mostra:
-  - a aderência em porcentagem;
+  - a aderência (`similarity`) em porcentagem;
+  - a credibilidade do dev (`dev_profile.score`, de 0 a 100) e, se o front já tiver, o selo "+N% credibilidade" de [docs/profile-score.md](profile-score.md);
   - foto, nome, especialidade e senioridade, com link para o perfil.
 - Ações e selos conforme o estado:
   - `has_proposal` true: selo "Já orçou" e atalho para o orçamento dele;

@@ -4,6 +4,8 @@ use App\Http\Controllers\Recommendation\RecommendationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function() {
+    // Vagas recomendadas para o dev autenticado
+    Route::get('/job-vacancy', [RecommendationController::class, 'jobVacanciesForDev']);
     Route::get('/job-vacancy/{job_vacancy_id}/devs', [RecommendationController::class, 'devsForJobVacancy']);
     // Freelas recomendados para o dev autenticado
     Route::get('/freelance-job-vacancy', [RecommendationController::class, 'freelanceJobVacanciesForDev']);

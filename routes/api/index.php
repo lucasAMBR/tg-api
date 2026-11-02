@@ -71,4 +71,6 @@ Route::prefix('like')->group(base_path('routes/api/Like.php'));
 
 Route::prefix('follow')->group(base_path('routes/api/Follow.php'));
 
+Route::prefix('dashboard')->group(base_path('routes/api/Dashboard.php'));
+
 Broadcast::routes(['middleware' => ['auth:api']]);

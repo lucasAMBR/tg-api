@@ -2,6 +2,17 @@
 
 Você vai implementar neste front a feature de rede social que já existe na API (tg-api, Laravel): posts com imagens, feed, curtidas, favoritos e comentários em árvore no estilo Reddit. Este documento traz o contrato da API, as regras de comportamento e as etapas de implementação.
 
+## O que mudou
+
+Se o front já tem a rede social implementada, ajuste o que mudou:
+
+| Antes | Agora |
+|---|---|
+| Post e comentário traziam só content | Também trazem content_pt, content_en, translation_status e translation_status_label. O texto é traduzido em segundo plano assim que é publicado, e a tela mostra a versão no idioma da interface (ver "Tradução") |
+| search procurava só no texto original | Procura também nas traduções |
+| Editar o texto mudava só content e updated_at | Também limpa content_pt e content_en e volta translation_status para pending |
+| Comentário removido trazia "[removed]" só em content | content_pt e content_en também vêm "[removed]" |
+
 ## Como trabalhar
 
 1. Antes de escrever código, explore este repositório: stack e framework, cliente HTTP, onde o token JWT fica guardado, gerenciamento de estado e cache, roteamento, componentes de UI e como as outras features estão organizadas.
@@ -33,6 +44,8 @@ Ambiente de teste:
 ts
 export type ProfileType = 'dev' | 'company' | 'client' | 'admin';
 
+export type TranslationStatus = 'pending' | 'translating' | 'translated' | 'error';
+
 export interface Media {
   id: number;
   original_url: string;
@@ -49,7 +62,11 @@ export interface AuthorSummary {
 
 export interface Post {
   id: string;
-  content: string;
+  content: string;                     // texto como o autor escreveu
+  content_pt: string | null;           // null até a tradução terminar
+  content_en: string | null;
+  translation_status: TranslationStatus;
+  translation_status_label: string;    // rótulo em português do status
   user_id: string;
   author: AuthorSummary;
   images: Media[];
@@ -67,6 +84,10 @@ export interface Comment {
   post_id: string;
   parent_id: string | null;     // null = comentário raiz
   content: string;              // "[removed]" quando removido
+  content_pt: string | null;    // null até a tradução terminar; "[removed]" quando removido
+  content_en: string | null;
+  translation_status: TranslationStatus;
+  translation_status_label: string;
   is_removed: boolean;
   removed_at: string | null;
   author: AuthorSummary | null; // null quando removido ou quando a conta foi excluída
@@ -133,7 +154,7 @@ Todas as rotas abaixo ficam sob /api.
 | POST | /like/comment/{id}/toggle | — | ToggleLike | todos |
 | GET | /like/comment/{id} | query: page, per_page | Paginated<Like> | todos |
 
-order_by aceita created_at ou updated_at. search ignora maiúsculas, mas não acentos.
+order_by aceita created_at ou updated_at. search ignora maiúsculas, mas não acentos, e procura no texto original e nas duas traduções.
 
 GET /post/{id}/participants lista cada pessoa uma vez, mesmo que ela tenha comentado várias vezes, e a paginação conta pessoas, não comentários. A ordem é por comments_count, com a participação mais recente desempatando. Comentários removidos não contam, porque a árvore já não mostra quem os escreveu, e comentários de contas excluídas ficam de fora. Post excluído ou inexistente responde 422, como as outras rotas de post.
 
@@ -165,6 +186,29 @@ Decida pelo status e pelo contexto da tela, não pelo texto de message, que est�
 - comments_count conta raízes, respostas e removidos.
 - A aba de posts de um perfil é o mesmo feed, filtrado com user_id.
 
+### Tradução
+- Posts, comentários e respostas são traduzidos para português e inglês em segundo plano, assim que são publicados. content guarda o texto como o autor escreveu; as versões ficam em content_pt e content_en.
+- translation_status vai de pending para translating e depois translated, ou para error se o serviço de tradução falhar. Enquanto não for translated, content_pt e content_en podem vir null.
+- Mostre o texto no idioma da interface: content_pt ou content_en quando translation_status === 'translated', e content em qualquer outro caso. Se o texto já foi escrito no idioma da interface, a versão traduzida é igual a content.
+- Publicar e editar respondem com translation_status: 'pending', então logo depois a tela mostra o original. Não faça polling: a tradução aparece quando o feed, o post ou os comentários forem carregados de novo.
+- A tradução chegar não muda updated_at, então não marca nada como "editado".
+- Se o front já escolhe entre *_pt e *_en em outras telas (questionário de triagem, desafio técnico), reaproveite o mesmo helper em vez de criar outro.
+
+ts
+interface TranslatedContent {
+  content: string;
+  content_pt: string | null;
+  content_en: string | null;
+  translation_status: TranslationStatus;
+}
+
+// Texto a exibir no post ou no comentário, conforme o idioma da interface.
+export function displayContent(item: TranslatedContent, locale: 'pt' | 'en'): string {
+  if (item.translation_status !== 'translated') return item.content;
+  return (locale === 'pt' ? item.content_pt : item.content_en) ?? item.content;
+}
+
+
 ### Publicar e editar post
 - Criar post: multipart com content (obrigatório, até 5000 caracteres) e images[] (opcional). Não existe post só com imagem.
 - Limites de imagem, a validar no cliente antes de enviar:
@@ -172,7 +216,7 @@ Decida pelo status e pelo contexto da tela, não pelo texto de message, que est�
   - formatos JPEG, PNG ou WebP;
   - até 10.000 KB cada;
   - a requisição inteira até 12 MB. Se passar disso, envie em lotes por POST /post/{id}/images.
-- Editar post: PATCH em JSON, só com content. Na tela de edição, imagens são adicionadas e removidas pelas rotas de imagem; para remover, use o id numérico que vem em images[].
+- Editar post: PATCH em JSON, só com content. Se o texto mudou, a resposta vem com content_pt e content_en null e translation_status: 'pending'; troque o post inteiro pelo da resposta. Na tela de edição, imagens são adicionadas e removidas pelas rotas de imagem; para remover, use o id numérico que vem em images[].
 - Excluir post: tire-o do feed, dos favoritos e da tela atual. Depois disso, qualquer rota com o id dele responde 422.
 
 ### Árvore de comentários
@@ -224,8 +268,8 @@ export function updateNode(list: Comment[], id: string, fn: (c: Comment) => Comm
 ### Responder, editar e remover comentário
 - *Comentar no post:* POST /comment com post_id e content. Insira o comentário no topo das raízes e some 1 em comments_count do post.
 - *Responder:* inclua parent_id; o post_id precisa ser o mesmo do comentário pai. A resposta volta com replies: []. Coloque-a no fim de replies do pai e some 1 em replies_count do pai e em comments_count do post.
-- *Editar:* PATCH com content. Atualize só content e updated_at no lugar, para não fechar respostas que já estavam abertas.
-- *Remover:* DELETE. A remoção é lógica: o comentário continua na árvore com is_removed: true, content: "[removed]" e author: null, e as respostas dele continuam. Atualize o comentário localmente para esse formato e não diminua nenhum contador.
+- *Editar:* PATCH com content. Atualize no lugar só content, content_pt, content_en, translation_status, translation_status_label e updated_at, para não fechar respostas que já estavam abertas.
+- *Remover:* DELETE. A remoção é lógica: o comentário continua na árvore com is_removed: true, content, content_pt e content_en iguais a "[removed]" e author: null, e as respostas dele continuam. Atualize o comentário localmente para esse formato e não diminua nenhum contador.
 
 ### Curtidas e favoritos
 - POST /like/post/{id}/toggle, POST /like/comment/{id}/toggle e POST /post/{id}/favorite alternam o estado e devolvem o estado final e o total.
@@ -276,4 +320,6 @@ Implemente nesta ordem. Uma etapa só está concluída quando o critério de "Pr
    - Pronto quando: um comentário removido não mostra ações; abrir o link de um post excluído mostra "não está mais disponível"; erros de validação aparecem embaixo do campo.
 9. *Favoritos, posts do perfil e "quem curtiu".*
    - Pronto quando: a tela de favoritos lista os posts e tira o card ao desfavoritar; a aba de publicações do perfil filtra por user_id; o modal de curtidas lista os nomes.
+10. *Tradução.* Os campos novos nos tipos, displayContent no card do post e em cada comentário da árvore, e a edição atualizando as traduções no lugar.
+   - Pronto quando: com a fila de tradução rodando, um post escrito em português aparece em inglês com a interface em inglês depois de recarregar, e um comentário também; enquanto translation_status não é translated, a tela mostra o original; editar o texto volta a mostrar o original até a nova tradução chegar.
 

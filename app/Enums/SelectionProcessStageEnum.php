@@ -26,7 +26,7 @@ enum SelectionProcessStageEnum: string
     /**
      * Prefixo que liga cada etapa à espera pelo início dela
      */
-    private const AWAITING_PREFIX = 'awaiting_';
+    public const AWAITING_PREFIX = 'awaiting_';
 
     /**
      * Indica se a etapa é a espera pelo início da etapa em si, ou seja, uma das

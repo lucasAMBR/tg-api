@@ -195,7 +195,7 @@ class JobVacancy extends Model implements Translatable
      * Limita a consulta às vagas com inscrições abertas
      */
     public function scopeOpenForApplications(Builder $query): Builder {
-        return $query->where('status', JobVacancyStatusEnum::OPEN_INSCRIPTIONS);
+        return $query->where($query->qualifyColumn('status'), JobVacancyStatusEnum::OPEN_INSCRIPTIONS);
     }
 
 }

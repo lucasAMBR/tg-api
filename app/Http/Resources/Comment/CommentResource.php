@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources\Comment;
 
+use App\Enums\TranslationStatusEnum;
 use App\Http\Resources\User\UserSimpleResource;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,6 +22,12 @@ class CommentResource extends JsonResource
             'post_id' => $this->post_id,
             'parent_id' => $this->parent_id,
             'content' => $this->content,
+            // Removido não expõe o texto original em nenhum idioma, nem quando a
+            // tradução que já estava na fila termina depois da remoção.
+            'content_pt' => $this->isRemoved() ? Comment::REMOVED_CONTENT : $this->content_pt,
+            'content_en' => $this->isRemoved() ? Comment::REMOVED_CONTENT : $this->content_en,
+            'translation_status' => $this->translation_status,
+            'translation_status_label' => TranslationStatusEnum::labelFromValue($this->translation_status),
             'is_removed' => $this->isRemoved(),
             'removed_at' => $this->removed_at?->toIso8601String(),
             // Comentário removido não expõe mais quem escreveu.

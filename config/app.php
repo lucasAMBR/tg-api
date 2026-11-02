@@ -193,4 +193,55 @@ return [
             'violation_penalty' => 0.02,
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Profile Score
+    |--------------------------------------------------------------------------
+    |
+    | Score de credibilidade dos perfis, de 0 a `max`. As fontes de pontos de
+    | cada tipo de perfil são as chaves de `goals`, e o máximo é dividido em
+    | partes iguais entre elas (4 fontes = até 25 pontos cada), para ninguém
+    | chegar ao topo explorando uma fonte só. O valor de cada fonte é quantas
+    | ocorrências bastam para enchê-la.
+    |
+    | Na fonte `social`, cada interação vale o seu peso em `social_weights`.
+    | Em `proficiency_tests`, um teste vale a nota dele de 1 a 10 dividida por
+    | 10: só um teste com nota máxima conta como uma ocorrência inteira.
+    |
+    | Quem tem o score máximo ganha `recommendation_boost` a mais na nota dos
+    | rankings de recomendação, proporcional ao score (50 pontos = metade).
+    |
+    */
+
+    'profile_score' => [
+        'max' => 100,
+        'recommendation_boost' => 0.10,
+
+        'goals' => [
+            'dev' => [
+                'social' => 50,
+                'selection_process_steps' => 10,
+                'selection_processes_completed' => 2,
+                'proficiency_tests' => 3,
+            ],
+            'company' => [
+                'social' => 50,
+                'job_vacancies_created' => 5,
+                'selection_process_steps_concluded' => 15,
+            ],
+            'client' => [
+                'social' => 50,
+                'freelance_job_vacancies_posted' => 5,
+                'freelance_proposals_accepted' => 5,
+                'freelance_job_vacancies_completed' => 3,
+            ],
+        ],
+
+        'social_weights' => [
+            'like' => 1,
+            'comment' => 2,
+            'favorite' => 3,
+        ],
+    ],
 ];

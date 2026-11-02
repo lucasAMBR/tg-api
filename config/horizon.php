@@ -209,6 +209,7 @@ return [
                 'freelance-vacancy-embedding',
                 'proficiency-tests',
                 'tests-pontuation-calc',
+                'profile-score',
             ],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',

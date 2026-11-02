@@ -6,6 +6,7 @@ use App\Enums\FreelanceJobVacancyStatusEnum;
 use App\Exceptions\ApiException;
 use App\Http\Resources\FreelanceJobVacancy\FreelanceJobVacancyCollection;
 use App\Jobs\GenerateFreelanceJobVacancyEmbeddingJob;
+use App\Jobs\RecalculateProfileScoreJob;
 use App\Models\FreelanceJobVacancy;
 use App\Models\User;
 use App\Traits\InteractsWithFreelanceJobVacancies;
@@ -128,6 +129,7 @@ class FreelanceJobVacancyService
             $this->syncLanguages($freelanceJobVacancy, $data['languages'] ?? []);
 
             GenerateFreelanceJobVacancyEmbeddingJob::dispatchDebounced($freelanceJobVacancy->id);
+            RecalculateProfileScoreJob::dispatch($clientProfile);
 
             return $freelanceJobVacancy;
         });
@@ -189,6 +191,8 @@ class FreelanceJobVacancyService
             $freelanceJobVacancy->languages()->detach();
             $freelanceJobVacancy->delete();
 
+            RecalculateProfileScoreJob::dispatch($freelanceJobVacancy->clientProfile);
+
             return $freelanceJobVacancy;
         });
     }
@@ -217,6 +221,8 @@ class FreelanceJobVacancyService
                 'message' => "O cliente marcou o freela {$freelanceJobVacancy->title} como concluído. Obrigado pelo trabalho!",
                 'link' => $this->freelanceJobVacancyLink($freelanceJobVacancy)
             ]);
+
+            RecalculateProfileScoreJob::dispatch($freelanceJobVacancy->clientProfile);
         });
 
         return $this->findWithViewerState($freelanceJobVacancy->id);

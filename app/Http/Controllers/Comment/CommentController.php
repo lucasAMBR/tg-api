@@ -70,7 +70,7 @@ class CommentController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'storeComment', title: 'Comentar', description: '**operationId:** `storeComment` — Cria um comentário na postagem (`post_id`) ou uma resposta a outro comentário (`parent_id`, que precisa ser da mesma postagem). Em **201**, `data` segue o schema **Comment Resource** (`App\\Http\\Resources\\Comment\\CommentResource`).')]
+    #[Endpoint(operationId: 'storeComment', title: 'Comentar', description: '**operationId:** `storeComment` — Cria um comentário na postagem (`post_id`) ou uma resposta a outro comentário (`parent_id`, que precisa ser da mesma postagem). O texto entra na fila de tradução e volta em `content_pt`/`content_en`, com `translation_status` indo de `pending` a `translated` (ou `error`). Em **201**, `data` segue o schema **Comment Resource** (`App\\Http\\Resources\\Comment\\CommentResource`).')]
     public function store(StoreCommentRequest $request): JsonResponse
     {
         try {
@@ -87,7 +87,7 @@ class CommentController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'updateComment', title: 'Atualizar comentário', description: '**operationId:** `updateComment` — Atualiza o texto de um comentário. Apenas o autor (`CommentPolicy::update`) e o comentário não pode estar removido. Em **200**, `data` segue o schema **Comment Resource** (`App\\Http\\Resources\\Comment\\CommentResource`).')]
+    #[Endpoint(operationId: 'updateComment', title: 'Atualizar comentário', description: '**operationId:** `updateComment` — Atualiza o texto de um comentário. Apenas o autor (`CommentPolicy::update`) e o comentário não pode estar removido. Quando o texto muda, as traduções são limpas e ele volta para a fila de tradução (`translation_status` = `pending`). Em **200**, `data` segue o schema **Comment Resource** (`App\\Http\\Resources\\Comment\\CommentResource`).')]
     public function update(UpdateCommentRequest $request): JsonResponse
     {
         try {
@@ -104,7 +104,7 @@ class CommentController extends Controller
         }
     }
 
-    #[Endpoint(operationId: 'deleteComment', title: 'Remover comentário', description: '**operationId:** `deleteComment` — Remoção lógica: o comentário continua na árvore (mantendo as respostas), com `is_removed` verdadeiro e o conteúdo substituído por `[removed]`. Permitido ao autor ou a um admin (`CommentPolicy::delete`). Em **200**, `data` é `null`.')]
+    #[Endpoint(operationId: 'deleteComment', title: 'Remover comentário', description: '**operationId:** `deleteComment` — Remoção lógica: o comentário continua na árvore (mantendo as respostas), com `is_removed` verdadeiro e o conteúdo e as traduções substituídos por `[removed]`. Permitido ao autor ou a um admin (`CommentPolicy::delete`). Em **200**, `data` é `null`.')]
     public function delete(DeleteCommentRequest $request): JsonResponse
     {
         try {

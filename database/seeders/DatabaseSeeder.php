@@ -57,6 +57,10 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             FollowSeeder::class
         ]);
+
+        // Os seeders gravam direto nos models, sem passar pelos services que recalculam o
+        // score, então ele é calculado de uma vez no fim
+        $this->command->call('profile-score:recalculate');
     }
 
     private function createUserIfNotExists(

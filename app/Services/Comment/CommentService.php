@@ -2,9 +2,12 @@
 
 namespace App\Services\Comment;
 
+use App\Enums\TranslationStatusEnum;
 use App\Exceptions\ApiException;
 use App\Http\Resources\Comment\CommentCollection;
 use App\Http\Resources\Comment\CommentResource;
+use App\Jobs\RecalculateProfileScoreJob;
+use App\Jobs\TranslateContentJob;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -39,8 +42,13 @@ class CommentService
             ->where('post_id', $data['post_id'])
             ->whereNull('parent_id')
             ->when($search, function (Builder $query, $search) {
-                // Removidos ficam fora da busca: o content deles é só o marcador.
-                $query->whereNull('removed_at')->where('content', 'ILIKE', "%{$search}%");
+                // Removidos ficam fora da busca: o content deles é só o marcador. As traduções
+                // entram porque o front exibe o comentário no idioma de quem está lendo.
+                $query->whereNull('removed_at')->where(function (Builder $query) use ($search) {
+                    $query->where('content', 'ILIKE', "%{$search}%")
+                        ->orWhere('content_pt', 'ILIKE', "%{$search}%")
+                        ->orWhere('content_en', 'ILIKE', "%{$search}%");
+                });
             })
             ->orderBy($orderBy, $order)
             ->paginate($perPage, ['*'], 'page', $page);
@@ -103,6 +111,9 @@ class CommentService
             'content' => $data['content'],
         ]);
 
+        TranslateContentJob::dispatch($comment);
+        RecalculateProfileScoreJob::dispatchForUser(Auth::user());
+
         return $this->show(['id' => $comment->id]);
     }
 
@@ -116,7 +127,20 @@ class CommentService
             throw new ApiException('A removed comment cannot be edited!', 422);
         }
 
-        $comment->update(['content' => $data['content']]);
+        // O texto só volta para a fila de tradução quando muda de fato. As traduções antigas
+        // saem junto, para o texto anterior não aparecer enquanto a nova não chega.
+        $contentChanged = $comment->content !== $data['content'];
+
+        if ($contentChanged) {
+            $comment->update([
+                'content' => $data['content'],
+                'content_pt' => null,
+                'content_en' => null,
+                'translation_status' => TranslationStatusEnum::PENDING->value,
+            ]);
+
+            TranslateContentJob::dispatch($comment);
+        }
 
         return $this->show(['id' => $comment->id]);
     }
@@ -135,11 +159,10 @@ class CommentService
             throw new ApiException('Comment already removed!', 422);
         }
 
-        $comment->update([
-            'original_content' => $comment->content,
-            'content' => Comment::REMOVED_CONTENT,
-            'removed_at' => now(),
-        ]);
+        $comment->update($comment->removalAttributes(now()));
+
+        // Quem remove pode ser o dono da postagem: os pontos saem de quem escreveu
+        RecalculateProfileScoreJob::dispatchForUser($comment->user_id);
     }
 
     private function query(): Builder

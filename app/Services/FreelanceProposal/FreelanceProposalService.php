@@ -7,6 +7,7 @@ use App\Enums\FreelanceProposalPricingTypeEnum;
 use App\Enums\FreelanceProposalStatusEnum;
 use App\Exceptions\ApiException;
 use App\Http\Resources\FreelanceProposal\FreelanceProposalCollection;
+use App\Jobs\RecalculateProfileScoreJob;
 use App\Models\FreelanceJobVacancy;
 use App\Models\FreelanceProposal;
 use App\Traits\InteractsWithFreelanceJobVacancies;
@@ -188,6 +189,8 @@ class FreelanceProposalService
             ]);
 
             $this->notifyContractClosed($freelanceJobVacancy, $proposal, $rejected);
+
+            RecalculateProfileScoreJob::dispatch($freelanceJobVacancy->clientProfile);
 
             return $proposal->fresh('devProfile.user');
         });

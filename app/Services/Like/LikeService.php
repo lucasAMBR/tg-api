@@ -4,6 +4,7 @@ namespace App\Services\Like;
 
 use App\Exceptions\ApiException;
 use App\Http\Resources\Like\LikeCollection;
+use App\Jobs\RecalculateProfileScoreJob;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
@@ -51,6 +52,8 @@ class LikeService
     {
         return DB::transaction(function () use ($likeable) {
             $liked = $likeable->toggleLike(Auth::id());
+
+            RecalculateProfileScoreJob::dispatchForUser(Auth::user());
 
             return [
                 'liked' => $liked,

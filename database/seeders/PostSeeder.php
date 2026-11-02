@@ -217,11 +217,9 @@ class PostSeeder extends Seeder
 
             // Mesmo formato da remoção do CommentService: a linha fica para as respostas continuarem visíveis.
             if (isset($data['removed_minutes_after'])) {
-                $comment->fill([
-                    'original_content' => $data['content'],
-                    'content' => Comment::REMOVED_CONTENT,
-                    'removed_at' => $post->created_at->copy()->addMinutes($data['removed_minutes_after']),
-                ]);
+                $comment->fill($comment->removalAttributes(
+                    $post->created_at->copy()->addMinutes($data['removed_minutes_after']),
+                ));
             }
 
             $comment->save();

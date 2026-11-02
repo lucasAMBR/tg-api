@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Dev recomendado para um freela, com a aderência ao embedding do freela e o que ele
- * já fez nele: se orçou e se o cliente já o convidou.
+ * Dev recomendado para um freela, com a aderência ao embedding do freela, a nota que ordena
+ * o ranking e o que ele já fez nele: se orçou e se o cliente já o convidou.
  */
 class RecommendedFreelanceDevResource extends JsonResource
 {
@@ -21,6 +21,11 @@ class RecommendedFreelanceDevResource extends JsonResource
     {
         return [
             'similarity' => round((float) $this->similarity, 4),
+            /**
+             * Nota que ordena o ranking: a `similarity` com até 10% a mais pelo `score` do dev
+             * (score 100 = similarity × 1,1)
+             */
+            'ranking_score' => round((float) $this->ranking_score, 4),
             'has_proposal' => (bool) $this->has_proposal,
             'is_invited' => (bool) $this->is_invited,
             'dev_profile' => new DevProfileSummaryResource($this->resource),

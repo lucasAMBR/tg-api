@@ -8,6 +8,7 @@ use App\Enums\SelectionProcessStageEnum;
 use App\Exceptions\ApiException;
 use App\Helpers\ProfileHelper;
 use App\Jobs\GenerateJobVacancyEmbeddingJob;
+use App\Jobs\RecalculateProfileScoreJob;
 use App\Jobs\TranslateContentJob;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyProcessStep;
@@ -118,6 +119,7 @@ class JobVacancyService {
             $jobVacancy->refresh();
             GenerateJobVacancyEmbeddingJob::dispatchDebounced($jobVacancy->id);
             TranslateContentJob::dispatch($jobVacancy);
+            RecalculateProfileScoreJob::dispatch($companyProfile);
 
             // Retorna ja com as relações carregadas
             return $jobVacancy->load('languages', 'softSkill', 'desirableLanguage', 'companyProfile', 'processSteps');
@@ -349,6 +351,10 @@ class JobVacancyService {
             $jobVacancy->delete();
             $jobVacancy->languages()->detach();
             $jobVacancy->softSkill()->detach();
+
+            if($jobVacancy->companyProfile) {
+                RecalculateProfileScoreJob::dispatch($jobVacancy->companyProfile);
+            }
 
             return $jobVacancy;
 

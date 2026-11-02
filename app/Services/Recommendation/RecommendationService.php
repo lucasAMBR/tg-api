@@ -12,6 +12,7 @@ use App\Http\Resources\Recommendation\RecommendedDevResource;
 use App\Http\Resources\Recommendation\RecommendedFreelanceDevResource;
 use App\Http\Resources\Recommendation\RecommendedFreelanceJobVacancyResource;
 use App\Http\Resources\Recommendation\RecommendedFreelanceProposalResource;
+use App\Http\Resources\Recommendation\RecommendedJobVacancyResource;
 use App\Models\CompanyProfile;
 use App\Models\DevProfile;
 use App\Models\DevProfileEmbedding;
@@ -20,6 +21,7 @@ use App\Models\FreelanceJobVacancyEmbedding;
 use App\Models\FreelanceProposal;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyEmbedding;
+use App\Models\RecommendationPreference;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -31,6 +33,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RecommendationService {
+
+    /**
+     * Raios padrão, em km, de quem ainda não salvou preferência (os defaults da migration)
+     */
+    private const DEFAULT_ON_SITE_RADIUS = 20;
+    private const DEFAULT_HYBRID_RADIUS = 40;
 
     public function recommendDevsForJobVacancy(array $data): AnonymousResourceCollection
     {
@@ -152,29 +160,9 @@ class RecommendationService {
     public function recommendFreelanceJobVacanciesForDev(array $data): AnonymousResourceCollection
     {
 
-        /** @var \App\Models\User $authUser */
-        $authUser = Auth::user();
+        $devProfile = $this->findAuthDevProfile("You must be a developer to get freelance recommendations!");
 
-        if(!$authUser->hasRole('dev')) {
-            throw new ApiException("You must be a developer to get freelance recommendations!", 403);
-        }
-
-        $devProfile = $authUser->dev_profile;
-
-        if(!$devProfile) {
-            throw new ApiException("This action needs a existent profile to proceed!", 403);
-        }
-
-        $vector = DevProfileEmbedding::query()
-            ->where('dev_profile_id', $devProfile->id)
-            ->value('embedding');
-
-        if(!$vector) {
-            throw new ApiException("Your profile doesn't have an embedding yet!", 409);
-        }
-
-        // O binding precisa ir como literal "[1,2,3]": array vira 1536 bindings e desalinha o resto da query
-        $vectorLiteral = is_array($vector) ? '[' . implode(',', $vector) . ']' : $vector;
+        $vectorLiteral = $this->devProfileVector($devProfile);
 
         $limit = $data['limit'] ?? 10;
         $minSimilarity = $data['min_similarity'] ?? null;
@@ -187,7 +175,7 @@ class RecommendationService {
             )
             ->where('freelance_job_vacancies.status', FreelanceJobVacancyStatusEnum::OPEN)
             ->whereDoesntHave('proposals', fn(Builder $query) => $query->where('dev_profile_id', $devProfile->id))
-            ->tap(fn(Builder $query) => $this->applyDevFreelancePreferences($query, $devProfile))
+            ->tap(fn(Builder $query) => $this->applyDevLanguagePreferences($query, $devProfile))
             ->when(!is_null($minSimilarity), function($query) use ($vectorLiteral, $minSimilarity) {
                 $query->whereRaw(
                     '1 - (freelance_job_vacancy_embeddings.embedding <=> ?::vector) >= ?',
@@ -203,6 +191,111 @@ class RecommendationService {
 
         return RecommendedFreelanceJobVacancyResource::collection($freelanceJobVacancies);
 
+    }
+
+    /**
+     * O inverso da recomendação de devs para uma vaga: as vagas com inscrições abertas mais
+     * aderentes ao perfil do dev autenticado. Os filtros são as mesmas preferências da
+     * recomendação de devs, vistas do lado do dev, então só entra vaga para a qual a empresa
+     * também receberia o dev como recomendado. Saem as vagas em que ele já se candidatou.
+     *
+     * A ordem é pela `ranking_score`: a similaridade com o boost do score da empresa
+     */
+    public function recommendJobVacanciesForDev(array $data): AnonymousResourceCollection
+    {
+
+        $devProfile = $this->findAuthDevProfile("You must be a developer to get job vacancy recommendations!");
+
+        $vectorLiteral = $this->devProfileVector($devProfile);
+
+        $limit = $data['limit'] ?? 10;
+        $minSimilarity = $data['min_similarity'] ?? null;
+
+        $similaritySql = '1 - (job_vacancy_embeddings.embedding <=> ?::vector)';
+        [$boostSql, $boostBindings] = $this->scoreBoostSql('company_profiles.score');
+
+        $jobVacancies = JobVacancy::query()
+            ->join('job_vacancy_embeddings', 'job_vacancy_embeddings.job_vacancy_id', '=', 'job_vacancies.id')
+            ->join('company_profiles', 'company_profiles.id', '=', 'job_vacancies.company_profile_id')
+            ->select('job_vacancies.*')
+            ->selectRaw("{$similaritySql} AS similarity", [$vectorLiteral])
+            ->selectRaw("({$similaritySql}) * {$boostSql} AS ranking_score", [$vectorLiteral, ...$boostBindings])
+            ->openForApplications()
+            ->whereNull('company_profiles.deleted_at')
+            ->whereDoesntHave('applications', fn(Builder $query) => $query->where('dev_profile_id', $devProfile->id))
+            ->tap(fn(Builder $query) => $this->applyDevJobVacancyPreferences($query, $devProfile))
+            ->when(!is_null($minSimilarity), function($query) use ($similaritySql, $vectorLiteral, $minSimilarity) {
+                $query->whereRaw("{$similaritySql} >= ?", [$vectorLiteral, $minSimilarity]);
+            })
+            ->with(['softSkill', 'languages', 'companyProfile'])
+            ->orderByDesc('ranking_score')
+            ->limit($limit)
+            ->get();
+
+        return RecommendedJobVacancyResource::collection($jobVacancies);
+
+    }
+
+    /**
+     * Perfil do dev autenticado, para as recomendações feitas para ele
+     */
+    private function findAuthDevProfile(string $roleErrorMessage): DevProfile
+    {
+
+        /** @var \App\Models\User $authUser */
+        $authUser = Auth::user();
+
+        if(!$authUser->hasRole('dev')) {
+            throw new ApiException($roleErrorMessage, 403);
+        }
+
+        $devProfile = $authUser->dev_profile;
+
+        if(!$devProfile) {
+            throw new ApiException("This action needs a existent profile to proceed!", 403);
+        }
+
+        return $devProfile;
+
+    }
+
+    /**
+     * Embedding do perfil do dev no literal do pgvector. Ele é gerado em fila depois
+     * que o perfil muda
+     */
+    private function devProfileVector(DevProfile $devProfile): string
+    {
+
+        $vector = DevProfileEmbedding::query()
+            ->where('dev_profile_id', $devProfile->id)
+            ->value('embedding');
+
+        if(!$vector) {
+            throw new ApiException("Your profile doesn't have an embedding yet!", 409);
+        }
+
+        // O binding precisa ir como literal "[1,2,3]": array vira 1536 bindings e desalinha o resto da query
+        return is_array($vector) ? '[' . implode(',', $vector) . ']' : $vector;
+
+    }
+
+    /**
+     * Multiplicador da nota de recomendação pelo score de credibilidade do perfil: vai de 1,
+     * com score 0, até 1 + config('app.profile_score.recommendation_boost'), com o score
+     * máximo, em linha reta. O LEAST segura score acima do máximo, como os de antes da regra
+     * atual que ainda não foram recalculados
+     *
+     * @return array{0: string, 1: list<float>}
+     */
+    private function scoreBoostSql(string $scoreColumn): array
+    {
+        $maxScore = (float) config('app.profile_score.max');
+        $boost = (float) config('app.profile_score.recommendation_boost');
+
+        return [
+            "(1 + ?::float8 * LEAST(GREATEST(COALESCE({$scoreColumn}, 0), 0), ?::float8) / ?::float8)",
+            [$boost, $maxScore, $maxScore],
+        ];
     }
 
     /**
@@ -251,8 +344,9 @@ class RecommendationService {
     }
 
     /**
-     * Busca os devs mais próximos de um vetor de vaga, já no literal do pgvector.
-     * `limit` (padrão 10) e `min_similarity` vêm do request; $applyPreferences deixa
+     * Busca os devs mais próximos de um vetor de vaga, já no literal do pgvector, ordenados pela
+     * `ranking_score`: a similaridade com o boost do score do dev. `limit` (padrão 10) e
+     * `min_similarity` (sobre a similaridade crua) vêm do request; $applyPreferences deixa
      * cada tipo de vaga aplicar os filtros que fazem sentido para ela.
      *
      * @return \Illuminate\Database\Eloquent\Collection<int, DevProfile>
@@ -264,6 +358,9 @@ class RecommendationService {
         $minSimilarity = $data['min_similarity'] ?? null;
 
         // 1 - distância de cosseno (<=>) = similaridade (1 = idêntico)
+        $similaritySql = '1 - (dev_profile_embeddings.embedding <=> ?::vector)';
+        [$boostSql, $boostBindings] = $this->scoreBoostSql('dev_profiles.score');
+
         return DevProfile::query()
             ->join('dev_profile_embeddings', 'dev_profile_embeddings.dev_profile_id', '=', 'dev_profiles.id')
             // Devs sem preferência salva caem nos defaults da migration via COALESCE
@@ -271,19 +368,14 @@ class RecommendationService {
                 $join->on('recommendation_preferences.dev_profile_id', '=', 'dev_profiles.id')
                     ->whereNull('recommendation_preferences.deleted_at');
             })
-            ->selectRaw(
-                'dev_profiles.*, 1 - (dev_profile_embeddings.embedding <=> ?::vector) AS similarity',
-                [$vectorLiteral]
-            )
+            ->selectRaw("dev_profiles.*, {$similaritySql} AS similarity", [$vectorLiteral])
+            ->selectRaw("({$similaritySql}) * {$boostSql} AS ranking_score", [$vectorLiteral, ...$boostBindings])
             ->tap($applyPreferences)
-            ->when(!is_null($minSimilarity), function($query) use ($vectorLiteral, $minSimilarity) {
-                $query->whereRaw(
-                    '1 - (dev_profile_embeddings.embedding <=> ?::vector) >= ?',
-                    [$vectorLiteral, $minSimilarity]
-                );
+            ->when(!is_null($minSimilarity), function($query) use ($similaritySql, $vectorLiteral, $minSimilarity) {
+                $query->whereRaw("{$similaritySql} >= ?", [$vectorLiteral, $minSimilarity]);
             })
-            // Ordena pela distância crua para o pgvector poder usar índice
-            ->orderByRaw('dev_profile_embeddings.embedding <=> ?::vector', [$vectorLiteral])
+            // O score do dev dá até 10% a mais na nota, então a ordem é pela nota com o boost
+            ->orderByDesc('ranking_score')
             ->limit($limit)
             ->get();
 
@@ -308,13 +400,13 @@ class RecommendationService {
     }
 
     /**
-     * Os mesmos filtros de linguagem da recomendação de devs, olhando do lado do dev: sai o
-     * freela que exige alguma linguagem da blacklist dele e, sem flexibilidade de stack, o
-     * que não pede nenhuma linguagem entre as hard skills dele (freela sem stack exigida
-     * passa). Contrato e modalidade não entram: quem pede freela recomendado já está
-     * procurando freela.
+     * Os mesmos filtros de linguagem da recomendação de devs, olhando do lado do dev: sai a
+     * vaga (CLT ou freela) que exige alguma linguagem da blacklist dele e, sem flexibilidade
+     * de stack, a que não pede nenhuma linguagem entre as hard skills dele (vaga sem stack
+     * exigida passa). No freela é o único filtro: quem pede freela recomendado já está
+     * procurando freela, então contrato e modalidade não entram.
      */
-    private function applyDevFreelancePreferences(Builder $query, DevProfile $devProfile): void
+    private function applyDevLanguagePreferences(Builder $query, DevProfile $devProfile): void
     {
         $preference = $devProfile->recommendation_preference;
 
@@ -333,6 +425,86 @@ class RecommendationService {
                     ->orWhereHas('languages', fn(Builder $q) => $q->whereIn('languages.id', $devLanguageIds));
             });
         }
+    }
+
+    /**
+     * Os filtros de applyRecommendationPreferences vistos do lado do dev: tipo de contrato,
+     * modalidade, remuneração mínima, linguagens e distância. Sem preferência salva, valem
+     * os defaults da migration.
+     */
+    private function applyDevJobVacancyPreferences(Builder $query, DevProfile $devProfile): void
+    {
+        $preference = $devProfile->recommendation_preference;
+
+        $allowedContractTypes = array_keys(array_filter([
+            ContractType::CLT->value => $preference?->allow_clt ?? true,
+            ContractType::CONTRACTOR->value => $preference?->allow_contractor ?? true,
+            ContractType::INTERNSHIP->value => $preference?->allow_internship ?? false,
+        ]));
+
+        $allowedEmploymentTypes = array_keys(array_filter([
+            EmploymentType::ON_SITE->value => $preference?->allow_on_site ?? true,
+            EmploymentType::HYBRID->value => $preference?->allow_hybrid ?? true,
+            EmploymentType::REMOTE->value => $preference?->allow_remote ?? true,
+        ]));
+
+        $query->whereIn('job_vacancies.contract_type', $allowedContractTypes)
+            ->whereIn('job_vacancies.employment_type', $allowedEmploymentTypes);
+
+        if(!is_null($preference?->min_remuneration)) {
+            $query->where('job_vacancies.estimated_salary', '>=', $preference->min_remuneration);
+        }
+
+        $this->applyDevLanguagePreferences($query, $devProfile);
+        $this->filterJobVacanciesByDistance($query, $devProfile, $preference);
+    }
+
+    /**
+     * A distância do lado do dev: vaga presencial ou híbrida só entra com o endereço da empresa
+     * dentro do raio que o dev aceita para aquela modalidade. Dev aberto a realocação aceita
+     * qualquer distância. Sem endereço, ele só recebe vagas remotas, e a empresa sem endereço
+     * fica de fora das vagas que exigem presença, porque não dá para provar que está no raio.
+     */
+    private function filterJobVacanciesByDistance(Builder $query, DevProfile $devProfile, ?RecommendationPreference $preference): void
+    {
+        if($devProfile->open_to_relocation) {
+            return;
+        }
+
+        $devAddress = $devProfile->address;
+
+        if(!$devAddress) {
+            $query->where('job_vacancies.employment_type', EmploymentType::REMOTE);
+            return;
+        }
+
+        $radiusByEmploymentType = [
+            EmploymentType::ON_SITE->value => $preference?->on_site_job_radius ?? self::DEFAULT_ON_SITE_RADIUS,
+            EmploymentType::HYBRID->value => $preference?->hybrid_jobs_radius ?? self::DEFAULT_HYBRID_RADIUS,
+        ];
+
+        $companyMorphClass = (new CompanyProfile)->getMorphClass();
+
+        $query->where(function(Builder $query) use ($radiusByEmploymentType, $devAddress, $companyMorphClass) {
+            $query->where('job_vacancies.employment_type', EmploymentType::REMOTE);
+
+            foreach($radiusByEmploymentType as $employmentType => $radius) {
+                $query->orWhere(function(Builder $query) use ($employmentType, $radius, $devAddress, $companyMorphClass) {
+                    $query->where('job_vacancies.employment_type', $employmentType)
+                        ->whereExists(function(QueryBuilder $subQuery) use ($radius, $devAddress, $companyMorphClass) {
+                            $subQuery->select(DB::raw(1))
+                                ->from('addresses')
+                                ->whereColumn('addresses.addressable_id', 'job_vacancies.company_profile_id')
+                                ->where('addresses.addressable_type', $companyMorphClass)
+                                ->whereNull('addresses.deleted_at')
+                                ->whereRaw(
+                                    $this->distanceInKilometersExpression() . ' <= ?',
+                                    [$devAddress->latitude, $devAddress->longitude, $devAddress->latitude, $radius]
+                                );
+                        });
+                });
+            }
+        });
     }
 
     /**
@@ -430,8 +602,8 @@ class RecommendationService {
     private function filterByDistance(Builder $query, JobVacancy $jobVacancy, CompanyProfile $companyProfile): void
     {
         $radius = match($jobVacancy->employment_type) {
-            EmploymentType::ON_SITE => ['on_site_job_radius', 20],
-            EmploymentType::HYBRID => ['hybrid_jobs_radius', 40],
+            EmploymentType::ON_SITE => ['on_site_job_radius', self::DEFAULT_ON_SITE_RADIUS],
+            EmploymentType::HYBRID => ['hybrid_jobs_radius', self::DEFAULT_HYBRID_RADIUS],
             EmploymentType::REMOTE => null,
         };
 
@@ -469,7 +641,8 @@ class RecommendationService {
     }
 
     /**
-     * Haversine entre o endereço da empresa (bindings: latitude, longitude, latitude) e o endereço do dev.
+     * Haversine entre um ponto de origem (bindings: latitude, longitude, latitude) e o endereço da
+     * linha de `addresses`: o da empresa até o do dev, ou o do dev até o da empresa.
      * LEAST/GREATEST protegem o acos de estourar o domínio [-1, 1] por erro de arredondamento.
      */
     private function distanceInKilometersExpression(): string

@@ -12,6 +12,11 @@ class ProficiencyTest extends Model
 {
     use HasUuidV7, SoftDeletes;
 
+    /**
+     * Nota máxima do teste para o score do perfil: `profile_score_awarded` vai de 1 a este valor
+     */
+    public const MAX_PROFILE_SCORE_AWARDED = 10;
+
     protected $fillable = [
         'dev_profile_id',
         'seniority_level',

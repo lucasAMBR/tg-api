@@ -89,6 +89,7 @@ class RoleSeeder extends Seeder
             'company_job_vacancy.view',
             'company_job_vacancy.delete',
             'company_job_vacancy.update',
+            'company.dashboard',
             'proficiency_test.view',
             'post.view',
             'post.create',

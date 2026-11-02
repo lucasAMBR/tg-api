@@ -176,3 +176,89 @@ function createContractedFreelance(\App\Models\ClientProfile $clientProfile, \Ap
 
     return $freelanceJobVacancy;
 }
+
+function createCompanyProfile(User $user, array $overrides = []): \App\Models\CompanyProfile
+{
+    return \App\Models\CompanyProfile::create(array_merge([
+        'user_id' => $user->id,
+        'name' => 'Acme',
+        'bio' => 'Empresa de tecnologia.',
+        'phone' => '+5531' . fake()->unique()->numerify('9########'),
+        'cnpj' => '11222333000181',
+        'founding_date' => '2010-01-01',
+        'operational_segment' => 'fintech',
+    ], $overrides));
+}
+
+/**
+ * Vaga com o processo seletivo configurado com as etapas informadas e parado em $currentStep
+ *
+ * @param list<\App\Enums\SelectionProcessStageEnum> $steps
+ */
+function createJobVacancyInStep(
+    \App\Models\CompanyProfile $companyProfile,
+    \App\Enums\JobVacancyStatusEnum $status,
+    \App\Enums\SelectionProcessStageEnum $currentStep,
+    array $steps,
+    array $overrides = []
+): \App\Models\JobVacancy {
+    $jobVacancy = \App\Models\JobVacancy::create(array_merge([
+        'title' => 'Desenvolvedor Backend',
+        'description' => 'Vaga para desenvolvedor backend.',
+        'employment_type' => 'remote',
+        'benefits' => ['Vale refeição'],
+        'estimated_salary' => 5000,
+        'contract_type' => 'clt',
+        'seniority_level' => 'junior',
+        'specialties' => 'backend',
+        'status' => $status->value,
+        'process_step' => $currentStep->value,
+        'company_profile_id' => $companyProfile->id,
+    ], $overrides));
+
+    foreach ($steps as $order => $step) {
+        $jobVacancy->processSteps()->create(['step' => $step->value, 'order' => $order + 1]);
+    }
+
+    return $jobVacancy;
+}
+
+function applyToJobVacancy(
+    \App\Models\JobVacancy $jobVacancy,
+    \App\Models\DevProfile $devProfile,
+    \App\Enums\DevJobVacancyStatusEnum $status,
+    \App\Enums\SelectionProcessStageEnum $step
+): \App\Models\DevJobVacancy {
+    return \App\Models\DevJobVacancy::create([
+        'dev_profile_id' => $devProfile->id,
+        'job_vacancy_id' => $jobVacancy->id,
+        'status' => $status->value,
+        'process_step' => $step->value,
+    ]);
+}
+
+/**
+ * As consultas de similaridade usam os operadores do pgvector, que o SQLite dos testes
+ * não tem. Rode com DB_CONNECTION=pgsql apontando para um banco com a extensão vector
+ */
+function skipUnlessPgvector(): void
+{
+    if (\Illuminate\Support\Facades\DB::connection()->getDriverName() !== 'pgsql') {
+        test()->markTestSkipped('Precisa do Postgres com pgvector.');
+    }
+}
+
+/**
+ * Vetor de embedding com as primeiras posições informadas e o resto zerado
+ *
+ * @return list<float>
+ */
+function embeddingVector(float ...$leading): array
+{
+    return array_pad($leading, 1536, 0.0);
+}
+
+function embedDevProfile(\App\Models\DevProfile $devProfile, array $vector): void
+{
+    \App\Models\DevProfileEmbedding::create(['dev_profile_id' => $devProfile->id, 'embedding' => $vector]);
+}
