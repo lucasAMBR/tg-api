@@ -80,7 +80,7 @@ O detector de idiomas (`lang-detector`) não tem porta no PC: só a API fala com
 pela rede interna do Docker.
 
 O front fica no projeto `tg-web`, que tem o próprio `docker-compose.yml` e sobe em
-http://localhost:15173. Suba o backend primeiro e depois o front (ver o README dele).
+http://localhost:5173. Suba o backend primeiro e depois o front (ver o README dele).
 
 ## Usuários de teste
 
