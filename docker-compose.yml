@@ -2,8 +2,10 @@
 # separados, todos da mesma imagem (Dockerfile.dev) e com o código montado do host.
 #
 #   docker compose up -d              sobe tudo (o `setup` roda composer install, migrations e,
-#                                     com o banco vazio, os seeders antes)
+#                                     com o banco vazio, os seeders antes; o `translate`
+#                                     traduz o que o seed criou, em segundo plano)
 #   docker compose logs -f horizon    acompanha as filas
+#   docker compose logs -f translate  acompanha a tradução das perguntas
 #
 # Toda a configuração vem do .env, inclusive as portas publicadas no PC (FORWARD_*_PORT).
 # Dentro da rede do Docker os serviços se acham pelo nome (db, redis, reverb...).
@@ -41,6 +43,13 @@ services:
       - LT_WORKERS=1
     volumes:
       - libretranslate_data:/home/libretranslate/.local/share/argos-translate
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/languages', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      # Na primeira subida ele ainda baixa os modelos de idioma antes de responder
+      start_period: 600s
     restart: unless-stopped
 
   # Detecta o idioma do texto antes da tradução no LibreTranslate. A imagem é
@@ -71,6 +80,28 @@ services:
         php artisan storage:link --force
     depends_on:
       db:
+        condition: service_healthy
+
+  # Traduz o que o seed cria sem tradução. As perguntas e respostas são obrigatórias: o
+  # teste de proficiência só usa perguntas com as 4 respostas traduzidas. Posts, perfis
+  # e vagas vão para a fila do Horizon. Roda em segundo plano depois do setup, sem
+  # segurar a API, e nas próximas subidas só pega o que ainda faltar
+  translate:
+    <<: *php
+    restart: "no"
+    command:
+      - sh
+      - -c
+      - |
+        php artisan translations:translate-pending --queue
+        # Sai com erro se algum texto falhar; as falhas ficam no log e o resto segue
+        php artisan questions:translate || echo "Algumas perguntas não foram traduzidas (ver acima) e ficam fora do teste de proficiência"
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+      libretranslate:
+        condition: service_healthy
+      lang-detector:
         condition: service_healthy
 
   app:

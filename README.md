@@ -45,6 +45,7 @@ A **primeira** execução demora alguns minutos. Nela o Docker:
 - compila o detector de idiomas
 - instala as dependências do Composer
 - cria o banco e popula com os dados de teste (seeders)
+- traduz para português e inglês o que os seeders criaram (em segundo plano)
 
 Depois disso, as próximas subidas levam segundos.
 
@@ -54,13 +55,34 @@ Para acompanhar:
 docker compose ps
 ```
 
-Tudo pronto quando `app`, `horizon`, `reverb`, `db`, `redis` e `lang-detector`
-estiverem **healthy**. O `setup` aparece como **Exited (0)**: ele roda uma vez a cada
-subida (dependências, migrations e storage link) e termina. Se ele aparecer com outro
-código de saída, veja o motivo com `docker compose logs setup`.
+Tudo pronto quando `app`, `horizon`, `reverb`, `db`, `redis`, `lang-detector` e
+`libretranslate` estiverem **healthy**. O `setup` aparece como **Exited (0)**: ele roda
+uma vez a cada subida (dependências, migrations e storage link) e termina. Se ele
+aparecer com outro código de saída, veja o motivo com `docker compose logs setup`.
 
-> O LibreTranslate baixa os modelos de idioma na primeira subida. Até terminar, as
-> traduções ficam pendentes e são processadas quando ele estiver pronto.
+## Tradução dos dados de teste
+
+Os seeders criam os registros sem tradução. O serviço `translate` cuida disso sozinho,
+em segundo plano, assim que o LibreTranslate fica pronto:
+
+- **perguntas e respostas do teste de proficiência**: traduzidas na hora, uma a uma.
+  Na primeira subida isso leva **uns 10 a 20 minutos**, dependendo da máquina;
+- **posts, comentários, perfis e vagas**: enviados para a fila e traduzidos pelo
+  Horizon em poucos minutos.
+
+A API e o front já podem ser usados enquanto isso. **Só o teste de proficiência
+depende dessa etapa**: ele usa apenas perguntas com todas as respostas traduzidas, então
+gerar um teste antes de a tradução terminar pode falhar por falta de perguntas.
+
+Para acompanhar (o `translate` aparece como **Exited (0)** quando termina):
+
+```bash
+docker compose logs -f translate
+```
+
+Algumas respostas muito curtas podem não ser traduzidas. Elas aparecem no log, e só
+essas perguntas ficam fora do teste. Nas próximas subidas o `translate` termina em
+segundos, porque só pega o que ainda faltar.
 
 ---
 
@@ -120,6 +142,43 @@ Alguns cuidados:
 
 ---
 
+# 🦀 lang-detector fora do Docker
+
+Por padrão, o compose compila o [lang-detector](https://github.com/lucasAMBR/lang-detector)
+direto do GitHub e não é preciso fazer nada. Se você preferir rodar o repositório dele na
+mão, ele **não usa credencial nenhuma** (nem chave, nem senha, nem `.env`). Só o
+endereço muda, e esse endereço precisa ser ajustado aqui.
+
+Para subir, na pasta do lang-detector:
+
+```bash
+# Com Rust 1.85 ou mais novo (a primeira compilação demora alguns minutos)
+cargo run --release
+
+# Ou com Docker
+docker build -t lang-detector . && docker run -d -p 3000:80 lang-detector
+```
+
+Nos dois casos ele fica em `http://localhost:3000`. A porta 3000 é fixa no `src/main.rs`
+dele.
+
+Depois, troque o `TRANSLATION_DETECTION_URL` no `.env` deste projeto:
+
+| Esta API rodando | `TRANSLATION_DETECTION_URL` |
+|---|---|
+| No Docker (este compose) | `http://host.docker.internal:3000/api/v1/detect` |
+| Na mão (`php artisan serve`) | `http://localhost:3000/api/v1/detect` |
+| Em qualquer lugar, com o detector em outro servidor | `http(s)://<servidor>/api/v1/detect` |
+
+No primeiro caso não dá para usar `localhost`: dentro do container ele aponta para o
+próprio container, e não para o seu PC.
+
+Para aplicar, rode `docker compose restart app horizon`. Se rodar a API na mão, reinicie
+o `php artisan serve` e o `php artisan horizon`. Para voltar ao padrão, use
+`http://lang-detector/api/v1/detect`.
+
+---
+
 # 🔌 Conflito de portas
 
 As portas publicadas no PC **não são as padrões** (8000, 8080, 5000, 5432, 6379), para
@@ -165,7 +224,7 @@ netstat -ano | findstr :18000
 # 🛠️ Comandos úteis
 
 ```bash
-# Ver os logs (troque pelo serviço: app, horizon, reverb, setup...)
+# Ver os logs (troque pelo serviço: app, horizon, reverb, setup, translate...)
 docker compose logs -f horizon
 
 # Reiniciar depois de mudar um Job, um Event ou o .env (nenhum deles recarrega sozinho)
