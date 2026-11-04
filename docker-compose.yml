@@ -1,10 +1,37 @@
+# Ambiente de desenvolvimento. A API, o Horizon e o Reverb rodam em containers
+# separados, todos da mesma imagem (Dockerfile.dev) e com o código montado do host.
+#
+#   docker compose up -d              sobe tudo (o `setup` roda composer install, migrations e,
+#                                     com o banco vazio, os seeders antes)
+#   docker compose logs -f horizon    acompanha as filas
+#
+# Toda a configuração vem do .env, inclusive as portas publicadas no PC (FORWARD_*_PORT).
+# Dentro da rede do Docker os serviços se acham pelo nome (db, redis, reverb...).
+#
+# Nenhum dos três recarrega o código sozinho: depois de mexer num Job, num Event ou
+# no .env, rode `docker compose restart app horizon reverb`
+
+x-php: &php
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+    args:
+      UID: "${UID:-1000}"
+      GID: "${GID:-1000}"
+  image: tg-api-dev
+  user: "${UID:-1000}:${GID:-1000}"
+  volumes:
+    - .:/var/www/html
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  restart: unless-stopped
+
 services:
   libretranslate:
-    image: libretranslate/libretranslate:latest
-    container_name: local_translator
+    image: libretranslate/libretranslate:v1.9.6
     user: 0:0
     ports:
-      - "5000:5000"
+      - "${FORWARD_LIBRETRANSLATE_PORT:-15000}:5000"
     environment:
       # Essencial para não explodir a memória do seu PC:
       # Baixa apenas os idiomas que você realmente vai usar.
@@ -15,51 +42,126 @@ services:
     volumes:
       - libretranslate_data:/home/libretranslate/.local/share/argos-translate
     restart: unless-stopped
-    networks:
-      - brew-network
+
+  # Detecta o idioma do texto antes da tradução no LibreTranslate. A imagem é
+  # compilada direto do repositório no primeiro `up` (Rust, leva alguns minutos)
+  lang-detector:
+    build: https://github.com/lucasAMBR/lang-detector.git#main
+    image: tg-api-lang-detector
+    restart: unless-stopped
+
+  # Roda uma vez a cada `up` e sai: os outros containers só sobem depois dele
+  setup:
+    <<: *php
+    restart: "no"
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        composer install --no-interaction --no-progress
+        # Os seeders não são idempotentes, então só rodam com o banco ainda vazio
+        if php artisan migrate:status 2>&1 | grep -q "Migration table not found"; then
+          php artisan migrate --force --seed
+        else
+          php artisan migrate --force
+        fi
+        # As mídias ficam no disco public, servido em /storage. O --force recria o link
+        # se ele já existir (ou se vier quebrado no zip)
+        php artisan storage:link --force
+    depends_on:
+      db:
+        condition: service_healthy
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-      args:
-        UID: "${UID:-1000}"
-        GID: "${GID:-1000}"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    <<: *php
+    # Sem o --no-reload o serve ignora o PHP_CLI_SERVER_WORKERS do .env e atende uma
+    # requisição por vez
+    command: php artisan serve --host=0.0.0.0 --port=8000 --no-reload
     ports:
-      - "8000:8000"
-    user: "${UID:-1000}:${GID:-1000}"
-    networks:
-      - brew-network
-    volumes:
-      - .:/var/www/html
+      - "${FORWARD_APP_PORT:-18000}:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://127.0.0.1:8000/up"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     depends_on:
-      - db
-      - redis
-  
-  db: 
+      setup:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      reverb:
+        condition: service_started
+
+  # Filas (traduções, embeddings, testes de proficiência, conversões de mídia,
+  # notificações em tempo real...)
+  horizon:
+    <<: *php
+    command: php artisan horizon
+    healthcheck:
+      test: ["CMD", "php", "artisan", "horizon:status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+
+  # WebSocket do chat, notificações e sinalização WebRTC. O --debug mostra no log
+  # cada conexão e mensagem
+  reverb:
+    <<: *php
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080 --debug
+    ports:
+      - "${FORWARD_REVERB_PORT:-18080}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://127.0.0.1:8080/up"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+
+  db:
     image: pgvector/pgvector:pg17
     ports:
-      - "5432:5432"
+      # Só no localhost: com o trust abaixo, qualquer um na rede entraria sem senha
+      - "127.0.0.1:${FORWARD_DB_PORT:-15432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - brew-network
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
-      POSTGRES_DB: brew_db
-      POSTGRES_USER: brew
+      # Mesmo banco e usuário que a API usa (DB_DATABASE / DB_USERNAME do .env). Só
+      # valem na criação do volume: depois de trocar, rode `docker compose down -v`
+      POSTGRES_DB: "${DB_DATABASE:-brew_db}"
+      POSTGRES_USER: "${DB_USERNAME:-brew}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
 
-  redis: 
-    image: redis:alpine
+  redis:
+    image: redis:8.10.3-alpine
+    ports:
+      # Só no localhost, porque o Redis não tem senha. A API não usa essa porta (fala
+      # com redis:6379 pela rede interna); ela serve para abrir o Redis num cliente
+      - "127.0.0.1:${FORWARD_REDIS_PORT:-16379}:6379"
     volumes:
       - redisdata:/data
-    networks:
-      - brew-network
-  
-networks:
-  brew-network:
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
 
 volumes:
   libretranslate_data:

@@ -5,17 +5,25 @@ FROM php:8.4-fpm
 ARG UID=1000
 ARG GID=1000
 
-# Instala dependências do sistema e libexif necessária para a extensão exif
-RUN apt-get update && apt-get install -y git unzip libpq-dev libzip-dev libexif-dev
+# git/unzip para o composer baixar os pacotes
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git unzip \
+    && rm -rf /var/lib/apt/lists/*
 
-# Instala as extensões PHP (Adicionado 'exif' na lista)
-RUN docker-php-ext-install pdo pdo_pgsql zip pcntl exif && pecl install redis && docker-php-ext-enable redis
+# Mesmo instalador do Dockerfile de produção, que já traz as libs de runtime certas
+# (gd com jpeg/webp para as thumbs do medialibrary, pcntl/redis para o Horizon)
+COPY --from=mlocati/php-extension-installer:2 /usr/bin/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions pdo_pgsql redis zip pcntl exif gd
+
+# Sem um php.ini a imagem usa os defaults do PHP; o de desenvolvimento mostra os erros
+RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # Limites de upload (a imagem base usa 2M/8M, menor que o permitido na validação)
-COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+COPY docker/php/uploads.ini "$PHP_INI_DIR/conf.d/uploads.ini"
 
 # Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Cria o usuário "app" espelhando o UID/GID do host.
 # A imagem php-fpm já traz www-data com uid 33; se o UID/GID pedido já
