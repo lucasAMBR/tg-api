@@ -145,6 +145,10 @@ class JobVacancy extends Model implements Translatable
         return $this->hasMany(DevJobVacancy::class, 'job_vacancy_id');
     }
 
+    public function invitations(): HasMany {
+        return $this->hasMany(JobVacancyInvitation::class);
+    }
+
     public function screeningQuestionnaires(): HasMany {
         return $this->hasMany(ScreeningQuestionnaire::class, 'job_vacancy_id');
     }

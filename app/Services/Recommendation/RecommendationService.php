@@ -72,7 +72,16 @@ class RecommendationService {
         return RecommendedDevResource::collection($this->recommendDevsByVector(
             $vectorLiteral,
             $data,
-            fn(Builder $query) => $this->applyRecommendationPreferences($query, $jobVacancy, $companyProfile)
+            function(Builder $query) use ($jobVacancy, $companyProfile) {
+                $this->applyRecommendationPreferences($query, $jobVacancy, $companyProfile);
+
+                // Marca quem já se candidatou e quem a empresa já convidou, para o
+                // convite só aparecer para quem ainda não está no processo
+                $query->withExists([
+                    'jobVacancies as has_applied' => fn(Builder $q) => $q->where('job_vacancies.id', $jobVacancy->id),
+                    'jobVacancyInvitations as is_invited' => fn(Builder $q) => $q->where('job_vacancy_id', $jobVacancy->id),
+                ]);
+            }
         ));
 
     }

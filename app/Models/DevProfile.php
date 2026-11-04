@@ -136,4 +136,9 @@ class DevProfile extends Model implements Translatable
         return $this->hasMany(FreelanceInvitation::class);
     }
 
+    public function jobVacancyInvitations(): HasMany
+    {
+        return $this->hasMany(JobVacancyInvitation::class);
+    }
+
 }

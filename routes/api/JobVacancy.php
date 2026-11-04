@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\JobVacancy\JobVacancyController;
+use App\Http\Controllers\JobVacancyInvitation\JobVacancyInvitationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function() {
@@ -10,5 +11,6 @@ Route::middleware('auth:api')->group(function() {
     Route::patch('/{id}', [JobVacancyController::class, 'update'])->middleware('can:company_job_vacancy.update');
     Route::patch('/{id}/status', [JobVacancyController::class, 'updateStatus'])->middleware('can:company_job_vacancy.update');
     Route::patch('/{id}/close-inscriptions', [JobVacancyController::class, 'closeInscriptions'])->middleware('can:company_job_vacancy.update');
+    Route::post('/{id}/invitations', [JobVacancyInvitationController::class, 'store'])->middleware('can:company_job_vacancy.update');
     Route::delete('/{id}', [JobVacancyController::class, 'destroy'])->middleware('can:company_job_vacancy.delete');
 });
