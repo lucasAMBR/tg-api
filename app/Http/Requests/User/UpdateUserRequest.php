@@ -82,5 +82,17 @@ class UpdateUserRequest extends FormRequest
         $this->merge([
             'id' => $this->route('id')
         ]);
+
+        /**
+         * A atualização vai em multipart/form-data (por causa da foto de perfil), onde o
+         * booleano chega como texto ("true"/"false"), que a regra `boolean` não aceita
+         */
+        $readReceiptsEnabled = $this->input('read_receipts_enabled');
+
+        if (is_string($readReceiptsEnabled)) {
+            $this->merge([
+                'read_receipts_enabled' => filter_var($readReceiptsEnabled, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $readReceiptsEnabled
+            ]);
+        }
     }
 }

@@ -59,5 +59,17 @@ class UpdateTechnicalChallengeRequest extends FormRequest
         $this->merge([
             'id' => $this->route('id')
         ]);
+
+        /**
+         * Em multipart/form-data o booleano chega como texto ("true"/"false"), que a
+         * regra `boolean` não aceita
+         */
+        $acceptsZipSubmission = $this->input('accepts_zip_submission');
+
+        if (is_string($acceptsZipSubmission)) {
+            $this->merge([
+                'accepts_zip_submission' => filter_var($acceptsZipSubmission, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $acceptsZipSubmission
+            ]);
+        }
     }
 }

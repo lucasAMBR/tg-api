@@ -77,5 +77,17 @@ class StoreTechnicalChallengeRequest extends FormRequest
         $this->merge([
             'job_vacancy_id' => $this->route('job_vacancy_id')
         ]);
+
+        /**
+         * O cadastro vai em multipart/form-data (por causa do documento guia), onde o
+         * booleano chega como texto ("true"/"false"), que a regra `boolean` não aceita
+         */
+        $acceptsZipSubmission = $this->input('accepts_zip_submission');
+
+        if (is_string($acceptsZipSubmission)) {
+            $this->merge([
+                'accepts_zip_submission' => filter_var($acceptsZipSubmission, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $acceptsZipSubmission
+            ]);
+        }
     }
 }
