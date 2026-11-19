@@ -36,7 +36,11 @@ return [
             'options' => [
                 'tls' => [],
             ],
-            'max_request_size' => env('REVERB_MAX_REQUEST_SIZE', 10_000),
+            // Limite de cada requisição HTTP que a API faz para publicar um evento. O
+            // padrão de 10 KB não comporta uma offer/answer WebRTC: o SDP com os ICE
+            // candidates passa disso depois do duplo JSON encode do Pusher, e o Reverb
+            // recusa com 413 ("Payload too large"), deixando a call sem conectar
+            'max_request_size' => env('REVERB_MAX_REQUEST_SIZE', 100_000),
             'scaling' => [
                 'enabled' => env('REVERB_SCALING_ENABLED', false),
                 'channel' => env('REVERB_SCALING_CHANNEL', 'reverb'),
